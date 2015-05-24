@@ -1,0 +1,512 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>C#由委托到Observer设计模式，再到事件机制 | Rudy&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Rudy Zhang">
+    
+
+    
+    <meta name="description" content="什么是委托处理诸如int，bool等基本数据类型，它们是数据的类型。委托，是方法的类型。如：1int a; //a&amp;#21487;&amp;#20197;&amp;#26159;1,2,3,4,5.........
+那么1delegate D;//D&amp;#30456;&amp;#24403;&amp;#20110;int,&amp;#26159;&amp;#19968;&amp;#31181;&amp;#31867;&amp;#22411;&amp;#10;D d; //&amp;#2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C#由委托到Observer设计模式，再到事件机制">
+<meta property="og:url" content="http://rudy-zhang.me/2014/03/11/CSharp由委托到Observer设计模式，再到事件机制/index.html">
+<meta property="og:site_name" content="Rudy's Blog">
+<meta property="og:description" content="什么是委托处理诸如int，bool等基本数据类型，它们是数据的类型。委托，是方法的类型。如：1int a; //a&amp;#21487;&amp;#20197;&amp;#26159;1,2,3,4,5.........
+那么1delegate D;//D&amp;#30456;&amp;#24403;&amp;#20110;int,&amp;#26159;&amp;#19968;&amp;#31181;&amp;#31867;&amp;#22411;&amp;#10;D d; //&amp;#2">
+<meta property="og:updated_time" content="2015-05-24T02:27:12.368Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C#由委托到Observer设计模式，再到事件机制">
+<meta name="twitter:description" content="什么是委托处理诸如int，bool等基本数据类型，它们是数据的类型。委托，是方法的类型。如：1int a; //a&amp;#21487;&amp;#20197;&amp;#26159;1,2,3,4,5.........
+那么1delegate D;//D&amp;#30456;&amp;#24403;&amp;#20110;int,&amp;#26159;&amp;#19968;&amp;#31181;&amp;#31867;&amp;#22411;&amp;#10;D d; //&amp;#2">
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Rudy&#39;s Blog">Rudy&#39;s Blog</a></h1>
+				<h2 class="blog-motto">seize the day</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+					<li>
+ 					
+						<form class="search" action="http://zhannei.baidu.com/cse/search" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/03/11/CSharp由委托到Observer设计模式，再到事件机制/" title="C#由委托到Observer设计模式，再到事件机制" itemprop="url">C#由委托到Observer设计模式，再到事件机制</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="http://rudy-zhang.me/about" title="Rudy Zhang" target="_blank" itemprop="author">Rudy Zhang</a>
+		
+  <p class="article-time">
+    <time datetime="2014-03-11T03:30:25.000Z" itemprop="datePublished"> 发表于 2014-03-11</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是委托"><span class="toc-number">1.</span> <span class="toc-text">什么是委托</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何使用委托"><span class="toc-number">2.</span> <span class="toc-text">如何使用委托</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#委托的绑定"><span class="toc-number">2.1.</span> <span class="toc-text">委托的绑定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">2.2.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#观察者模式（Observber）"><span class="toc-number">3.</span> <span class="toc-text">观察者模式（Observber）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C#中的事件处理机制"><span class="toc-number">4.</span> <span class="toc-text">C#中的事件处理机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#委托声明成private还是public？"><span class="toc-number">4.1.</span> <span class="toc-text">委托声明成private还是public？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#event关键字有什么作用？"><span class="toc-number">4.2.</span> <span class="toc-text">event关键字有什么作用？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#平时处理事件会有Object_o,…_eventargs？"><span class="toc-number">4.3.</span> <span class="toc-text">平时处理事件会有Object o,… eventargs？</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h2 id="什么是委托">什么是委托</h2><p>处理诸如int，bool等基本数据类型，它们是数据的类型。<strong>委托，是方法的类型</strong>。如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int a; //a&#21487;&#20197;&#26159;1,2,3,4,5.........</span><br></pre></td></tr></table></figure></p>
+<p>那么<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delegate D;//D&#30456;&#24403;&#20110;int,&#26159;&#19968;&#31181;&#31867;&#22411;&#10;D d; //&#22768;&#26126;&#20102;&#21464;&#37327;&#65292;d&#21487;&#20197;&#26159;fun1,fun2,fun3........&#36825;&#37324;funX&#26159;&#20989;&#25968;&#30340;&#21517;&#23383;&#12290;</span><br></pre></td></tr></table></figure></p>
+<h2 id="如何使用委托">如何使用委托</h2><p>函数并不像数那么简单直接赋值就可以了，函数有返回值，或者无返回值，还有参数列表。</p>
+<p>如果说<strong>定义了一个委托，那么这个委托就对应了一种函数(返回值+参数列表)，像具有了int和double一样的类型。</strong></p>
+<p>为了使得声明委托能够和一种函数对应，我们使用这样的方法声明委托:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public delegate void MyDelegate(int a);//&#22996;&#25176;&#30340;&#22768;&#26126;&#65292;public&#35268;&#23450;&#20102;delegate&#30340;&#21487;&#35265;&#24615;&#10;public static void myFunction(int a) //&#26222;&#36890;&#26041;&#27861;&#30340;&#22768;&#26126;&#10;&#123;&#10;    Console.WriteLine(&#34;a=&#34; + a);&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>这样，MyDelegate就对应了一种函数，相当一种函数的类型(对应于数据类型的int，double)。那么使用这个类型就可以声明变量了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static void Main(string[] args)&#10;&#123;&#10;    MyDelegate d;&#10;    d = myFunction;//&#23558;myFunction&#32465;&#23450;&#21040;d&#65292;&#22240;&#20026;&#20855;&#26377;&#30456;&#21516;&#30340;&#36820;&#22238;&#20540;&#21644;&#21442;&#25968;&#21015;&#34920;&#65292;&#25152;&#20197;&#21487;&#20197;&#32465;&#23450;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="委托的绑定">委托的绑定</h3><p>委托不同于普通数据类型(如int)的一个特性是：可以将多个方法赋给同一个委托，或者叫<strong>将多个方法绑定到同一个委托，当调用这个委托的时候，将依次调用其所绑定的方法。</strong></p>
+<p>看下面的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Program&#10;&#123;&#10;    public delegate void MyDelegate(int a);//&#22996;&#25176;&#30340;&#22768;&#26126;&#65292;public&#35268;&#23450;&#20102;delegate&#30340;&#21487;&#35265;&#24615;&#10;    public static void myFunction1(int a) //&#26222;&#36890;&#26041;&#27861;1&#30340;&#22768;&#26126;&#10;    &#123;&#10;        Console.WriteLine(&#34;a=&#34; + a);&#10;    &#125;&#10;    public static void myFunction2(int a) //&#26222;&#36890;&#26041;&#27861;2&#30340;&#22768;&#26126;&#10;    &#123;&#10;        Console.WriteLine(&#34;a&#31561;&#20110;&#65306;&#34; + a);&#10;    &#125;&#10;    static void Main(string[] args)&#10;    &#123;&#10;        MyDelegate d;&#10;        d = myFunction1;&#10;        d += myFunction2;&#10;        d(3);//&#35843;&#29992;&#36825;&#20010;&#22996;&#25176;&#10;        Console.ReadLine();&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="总结">总结</h3><p>委托是一个类，它定义了<strong>方法的类型</strong>，使得可以将方法<strong>当作另一个方法的参数来进行传递</strong>，这种将方法动态地赋给参数的做法，可以避免在程序中大量使用If-Else(Switch)语句，同时使得程序具有更好的可扩展性。</p>
+<h2 id="观察者模式（Observber）">观察者模式（Observber）</h2><p>事件处理机制的基础是一种叫观察者模式的设计模式。Observer设计模式是为了定义对象间的一种<strong>一对多</strong>的依赖关系，以便于当一个对象的状态改变时，其他依赖于它的对象会被<strong>自动告知并更新</strong>。Observer模式是一种松耦合的设计模式。</p>
+<p>举个简单的例子：</p>
+<blockquote>
+<p>假设我们有个高档的热水器，我们给它通上电，当水温超过95度的时候：1、扬声器会开始发出语音，告诉你水的温度；2、液晶屏也会改变水温的显示，来提示水已经快烧开了。</p>
+</blockquote>
+<p>现在我们需要写个程序来模拟这个烧水的过程，我们将定义一个类来代表热水器，我们管它叫：<strong>Heater</strong>，它有代表水温的字段，叫做<strong>temperature</strong>；当然，还有必不可少的给水加热方法<strong>BoilWater()</strong>，一个发出语音警报的方法<strong>MakeAlert()</strong>，一个显示水温的方法，<strong>ShowMsg()</strong>。</p>
+<p>在本例中，事情发生的顺序应该是这样的：</p>
+<ol>
+<li>警报器和显示器告诉热水器，它对它的温度比较感兴趣(注册)。</li>
+<li>热水器知道后保留对警报器和显示器的引用。</li>
+<li>热水器进行烧水这一动作，当水温超过95度时，通过对警报器和显示器的引用，自动调用警报器的MakeAlert()方法、显示器的ShowMsg()方法。</li>
+</ol>
+<p>在这个设计模式中有两种角色：</p>
+<ol>
+<li>Subject：监视对象，它往往包含着其他对象所感兴趣的内容。在本范例中，热水器就是一个监视对象，它包含的其他对象所感兴趣的内容，就是temprature字段，当这个字段的值快到100时，会不断把数据发给监视它的对象。</li>
+<li>Observer：监视者，它监视Subject，当Subject中的某件事发生的时候，会告知Observer，而Observer则会采取相应的行动。在本范例中，Observer有警报器和显示器，它们采取的行动分别是发出警报和显示水温。</li>
+</ol>
+<p>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">namespace Observer&#10;&#123;&#10;    public interface Iobservable //subject&#23545;&#35937;&#20855;&#26377;&#30340;&#25509;&#21475;&#65292;&#25152;&#26377;subject&#37117;&#35201;&#32487;&#25215;&#20110;&#36825;&#20010;&#25509;&#21475;&#10;    &#123;&#10;        void add(Iobserver o);&#10;        void notify();&#10;&#10;    &#125;&#10;    &#10;    public interface Iobserver //observer&#23545;&#35937;&#20855;&#26377;&#30340;&#25509;&#21475;&#65292;&#25152;&#26377;observer&#37117;&#35201;&#32487;&#25215;&#20110;&#36825;&#20010;&#25509;&#21475;&#10;    &#123;&#10;        void update(int temperature);&#10;    &#125;&#10;&#10;    public class Heater : Iobservable&#10;    &#123;&#10;        private int temperature;&#10;        List&#60;Iobserver&#62; list = new List&#60;Iobserver&#62;();&#10;        // &#28903;&#27700;&#10;        public void BoilWater()&#10;        &#123;&#10;            for (int i = 0; i &#60;= 100; i++)&#10;            &#123;&#10;                temperature = i;&#10;&#10;                if (temperature &#62; 95)&#10;                &#123;&#10;                    notify();&#10;                &#125;&#10;            &#125;&#10;        &#125;&#10;        public void add(Iobserver o)&#10;        &#123;&#10;            list.Add(o);&#10;        &#125;&#10;&#10;        public void notify()&#10;        &#123;&#10;            foreach (var o in list)&#10;            &#123;&#10;                o.update(temperature);&#10;            &#125;&#10;        &#125;&#10;    &#125;&#10;&#10;    // &#35686;&#25253;&#22120;&#10;    public class Alarm : Iobserver&#10;    &#123;&#10;        public void MakeAlert(int param)&#10;        &#123;&#10;            Console.WriteLine(&#34;Alarm&#65306;&#22016;&#22016;&#22016;&#65292;&#27700;&#24050;&#32463; &#123;0&#125; &#24230;&#20102;&#65306;&#34;, param);&#10;        &#125;&#10;&#10;        public void update(int temperature)&#10;        &#123;&#10;            MakeAlert(temperature);&#10;        &#125;&#10;    &#125;&#10;&#10;    // &#26174;&#31034;&#22120;&#10;    public class Display : Iobserver&#10;    &#123;&#10;        public static void ShowMsg(int param)&#10;        &#123; //&#38745;&#24577;&#26041;&#27861;&#10;            Console.WriteLine(&#34;Display&#65306;&#27700;&#24555;&#28903;&#24320;&#20102;&#65292;&#24403;&#21069;&#28201;&#24230;&#65306;&#123;0&#125;&#24230;&#12290;&#34;, param);&#10;        &#125;&#10;&#10;        public void update(int temperature)&#10;        &#123;&#10;            ShowMsg(temperature);&#10;        &#125;&#10;    &#125;&#10;    class Program&#10;    &#123;&#10;        static void Main(string[] args)&#10;        &#123;&#10;            Heater h = new Heater();&#10;            Alarm a = new Alarm();&#10;            Display d = new Display();&#10;            h.add(a);//&#27880;&#20876;&#10;            h.add(d);//&#27880;&#20876;&#10;            h.BoilWater();&#10;            Console.ReadLine();&#10;        &#125;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<blockquote>
+<p>Alarm：嘀嘀嘀，水已经 96 度了：<br>Display：水快烧开了，当前温度：96度。<br>Alarm：嘀嘀嘀，水已经 97 度了：<br>Display：水快烧开了，当前温度：97度。<br>Alarm：嘀嘀嘀，水已经 98 度了：<br>Display：水快烧开了，当前温度：98度。<br>Alarm：嘀嘀嘀，水已经 99 度了：<br>Display：水快烧开了，当前温度：99度。<br>Alarm：嘀嘀嘀，水已经 100 度了：<br>Display：水快烧开了，当前温度：100度。</p>
+</blockquote>
+<p>例子中的observable就是subject，Heater继承这个接口。Alarm和Display是观察者，继承observer接口。Iobserverable可以添加观察者(注册)，可以通知观察者。Iobserver可以更新自己的信息。这样就完成了观察者的注册观察，以及通知的过程。</p>
+<p>通过以上过程可以发现，<strong>注册这个行为不就是委托当中的注册吗？通知这个行为不就是委托的调用吗？水烧开这不就是一个事件的发生吗？</strong></p>
+<h2 id="C#中的事件处理机制">C#中的事件处理机制</h2><h3 id="委托声明成private还是public？">委托声明成private还是public？</h3><p>因为声明委托的目的就是为了把它暴露在类的客户端进行方法的注册，你把它声明为private了，客户端对它<strong>根本就不可见</strong>，那它还有什么用？但是如果声明为public在客户端可以对它进行随意的赋值等操作，<strong>严重破坏对象的封装性</strong>。这时候就轮到<strong>event关键字</strong>出场了</p>
+<h3 id="event关键字有什么作用？">event关键字有什么作用？</h3><p>前面提到委托在程序运行事会变成一个类，如果使用了event关键字，又会生成一个类，将前面的类<strong>封装起来</strong>，这样做的作用是：</p>
+<p><strong>在类的内部的delegate，不管你声明它是public还是protected，它总是private的。在类的外部，注册“+=”和注销“-=”的访问限定符与你在声明事件时使用的访问符相同。</strong></p>
+<p>猜测实现方法类似于：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class event&#123;&#10;     private Delegate delegate;&#10;     &#37325;&#36733;+=&#65288;&#65289;&#10;     &#123;&#10;          delegate...&#10;     &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>如果使用事件处理的方法实现observer的例子，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">using System;&#10;using System.Collections.Generic;&#10;using System.Text;&#10;&#10;namespace Delegate &#123;&#10;    // &#28909;&#27700;&#22120;&#10;    public class Heater &#123;&#10;       private int temperature;&#10;       public delegate void BoilHandler(int param);   //&#22768;&#26126;&#22996;&#25176;&#10;       public event BoilHandler BoilEvent;        //&#60;strong&#62;&#22768;&#26126;&#20107;&#20214;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#60;/strong&#62;&#10;&#10;       // &#28903;&#27700;&#10;       public void BoilWater() &#123;&#10;           for (int i = 0; i &#60;= 100; i++) &#123;&#10;              temperature = i;&#10;&#10;              if (temperature &#62; 95) &#123;&#10;                  if (BoilEvent != null) &#123; //&#22914;&#26524;&#26377;&#23545;&#35937;&#27880;&#20876;&#10;                      BoilEvent(temperature);  //&#35843;&#29992;&#25152;&#26377;&#27880;&#20876;&#23545;&#35937;&#30340;&#26041;&#27861;&#10;                  &#125;&#10;              &#125;&#10;           &#125;&#10;       &#125;&#10;    &#125;&#10;&#10;    // &#35686;&#25253;&#22120;&#10;    public class Alarm &#123;&#10;       public void MakeAlert(int param) &#123;&#10;           Console.WriteLine(&#34;Alarm&#65306;&#22016;&#22016;&#22016;&#65292;&#27700;&#24050;&#32463; &#123;0&#125; &#24230;&#20102;&#65306;&#34;, param);&#10;       &#125;&#10;    &#125;&#10;&#10;    // &#26174;&#31034;&#22120;&#10;    public class Display &#123;&#10;       public static void ShowMsg(int param) &#123; //&#38745;&#24577;&#26041;&#27861;&#10;           Console.WriteLine(&#34;Display&#65306;&#27700;&#24555;&#28903;&#24320;&#20102;&#65292;&#24403;&#21069;&#28201;&#24230;&#65306;&#123;0&#125;&#24230;&#12290;&#34;, param);&#10;       &#125;&#10;    &#125;&#10;   &#10;    class Program &#123;&#10;       static void Main() &#123;&#10;           Heater heater = new Heater();&#10;           Alarm alarm = new Alarm();&#10;&#10;           heater.BoilEvent += alarm.MakeAlert;    //&#27880;&#20876;&#26041;&#27861;&#10;           heater.BoilEvent += (new Alarm()).MakeAlert;   //&#32473;&#21311;&#21517;&#23545;&#35937;&#27880;&#20876;&#26041;&#27861;&#10;           heater.BoilEvent += Display.ShowMsg;       //&#27880;&#20876;&#38745;&#24577;&#26041;&#27861;&#10;&#10;           heater.BoilWater();   //&#28903;&#27700;&#65292;&#20250;&#33258;&#21160;&#35843;&#29992;&#27880;&#20876;&#36807;&#23545;&#35937;&#30340;&#26041;&#27861;&#10;       &#125;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>输出为：</p>
+<blockquote>
+<p>Alarm：嘀嘀嘀，水已经 96 度了：<br>Alarm：嘀嘀嘀，水已经 96 度了：<br>Display：水快烧开了，当前温度：96度。<br>// 省略…</p>
+</blockquote>
+<h3 id="平时处理事件会有Object_o,…_eventargs？">平时处理事件会有Object o,… eventargs？</h3><p>其实这是 <strong>.Net Framework的编码规范</strong>：</p>
+<blockquote>
+<ul>
+<li>委托类型的名称都应该以EventHandler结束。那么就应该这样声明</li>
+<li>委托的原型定义：有一个void返回值，并接受两个输入参数：一个Object 类型，一个 EventArgs类型(或继承自EventArgs)。</li>
+<li>事件的命名为 委托去掉 EventHandler之后剩余的部分。</li>
+<li>继承自EventArgs的类型应该以EventArgs结尾。</li>
+</ul>
+</blockquote>
+<p>所以声明应该变成这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public delegate void BoiledEventHandler(Object sender, BoiledEventArgs e); //&#22768;&#26126;&#22996;&#25176;&#10;public event BoiledEventHandler Boiled; //&#22768;&#26126;&#20107;&#20214;</span><br></pre></td></tr></table></figure>
+<p>烧水的函数就变成这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// &#28903;&#27700;&#12290;&#10;public void BoilWater() &#123;&#10;   for (int i = 0; i &#60;= 100; i++) &#123;&#10;      temperature = i;&#10;      if (temperature &#62; 95) &#123;&#10;          //&#24314;&#31435;BoiledEventArgs &#23545;&#35937;&#12290;&#10;          BoiledEventArgs e = new BoiledEventArgs(temperature);&#10;          OnBoiled(e);  // &#35843;&#29992; OnBolied&#26041;&#27861;&#10;      &#125;&#10;   &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>委托声明原型中的<strong>Object类型的参数代表了Subject，也就是监视对象</strong>，在本例中是 Heater(热水器)。回调函数(比如Alarm的MakeAlert)可以通过它访问触发事件的对象(Heater)。<strong>EventArgs 对象包含了Observer所感兴趣的数据，在本例中是temperature。</strong></p>
+<p>完整实例如下，供参考：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">using System;&#10;using System.Collections.Generic;&#10;using System.Text;&#10;&#10;namespace Delegate &#123;&#10;    // &#28909;&#27700;&#22120;&#10;    public class Heater &#123;&#10;       private int temperature;&#10;       public string type = &#34;RealFire 001&#34;;       // &#28155;&#21152;&#22411;&#21495;&#20316;&#20026;&#28436;&#31034;&#10;       public string area = &#34;China Xian&#34;;         // &#28155;&#21152;&#20135;&#22320;&#20316;&#20026;&#28436;&#31034;&#10;       //&#22768;&#26126;&#22996;&#25176;&#10;       public delegate void BoiledEventHandler(Object sender, BoiledEventArgs e);&#10;       public event BoiledEventHandler Boiled; //&#22768;&#26126;&#20107;&#20214;&#10;&#10;       // &#23450;&#20041;BoiledEventArgs&#31867;&#65292;&#20256;&#36882;&#32473;Observer&#25152;&#24863;&#20852;&#36259;&#30340;&#20449;&#24687;&#10;       public class BoiledEventArgs : EventArgs &#123;&#10;           public readonly int temperature;&#10;           public BoiledEventArgs(int temperature) &#123;&#10;              this.temperature = temperature;&#10;           &#125;&#10;       &#125;&#10;&#10;       // &#21487;&#20197;&#20379;&#32487;&#25215;&#33258; Heater &#30340;&#31867;&#37325;&#20889;&#65292;&#20197;&#20415;&#32487;&#25215;&#31867;&#25298;&#32477;&#20854;&#20182;&#23545;&#35937;&#23545;&#23427;&#30340;&#30417;&#35270;&#10;       protected virtual void OnBoiled(BoiledEventArgs e) &#123;&#10;           if (Boiled != null) &#123; // &#22914;&#26524;&#26377;&#23545;&#35937;&#27880;&#20876;&#10;              Boiled(this, e);  // &#35843;&#29992;&#25152;&#26377;&#27880;&#20876;&#23545;&#35937;&#30340;&#26041;&#27861;&#65292;&#20107;&#20214;&#21457;&#29983;&#10;           &#125;&#10;       &#125;&#10;      &#10;       // &#28903;&#27700;&#12290;&#10;       public void BoilWater() &#123;&#10;           for (int i = 0; i &#60;= 100; i++) &#123;&#10;              temperature = i;&#10;              if (temperature &#62; 95) &#123;&#10;                  //&#24314;&#31435;BoiledEventArgs &#23545;&#35937;&#12290;&#10;                  BoiledEventArgs e = new BoiledEventArgs(temperature);&#10;                  OnBoiled(e);  // &#35843;&#29992; OnBolied&#26041;&#27861;&#10;              &#125;&#10;           &#125;&#10;       &#125;&#10;    &#125;&#10;&#10;    // &#35686;&#25253;&#22120;&#10;    public class Alarm &#123;&#10;       public void MakeAlert(Object sender, Heater.BoiledEventArgs e) &#123;//&#20351;&#24471;&#31867;&#22411;&#31526;&#21512;.net&#20107;&#20214;&#35268;&#33539;&#65292;&#28385;&#36275;&#22996;&#25176;&#31867;&#22411;&#65292;&#21487;&#20197;&#27880;&#20876;&#10;           Heater heater = (Heater)sender;     //&#36825;&#37324;&#26159;&#19981;&#26159;&#24456;&#29087;&#24713;&#21602;&#65311;&#10;           //&#35775;&#38382; sender &#20013;&#30340;&#20844;&#20849;&#23383;&#27573;&#10;           Console.WriteLine(&#34;Alarm&#65306;&#123;0&#125; - &#123;1&#125;: &#34;, heater.area, heater.type);&#10;           Console.WriteLine(&#34;Alarm: &#22016;&#22016;&#22016;&#65292;&#27700;&#24050;&#32463; &#123;0&#125; &#24230;&#20102;&#65306;&#34;, e.temperature);&#10;           Console.WriteLine();&#10;       &#125;&#10;    &#125;&#10;&#10;    // &#26174;&#31034;&#22120;&#10;    public class Display &#123;&#10;       public static void ShowMsg(Object sender, Heater.BoiledEventArgs e) &#123;   //&#38745;&#24577;&#26041;&#27861;&#10;           Heater heater = (Heater)sender;&#10;           Console.WriteLine(&#34;Display&#65306;&#123;0&#125; - &#123;1&#125;: &#34;, heater.area, heater.type);&#10;           Console.WriteLine(&#34;Display&#65306;&#27700;&#24555;&#28903;&#24320;&#20102;&#65292;&#24403;&#21069;&#28201;&#24230;&#65306;&#123;0&#125;&#24230;&#12290;&#34;, e.temperature);&#10;           Console.WriteLine();&#10;       &#125;&#10;    &#125;&#10;&#10;    class Program &#123;&#10;       static void Main() &#123;&#10;           Heater heater = new Heater();&#10;           Alarm alarm = new Alarm();&#10;&#10;           heater.Boiled += alarm.MakeAlert;   //&#27880;&#20876;&#26041;&#27861;&#10;           heater.Boiled += (new Alarm()).MakeAlert;      //&#32473;&#21311;&#21517;&#23545;&#35937;&#27880;&#20876;&#26041;&#27861;&#10;           heater.Boiled += new Heater.BoiledEventHandler(alarm.MakeAlert);    //&#20063;&#21487;&#20197;&#36825;&#20040;&#27880;&#20876;&#10;           heater.Boiled += Display.ShowMsg;       //&#27880;&#20876;&#38745;&#24577;&#26041;&#27861;&#10;&#10;           heater.BoilWater();   //&#28903;&#27700;&#65292;&#20250;&#33258;&#21160;&#35843;&#29992;&#27880;&#20876;&#36807;&#23545;&#35937;&#30340;&#26041;&#27861;&#10;       &#125;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>输出为：</p>
+<blockquote>
+<p>Alarm：China Xian - RealFire 001:<br>Alarm: 嘀嘀嘀，水已经 96 度了：<br>Alarm：China Xian - RealFire 001:<br>Alarm: 嘀嘀嘀，水已经 96 度了：<br>Alarm：China Xian - RealFire 001:<br>Alarm: 嘀嘀嘀，水已经 96 度了：<br>Display：China Xian - RealFire 001:<br>Display：水快烧开了，当前温度：96度。<br>// 省略 …</p>
+</blockquote>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/NET/">.NET</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C/">C#</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://rudy-zhang.me/2014/03/11/CSharp由委托到Observer设计模式，再到事件机制/" data-title="C#由委托到Observer设计模式，再到事件机制 | Rudy&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/03/25/如何阅读一篇论文/" title="如何阅读一篇论文">
+  <strong>上一篇：</strong><br/>
+  <span>
+  如何阅读一篇论文</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/03/07/CSharp异步编程/"  title="C# 异步编程">
+ <strong>下一篇：</strong><br/> 
+ <span>C# 异步编程
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2014/03/11/CSharp由委托到Observer设计模式，再到事件机制/" data-title="C#由委托到Observer设计模式，再到事件机制" data-url="http://rudy-zhang.me/2014/03/11/CSharp由委托到Observer设计模式，再到事件机制/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是委托"><span class="toc-number">1.</span> <span class="toc-text">什么是委托</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何使用委托"><span class="toc-number">2.</span> <span class="toc-text">如何使用委托</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#委托的绑定"><span class="toc-number">2.1.</span> <span class="toc-text">委托的绑定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">2.2.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#观察者模式（Observber）"><span class="toc-number">3.</span> <span class="toc-text">观察者模式（Observber）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C#中的事件处理机制"><span class="toc-number">4.</span> <span class="toc-text">C#中的事件处理机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#委托声明成private还是public？"><span class="toc-number">4.1.</span> <span class="toc-text">委托声明成private还是public？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#event关键字有什么作用？"><span class="toc-number">4.2.</span> <span class="toc-text">event关键字有什么作用？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#平时处理事件会有Object_o,…_eventargs？"><span class="toc-number">4.3.</span> <span class="toc-text">平时处理事件会有Object o,… eventargs？</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/NET/" title=".NET">.NET<sup>10</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/leetcode习题集/" title="leetcode习题集">leetcode习题集<sup>43</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/web开发/" title="web开发">web开发<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/回忆/" title="回忆">回忆<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发工具/" title="开发工具">开发工具<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据结构和算法/" title="数据结构和算法">数据结构和算法<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科研/" title="科研">科研<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ASP-MVC/" title="ASP MVC">ASP MVC<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CodeIgniter/" title="CodeIgniter">CodeIgniter<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C&amp;C++">C&amp;C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/bootstrap/" title="bootstrap">bootstrap<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="http://rudy-zhang.me/about" target="_blank" title="Rudy Zhang">Rudy Zhang</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"Rudy-Zhang"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+  </body>
+</html>

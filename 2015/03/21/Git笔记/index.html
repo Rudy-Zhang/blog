@@ -1,0 +1,537 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Git笔记 | Rudy&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Rudy Zhang">
+    
+
+    
+    <meta name="description" content="前言实验室的项目需要用到一个版本管理系统进行管理，鉴于Git如此风靡，所以正好拿来用，顺便学习一下。一下是Git学习的笔记，大部分内容来自廖雪峰的Git教程。
+为什么Git比其他版本控制系统设计得优秀，因为Git跟踪并管理的是修改，而非文件。所以一切操作几乎都是在一瞬间完成的。
+集中式VS分布式集中式版本控制系统，版本库是集中存放在中央服务器的。所有的修改都要经过中央服务器。分布式版本控制系统根本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git笔记">
+<meta property="og:url" content="http://rudy-zhang.me/2015/03/21/Git笔记/index.html">
+<meta property="og:site_name" content="Rudy's Blog">
+<meta property="og:description" content="前言实验室的项目需要用到一个版本管理系统进行管理，鉴于Git如此风靡，所以正好拿来用，顺便学习一下。一下是Git学习的笔记，大部分内容来自廖雪峰的Git教程。
+为什么Git比其他版本控制系统设计得优秀，因为Git跟踪并管理的是修改，而非文件。所以一切操作几乎都是在一瞬间完成的。
+集中式VS分布式集中式版本控制系统，版本库是集中存放在中央服务器的。所有的修改都要经过中央服务器。分布式版本控制系统根本">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eqd05t0do1j206j04imx4.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eqd05ta69vj20cq06imxh.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eqd05tptzoj20du03h3yy.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eqd05u3pp8j20ca08agnx.jpg">
+<meta property="og:updated_time" content="2015-05-24T02:27:12.415Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git笔记">
+<meta name="twitter:description" content="前言实验室的项目需要用到一个版本管理系统进行管理，鉴于Git如此风靡，所以正好拿来用，顺便学习一下。一下是Git学习的笔记，大部分内容来自廖雪峰的Git教程。
+为什么Git比其他版本控制系统设计得优秀，因为Git跟踪并管理的是修改，而非文件。所以一切操作几乎都是在一瞬间完成的。
+集中式VS分布式集中式版本控制系统，版本库是集中存放在中央服务器的。所有的修改都要经过中央服务器。分布式版本控制系统根本">
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Rudy&#39;s Blog">Rudy&#39;s Blog</a></h1>
+				<h2 class="blog-motto">seize the day</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+					<li>
+ 					
+						<form class="search" action="http://zhannei.baidu.com/cse/search" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/03/21/Git笔记/" title="Git笔记" itemprop="url">Git笔记</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="http://rudy-zhang.me/about" title="Rudy Zhang" target="_blank" itemprop="author">Rudy Zhang</a>
+		
+  <p class="article-time">
+    <time datetime="2015-03-21T00:21:32.000Z" itemprop="datePublished"> 发表于 2015-03-21</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集中式VS分布式"><span class="toc-number">2.</span> <span class="toc-text">集中式VS分布式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建版本库"><span class="toc-number">3.</span> <span class="toc-text">创建版本库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看状态"><span class="toc-number">4.</span> <span class="toc-text">查看状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#版本回退"><span class="toc-number">5.</span> <span class="toc-text">版本回退</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#工作区VS版本库VS暂存区"><span class="toc-number">6.</span> <span class="toc-text">工作区VS版本库VS暂存区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#撤销修改"><span class="toc-number">7.</span> <span class="toc-text">撤销修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#github远程仓库"><span class="toc-number">8.</span> <span class="toc-text">github远程仓库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#生成ssh密钥"><span class="toc-number">8.1.</span> <span class="toc-text">生成ssh密钥</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关联远程库"><span class="toc-number">8.2.</span> <span class="toc-text">关联远程库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#推送"><span class="toc-number">8.3.</span> <span class="toc-text">推送</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#克隆"><span class="toc-number">8.4.</span> <span class="toc-text">克隆</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分支管理"><span class="toc-number">9.</span> <span class="toc-text">分支管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解决冲突"><span class="toc-number">9.1.</span> <span class="toc-text">解决冲突</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分支策略"><span class="toc-number">9.2.</span> <span class="toc-text">分支策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修复bug，保存现场状态"><span class="toc-number">9.3.</span> <span class="toc-text">修复bug，保存现场状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新的feature分支"><span class="toc-number">9.4.</span> <span class="toc-text">新的feature分支</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多人协作工作"><span class="toc-number">10.</span> <span class="toc-text">多人协作工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#标签管理"><span class="toc-number">11.</span> <span class="toc-text">标签管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#忽略特殊文件"><span class="toc-number">12.</span> <span class="toc-text">忽略特殊文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题"><span class="toc-number">12.1.</span> <span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#解决办法"><span class="toc-number">12.1.1.</span> <span class="toc-text">解决办法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置别名"><span class="toc-number">13.</span> <span class="toc-text">配置别名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在windows下复制版本库"><span class="toc-number">14.</span> <span class="toc-text">在windows下复制版本库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#git_init_VS_git_init_–bare"><span class="toc-number">15.</span> <span class="toc-text">git init VS git init –bare</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="前言">前言</h2><p>实验室的项目需要用到一个版本管理系统进行管理，鉴于Git如此风靡，所以正好拿来用，顺便学习一下。一下是Git学习的笔记，大部分内容来自<a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="external">廖雪峰的Git教程</a>。</p>
+<p>为什么Git比其他版本控制系统设计得优秀，因为Git跟踪并管理的是修改，而非文件。所以一切操作几乎都是在一瞬间完成的。</p>
+<h2 id="集中式VS分布式">集中式VS分布式</h2><p>集中式版本控制系统，版本库是集中存放在中央服务器的。所有的修改都要经过中央服务器。<br>分布式版本控制系统根本没有“中央服务器”，每个人的电脑上都是一个完整的版本库。<br><strong>Git的特点就是，没有中央服务器，大家都是中央服务器</strong></p>
+<h2 id="创建版本库">创建版本库</h2><p>初始化一个Git仓库，使用<code>git init</code>命令。</p>
+<p>添加文件到Git仓库，分两步：</p>
+<ol>
+<li><p>第一步，使用命令<code>git add &lt;file&gt;</code>，可反复多次使用，添加多个文件；</p>
+</li>
+<li><p>第二步，使用命令<code>git commit</code>，完成。</p>
+</li>
+</ol>
+<h2 id="查看状态">查看状态</h2><p>要随时掌握工作区的状态，使用<code>git status</code>命令。<br> 如果<code>git status</code>告诉你有文件被修改过，用<code>git diff</code>可以查看修改内容。</p>
+<h2 id="版本回退">版本回退</h2><p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eqd05t0do1j206j04imx4.jpg" alt=""><br>HEAD指向的版本就是当前版本(HEAD指向当前的分支)</p>
+<p> 因此，Git允许我们在版本的历史之间穿梭，使用命令<code>git reset --hard commit_id</code>。</p>
+<p>返回过去，用<code>git log</code>可以查看提交历史，以便确定要回退到哪个版本。</p>
+<p>要重返未来，用<code>git reflog</code>查看命令历史，以便确定要回到未来的哪个版本。</p>
+<h2 id="工作区VS版本库VS暂存区">工作区VS版本库VS暂存区</h2><ul>
+<li>工作区（Working Directory）：就是你在电脑里能看到的目录</li>
+<li>版本库（Repository）：工作区有一个隐藏目录.git，这个不算工作区，而是Git的版本库。</li>
+<li>暂存区(stage) : 版本库里存了很多东西，其中最重要的就是称为<strong>stage</strong>（或者叫index）的暂存区，还有Git为我们自动创建的第一个分支master，以及指向master的一个指针叫HEAD。<br><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eqd05ta69vj20cq06imxh.jpg" alt="enter image description here"></li>
+</ul>
+<p><code>git add</code>命令实际上就是把要提交的所有修改放到暂存区（Stage）<br>执行<code>git commit</code>就可以一次性把暂存区的所有修改提交到分支。<br><strong>Git跟踪的是修改，每次修改，如果不add到暂存区，那就不会加入到commit中。</strong></p>
+<h2 id="撤销修改">撤销修改</h2><ul>
+<li>还没有<code>git add</code>到暂存区的代码<br><code>git checkout</code> 从暂存区或者版本库签出（取消工作区代码）,例：<code>git checkout -- readme.txt</code></li>
+</ul>
+<ol>
+<li>暂存区有代码，签出暂存区代码</li>
+<li>暂存区没代码，签出版本库代码</li>
+</ol>
+<ul>
+<li><p>已经添加到暂存区的代码,<code>git reset HEAD readme.txt</code><br>再用<code>checkout</code>命令</p>
+</li>
+<li><p>已经commit的代码<br>在推送到远程版本库之前切换版本,<code>git reset --hard</code> 版本号</p>
+</li>
+<li><p>删除文件(删除也是一个修改操作)<br><code>git rm</code>用于删除一个文件（类似于git add将更改放到暂存区）<br><code>git commit</code> 提交</p>
+</li>
+</ul>
+<h2 id="github远程仓库">github远程仓库</h2><p>提供Git仓库托管服务的，所以，只要注册一个GitHub账号，就可以免费获得Git远程仓库</p>
+<h3 id="生成ssh密钥">生成ssh密钥</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &#34;youremail@example.com&#34;</span><br></pre></td></tr></table></figure>
+<p>生成ssh 公钥和私钥</p>
+<h3 id="关联远程库">关联远程库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin git@server-name:path/repo-name.git</span><br></pre></td></tr></table></figure>
+<h3 id="推送">推送</h3><p>使用命令<code>git push -u origin master</code>第一次推送master分支的所有内容，每次本地提交后，只要有必要，就可以使用命令<code>git push origin master</code>推送最新修改；</p>
+<h3 id="克隆">克隆</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:michaelliao/gitskills.git</span><br></pre></td></tr></table></figure>
+<h2 id="分支管理">分支管理</h2><p>Git用master（主分支）指向最新的提交，再用HEAD指向当前分支<br>查看分支：<code>git branch</code><br>创建分支：<code>git branch &lt;name&gt;</code><br>切换分支：<code>git checkout &lt;name&gt;</code><br>创建+切换分支：<code>git checkout -b &lt;name&gt;</code><br>合并某分支到当前分支：<code>git merge &lt;name&gt;</code><br>删除分支：<code>git branch -d &lt;name&gt;</code></p>
+<h3 id="解决冲突">解决冲突</h3><p><code>Rudy@RUDY ~/learngit (master|MERGING)</code><br>相当于另外创建了一个分支，保存冲突，提交时以这个分支为准</p>
+<h3 id="分支策略">分支策略</h3><p>首先，master分支应该是非常稳定的，也就是仅用来发布新版本，平时不能在上面干活；</p>
+<p>那在哪干活呢？干活都在dev分支上，也就是说，dev分支是不稳定的，到某个时候，比如1.0版本发布时，再把dev分支合并到master上，在master分支发布1.0版本；</p>
+<p>小伙伴们每个人都在dev分支上干活，每个人都有自己的分支，时不时地往dev分支上合并就可以<br><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eqd05tptzoj20du03h3yy.jpg" alt="enter image description here"></p>
+<h3 id="修复bug，保存现场状态">修复bug，保存现场状态</h3><p>修复bug时，我们会通过创建新的bug分支进行修复，然后合并，最后删除；</p>
+<p>当手头工作没有完成时，先把工作现场<code>git stash</code>一下，然后去修复bug，修复后，再<code>git stash pop</code>，回到工作现场。</p>
+<blockquote>
+<p>git stash: 备份当前的工作区的内容，从最近的一次提交中读取相关内容，让工作区保证和上次提交的内容一致。同时，将当前的工作区内容保存到Git栈中。</p>
+<h3 id="新的feature分支">新的feature分支</h3><p>开发一个新feature，最好新建一个分支；</p>
+</blockquote>
+<p>如果要丢弃一个没有被合并过的分支，可以通过<code>git branch -D &lt;name&gt;</code>强行删除。</p>
+<h2 id="多人协作工作">多人协作工作</h2><p>实际上Git自动把本地的master分支和远程的master分支对应起来了，并且，远程仓库的默认名称是<code>origin</code>。</p>
+<p>试图推送：可以试图用<code>git push origin branch-name</code>推送自己的修改；</p>
+<p>如果推送失败，则因为远程分支比你的本地更新，需要先用<code>git pull</code>试图合并；如果合并有冲突，则解决冲突，并在本地提交；</p>
+<p>没有冲突或者解决掉冲突后，再用<code>git push origin branch-name</code>推送就能成功！</p>
+<p>如果git pull提示<code>no tracking information</code><br>     说明本地分支和远程分支的链接关系没有创建，用命令<code>git branch --set-upstream branch-name origin/branch-name</code>。</p>
+<h2 id="标签管理">标签管理</h2><p><strong>发布一个版本时</strong>，我们通常先在版本库中打一个标签。标签也是<strong>版本库的一个快照</strong>。</p>
+<p>Git的标签虽然是版本库的快照，但其实<strong>它就是指向某个commit的指针</strong>（跟分支很像对不对？但是分支可以移动，标签不能移动），所以，创建和删除标签都是瞬间完成的。</p>
+<p>查看所有标签<code>git tag</code></p>
+<p>新建标签<code>git tag &lt;name&gt;</code>，默认为HEAD，也可以指定一个commit id；</p>
+<p>指定标签信息,<code>git tag -a &lt;tagname&gt; -m &quot;blablabla...&quot;</code></p>
+<p>用PGP签名标签,<code>git tag -s &lt;tagname&gt; -m &quot;blablabla...&quot;</code>可以用PGP签名标签；</p>
+<p>推送一个本地标签<code>git push origin &lt;tagname&gt;</code></p>
+<p>推送全部未推送过的本地标签<code>git push origin --tags</code></p>
+<p>删除一个本地标签<code>git tag -d &lt;tagname&gt;</code></p>
+<p>删除一个远程标签<code>git push origin :refs/tags/&lt;tagname&gt;</code></p>
+<h2 id="忽略特殊文件">忽略特殊文件</h2><h3 id="问题">问题</h3><p>有些时候，必须把某些文件放到Git工作目录中，但又不能提交它们，比如保存了数据库密码的配置文件,每次git status都会显示“Untracked files …”</p>
+<h4 id="解决办法">解决办法</h4><p>在Git工作区的根目录下创建一个特殊的.gitignore文件，然后把要忽略的文件名填进去，Git就会自动忽略这些文件。</p>
+<p>忽略文件的原则是：</p>
+<blockquote>
+<ul>
+<li>忽略操作系统自动生成的文件，比如缩略图等；</li>
+<li>忽略编译生成的中间文件、可执行文件等，也就是如果一个文件是通过另一个文件自动生成的，那自动生成的文件就没必要放进版本库，比如Java编译产生的.class文件；</li>
+<li>忽略你自己的带有敏感信息的配置文件，比如存放口令的配置文件。</li>
+</ul>
+</blockquote>
+<h2 id="配置别名">配置别名</h2><p><code>git config --global alias.st status</code>设置st为status的别名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global alias.lg &#34;log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&#60;%an&#62;%Creset&#39; --abbrev-commit&#34;</span><br></pre></td></tr></table></figure>
+<p><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eqd05u3pp8j20ca08agnx.jpg" alt="enter image description here"></p>
+<h2 id="在windows下复制版本库">在windows下复制版本库</h2><p>注意路径<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone administrator@192.168.1.13:c:/GitProject/testrepo</span><br></pre></td></tr></table></figure></p>
+<h2 id="git_init_VS_git_init_–bare">git init VS git init –bare</h2><p>用<code>git init</code>初始化的版本库用户也可以在该目录下执行所有git方面的操作。但别的用户在将更新push上来的时候容易出现冲突。<br>使用<code>git init –bare</code>方法创建一个所谓的裸仓库，之所以叫裸仓库是因为这个仓库只保存git历史提交的版本信息，而<strong>不允许用户在上面进行各种git操作</strong>，如果你硬要操作的话，只会得到下面的错误（”This operation must be run in a work tree”）<br>这个就是<strong>最好把远端仓库初始化成bare仓库的原因</strong>。</p>
+<p>在裸仓库中只能切换分支，不能合并分支</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/开发工具/">开发工具</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Git/">Git</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://rudy-zhang.me/2015/03/21/Git笔记/" data-title="Git笔记 | Rudy&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/03/21/使用bootstrap进行布局/" title="使用bootstrap进行布局">
+  <strong>上一篇：</strong><br/>
+  <span>
+  使用bootstrap进行布局</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/03/20/ASP.NET MVC之本地化多语言/"  title="ASP.NET MVC之本地化多语言">
+ <strong>下一篇：</strong><br/> 
+ <span>ASP.NET MVC之本地化多语言
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/03/21/Git笔记/" data-title="Git笔记" data-url="http://rudy-zhang.me/2015/03/21/Git笔记/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集中式VS分布式"><span class="toc-number">2.</span> <span class="toc-text">集中式VS分布式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建版本库"><span class="toc-number">3.</span> <span class="toc-text">创建版本库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看状态"><span class="toc-number">4.</span> <span class="toc-text">查看状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#版本回退"><span class="toc-number">5.</span> <span class="toc-text">版本回退</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#工作区VS版本库VS暂存区"><span class="toc-number">6.</span> <span class="toc-text">工作区VS版本库VS暂存区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#撤销修改"><span class="toc-number">7.</span> <span class="toc-text">撤销修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#github远程仓库"><span class="toc-number">8.</span> <span class="toc-text">github远程仓库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#生成ssh密钥"><span class="toc-number">8.1.</span> <span class="toc-text">生成ssh密钥</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关联远程库"><span class="toc-number">8.2.</span> <span class="toc-text">关联远程库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#推送"><span class="toc-number">8.3.</span> <span class="toc-text">推送</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#克隆"><span class="toc-number">8.4.</span> <span class="toc-text">克隆</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分支管理"><span class="toc-number">9.</span> <span class="toc-text">分支管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解决冲突"><span class="toc-number">9.1.</span> <span class="toc-text">解决冲突</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分支策略"><span class="toc-number">9.2.</span> <span class="toc-text">分支策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修复bug，保存现场状态"><span class="toc-number">9.3.</span> <span class="toc-text">修复bug，保存现场状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新的feature分支"><span class="toc-number">9.4.</span> <span class="toc-text">新的feature分支</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多人协作工作"><span class="toc-number">10.</span> <span class="toc-text">多人协作工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#标签管理"><span class="toc-number">11.</span> <span class="toc-text">标签管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#忽略特殊文件"><span class="toc-number">12.</span> <span class="toc-text">忽略特殊文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题"><span class="toc-number">12.1.</span> <span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#解决办法"><span class="toc-number">12.1.1.</span> <span class="toc-text">解决办法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置别名"><span class="toc-number">13.</span> <span class="toc-text">配置别名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在windows下复制版本库"><span class="toc-number">14.</span> <span class="toc-text">在windows下复制版本库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#git_init_VS_git_init_–bare"><span class="toc-number">15.</span> <span class="toc-text">git init VS git init –bare</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/NET/" title=".NET">.NET<sup>10</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/leetcode习题集/" title="leetcode习题集">leetcode习题集<sup>43</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/web开发/" title="web开发">web开发<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/回忆/" title="回忆">回忆<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发工具/" title="开发工具">开发工具<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据结构和算法/" title="数据结构和算法">数据结构和算法<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科研/" title="科研">科研<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ASP-MVC/" title="ASP MVC">ASP MVC<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CodeIgniter/" title="CodeIgniter">CodeIgniter<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C&amp;C++">C&amp;C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/bootstrap/" title="bootstrap">bootstrap<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="http://rudy-zhang.me/about" target="_blank" title="Rudy Zhang">Rudy Zhang</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"Rudy-Zhang"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+  </body>
+</html>

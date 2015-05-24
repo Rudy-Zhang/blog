@@ -1,0 +1,446 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>C#中get和set的原理 | Rudy&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Rudy Zhang">
+    
+
+    
+    <meta name="description" content="为啥要使用get，set？软件工程的思想是用户只要指定你去干什么就好了，而不用关心你是怎么干的。所以如果直接声明一个public的变量，就能够在类外对变量进行各种操作，从而影响了类内部对变量的操作。1public class A&amp;#10;&amp;#123;&amp;#10;    public int Age;   //&amp;#36825;&amp;#26159;&amp;#19981;&amp;#22909;&amp;#30340;&amp;#6529">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C#中get和set的原理">
+<meta property="og:url" content="http://rudy-zhang.me/2014/02/26/CSharp中get和set的原理/index.html">
+<meta property="og:site_name" content="Rudy's Blog">
+<meta property="og:description" content="为啥要使用get，set？软件工程的思想是用户只要指定你去干什么就好了，而不用关心你是怎么干的。所以如果直接声明一个public的变量，就能够在类外对变量进行各种操作，从而影响了类内部对变量的操作。1public class A&amp;#10;&amp;#123;&amp;#10;    public int Age;   //&amp;#36825;&amp;#26159;&amp;#19981;&amp;#22909;&amp;#30340;&amp;#6529">
+<meta property="og:image" content="http://ww4.sinaimg.cn/mw690/4c2edcb7jw1eqa9861zk5j20jr09iq45.jpg">
+<meta property="og:updated_time" content="2015-05-24T02:27:12.353Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C#中get和set的原理">
+<meta name="twitter:description" content="为啥要使用get，set？软件工程的思想是用户只要指定你去干什么就好了，而不用关心你是怎么干的。所以如果直接声明一个public的变量，就能够在类外对变量进行各种操作，从而影响了类内部对变量的操作。1public class A&amp;#10;&amp;#123;&amp;#10;    public int Age;   //&amp;#36825;&amp;#26159;&amp;#19981;&amp;#22909;&amp;#30340;&amp;#6529">
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Rudy&#39;s Blog">Rudy&#39;s Blog</a></h1>
+				<h2 class="blog-motto">seize the day</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+					<li>
+ 					
+						<form class="search" action="http://zhannei.baidu.com/cse/search" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/02/26/CSharp中get和set的原理/" title="C#中get和set的原理" itemprop="url">C#中get和set的原理</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="http://rudy-zhang.me/about" title="Rudy Zhang" target="_blank" itemprop="author">Rudy Zhang</a>
+		
+  <p class="article-time">
+    <time datetime="2014-02-26T03:44:00.000Z" itemprop="datePublished"> 发表于 2014-02-26</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#为啥要使用get，set？"><span class="toc-number">1.</span> <span class="toc-text">为啥要使用get，set？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一种写法"><span class="toc-number">2.</span> <span class="toc-text">一种写法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#推荐写法"><span class="toc-number">3.</span> <span class="toc-text">推荐写法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#体现封装性———-进行判断"><span class="toc-number">4.</span> <span class="toc-text">体现封装性———-进行判断</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="为啥要使用get，set？">为啥要使用get，set？</h2><p>软件工程的思想是用户只要指定你去干什么就好了，而不用关心你是怎么干的。所以如果直接声明一个public的变量，就能够在类外对变量进行各种操作，从而影响了类内部对变量的操作。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class A&#10;&#123;&#10;    public int Age;   //&#36825;&#26159;&#19981;&#22909;&#30340;&#65292;&#24453;&#20250;&#26377;&#31243;&#24207;&#21592;&#21487;&#33021;&#25226;-1&#36171;&#32473;Age&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>为了避免这样乱搞，Java推荐用户对变量使用getValue(),和setValue方法，而C#嘛，进行一点微创新，使用property的get，set对类内的属性进行封装。<strong>可以使用prop+tab的快捷键调出get，set</strong></p>
+<h2 id="一种写法">一种写法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class A&#10;&#123;&#10;    private int age;&#10;    public int Age&#10;    &#123;&#10;        get &#123; return age; &#125;&#10;        set &#123; age = value; &#125;&#10;    &#125;&#10;&#125;&#10;        &#10;static void Main(string[] args)&#10;&#123;&#10;    A a=new A();&#10;    a.Age = 3;&#10;    Console.WriteLine(a.Age);&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>这样类内只对age操作，类外只对Age操作，逻辑上是一个东西，这里的get{}实际上就是java中的getValue方法。</p>
+<p>其实这只是一种编码风格，<strong>类内部的变量用小写，暴露的Property首字母大写，变量不能public</strong></p>
+<p>需要注意的是，age和Age仅仅是一种逻辑上的关系，<strong>Age虽然是public，但是set和get规定了Age是否能够在类外读取和修改</strong></p>
+<h2 id="推荐写法">推荐写法</h2><p>在.NET自己的代码中没有小写的变量，<strong>类内的变量一律使用属性即property表达。</strong></p>
+<p>修饰属性使用public或者protect，这样一种变量就只有一个名字了。</p>
+<p>同理，<strong>public的变量使用set，get规定类外的读写权限。protect变量的set，get规定子类的读写权限。</strong></p>
+<p>如下为Form类的写法：<br><img src="http://ww4.sinaimg.cn/mw690/4c2edcb7jw1eqa9861zk5j20jr09iq45.jpg" alt="Form类的写法"></p>
+<h2 id="体现封装性———-进行判断">体现封装性———-进行判断</h2><p>get，set不只是能够返回和设置变量的值，进行只读，只写，读写三种操作，要不然这也太挫了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class A&#10;&#123; &#10;    private int age;&#10;    public int Age;&#10;    &#123;&#10;        get &#123; return age; &#125;&#10;        set &#123; &#10;            if(age&#62;0)&#10;            age = value; &#10;        &#125;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样就可以防止类外对age的不合法赋值啦，类内部的逻辑完全在类内部执行，体现了OO的思想</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/NET/">.NET</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C/">C#</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://rudy-zhang.me/2014/02/26/CSharp中get和set的原理/" data-title="C#中get和set的原理 | Rudy&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/03/04/Csharp中的out和ref/" title="C#中的out和ref">
+  <strong>上一篇：</strong><br/>
+  <span>
+  C#中的out和ref</span>
+</a>
+</div>
+
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2014/02/26/CSharp中get和set的原理/" data-title="C#中get和set的原理" data-url="http://rudy-zhang.me/2014/02/26/CSharp中get和set的原理/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#为啥要使用get，set？"><span class="toc-number">1.</span> <span class="toc-text">为啥要使用get，set？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一种写法"><span class="toc-number">2.</span> <span class="toc-text">一种写法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#推荐写法"><span class="toc-number">3.</span> <span class="toc-text">推荐写法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#体现封装性———-进行判断"><span class="toc-number">4.</span> <span class="toc-text">体现封装性———-进行判断</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/NET/" title=".NET">.NET<sup>10</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/leetcode习题集/" title="leetcode习题集">leetcode习题集<sup>43</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/web开发/" title="web开发">web开发<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/回忆/" title="回忆">回忆<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发工具/" title="开发工具">开发工具<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据结构和算法/" title="数据结构和算法">数据结构和算法<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科研/" title="科研">科研<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ASP-MVC/" title="ASP MVC">ASP MVC<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CodeIgniter/" title="CodeIgniter">CodeIgniter<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C&amp;C++">C&amp;C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/bootstrap/" title="bootstrap">bootstrap<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="http://rudy-zhang.me/about" target="_blank" title="Rudy Zhang">Rudy Zhang</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"Rudy-Zhang"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+  </body>
+</html>
