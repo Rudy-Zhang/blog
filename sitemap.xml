@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://rudy-zhang.me/2014/10/21/PHP%E6%A1%86%E6%9E%B6%E6%AF%94%E8%BE%83/</loc>
+    <lastmod>2015-05-24T14:26:29.008Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://rudy-zhang.me/2015/05/23/Hadoop%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/</loc>
     <lastmod>2015-05-24T14:11:32.606Z</lastmod>
   </url>
@@ -24,11 +29,6 @@
   <url>
     <loc>http://rudy-zhang.me/2015/04/06/%E7%BD%91%E7%AB%99%E5%BA%94%E5%AF%B9%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%87%8F%E9%AB%98%E5%B9%B6%E5%8F%91%E7%9A%84%E6%8C%91%E6%88%98/</loc>
     <lastmod>2015-05-24T13:51:34.456Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://rudy-zhang.me/2014/10/21/PHP%E6%A1%86%E6%9E%B6%E6%AF%94%E8%BE%83/</loc>
-    <lastmod>2015-05-24T08:59:07.078Z</lastmod>
   </url>
   
   <url>
