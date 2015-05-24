@@ -4,7 +4,7 @@
   <subtitle><![CDATA[seize the day]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://rudy-zhang.me/"/>
-  <updated>2015-05-24T01:30:32.443Z</updated>
+  <updated>2015-05-24T08:54:54.516Z</updated>
   <id>http://rudy-zhang.me/</id>
   
   <author>
@@ -19,12 +19,12 @@
     <link href="http://rudy-zhang.me/2015/05/24/HadoopStreaming/"/>
     <id>http://rudy-zhang.me/2015/05/24/HadoopStreaming/</id>
     <published>2015-05-24T01:30:00.000Z</published>
-    <updated>2015-05-24T01:30:32.443Z</updated>
-    <content type="html"><![CDATA[<h3 id="Hadoop_Streaming是什么">Hadoop Streaming是什么</h3><p>Hadoop MapReduce和HDFS使用Java实现，默认是Java接口，另外提供了C++编程接口和Streaming框架。</p>
+    <updated>2015-05-24T08:54:54.516Z</updated>
+    <content type="html"><![CDATA[<h2 id="Hadoop_Streaming是什么">Hadoop Streaming是什么</h2><p>Hadoop MapReduce和HDFS使用Java实现，默认是Java接口，另外提供了C++编程接口和Streaming框架。</p>
 <p>Streaming框架允许任何程序语言实现的程序（只要该程序支持标准输入输出即可），在Hadoop MapReduce中使用，方便已有程序向Hadoop平台移植。</p>
-<h3 id="Streaming原理">Streaming原理</h3><p>使用Java实现了一个包装<strong>用户程序</strong>（mapper，reducer方法）的MapReduce程序，该程序调用MapReduce的Java接口，创建一个<strong>新的进程</strong>包装用户程序，将数据通过<strong>管道</strong>传递给包装的用户程序。</p>
+<h2 id="Streaming原理">Streaming原理</h2><p>使用Java实现了一个包装<strong>用户程序</strong>（mapper，reducer方法）的MapReduce程序，该程序调用MapReduce的Java接口，创建一个<strong>新的进程</strong>包装用户程序，将数据通过<strong>管道</strong>传递给包装的用户程序。</p>
 <p><img src="http://i.imgur.com/dlebclb.jpg" alt=""></p>
-<h3 id="考虑的问题">考虑的问题</h3><p>在实际的开发过程中，开发人员需要考虑下面几个方面的问题，其中1,2是必须实现的：</p>
+<h2 id="考虑的问题">考虑的问题</h2><p>在实际的开发过程中，开发人员需要考虑下面几个方面的问题，其中1,2是必须实现的：</p>
 <ol>
 <li>Mapper程序：对输入key/value数据进行处理；</li>
 <li>Reducer程序：对mapper的输出进行归并处理；</li>
@@ -32,17 +32,17 @@
 <li>Partitioner：将mapper的输出分配到reducer；（Map的中间结果通常用”hash(key) mod R”这个结果作为标准）</li>
 <li>InputFormat/OutputFormat：对输入数据进行切分，保存输出数据。</li>
 </ol>
-<h3 id="执行">执行</h3><pre><code><span class="variable">$HADOOP_HOME</span>/bin/hadoop streaming \
+<h2 id="执行">执行</h2><pre><code><span class="variable">$HADOOP_HOME</span>/bin/hadoop streaming \
     -<span class="tag">input</span> /user/test/<span class="tag">input</span> -output /user/test/output \
     -mapper “cat” \
     -reducer “cat” \
     -jobconf mapred<span class="class">.reduce</span><span class="class">.tasks</span>=<span class="number">1</span>\
     -jobconf mapred<span class="class">.job</span><span class="class">.name</span>=”dist-sort”
 </code></pre><p>这是一个实现了分布式排序的程序。可以通过shell脚本，shell命令，或者其它语言的<strong>可执行程序</strong>来进行mapper和reducer程序的运行</p>
-<h3 id="常用参数的使用">常用参数的使用</h3><p>例1：</p>
+<h2 id="常用参数的使用">常用参数的使用</h2><p>例1：</p>
 <pre><code><span class="variable">$hadoop</span> streaming \
     -D stream<span class="class">.num</span><span class="class">.map</span><span class="class">.output</span><span class="class">.key</span><span class="class">.fields</span>=<span class="number">2</span> \
-    -D mapred<span class="class">.job</span><span class="class">.name</span>=<span class="string">"$app.$timestr@map-se"</span> \
+    -D mapred<span class="class">.job</span><span class="class">.name</span>=<span class="string">"jobname"</span> \
     -D mapred<span class="class">.job</span><span class="class">.priority</span>=VERY_HIGH \
     -D mapred<span class="class">.job</span><span class="class">.map</span><span class="class">.capacity</span>=<span class="number">500</span> \
     -D mapred<span class="class">.job</span><span class="class">.reduce</span><span class="class">.capacity</span>=<span class="number">300</span> \
@@ -54,7 +54,7 @@
     -output <span class="variable">$output</span> \
     -cacheArchive <span class="variable">$archive</span>
 </code></pre><p>-D表示配置参数，剩余项是和输入输出相关的文件和可执行程序</p>
-<p><code>-D mapred.job.name=&quot;$app.$timestr@map-se&quot; \</code>,作业名</p>
+<p><code>-D mapred.job.name=&quot;jobname&quot; \</code>,作业名</p>
 <p><code>-D mapred.job.priority=VERY_HIGH \</code> 作业优先级</p>
 <p><code>-D mapred.job.map.capacity=500 \</code>,最多同时运行map任务数</p>
 <p><code>-D mapred.job.reduce.capacity=300 \</code>最多同时运行reduce任务数</p>
@@ -72,7 +72,7 @@
     -D stream<span class="class">.num</span><span class="class">.map</span><span class="class">.output</span><span class="class">.key</span><span class="class">.fields</span>=<span class="number">3</span> \
     -D mapred<span class="class">.text</span><span class="class">.key</span><span class="class">.partitioner</span><span class="class">.options</span>=<span class="string">"-k1,1"</span> \
     -D mapred<span class="class">.text</span><span class="class">.key</span><span class="class">.comparator</span><span class="class">.options</span>=<span class="string">"-k1,1 -k3,3nr"</span> \
-    -D mapred<span class="class">.job</span><span class="class">.name</span>=<span class="string">"$app@map-se.$timestr"</span> \
+    -D mapred<span class="class">.job</span><span class="class">.name</span>=<span class="string">"jobname"</span> \
     -D mapred<span class="class">.job</span><span class="class">.priority</span>=VERY_HIGH \
     -D mapred<span class="class">.job</span><span class="class">.map</span><span class="class">.capacity</span>=<span class="number">500</span> \
     -D mapred<span class="class">.job</span><span class="class">.reduce</span><span class="class">.capacity</span>=<span class="number">300</span> \
@@ -96,15 +96,125 @@
     -partitioner org<span class="class">.apache</span><span class="class">.hadoop</span><span class="class">.mapred</span><span class="class">.lib</span><span class="class">.KeyFieldBasedPartitioner</span> \
     -file /home/work/mymapper<span class="class">.sh</span> \
     -file /home/work/myreducer<span class="class">.sh</span> \
-    -jobconf mapred<span class="class">.job</span><span class="class">.name</span>=”key-partition-demo”
+    -jobconf mapred<span class="class">.job</span><span class="class">.name</span>=”jobname”
 </code></pre><p><code>-D stream.map.output.field.separator=. \</code><br><code>-D stream.num.map.output.key.fields=4 \</code><br>表示输出分隔符为’.’，并且第4个.之后为value，之前为key</p>
 <p><code>-D map.output.key.field.separator=. \</code><br><code>-D num.key.fields.for.partition=2 \</code><br>表示key内的分隔符为’.’，第2个’.’之前作为主key，之后作为辅key</p>
 <p><code>-partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner \</code>指定要使用KeyFieldBasedPartitioner，也就是key域内的partioner。这样的话会把主key的内容作为partition的依据，相同的主key分配到同一个reducer中。</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<h3 id="Hadoop_Streaming是什么">Hadoop Streaming是什么</h3><p>Hadoop MapReduce和HDFS使用Java实现，默认是Java接口，另外提供了C++编程接口和Streaming框架。</p>
+    <![CDATA[<h2 id="Hadoop_Streaming是什么">Hadoop Streaming是什么</h2><p>Hadoop MapReduce和HDFS使用Java实现，默认是Java接口，另外提供了C++编程接口和Streaming框架。</p>
 <p>Streaming框架]]>
     </summary>
+    
+      <category term="Hadoop" scheme="http://rudy-zhang.me/tags/Hadoop/"/>
+    
+      <category term="Hadoop" scheme="http://rudy-zhang.me/categories/Hadoop/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hadoop基本原理]]></title>
+    <link href="http://rudy-zhang.me/2015/05/23/Hadoop%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/"/>
+    <id>http://rudy-zhang.me/2015/05/23/Hadoop基本原理/</id>
+    <published>2015-05-23T02:38:00.000Z</published>
+    <updated>2015-05-24T14:11:32.606Z</updated>
+    <content type="html"><![CDATA[<h3 id="了解大数据">了解大数据</h3><p>首先，搞清楚hadoop在处理大数据的定位在哪里</p>
+<h4 id="什么是大数据？为什么要处理大数据？">什么是大数据？为什么要处理大数据？</h4><p>数据量大（Volume） 数据类别复杂（Variety） 数据处理速度快（Velocity） 数据真实性高（Veracity） 合起来被称为4V。</p>
+<p>处理大数据是为了挖掘数据中的隐含价值</p>
+<h4 id="如何处理大数据？">如何处理大数据？</h4><p>集中式计算VS分布式计算</p>
+<p>集中式计算：通过不断增加处理器的个数来增强耽搁计算机的计算能力，从而提高处理的速度。需要的内存很大，计算的速度很快。</p>
+<p>分布式计算：一组通过网络连接的计算机，形成一个分散的系统。将需要处理的大量数据分散成多个部分，交由系统中的耽搁计算机分别处理，最后将这些计算结果合并得到最终结果。（MapReduce的核心思想）</p>
+<h3 id="Hadoop是怎么产生的">Hadoop是怎么产生的</h3><h4 id="技术基础">技术基础</h4><p>google三驾马车：GFS、MapReduce和BigTable。Hadoop是在google三驾马车基础上的开源实现。</p>
+<ol>
+<li>GFS（Google File System）分布式文件系统，对应Hadoop当中的HDFS。</li>
+<li>MapReduce分布式计算框架，也是Hadoop处理大数据的核心思想。</li>
+<li>BigTable是基于GFS的数据存储系统，对应Hadoop的HBase。</li>
+</ol>
+<h4 id="三大分布式计算系统">三大分布式计算系统</h4><p>Hadoop，Spark，Storm是主流的三大分布式计算系统</p>
+<p>Spark VS Hadoop</p>
+<p>Hadoop使用硬盘来存储数据，而Spark是将数据存在内存中的，因此Spark何以提供超过Hadoop 100倍的计算速度。内存断电后会丢失，所以Spark不<br>适用于需要长期保存的数据。</p>
+<p>Storm VS Hadoop</p>
+<p>Storm在Hadoop基础上提供了实时运算的特性，可以实时处理大数据流。不同于Hadoop和Spark，Storm不尽兴数据的手机和存储工作，直接通过网络接受并实时处理数据，然后直接通过网络实时传回结果。</p>
+<p>所以三者适用于的应用场景分别为：</p>
+<ol>
+<li>Hadoop常用于离线的复杂的大数据处理</li>
+<li>Spark常用于离线的快速的大数据处理</li>
+<li>Storm常用于在线实时的大数据处理</li>
+</ol>
+<h3 id="Hadoop定义">Hadoop定义</h3><h4 id="Hadoop是什么">Hadoop是什么</h4><p>Hadoop是一个能够对大量数据进行分布式处理的软件框架</p>
+<h4 id="Hadoop特点">Hadoop特点</h4><ol>
+<li>可靠。Hadoop假设计算元素和存储会失败，所以会维护多个工作数据的副本，对失败的节点会重新处理</li>
+<li>高效。通过并行方式工作，加快处理速度。</li>
+<li>可伸缩。可以处理PB级的数据。</li>
+<li>高扩展。可以方便地扩展到数以千计的节点。</li>
+<li>低成本。Hadoop是开源的，Hadoop节点可以是很便宜的机器。</li>
+</ol>
+<h4 id="应用场景">应用场景</h4><p>Hadoop适用于：海量数据，离线数据，复杂数据</p>
+<p>场景1：数据分析，如海量日志分析，商品推荐，用户行为分析</p>
+<p>场景2：离线计算，（异构计算+分布式计算）天文计算</p>
+<p>场景3：海量数据存储，如Facebook的存储集群。</p>
+<p><a href="http://cloud.zol.com.cn/441/4415033_all.html" target="_blank" rel="external">更多应用场景</a></p>
+<h3 id="Hadoop原理">Hadoop原理</h3><h4 id="HDFS">HDFS</h4><p>HDFS（Hadoop File System），是Hadoop的分布式文件存储系统</p>
+<ol>
+<li>将大文件分解为多个Block，每个Block保存多个副本。提供容错机制，副本丢失或者宕机时自动恢复。</li>
+<li>默认每个Block保存3个副本，64M为1个Block。</li>
+<li>将Block按照key-value映射到内存当中。</li>
+</ol>
+<p>HDFS架构图如下：</p>
+<p><img src="http://i.imgur.com/ZliSEXb.png" alt=""></p>
+<h5 id="NameNode">NameNode</h5><p>HDFS使用主从结构，NameNode是Master节点，是领导。所有的客户端的读写请求，都需要首先请求NameNode。</p>
+<p>NameNode存储</p>
+<ol>
+<li>fsimage：元数据镜像文件（文件系统的目录树，文件的<strong>元数据</strong>信息）。元数据信息包括文件的信息，文件对应的block信息（版本信息，类型信息，和checksum），以及每一个block所在的DataNode的信息。</li>
+<li>edits：元数据的操作日志</li>
+</ol>
+<h5 id="DataNode">DataNode</h5><p>DataNode是Slave，负责真正存储所有的block内容，以及数据块的读写操作</p>
+<p>NameNode，DataNode，rack只是一些逻辑上的概念。NameNode和DataNode可能是一台机器也可能是，相邻的一台机器，很多DataNode可能处于同一台机器。rack是逻辑上比DataNode更大的概念，可能是一台机器，一台机柜，也可能是一个机房。通过使文件的备份更广泛地分布到不同的rack，DataNode上可以保证数据的可靠性。</p>
+<h5 id="HDFS写入数据">HDFS写入数据</h5><ol>
+<li>Client拆分文件为64M一块。</li>
+<li>Client向NameNode发送写数据请求。</li>
+<li>NameNode节点，记录block信息。并返回可用的DataNode。</li>
+<li>Client向DataNode发送block1,2,3….；发送过程是以流式写入。流式写入，数据流向为DataNode1-&gt;DataNode2-&gt;DataNode3(1,2,3为通过规则选出来的可用的DataNode)</li>
+<li>发送完毕后告知NameNode</li>
+<li>NameNode告知Client发送完成</li>
+</ol>
+<p>在写数据的时候：</p>
+<ul>
+<li>写1T文件，我们需要3T的存储，3T的网络流量贷款。</li>
+<li>在执行读或写的过程中，NameNode和DataNode通过HeartBeat进行保存通信，确定DataNode活着。如果发现DataNode死掉了，就将死掉的DataNode上的数据，放到其他节点去。读取时，要读其他节点去。</li>
+<li>挂掉一个节点，没关系，还有其他节点可以备份；甚至，挂掉某一个机架，也没关系；其他机架上，也有备份。</li>
+</ul>
+<h5 id="HDFS读取数据">HDFS读取数据</h5><ol>
+<li>Client向NameNode发送读请求</li>
+<li>NameNode查看MetaData信息，返回文件的block位置</li>
+<li>根据一定规则（优先选择附近的数据），按顺序读取block</li>
+</ol>
+<p><a href="http://www.weixuehao.com/archives/596" target="_blank" rel="external">更多内容</a></p>
+<h4 id="MapReduce">MapReduce</h4><p>Map是把一组数据一对一的<strong>映射</strong>为另外的一组数据，其映射的规则由一个<strong>map函数</strong>来指定。Reduce是对一组数据进行<strong>归约</strong>，这个归约的规则由一个<strong>reduce函数</strong>指定。</p>
+<p>整个的MapReduce执行过程可以表示为：</p>
+<p><code>(input)&lt;k1, v1&gt; =&gt; map =&gt; &lt;k2, v2&gt; =&gt; combine =&gt; &lt;k2, v2’&gt; =&gt; reduce =&gt; &lt;k3, v3&gt;(output)</code></p>
+<p>也可以表示为流程图：</p>
+<p><img src="http://i.imgur.com/yRsLgoK.png" alt=""></p>
+<ol>
+<li><strong>分割</strong>：把输入数据分割成不相关的若干键/值对（key1/value1）集合，作为input</li>
+<li><strong>映射</strong>：这些键/值对会由多个map任务来<strong>并行地处理</strong>。输出一些中间键/值对key2/value2集合</li>
+<li><strong>排序</strong>：MapReduce会对map的输出（key2/value2）按照key2进行排序（便于归并）</li>
+<li><strong>conbine</strong>：属于同一个key2的所有value2组合在一起作为reduce任务的输入（相当于提前reduce，减小key2的数量，减小reduce的负担）</li>
+<li><strong>Partition</strong>：将mapper的输出分配到reducer；（Map的中间结果通常用”hash(key) mod R”这个结果作为标准）</li>
+<li><strong>规约</strong>：由reduce任务计算出最终结果并输出key3/value3。</li>
+</ol>
+<h4 id="程序员需要做的">程序员需要做的</h4><ul>
+<li>单机程序需要处理数据读取和写入、数据处理</li>
+<li>Hadoop程序需要实现map和reduce函数</li>
+<li>map和reduce之间的数据传输、排序，容错处理等由Hadoop MapReduce和HDFS自动完成。</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h3 id="了解大数据">了解大数据</h3><p>首先，搞清楚hadoop在处理大数据的定位在哪里</p>
+<h4 id="什么是大数据？为什么要处理大数据？">什么是大数据？为什么要处理大数据？</h4><p>数据量大（Volume） 数据类别复杂（Variety） 数据]]>
+    </summary>
+    
+      <category term="Hadoop" scheme="http://rudy-zhang.me/tags/Hadoop/"/>
     
       <category term="Hadoop" scheme="http://rudy-zhang.me/categories/Hadoop/"/>
     
@@ -115,7 +225,7 @@
     <link href="http://rudy-zhang.me/2015/04/22/%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E5%86%99%E4%B8%80%E4%B8%AAPHP%E6%A1%86%E6%9E%B62/"/>
     <id>http://rudy-zhang.me/2015/04/22/一步一步写一个PHP框架2/</id>
     <published>2015-04-22T07:31:44.000Z</published>
-    <updated>2015-05-24T02:27:12.972Z</updated>
+    <updated>2015-05-24T08:58:54.266Z</updated>
     <content type="html"><![CDATA[<p>在写第一个PHP框架的时候参考<a href="!http://www.yuansir-web.com/2012/01/10/%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%86%99php-mvc%E6%A1%86%E6%9E%B6%E4%B8%80/">这位大哥</a>,的内容和Codeigniter框架的源码。</p>
 <h2 id="程序框架的搭建">程序框架的搭建</h2><p>前提：已经搭建好了一个apache+PHP的开发环境，我使用的是Apache+mod_php5的方式。</p>
 <p>在根目录<code>simplemvc</code>下新建以下文件夹</p>
@@ -141,7 +251,11 @@
     <![CDATA[<p>在写第一个PHP框架的时候参考<a href="!http://www.yuansir-web.com/2012/01/10/%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%86%99php-mvc%E6%A1%86%E6%9E%B6%E4%]]>
     </summary>
     
-      <category term="PHP" scheme="http://rudy-zhang.me/categories/PHP/"/>
+      <category term="PHP" scheme="http://rudy-zhang.me/tags/PHP/"/>
+    
+      <category term="PHP框架" scheme="http://rudy-zhang.me/tags/PHP%E6%A1%86%E6%9E%B6/"/>
+    
+      <category term="web开发" scheme="http://rudy-zhang.me/categories/web%E5%BC%80%E5%8F%91/"/>
     
   </entry>
   
@@ -150,7 +264,7 @@
     <link href="http://rudy-zhang.me/2015/04/20/%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E5%86%99%E4%B8%80%E4%B8%AAPHP%E6%A1%86%E6%9E%B61/"/>
     <id>http://rudy-zhang.me/2015/04/20/一步一步写一个PHP框架1/</id>
     <published>2015-04-20T07:31:44.000Z</published>
-    <updated>2015-05-24T02:27:12.901Z</updated>
+    <updated>2015-05-24T08:58:59.649Z</updated>
     <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>完成了一个小项目，使用Apache+MySql+PHP。PHP中使用的框架是CodeIgniter，这是一个轻量易扩展的PHP MVC框架，适用于轻量级的网站搭建。CodeIgniter手册清晰丰富，覆盖了一般网站的所有需求。</p>
 <p>为了更好地理解PHP里面框架的设计，目标是自己写一个简单的PHP MVC框架，一方面可以更深入地学习PHP，一方面也能够更深入地理解框架设计里面的思想。</p>
 <h2 id="Apache的工作流程">Apache的工作流程</h2><p>Apache是一个Web服务器，也可以叫做http服务器，因为Apache只能处理http请求。常见的web服务器还有Nginx</p>
@@ -195,7 +309,11 @@
 ]]>
     </summary>
     
-      <category term="PHP" scheme="http://rudy-zhang.me/categories/PHP/"/>
+      <category term="PHP" scheme="http://rudy-zhang.me/tags/PHP/"/>
+    
+      <category term="PHP框架" scheme="http://rudy-zhang.me/tags/PHP%E6%A1%86%E6%9E%B6/"/>
+    
+      <category term="web开发" scheme="http://rudy-zhang.me/categories/web%E5%BC%80%E5%8F%91/"/>
     
   </entry>
   
@@ -275,7 +393,7 @@
     <link href="http://rudy-zhang.me/2015/04/06/%E7%BD%91%E7%AB%99%E5%BA%94%E5%AF%B9%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%87%8F%E9%AB%98%E5%B9%B6%E5%8F%91%E7%9A%84%E6%8C%91%E6%88%98/"/>
     <id>http://rudy-zhang.me/2015/04/06/网站应对大数据量高并发的挑战/</id>
     <published>2015-04-06T13:12:52.000Z</published>
-    <updated>2015-05-24T02:27:13.051Z</updated>
+    <updated>2015-05-24T13:51:34.456Z</updated>
     <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>本文是网站关于应对数据量和负载的压力的调研。</p>
 <p>随着网站数据量和请求的增加，系统承受的压力会越来越大。在web服务的各个阶段，都要通过各种各样的方式来进行优化，或者改变为新的架构。在数据量不同的阶段，会遇到不同的问题，需要使用不同的架构和解决方案。架构的改变和升级，往往意味着成本，所有没有最好的架构，只有最适合的架构。</p>
 <p>应对数据量和负载的压力，可以从以下几个方面入手:</p>
@@ -284,24 +402,27 @@
 <li>数据库和存储</li>
 <li>应用程序架构<br>每一个方面里都有非常多的技术</li>
 </ul>
-<h3 id="硬件性能挖掘">硬件性能挖掘</h3><p>硬件性能是有上限的，超过了就必须升级硬件，所以硬件是基础。</p>
+<h2 id="硬件性能挖掘">硬件性能挖掘</h2><p>硬件性能是有上限的，超过了就必须升级硬件，所以硬件是基础。</p>
 <p>但是并不是一味的堆积硬件就可以了，要理解硬件的细节，如mysql的多线程写入机制，cpu寻址方式，顺序写和随机写的存储分布。不仅仅是购买硬件而已，但是核心是，理解硬件，理解系统级的处理机制，来做优化。</p>
 <p>这样才能最大限度地挖掘硬件本省的性能，提供更好的服务。</p>
-<h3 id="数据库和存储">数据库和存储</h3><p>大文件，或者大量的静态文件，使用静态存储，云存储</p>
-<h5 id="建立恰当的索引">建立恰当的索引</h5><h5 id="数据库连接线程池缓存">数据库连接线程池缓存</h5><h5 id="分库/分表/分区">分库/分表/分区</h5><p>MySQL数据库表一般承受数据量在百万级别，再往上增长，各项性能将会出现大幅度下降，因此，当我们预见数据量会超过这个量级的时候，建议进行分库/分表/分区等操作。<br>一个主库一个从库、到一个主库多个从库、 然后到多个主库多个从库。从库做备份，或者作为读写分离的库。<br>多个库之间使用日志同步。</p>
-<h6 id="拆分方式：水平拆分VS垂直拆分">拆分方式：水平拆分VS垂直拆分</h6><ul>
+<h2 id="数据库和存储">数据库和存储</h2><p>大文件，或者大量的静态文件，使用静态存储，云存储</p>
+<h3 id="建立恰当的索引">建立恰当的索引</h3><h3 id="数据库连接线程池缓存">数据库连接线程池缓存</h3><h3 id="分库/分表/分区">分库/分表/分区</h3><p>MySQL数据库表一般承受数据量在百万级别，再往上增长，各项性能将会出现大幅度下降，因此，当我们预见数据量会超过这个量级的时候，建议进行分库/分表/分区等操作。<br>一个主库一个从库、到一个主库多个从库、 然后到多个主库多个从库。从库做备份，或者作为读写分离的库。<br>多个库之间使用日志同步。</p>
+<h3 id="拆分方式：水平拆分VS垂直拆分">拆分方式：水平拆分VS垂直拆分</h3><ul>
 <li>垂直拆分 ：是指按功能模块拆分，比如可以将群组相关表和照片相关表存放在不同的数据库中，这种方式多个数据库之 间的表结构不同 。（豆瓣 的 各核心业务/模块（书籍、电影、音乐）相对独立，数据的增加速度也比较平稳。适合垂直拆分）</li>
-<li>水平拆分 ：而水平拆分是将同一个表的数据进行分块保存到不同的数据库中，这些数据库中的表结构 完全相同 。<h6 id="按索引_/_映射表对应">按索引 / 映射表对应</h6>建立一个索引表，保存每个用户的ID和数据库ID的对应关系，每次读写用户数据时先从这个表获取对应数据库。新用户注册后，在所有可用 的数据库中随机挑选一个为其建立索引。<h5 id="读写分离">读写分离</h5>读写分离，主库写，从库读。<h5 id="减少数据库“写”">减少数据库“写”</h5>先将修改请求生效在cache中，让外界查询显示正常，然后将这些sql修改放入到一个队列中存储起来，队列满或者每隔一段时间，合并为一个请求到数据库中更新数据库。 </li>
+<li>水平拆分 ：而水平拆分是将同一个表的数据进行分块保存到不同的数据库中，这些数据库中的表结构 完全相同 。</li>
 </ul>
-<h3 id="应用程序架构">应用程序架构</h3><h4 id="负载均衡">负载均衡</h4><p>Web负载均衡（Load Balancing），作用在Web系统的外部网络环境，简单地说就是给我们的服务器集群分配“工作任务”，而采用恰当的分配方式。对于保护处于后端的Web服务器来说，非常重要。策略有很多</p>
-<h5 id="HTTP重定向">HTTP重定向</h5><p>Web服务器通过修改HTTP响应头中的Location标记来返回一个新的url，然后浏览器再继续请求这个新url，实际上就是页面重定向。<br>应用：重定向到距离近的镜像去下载。</p>
-<h5 id="反向代理负载均衡">反向代理负载均衡</h5><p>反向代理服务的核心工作主要是转发HTTP请求，扮演了浏览器端和后台Web服务器中转的角色。因为它工作在HTTP层（应用层），也就是网络七层结构中的第七层，因此也被称为“七层负载均衡”。把HTTP请求分配道不同的服务器上</p>
-<h5 id="IP负载均衡">IP负载均衡</h5><p>IP负载均衡服务是工作在网络层（修改IP）和传输层（修改端口，第四层），比起工作在应用层（第七层）性能要高出非常多。这种方式，也被称为“四层负载均衡”。</p>
-<h5 id="DNS负载均衡">DNS负载均衡</h5><p>DNS（Domain Name System）负责域名解析的服务，域名url实际上是服务器的别名，实际映射是一个IP地址，解析过程，就是DNS完成域名到IP的映射。</p>
-<h5 id="DNS/GSLB负载均衡">DNS/GSLB负载均衡</h5><p>我们常用的CDN（Content Delivery Network，内容分发网络）实现方式，其实就是在<strong>同一个域名映射为多IP</strong>的基础上更进一步，通过GSLB（Global Server Load Balance，全局负载均衡）按照指定规则映射域名的IP。<strong>一般情况下都是按照地理位置，将离用户近的IP返回给用户</strong>，减少网络传输中的路由节点之间的跳跃消耗。<br><strong>应用</strong>：CDN在Web系统中，一般情况下是用来解决大小较大的静态资源（html/Js/Css/图片等）的加载问题，让这些比较依赖网络下载的内容，尽可能离用户更近，提升用户体验。</p>
-<h4 id="在Web服务器和数据库之间建立缓存">在Web服务器和数据库之间建立缓存</h4><p>80%的请求只关注在20%的热点数据上。因此，我们应该建立Web服务器和数据库之间的缓存机制。用磁盘作为缓存，也可以用内存缓存的方式。通过它们，<strong>将大部分的热点数据查询，阻挡在数据库之前</strong>。 </p>
-<h5 id="页面静态化">页面静态化</h5><p>页面上的大部分内容在很长一段时间内，可能都是没有变化的。生成的静态html页面缓存到Web服务器的磁盘本地。直接将本地磁盘文件返回给用户。</p>
-<h5 id="单台/集群内存缓存">单台/集群内存缓存</h5><p>一旦Web系统规模变大，例如当我有100台的Web服务器的时候。那样这些磁盘文件，将会有100份，这个是资源浪费，也不好维护。这个时候有人会想，可以集中一台服务器存起来<br>内存缓存的选择，主要有<strong>redis/memcache</strong></p>
+<h3 id="按索引_/_映射表对应">按索引 / 映射表对应</h3><p>建立一个索引表，保存每个用户的ID和数据库ID的对应关系，每次读写用户数据时先从这个表获取对应数据库。新用户注册后，在所有可用 的数据库中随机挑选一个为其建立索引。</p>
+<h3 id="读写分离">读写分离</h3><p>读写分离，主库写，从库读。</p>
+<h3 id="减少数据库写">减少数据库写</h3><p>先将修改请求生效在cache中，让外界查询显示正常，然后将这些sql修改放入到一个队列中存储起来，队列满或者每隔一段时间，合并为一个请求到数据库中更新数据库</p>
+<h2 id="应用程序架构">应用程序架构</h2><h3 id="负载均衡">负载均衡</h3><p>Web负载均衡（Load Balancing），作用在Web系统的外部网络环境，简单地说就是给我们的服务器集群分配“工作任务”，而采用恰当的分配方式。对于保护处于后端的Web服务器来说，非常重要。策略有很多</p>
+<h4 id="HTTP重定向">HTTP重定向</h4><p>Web服务器通过修改HTTP响应头中的Location标记来返回一个新的url，然后浏览器再继续请求这个新url，实际上就是页面重定向。<br>应用：重定向到距离近的镜像去下载。</p>
+<h4 id="反向代理负载均衡">反向代理负载均衡</h4><p>反向代理服务的核心工作主要是转发HTTP请求，扮演了浏览器端和后台Web服务器中转的角色。因为它工作在HTTP层（应用层），也就是网络七层结构中的第七层，因此也被称为“七层负载均衡”。把HTTP请求分配道不同的服务器上</p>
+<h4 id="IP负载均衡">IP负载均衡</h4><p>IP负载均衡服务是工作在网络层（修改IP）和传输层（修改端口，第四层），比起工作在应用层（第七层）性能要高出非常多。这种方式，也被称为“四层负载均衡”。</p>
+<h4 id="DNS负载均衡">DNS负载均衡</h4><p>DNS（Domain Name System）负责域名解析的服务，域名url实际上是服务器的别名，实际映射是一个IP地址，解析过程，就是DNS完成域名到IP的映射。</p>
+<h4 id="DNS/GSLB负载均衡">DNS/GSLB负载均衡</h4><p>我们常用的CDN（Content Delivery Network，内容分发网络）实现方式，其实就是在<strong>同一个域名映射为多IP</strong>的基础上更进一步，通过GSLB（Global Server Load Balance，全局负载均衡）按照指定规则映射域名的IP。<strong>一般情况下都是按照地理位置，将离用户近的IP返回给用户</strong>，减少网络传输中的路由节点之间的跳跃消耗。<br><strong>应用</strong>：CDN在Web系统中，一般情况下是用来解决大小较大的静态资源（html/Js/Css/图片等）的加载问题，让这些比较依赖网络下载的内容，尽可能离用户更近，提升用户体验。</p>
+<h3 id="在Web服务器和数据库之间建立缓存">在Web服务器和数据库之间建立缓存</h3><p>80%的请求只关注在20%的热点数据上。因此，我们应该建立Web服务器和数据库之间的缓存机制。用磁盘作为缓存，也可以用内存缓存的方式。通过它们，<strong>将大部分的热点数据查询，阻挡在数据库之前</strong>。 </p>
+<h4 id="页面静态化">页面静态化</h4><p>页面上的大部分内容在很长一段时间内，可能都是没有变化的。生成的静态html页面缓存到Web服务器的磁盘本地。直接将本地磁盘文件返回给用户。</p>
+<h4 id="单台/集群内存缓存">单台/集群内存缓存</h4><p>一旦Web系统规模变大，例如当我有100台的Web服务器的时候。那样这些磁盘文件，将会有100份，这个是资源浪费，也不好维护。这个时候有人会想，可以集中一台服务器存起来<br>内存缓存的选择，主要有<strong>redis/memcache</strong></p>
 ]]></content>
     <summary type="html">
     <![CDATA[<h2 id="前言">前言</h2><p>本文是网站关于应对数据量和负载的压力的调研。</p>
@@ -317,7 +438,7 @@
     <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86100/"/>
     <id>http://rudy-zhang.me/2015/04/06/leetcode习题集100/</id>
     <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T02:27:12.458Z</updated>
+    <updated>2015-05-24T08:55:12.186Z</updated>
     <content type="html"><![CDATA[<p>Given two binary trees, write a function to check if they are equal or not.</p>
 <p>Two binary trees are considered equal if they are structurally identical and the nodes have the same value.</p>
 <p>题意：给定两个二叉树，判断两个二叉树是不是一样的（树结构相同，节点值相同）</p>
@@ -337,37 +458,35 @@
 <p>Two binary trees are considered equal if they are stru]]>
     </summary>
     
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/categories/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+    
+      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
   <entry>
-    <title><![CDATA[leetcode习题集 101 Symmetric Tree]]></title>
-    <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86101/"/>
-    <id>http://rudy-zhang.me/2015/04/06/leetcode习题集101/</id>
+    <title><![CDATA[leetcode习题集 134 Gas Station]]></title>
+    <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86134/"/>
+    <id>http://rudy-zhang.me/2015/04/06/leetcode习题集134/</id>
     <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T02:27:12.463Z</updated>
-    <content type="html"><![CDATA[<p>Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).</p>
-<p>For example, this binary tree is symmetric:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;    1&#10;   / \&#10;  2   2&#10; / \ / \&#10;3  4 4  3</span><br></pre></td></tr></table></figure></p>
-<p>But the following is not:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">  1&#10; / \&#10;2   2&#10; \   \&#10; 3    3</span><br></pre></td></tr></table></figure></p>
-<p>Note:<br>Bonus points if you could solve it both recursively and iteratively.</p>
-<p>confused what <code>&quot;{1,#,2,3}&quot;</code> means? &gt; read more on how binary tree is serialized on OJ.</p>
-<p>题意：给定一个二叉树，判断二叉树是不是对称的</p>
+    <updated>2015-05-24T08:56:09.731Z</updated>
+    <content type="html"><![CDATA[<p>There are N gas stations along a circular route, where the amount of gas at station i is gas[i].</p>
+<p>You have a car with an unlimited gas tank and it costs cost[i] of gas to travel from station i to its next station (i+1). You begin the journey with an empty tank at one of the gas stations.</p>
+<p>Return the starting gas station’s index if you can travel around the circuit once, otherwise return -1.</p>
+<p>Note:<br>The solution is guaranteed to be unique.</p>
+<p>题意：给N个加油站的油量gas[i],N段路的费油量cost[i],形成一个圈，判断能否从一个点开始绕这个圈走一圈。如果可以，输出点的位置，不可以输出-1</p>
 <p>思路：</p>
-<ol>
-<li>递归遍历，如果两个节点对称，那么，1）值相等，2）左左右右对称，左右右左对称</li>
-<li>使用队列进行层次遍历，每次弹出队列的时候比较，注意子节点为空不为空的比较</li>
-</ol>
-<p>注意：思路一根节点拆分成两个节点</p>
-<p>先序递归遍历<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;    bool isSymmetric(TreeNode *root) &#123;&#10;        if(root==NULL) return true;&#10;        else return isSym(root-&#62;left,root-&#62;right);&#10;    &#125;&#10;    &#10;    bool isSym(TreeNode *left,TreeNode *right)&#10;    &#123;&#10;        if(left==NULL &#38;&#38; right==NULL) return true;&#10;        if(left==NULL &#38;&#38; right!=NULL) return false;&#10;        if(left!=NULL &#38;&#38; right==NULL) return false;&#10;        if(left-&#62;val==right-&#62;val &#38;&#38; isSym(left-&#62;left,right-&#62;right) &#38;&#38; isSym(left-&#62;right,right-&#62;left))&#10;            return true;&#10;    &#125;&#10;&#125;;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
-<p>层次遍历<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;    bool isSymmetric(TreeNode *root) &#123;&#10;        queue&#60;TreeNode *&#62; q1,q2;&#10;        if(root==NULL) return true;&#10;        if(NULL != root-&#62;left &#38;&#38; NULL==root-&#62;right ) return false;&#10;        if(NULL ==root-&#62;left &#38;&#38; NULL!=root-&#62;right) return false;&#10;        q1.push(root);&#10;        q2.push(root);&#10;        TreeNode *n1,*n2;&#10;        while(!q1.empty() &#38;&#38; !q2.empty())&#10;        &#123;&#10;            n1=q1.front();&#10;            q1.pop();&#10;            n2=q2.front();&#10;            q2.pop();&#10;            if(NULL==n1 &#38;&#38; NULL==n2)&#10;                continue;&#10;            if(NULL==n1 &#38;&#38; NULL!=n2)&#10;                return false;&#10;            if(NULL!=n1 &#38;&#38; NULL==n2)&#10;                return false;&#10;            if(n1-&#62;val != n2-&#62;val)&#10;                return false;&#10;            q1.push(n1-&#62;left);&#10;            q1.push(n1-&#62;right);&#10;            q2.push(n2-&#62;right);&#10;            q2.push(n2-&#62;left);&#10;        &#125;&#10;        if(!(q1.empty()&#38;&#38;q2.empty()))&#10;            return false;&#10;        return true;&#10;        &#10;    &#125;&#10;    &#10;    &#10;&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>遍历开始的节点，模拟，复杂度O(n^2),超时<br>思考<br>gas-cost形成的循环数组，如果总和大于0一定可以走通<br>如果A到B，花费大于油量，肯定走不通，A到B走不通，那么AB之间的节点到B也走不通都不能作为起点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;    int canCompleteCircuit(vector&#60;int&#62; &#38;gas, vector&#60;int&#62; &#38;cost) &#123;&#10;        int j=0,tank=0,total=0;&#10;        for(int i=0;i&#60;gas.size();i++)&#10;        &#123;&#10;            tank+=(gas[i]-cost[i]);&#10;            total+=gas[i]-cost[i];&#10;            if(tank&#60;0)&#10;            &#123;&#10;                j=i+1;&#10;                tank=0;&#10;            &#125;&#10;        &#125;&#10;        return (total&#62;=0)?j:-1;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).</p>
-<p>For example, this binary tree is sy]]>
+    <![CDATA[<p>There are N gas stations along a circular route, where the amount of gas at station i is gas[i].</p>
+<p>You have a car with an unlimited ]]>
     </summary>
     
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/categories/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+    
+      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
@@ -376,7 +495,7 @@
     <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%861/"/>
     <id>http://rudy-zhang.me/2015/04/06/leetcode习题集1/</id>
     <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T02:27:12.447Z</updated>
+    <updated>2015-05-24T08:55:06.389Z</updated>
     <content type="html"><![CDATA[<p>Given an array of integers, find two numbers such that they add up to a specific target number.</p>
 <p>The function twoSum should return indices of the two numbers such that they add up to the target, where index1 must be less than index2. Please note that your returned answers (both index1 and index2) are not zero-based.</p>
 <p>You may assume that each input would have exactly one solution.</p>
@@ -397,31 +516,9 @@
 <p>The function twoSum should return ]]>
     </summary>
     
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/categories/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
     
-  </entry>
-  
-  <entry>
-    <title><![CDATA[leetcode习题集 134 Gas Station]]></title>
-    <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86134/"/>
-    <id>http://rudy-zhang.me/2015/04/06/leetcode习题集134/</id>
-    <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T02:27:12.626Z</updated>
-    <content type="html"><![CDATA[<p>There are N gas stations along a circular route, where the amount of gas at station i is gas[i].</p>
-<p>You have a car with an unlimited gas tank and it costs cost[i] of gas to travel from station i to its next station (i+1). You begin the journey with an empty tank at one of the gas stations.</p>
-<p>Return the starting gas station’s index if you can travel around the circuit once, otherwise return -1.</p>
-<p>Note:<br>The solution is guaranteed to be unique.</p>
-<p>题意：给N个加油站的油量gas[i],N段路的费油量cost[i],形成一个圈，判断能否从一个点开始绕这个圈走一圈。如果可以，输出点的位置，不可以输出-1</p>
-<p>思路：</p>
-<p>遍历开始的节点，模拟，复杂度O(n^2),超时<br>思考<br>gas-cost形成的循环数组，如果总和大于0一定可以走通<br>如果A到B，花费大于油量，肯定走不通，A到B走不通，那么AB之间的节点到B也走不通都不能作为起点</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;    int canCompleteCircuit(vector&#60;int&#62; &#38;gas, vector&#60;int&#62; &#38;cost) &#123;&#10;        int j=0,tank=0,total=0;&#10;        for(int i=0;i&#60;gas.size();i++)&#10;        &#123;&#10;            tank+=(gas[i]-cost[i]);&#10;            total+=gas[i]-cost[i];&#10;            if(tank&#60;0)&#10;            &#123;&#10;                j=i+1;&#10;                tank=0;&#10;            &#125;&#10;        &#125;&#10;        return (total&#62;=0)?j:-1;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>There are N gas stations along a circular route, where the amount of gas at station i is gas[i].</p>
-<p>You have a car with an unlimited ]]>
-    </summary>
-    
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/categories/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
@@ -430,7 +527,7 @@
     <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%8692/"/>
     <id>http://rudy-zhang.me/2015/04/06/leetcode习题集92/</id>
     <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T02:27:12.892Z</updated>
+    <updated>2015-05-24T08:57:57.894Z</updated>
     <content type="html"><![CDATA[<p>Reverse a linked list from position m to n. Do it in-place and in one-pass.</p>
 <p>For example:<br>Given <code>1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL</code>, m = 2 and n = 4,</p>
 <p>return <code>1-&gt;4-&gt;3-&gt;2-&gt;5-&gt;NULL</code>.</p>
@@ -449,7 +546,9 @@
 <p>For example:<br>Given <code>1-&gt;2-&gt;3-&gt;4-&gt;5-]]>
     </summary>
     
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/categories/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+    
+      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
@@ -458,7 +557,7 @@
     <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%869/"/>
     <id>http://rudy-zhang.me/2015/04/06/leetcode习题集9/</id>
     <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T02:27:12.882Z</updated>
+    <updated>2015-05-24T08:57:54.976Z</updated>
     <content type="html"><![CDATA[<p>Determine whether an integer is a palindrome. Do this without extra space.</p>
 <p>click to show spoilers.</p>
 <p>Some hints:<br>Could negative integers be palindromes? (ie, -1)</p>
@@ -485,7 +584,9 @@
 <p>Some hints:<br>Could neg]]>
     </summary>
     
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/categories/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+    
+      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
@@ -494,7 +595,7 @@
     <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%8688/"/>
     <id>http://rudy-zhang.me/2015/04/06/leetcode习题集88/</id>
     <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T02:27:12.872Z</updated>
+    <updated>2015-05-24T08:57:52.129Z</updated>
     <content type="html"><![CDATA[<p>Given two sorted integer arrays A and B, merge B into A as one sorted array.</p>
 <p>Note:<br>You may assume that A has enough space (size that is greater or equal to m + n) to hold additional elements from B. The number of elements initialized in A and B are m and n respectively.</p>
 <p>题意：给两个有序数组，合并成一个</p>
@@ -506,7 +607,9 @@
 <p>Note:<br>You may assume that A has enough space (size]]>
     </summary>
     
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/categories/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+    
+      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
@@ -515,7 +618,7 @@
     <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%8683/"/>
     <id>http://rudy-zhang.me/2015/04/06/leetcode习题集83/</id>
     <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T02:27:12.861Z</updated>
+    <updated>2015-05-24T08:57:48.976Z</updated>
     <content type="html"><![CDATA[<p>Given a sorted linked list, delete all duplicates such that each element appear only once.</p>
 <p>For example,<br>Given <code>1-&gt;1-&gt;2</code>, return <code>1-&gt;2</code>.<br>Given <code>1-&gt;1-&gt;2-&gt;3-&gt;3</code>, return <code>1-&gt;2-&gt;3</code>.</p>
 <p>题意：给一个链表，删除链表中的重复元素</p>
@@ -527,7 +630,9 @@
 <p>For example,<br>Given <code>1-&gt;1-&gt]]>
     </summary>
     
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/categories/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+    
+      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
@@ -536,7 +641,7 @@
     <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%868/"/>
     <id>http://rudy-zhang.me/2015/04/06/leetcode习题集8/</id>
     <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T02:27:12.852Z</updated>
+    <updated>2015-05-24T08:57:43.417Z</updated>
     <content type="html"><![CDATA[<p>Implement atoi to convert a string to an integer.</p>
 <p>Hint: Carefully consider all possible input cases. If you want a challenge, please do not see below and ask yourself what are the possible input cases.</p>
 <p>Notes: It is intended for this problem to be specified vaguely (ie, no given input specs). You are responsible to gather all the input requirements up front.</p>
@@ -565,7 +670,9 @@
 <p>Hint: Carefully consider all possible input cases. If you want a challenge, plea]]>
     </summary>
     
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/categories/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+    
+      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
@@ -574,7 +681,7 @@
     <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%8673/"/>
     <id>http://rudy-zhang.me/2015/04/06/leetcode习题集73/</id>
     <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T02:27:12.840Z</updated>
+    <updated>2015-05-24T08:57:40.407Z</updated>
     <content type="html"><![CDATA[<p>Given a m x n matrix, if an element is 0, set its entire row and column to 0. Do it in place.</p>
 <p>click to show follow up.</p>
 <p>Follow up:<br>Did you use extra space?<br>A straight forward solution using O(mn) space is probably a bad idea.<br>A simple improvement uses O(m + n) space, but still not the best solution.<br>Could you devise a constant space solution?</p>
@@ -595,7 +702,9 @@
 <p>Foll]]>
     </summary>
     
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/categories/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+    
+      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
@@ -604,7 +713,7 @@
     <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%8670/"/>
     <id>http://rudy-zhang.me/2015/04/06/leetcode习题集70/</id>
     <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T02:27:12.826Z</updated>
+    <updated>2015-05-24T08:57:37.696Z</updated>
     <content type="html"><![CDATA[<p>You are climbing a stair case. It takes n steps to reach to the top.</p>
 <p>Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?</p>
 <p>题意：爬楼梯，每次可以爬一步或者两步，爬到第n阶台阶有几种方法</p>
@@ -616,7 +725,9 @@
 <p>Each time you can either climb 1 or 2 steps. In how many dist]]>
     </summary>
     
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/categories/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+    
+      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
@@ -625,7 +736,7 @@
     <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%867/"/>
     <id>http://rudy-zhang.me/2015/04/06/leetcode习题集7/</id>
     <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T02:27:12.812Z</updated>
+    <updated>2015-05-24T08:57:34.428Z</updated>
     <content type="html"><![CDATA[<p>Reverse digits of an integer.</p>
 <p>Example1: x = 123, return 321<br>Example2: x = -123, return -321</p>
 <p>click to show spoilers.</p>
@@ -649,7 +760,9 @@
 ]]>
     </summary>
     
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/categories/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+    
+      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
@@ -658,7 +771,7 @@
     <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%8667/"/>
     <id>http://rudy-zhang.me/2015/04/06/leetcode习题集67/</id>
     <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T02:27:12.802Z</updated>
+    <updated>2015-05-24T08:57:09.894Z</updated>
     <content type="html"><![CDATA[<p>Given two binary strings, return their sum (also a binary string).</p>
 <p>For example,<br>a = <code>&quot;11&quot;</code><br>b = <code>&quot;1&quot;</code><br>Return <code>&quot;100&quot;</code>.</p>
 <p>题意：给定一个int的vector，给这个数字加上1，返回最终的数字</p>
@@ -670,7 +783,9 @@
 <p>For example,<br>a = <code>&quot;11&quot;</code><br>b = <code>&q]]>
     </summary>
     
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/categories/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+    
+      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
@@ -679,7 +794,7 @@
     <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%8666/"/>
     <id>http://rudy-zhang.me/2015/04/06/leetcode习题集66/</id>
     <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T02:27:12.791Z</updated>
+    <updated>2015-05-24T08:57:06.502Z</updated>
     <content type="html"><![CDATA[<p>Given a non-negative number represented as an array of digits, plus one to the number.</p>
 <p>The digits are stored such that the most significant digit is at the head of the list.</p>
 <p>题意：给定一个int的vector，给这个数字加上1，返回最终的数字</p>
@@ -691,7 +806,9 @@
 <p>The digits are stored such that the most si]]>
     </summary>
     
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/categories/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+    
+      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
@@ -700,7 +817,7 @@
     <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%866/"/>
     <id>http://rudy-zhang.me/2015/04/06/leetcode习题集6/</id>
     <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T02:27:12.781Z</updated>
+    <updated>2015-05-24T08:57:01.971Z</updated>
     <content type="html"><![CDATA[<p>The string “PAYPALISHIRING” is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)</p>
 <pre><code>P   A   <span class="keyword">H</span>   <span class="keyword">N</span>
 A P <span class="keyword">L</span> S I I <span class="keyword">G</span>
@@ -720,7 +837,9 @@ Y   I   <span class="literal">R</span>
     <![CDATA[<p>The string “PAYPALISHIRING” is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in ]]>
     </summary>
     
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/categories/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+    
+      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
