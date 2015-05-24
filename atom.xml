@@ -4,7 +4,7 @@
   <subtitle><![CDATA[seize the day]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://rudy-zhang.me/"/>
-  <updated>2015-05-24T02:27:12.972Z</updated>
+  <updated>2015-05-24T01:30:32.443Z</updated>
   <id>http://rudy-zhang.me/</id>
   
   <author>
@@ -13,6 +13,102 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Hadoop Streaming学习文档]]></title>
+    <link href="http://rudy-zhang.me/2015/05/24/HadoopStreaming/"/>
+    <id>http://rudy-zhang.me/2015/05/24/HadoopStreaming/</id>
+    <published>2015-05-24T01:30:00.000Z</published>
+    <updated>2015-05-24T01:30:32.443Z</updated>
+    <content type="html"><![CDATA[<h3 id="Hadoop_Streaming是什么">Hadoop Streaming是什么</h3><p>Hadoop MapReduce和HDFS使用Java实现，默认是Java接口，另外提供了C++编程接口和Streaming框架。</p>
+<p>Streaming框架允许任何程序语言实现的程序（只要该程序支持标准输入输出即可），在Hadoop MapReduce中使用，方便已有程序向Hadoop平台移植。</p>
+<h3 id="Streaming原理">Streaming原理</h3><p>使用Java实现了一个包装<strong>用户程序</strong>（mapper，reducer方法）的MapReduce程序，该程序调用MapReduce的Java接口，创建一个<strong>新的进程</strong>包装用户程序，将数据通过<strong>管道</strong>传递给包装的用户程序。</p>
+<p><img src="http://i.imgur.com/dlebclb.jpg" alt=""></p>
+<h3 id="考虑的问题">考虑的问题</h3><p>在实际的开发过程中，开发人员需要考虑下面几个方面的问题，其中1,2是必须实现的：</p>
+<ol>
+<li>Mapper程序：对输入key/value数据进行处理；</li>
+<li>Reducer程序：对mapper的输出进行归并处理；</li>
+<li>Combiner：在本地对一个计算节点上的mapper输出进行归并；</li>
+<li>Partitioner：将mapper的输出分配到reducer；（Map的中间结果通常用”hash(key) mod R”这个结果作为标准）</li>
+<li>InputFormat/OutputFormat：对输入数据进行切分，保存输出数据。</li>
+</ol>
+<h3 id="执行">执行</h3><pre><code><span class="variable">$HADOOP_HOME</span>/bin/hadoop streaming \
+    -<span class="tag">input</span> /user/test/<span class="tag">input</span> -output /user/test/output \
+    -mapper “cat” \
+    -reducer “cat” \
+    -jobconf mapred<span class="class">.reduce</span><span class="class">.tasks</span>=<span class="number">1</span>\
+    -jobconf mapred<span class="class">.job</span><span class="class">.name</span>=”dist-sort”
+</code></pre><p>这是一个实现了分布式排序的程序。可以通过shell脚本，shell命令，或者其它语言的<strong>可执行程序</strong>来进行mapper和reducer程序的运行</p>
+<h3 id="常用参数的使用">常用参数的使用</h3><p>例1：</p>
+<pre><code><span class="variable">$hadoop</span> streaming \
+    -D stream<span class="class">.num</span><span class="class">.map</span><span class="class">.output</span><span class="class">.key</span><span class="class">.fields</span>=<span class="number">2</span> \
+    -D mapred<span class="class">.job</span><span class="class">.name</span>=<span class="string">"$app.$timestr@map-se"</span> \
+    -D mapred<span class="class">.job</span><span class="class">.priority</span>=VERY_HIGH \
+    -D mapred<span class="class">.job</span><span class="class">.map</span><span class="class">.capacity</span>=<span class="number">500</span> \
+    -D mapred<span class="class">.job</span><span class="class">.reduce</span><span class="class">.capacity</span>=<span class="number">300</span> \
+    -D mapred<span class="class">.map</span><span class="class">.tasks</span>=<span class="number">500</span> \
+    -D mapred<span class="class">.reduce</span><span class="class">.tasks</span>=<span class="number">300</span> \
+    -mapper <span class="string">"Python/bin/python $app/mapper.py"</span> \
+    -reducer <span class="string">"Python/bin/python $app/reducer.py"</span> \
+    -<span class="tag">input</span> <span class="variable">$input</span> \
+    -output <span class="variable">$output</span> \
+    -cacheArchive <span class="variable">$archive</span>
+</code></pre><p>-D表示配置参数，剩余项是和输入输出相关的文件和可执行程序</p>
+<p><code>-D mapred.job.name=&quot;$app.$timestr@map-se&quot; \</code>,作业名</p>
+<p><code>-D mapred.job.priority=VERY_HIGH \</code> 作业优先级</p>
+<p><code>-D mapred.job.map.capacity=500 \</code>,最多同时运行map任务数</p>
+<p><code>-D mapred.job.reduce.capacity=300 \</code>最多同时运行reduce任务数</p>
+<p><code>-D mapred.map.tasks=500 \</code>,map任务个数</p>
+<p><code>-D mapred.reduce.tasks=300 \</code>,reduce任务个数</p>
+<p>capacity是同时运行任务的个数，tasks是运行任务的总的个数，一般task更大，capacity是同时运行任务的上限</p>
+<p><code>-D stream.num.map.output.key.fields=2 \</code>,表示在第2个分隔符（默认为\t）之前作为key，之后作为value，也可以使用参数<code>-D stream.map.output.field.separator=. \</code>指定分隔符为’.’或者其它字符。</p>
+<p><code>-mapper &quot;Python/bin/python $app/mapper.py&quot; \</code>指定map任务，需要可执行，读入标准输入流，输出标准输出流</p>
+<p><code>-reducer &quot;Python/bin/python $app/reducer.py&quot; \</code>指定reducer任务</p>
+<p><code>-input $input \</code>指定输入文件</p>
+<p><code>-output $output \</code>指定输出文件</p>
+<p><code>-cacheArchive $archive</code>分发压缩包。<code>$archive</code>格式为<code>hdfs://host:port/path/to/archivefile#linkname</code>，表示hdfs上这个压缩包的路径为<code>hdfs://host:port/path/to/archivefile</code>,可以使用<code>linkname/children/path</code>访问这个压缩包的内容</p>
+<p>例2：</p>
+<pre><code><span class="variable">$hadoop</span> streaming \
+    -D stream<span class="class">.num</span><span class="class">.map</span><span class="class">.output</span><span class="class">.key</span><span class="class">.fields</span>=<span class="number">3</span> \
+    -D mapred<span class="class">.text</span><span class="class">.key</span><span class="class">.partitioner</span><span class="class">.options</span>=<span class="string">"-k1,1"</span> \
+    -D mapred<span class="class">.text</span><span class="class">.key</span><span class="class">.comparator</span><span class="class">.options</span>=<span class="string">"-k1,1 -k3,3nr"</span> \
+    -D mapred<span class="class">.job</span><span class="class">.name</span>=<span class="string">"$app@map-se.$timestr"</span> \
+    -D mapred<span class="class">.job</span><span class="class">.priority</span>=VERY_HIGH \
+    -D mapred<span class="class">.job</span><span class="class">.map</span><span class="class">.capacity</span>=<span class="number">500</span> \
+    -D mapred<span class="class">.job</span><span class="class">.reduce</span><span class="class">.capacity</span>=<span class="number">300</span> \
+    -D mapred<span class="class">.map</span><span class="class">.tasks</span>=<span class="number">500</span> \
+    -D mapred<span class="class">.reduce</span><span class="class">.tasks</span>=<span class="number">300</span> \
+    -mapper <span class="string">"cat"</span> \
+    -reducer <span class="string">"cat"</span> \
+    -<span class="tag">input</span> <span class="variable">$input</span> \
+    -output <span class="variable">$output</span> \
+    -cacheArchive <span class="variable">$archives</span>
+</code></pre><p><code>-D mapred.text.key.partitioner.options=&quot;-k1,1&quot; \</code>表示对key进行分割，分割符默认为\t，取分割后的1,1部分作为主key，剩下的作为辅key</p>
+<p><code>-D mapred.text.key.comparator.options=&quot;-k1,1 -k3,3nr&quot; \</code>指定排序依据，主key按第一部分排字母序，辅key按第三部分数字序倒序排</p>
+<p>例3：</p>
+<pre><code><span class="variable">$HADOOP_HOME</span>/bin/hadoop streaming \
+    -D stream<span class="class">.map</span><span class="class">.output</span><span class="class">.field</span><span class="class">.separator</span>=. \
+    -D stream<span class="class">.num</span><span class="class">.map</span><span class="class">.output</span><span class="class">.key</span><span class="class">.fields</span>=<span class="number">4</span> \
+    -D map<span class="class">.output</span><span class="class">.key</span><span class="class">.field</span><span class="class">.separator</span>=. \
+    -D num<span class="class">.key</span><span class="class">.fields</span><span class="class">.for</span><span class="class">.partition</span>=<span class="number">2</span> \ 
+    -<span class="tag">input</span> /user/test/<span class="tag">input</span> -output /user/test/output \
+    -mapper “mymapper.sh” -reducer “ myreducer.sh” \
+    -partitioner org<span class="class">.apache</span><span class="class">.hadoop</span><span class="class">.mapred</span><span class="class">.lib</span><span class="class">.KeyFieldBasedPartitioner</span> \
+    -file /home/work/mymapper<span class="class">.sh</span> \
+    -file /home/work/myreducer<span class="class">.sh</span> \
+    -jobconf mapred<span class="class">.job</span><span class="class">.name</span>=”key-partition-demo”
+</code></pre><p><code>-D stream.map.output.field.separator=. \</code><br><code>-D stream.num.map.output.key.fields=4 \</code><br>表示输出分隔符为’.’，并且第4个.之后为value，之前为key</p>
+<p><code>-D map.output.key.field.separator=. \</code><br><code>-D num.key.fields.for.partition=2 \</code><br>表示key内的分隔符为’.’，第2个’.’之前作为主key，之后作为辅key</p>
+<p><code>-partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner \</code>指定要使用KeyFieldBasedPartitioner，也就是key域内的partioner。这样的话会把主key的内容作为partition的依据，相同的主key分配到同一个reducer中。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h3 id="Hadoop_Streaming是什么">Hadoop Streaming是什么</h3><p>Hadoop MapReduce和HDFS使用Java实现，默认是Java接口，另外提供了C++编程接口和Streaming框架。</p>
+<p>Streaming框架]]>
+    </summary>
+    
+      <category term="Hadoop" scheme="http://rudy-zhang.me/categories/Hadoop/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[一步一步写一个PHP框架（二）]]></title>
@@ -217,21 +313,28 @@
   </entry>
   
   <entry>
-    <title><![CDATA[leetcode习题集 14 Longest Common Prefix  ]]></title>
-    <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%8614/"/>
-    <id>http://rudy-zhang.me/2015/04/06/leetcode习题集14/</id>
+    <title><![CDATA[leetcode习题集 100 Same Tree]]></title>
+    <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86100/"/>
+    <id>http://rudy-zhang.me/2015/04/06/leetcode习题集100/</id>
     <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T02:27:12.635Z</updated>
-    <content type="html"><![CDATA[<p>Write a function to find the longest common prefix string amongst an array of strings.</p>
-<p>题意：找出一组字符串的最长相同前缀</p>
+    <updated>2015-05-24T02:27:12.458Z</updated>
+    <content type="html"><![CDATA[<p>Given two binary trees, write a function to check if they are equal or not.</p>
+<p>Two binary trees are considered equal if they are structurally identical and the nodes have the same value.</p>
+<p>题意：给定两个二叉树，判断两个二叉树是不是一样的（树结构相同，节点值相同）</p>
 <p>思路：</p>
-<p>找出strs最小长度，遍历即可</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;//&#25214;&#20986;&#26368;&#23567;&#38271;&#24230;&#10;    string longestCommonPrefix(vector&#60;string&#62; &#38;strs) &#123;&#10;        string prefix;&#10;        if(strs.size()==0) return prefix;&#10;        int minLength=strs[0].size();&#10;        for(int i=0;i&#60;strs.size();i++)&#10;        &#123;&#10;            if(strs[i].size()&#60;minLength)&#10;                minLength=strs[i].size();&#10;        &#125;&#10;        &#10;        for(int j=0;j&#60;minLength;j++)&#10;        &#123;&#10;            for(int i=0;i&#60;strs.size()-1;i++)&#10;            &#123;&#10;                if(strs[i][j]!=strs[i+1][j]) return prefix;&#10;            &#125;&#10;            prefix+=strs[0][j];&#10;        &#125;&#10;        return prefix;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>]]></content>
+<ol>
+<li>先序中序递归遍历，如果两个序列都相等，则一定相同</li>
+<li>先序递归遍历</li>
+<li>先序非递归</li>
+<li>层次遍历</li>
+</ol>
+<p>先序递归遍历</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bool isSameTree(TreeNode *p, TreeNode *q) &#123;&#10;&#9;if(NULL==p &#38;&#38; NULL==q) return true;&#10;&#9;if(NULL==p &#38;&#38; NULL!=q) return false;&#10;&#9;if(NULL!=p &#38;&#38; NULL==q) return false;&#10;&#9;if(p-&#62;val != q-&#62;val) return false;&#10;&#9;return (isSameTree(p-&#62;left,q-&#62;left)&#38;&#38;isSameTree(p-&#62;right,q-&#62;right));&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>层次遍历<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/**&#10; * Definition for binary tree&#10; * struct TreeNode &#123;&#10; *     int val;&#10; *     TreeNode *left;&#10; *     TreeNode *right;&#10; *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;&#10; * &#125;;&#10; */&#10;class Solution &#123;&#10;public:&#10;    /*bool isSameTree(TreeNode *p, TreeNode *q) &#123;&#10;        if(NULL==p &#38;&#38; NULL==q) return true;&#10;        if(NULL==p &#38;&#38; NULL!=q) return false;&#10;        if(NULL!=p &#38;&#38; NULL==q) return false;&#10;        if(p-&#62;val != q-&#62;val) return false;&#10;        return (isSameTree(p-&#62;left,q-&#62;left)&#38;&#38;isSameTree(p-&#62;right,q-&#62;right));&#10;    &#125;*/&#10;    bool isSameTree(TreeNode *p, TreeNode *q) &#123;&#10;        queue&#60;TreeNode *&#62; queue1,queue2;&#10;        if(NULL == p &#38;&#38; NULL==q) return true;&#10;        if(NULL != p &#38;&#38; NULL==q) return false;&#10;        if(NULL == p &#38;&#38; NULL!=q) return false;&#10;        queue&#60;TreeNode *&#62; q1,q2;&#10;        q1.push(p);&#10;        q2.push(q);&#10;        TreeNode *n1,*n2;&#10;        while(!q1.empty() &#38;&#38; !q2.empty())&#10;        &#123;&#10;            n1=q1.front();&#10;            q1.pop();&#10;            n2=q2.front();&#10;            q2.pop();&#10;            if(NULL==n1 &#38;&#38; NULL==n2)&#10;                continue;&#10;            if(NULL==n1 &#38;&#38; NULL!=n2)&#10;                return false;&#10;            if(NULL!=n1 &#38;&#38; NULL==n2)&#10;                return false;&#10;            if(n1-&#62;val != n2-&#62;val)&#10;                return false;&#10;            q1.push(n1-&#62;left);&#10;            q1.push(n1-&#62;right);&#10;            q2.push(n2-&#62;left);&#10;            q2.push(n2-&#62;right);&#10;        &#125;&#10;        if(!(q1.empty()&#38;&#38;q2.empty()))&#10;            return false;&#10;        return true;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure></p>
+]]></content>
     <summary type="html">
-    <![CDATA[<p>Write a function to find the longest common prefix string amongst an array of strings.</p>
-<p>题意：找出一组字符串的最长相同前缀</p>
-<p>思路：</p>
-<p>找出strs最]]>
+    <![CDATA[<p>Given two binary trees, write a function to check if they are equal or not.</p>
+<p>Two binary trees are considered equal if they are stru]]>
     </summary>
     
       <category term="leetcode习题集" scheme="http://rudy-zhang.me/categories/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
@@ -269,30 +372,6 @@
   </entry>
   
   <entry>
-    <title><![CDATA[leetcode习题集 102 Binary Tree Level Order Traversal ]]></title>
-    <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86102/"/>
-    <id>http://rudy-zhang.me/2015/04/06/leetcode习题集102/</id>
-    <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T02:27:12.480Z</updated>
-    <content type="html"><![CDATA[<p>Given a binary tree, return the level order traversal of its nodes’ values. (ie, from left to right, level by level).</p>
-<p>For example:<br>Given binary tree {3,9,20,#,#,15,7},<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">  3&#10; / \&#10;9  20&#10;  /  \&#10; 15   7</span><br></pre></td></tr></table></figure></p>
-<p>return its level order traversal as:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&#10;  [3],&#10;  [9,20],&#10;  [15,7]&#10;]</span><br></pre></td></tr></table></figure></p>
-<p>confused what “{1,#,2,3}” means? &gt; read more on how binary tree is serialized on OJ.</p>
-<p>题意：给定一个二叉树，输出层次遍历结果</p>
-<p>思路：<br>二叉树层次遍历用队列</p>
-<p>注意：要求每层一个vector，所以需要标记每一层的结束，通过加入一个NULL节点来判断</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;//&#23618;&#27425;&#36941;&#21382;&#65292;&#29992;&#38431;&#21015;&#10;//&#38656;&#35201;&#35760;&#24405;&#30003;&#35831;&#26032;&#30340;vector&#30340;&#20301;&#32622;&#65292;&#20351;&#29992;&#19968;&#20010;NULL&#26469;&#26631;&#24535;&#38656;&#35201;&#26032;&#30340;vector&#20102;&#10;    vector&#60;vector&#60;int&#62; &#62; levelOrder(TreeNode *root) &#123;&#10;        vector&#60;vector&#60;int&#62; &#62; vec;&#10;        if(root==NULL) return vec;&#10;        queue&#60;TreeNode *&#62; q;&#10;        vector&#60;int&#62; vecl;&#10;        q.push(root);&#10;        q.push(NULL);&#10;        while(!q.empty())&#10;        &#123;&#10;            TreeNode *top=q.front();&#10;            q.pop();&#10;            if(top==NULL)&#10;            &#123;&#10;                vec.push_back(vecl);&#10;                vecl.resize(0);&#10;                //&#21482;&#26377;q&#20013;&#36824;&#26377;&#20803;&#32032;&#30340;&#26102;&#20505;&#25165;&#21387;&#20837;&#65292;&#36991;&#20813;&#27515;&#24490;&#29615;&#10;                if(q.size()&#62;0)&#10;                    q.push(NULL);&#10;                &#10;            &#125;&#10;            else&#10;            &#123;&#10;                vecl.push_back(top-&#62;val);&#10;                if(top-&#62;left!=NULL)&#10;                    q.push(top-&#62;left);&#10;                if(top-&#62;right!=NULL)&#10;                    q.push(top-&#62;right);&#10;            &#125;&#10;        &#125;&#10;        return vec;&#10;        &#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>Given a binary tree, return the level order traversal of its nodes’ values. (ie, from left to right, level by level).</p>
-<p>For example:]]>
-    </summary>
-    
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/categories/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[leetcode习题集 1 Two Sum]]></title>
     <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%861/"/>
     <id>http://rudy-zhang.me/2015/04/06/leetcode习题集1/</id>
@@ -323,28 +402,23 @@
   </entry>
   
   <entry>
-    <title><![CDATA[leetcode习题集 100 Same Tree]]></title>
-    <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86100/"/>
-    <id>http://rudy-zhang.me/2015/04/06/leetcode习题集100/</id>
+    <title><![CDATA[leetcode习题集 134 Gas Station]]></title>
+    <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86134/"/>
+    <id>http://rudy-zhang.me/2015/04/06/leetcode习题集134/</id>
     <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T02:27:12.458Z</updated>
-    <content type="html"><![CDATA[<p>Given two binary trees, write a function to check if they are equal or not.</p>
-<p>Two binary trees are considered equal if they are structurally identical and the nodes have the same value.</p>
-<p>题意：给定两个二叉树，判断两个二叉树是不是一样的（树结构相同，节点值相同）</p>
+    <updated>2015-05-24T02:27:12.626Z</updated>
+    <content type="html"><![CDATA[<p>There are N gas stations along a circular route, where the amount of gas at station i is gas[i].</p>
+<p>You have a car with an unlimited gas tank and it costs cost[i] of gas to travel from station i to its next station (i+1). You begin the journey with an empty tank at one of the gas stations.</p>
+<p>Return the starting gas station’s index if you can travel around the circuit once, otherwise return -1.</p>
+<p>Note:<br>The solution is guaranteed to be unique.</p>
+<p>题意：给N个加油站的油量gas[i],N段路的费油量cost[i],形成一个圈，判断能否从一个点开始绕这个圈走一圈。如果可以，输出点的位置，不可以输出-1</p>
 <p>思路：</p>
-<ol>
-<li>先序中序递归遍历，如果两个序列都相等，则一定相同</li>
-<li>先序递归遍历</li>
-<li>先序非递归</li>
-<li>层次遍历</li>
-</ol>
-<p>先序递归遍历</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bool isSameTree(TreeNode *p, TreeNode *q) &#123;&#10;&#9;if(NULL==p &#38;&#38; NULL==q) return true;&#10;&#9;if(NULL==p &#38;&#38; NULL!=q) return false;&#10;&#9;if(NULL!=p &#38;&#38; NULL==q) return false;&#10;&#9;if(p-&#62;val != q-&#62;val) return false;&#10;&#9;return (isSameTree(p-&#62;left,q-&#62;left)&#38;&#38;isSameTree(p-&#62;right,q-&#62;right));&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>层次遍历<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/**&#10; * Definition for binary tree&#10; * struct TreeNode &#123;&#10; *     int val;&#10; *     TreeNode *left;&#10; *     TreeNode *right;&#10; *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;&#10; * &#125;;&#10; */&#10;class Solution &#123;&#10;public:&#10;    /*bool isSameTree(TreeNode *p, TreeNode *q) &#123;&#10;        if(NULL==p &#38;&#38; NULL==q) return true;&#10;        if(NULL==p &#38;&#38; NULL!=q) return false;&#10;        if(NULL!=p &#38;&#38; NULL==q) return false;&#10;        if(p-&#62;val != q-&#62;val) return false;&#10;        return (isSameTree(p-&#62;left,q-&#62;left)&#38;&#38;isSameTree(p-&#62;right,q-&#62;right));&#10;    &#125;*/&#10;    bool isSameTree(TreeNode *p, TreeNode *q) &#123;&#10;        queue&#60;TreeNode *&#62; queue1,queue2;&#10;        if(NULL == p &#38;&#38; NULL==q) return true;&#10;        if(NULL != p &#38;&#38; NULL==q) return false;&#10;        if(NULL == p &#38;&#38; NULL!=q) return false;&#10;        queue&#60;TreeNode *&#62; q1,q2;&#10;        q1.push(p);&#10;        q2.push(q);&#10;        TreeNode *n1,*n2;&#10;        while(!q1.empty() &#38;&#38; !q2.empty())&#10;        &#123;&#10;            n1=q1.front();&#10;            q1.pop();&#10;            n2=q2.front();&#10;            q2.pop();&#10;            if(NULL==n1 &#38;&#38; NULL==n2)&#10;                continue;&#10;            if(NULL==n1 &#38;&#38; NULL!=n2)&#10;                return false;&#10;            if(NULL!=n1 &#38;&#38; NULL==n2)&#10;                return false;&#10;            if(n1-&#62;val != n2-&#62;val)&#10;                return false;&#10;            q1.push(n1-&#62;left);&#10;            q1.push(n1-&#62;right);&#10;            q2.push(n2-&#62;left);&#10;            q2.push(n2-&#62;right);&#10;        &#125;&#10;        if(!(q1.empty()&#38;&#38;q2.empty()))&#10;            return false;&#10;        return true;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>遍历开始的节点，模拟，复杂度O(n^2),超时<br>思考<br>gas-cost形成的循环数组，如果总和大于0一定可以走通<br>如果A到B，花费大于油量，肯定走不通，A到B走不通，那么AB之间的节点到B也走不通都不能作为起点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;    int canCompleteCircuit(vector&#60;int&#62; &#38;gas, vector&#60;int&#62; &#38;cost) &#123;&#10;        int j=0,tank=0,total=0;&#10;        for(int i=0;i&#60;gas.size();i++)&#10;        &#123;&#10;            tank+=(gas[i]-cost[i]);&#10;            total+=gas[i]-cost[i];&#10;            if(tank&#60;0)&#10;            &#123;&#10;                j=i+1;&#10;                tank=0;&#10;            &#125;&#10;        &#125;&#10;        return (total&#62;=0)?j:-1;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>Given two binary trees, write a function to check if they are equal or not.</p>
-<p>Two binary trees are considered equal if they are stru]]>
+    <![CDATA[<p>There are N gas stations along a circular route, where the amount of gas at station i is gas[i].</p>
+<p>You have a car with an unlimited ]]>
     </summary>
     
       <category term="leetcode习题集" scheme="http://rudy-zhang.me/categories/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>

@@ -1,0 +1,519 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Hadoop Streaming学习文档 | Rudy&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Rudy Zhang">
+    
+
+    
+    <meta name="description" content="Hadoop Streaming是什么Hadoop MapReduce和HDFS使用Java实现，默认是Java接口，另外提供了C++编程接口和Streaming框架。
+Streaming框架允许任何程序语言实现的程序（只要该程序支持标准输入输出即可），在Hadoop MapReduce中使用，方便已有程序向Hadoop平台移植。
+Streaming原理使用Java实现了一个包装用户程序（mapp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop Streaming学习文档">
+<meta property="og:url" content="http://rudy-zhang.me/2015/05/24/HadoopStreaming/index.html">
+<meta property="og:site_name" content="Rudy's Blog">
+<meta property="og:description" content="Hadoop Streaming是什么Hadoop MapReduce和HDFS使用Java实现，默认是Java接口，另外提供了C++编程接口和Streaming框架。
+Streaming框架允许任何程序语言实现的程序（只要该程序支持标准输入输出即可），在Hadoop MapReduce中使用，方便已有程序向Hadoop平台移植。
+Streaming原理使用Java实现了一个包装用户程序（mapp">
+<meta property="og:image" content="http://i.imgur.com/dlebclb.jpg">
+<meta property="og:updated_time" content="2015-05-24T01:30:32.443Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hadoop Streaming学习文档">
+<meta name="twitter:description" content="Hadoop Streaming是什么Hadoop MapReduce和HDFS使用Java实现，默认是Java接口，另外提供了C++编程接口和Streaming框架。
+Streaming框架允许任何程序语言实现的程序（只要该程序支持标准输入输出即可），在Hadoop MapReduce中使用，方便已有程序向Hadoop平台移植。
+Streaming原理使用Java实现了一个包装用户程序（mapp">
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Rudy&#39;s Blog">Rudy&#39;s Blog</a></h1>
+				<h2 class="blog-motto">seize the day</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+					<li>
+ 					
+						<form class="search" action="http://zhannei.baidu.com/cse/search" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/05/24/HadoopStreaming/" title="Hadoop Streaming学习文档" itemprop="url">Hadoop Streaming学习文档</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="http://rudy-zhang.me/about" title="Rudy Zhang" target="_blank" itemprop="author">Rudy Zhang</a>
+		
+  <p class="article-time">
+    <time datetime="2015-05-24T01:30:00.000Z" itemprop="datePublished"> 发表于 2015-05-24</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Hadoop_Streaming是什么"><span class="toc-number">1.</span> <span class="toc-text">Hadoop Streaming是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Streaming原理"><span class="toc-number">2.</span> <span class="toc-text">Streaming原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#考虑的问题"><span class="toc-number">3.</span> <span class="toc-text">考虑的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行"><span class="toc-number">4.</span> <span class="toc-text">执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用参数的使用"><span class="toc-number">5.</span> <span class="toc-text">常用参数的使用</span></a></li></ol>
+		
+		</div>
+		
+		<h3 id="Hadoop_Streaming是什么">Hadoop Streaming是什么</h3><p>Hadoop MapReduce和HDFS使用Java实现，默认是Java接口，另外提供了C++编程接口和Streaming框架。</p>
+<p>Streaming框架允许任何程序语言实现的程序（只要该程序支持标准输入输出即可），在Hadoop MapReduce中使用，方便已有程序向Hadoop平台移植。</p>
+<h3 id="Streaming原理">Streaming原理</h3><p>使用Java实现了一个包装<strong>用户程序</strong>（mapper，reducer方法）的MapReduce程序，该程序调用MapReduce的Java接口，创建一个<strong>新的进程</strong>包装用户程序，将数据通过<strong>管道</strong>传递给包装的用户程序。</p>
+<p><img src="http://i.imgur.com/dlebclb.jpg" alt=""></p>
+<h3 id="考虑的问题">考虑的问题</h3><p>在实际的开发过程中，开发人员需要考虑下面几个方面的问题，其中1,2是必须实现的：</p>
+<ol>
+<li>Mapper程序：对输入key/value数据进行处理；</li>
+<li>Reducer程序：对mapper的输出进行归并处理；</li>
+<li>Combiner：在本地对一个计算节点上的mapper输出进行归并；</li>
+<li>Partitioner：将mapper的输出分配到reducer；（Map的中间结果通常用”hash(key) mod R”这个结果作为标准）</li>
+<li>InputFormat/OutputFormat：对输入数据进行切分，保存输出数据。</li>
+</ol>
+<h3 id="执行">执行</h3><pre><code><span class="variable">$HADOOP_HOME</span>/bin/hadoop streaming \
+    -<span class="tag">input</span> /user/test/<span class="tag">input</span> -output /user/test/output \
+    -mapper “cat” \
+    -reducer “cat” \
+    -jobconf mapred<span class="class">.reduce</span><span class="class">.tasks</span>=<span class="number">1</span>\
+    -jobconf mapred<span class="class">.job</span><span class="class">.name</span>=”dist-sort”
+</code></pre><p>这是一个实现了分布式排序的程序。可以通过shell脚本，shell命令，或者其它语言的<strong>可执行程序</strong>来进行mapper和reducer程序的运行</p>
+<h3 id="常用参数的使用">常用参数的使用</h3><p>例1：</p>
+<pre><code><span class="variable">$hadoop</span> streaming \
+    -D stream<span class="class">.num</span><span class="class">.map</span><span class="class">.output</span><span class="class">.key</span><span class="class">.fields</span>=<span class="number">2</span> \
+    -D mapred<span class="class">.job</span><span class="class">.name</span>=<span class="string">"$app.$timestr@map-se"</span> \
+    -D mapred<span class="class">.job</span><span class="class">.priority</span>=VERY_HIGH \
+    -D mapred<span class="class">.job</span><span class="class">.map</span><span class="class">.capacity</span>=<span class="number">500</span> \
+    -D mapred<span class="class">.job</span><span class="class">.reduce</span><span class="class">.capacity</span>=<span class="number">300</span> \
+    -D mapred<span class="class">.map</span><span class="class">.tasks</span>=<span class="number">500</span> \
+    -D mapred<span class="class">.reduce</span><span class="class">.tasks</span>=<span class="number">300</span> \
+    -mapper <span class="string">"Python/bin/python $app/mapper.py"</span> \
+    -reducer <span class="string">"Python/bin/python $app/reducer.py"</span> \
+    -<span class="tag">input</span> <span class="variable">$input</span> \
+    -output <span class="variable">$output</span> \
+    -cacheArchive <span class="variable">$archive</span>
+</code></pre><p>-D表示配置参数，剩余项是和输入输出相关的文件和可执行程序</p>
+<p><code>-D mapred.job.name=&quot;$app.$timestr@map-se&quot; \</code>,作业名</p>
+<p><code>-D mapred.job.priority=VERY_HIGH \</code> 作业优先级</p>
+<p><code>-D mapred.job.map.capacity=500 \</code>,最多同时运行map任务数</p>
+<p><code>-D mapred.job.reduce.capacity=300 \</code>最多同时运行reduce任务数</p>
+<p><code>-D mapred.map.tasks=500 \</code>,map任务个数</p>
+<p><code>-D mapred.reduce.tasks=300 \</code>,reduce任务个数</p>
+<p>capacity是同时运行任务的个数，tasks是运行任务的总的个数，一般task更大，capacity是同时运行任务的上限</p>
+<p><code>-D stream.num.map.output.key.fields=2 \</code>,表示在第2个分隔符（默认为\t）之前作为key，之后作为value，也可以使用参数<code>-D stream.map.output.field.separator=. \</code>指定分隔符为’.’或者其它字符。</p>
+<p><code>-mapper &quot;Python/bin/python $app/mapper.py&quot; \</code>指定map任务，需要可执行，读入标准输入流，输出标准输出流</p>
+<p><code>-reducer &quot;Python/bin/python $app/reducer.py&quot; \</code>指定reducer任务</p>
+<p><code>-input $input \</code>指定输入文件</p>
+<p><code>-output $output \</code>指定输出文件</p>
+<p><code>-cacheArchive $archive</code>分发压缩包。<code>$archive</code>格式为<code>hdfs://host:port/path/to/archivefile#linkname</code>，表示hdfs上这个压缩包的路径为<code>hdfs://host:port/path/to/archivefile</code>,可以使用<code>linkname/children/path</code>访问这个压缩包的内容</p>
+<p>例2：</p>
+<pre><code><span class="variable">$hadoop</span> streaming \
+    -D stream<span class="class">.num</span><span class="class">.map</span><span class="class">.output</span><span class="class">.key</span><span class="class">.fields</span>=<span class="number">3</span> \
+    -D mapred<span class="class">.text</span><span class="class">.key</span><span class="class">.partitioner</span><span class="class">.options</span>=<span class="string">"-k1,1"</span> \
+    -D mapred<span class="class">.text</span><span class="class">.key</span><span class="class">.comparator</span><span class="class">.options</span>=<span class="string">"-k1,1 -k3,3nr"</span> \
+    -D mapred<span class="class">.job</span><span class="class">.name</span>=<span class="string">"$app@map-se.$timestr"</span> \
+    -D mapred<span class="class">.job</span><span class="class">.priority</span>=VERY_HIGH \
+    -D mapred<span class="class">.job</span><span class="class">.map</span><span class="class">.capacity</span>=<span class="number">500</span> \
+    -D mapred<span class="class">.job</span><span class="class">.reduce</span><span class="class">.capacity</span>=<span class="number">300</span> \
+    -D mapred<span class="class">.map</span><span class="class">.tasks</span>=<span class="number">500</span> \
+    -D mapred<span class="class">.reduce</span><span class="class">.tasks</span>=<span class="number">300</span> \
+    -mapper <span class="string">"cat"</span> \
+    -reducer <span class="string">"cat"</span> \
+    -<span class="tag">input</span> <span class="variable">$input</span> \
+    -output <span class="variable">$output</span> \
+    -cacheArchive <span class="variable">$archives</span>
+</code></pre><p><code>-D mapred.text.key.partitioner.options=&quot;-k1,1&quot; \</code>表示对key进行分割，分割符默认为\t，取分割后的1,1部分作为主key，剩下的作为辅key</p>
+<p><code>-D mapred.text.key.comparator.options=&quot;-k1,1 -k3,3nr&quot; \</code>指定排序依据，主key按第一部分排字母序，辅key按第三部分数字序倒序排</p>
+<p>例3：</p>
+<pre><code><span class="variable">$HADOOP_HOME</span>/bin/hadoop streaming \
+    -D stream<span class="class">.map</span><span class="class">.output</span><span class="class">.field</span><span class="class">.separator</span>=. \
+    -D stream<span class="class">.num</span><span class="class">.map</span><span class="class">.output</span><span class="class">.key</span><span class="class">.fields</span>=<span class="number">4</span> \
+    -D map<span class="class">.output</span><span class="class">.key</span><span class="class">.field</span><span class="class">.separator</span>=. \
+    -D num<span class="class">.key</span><span class="class">.fields</span><span class="class">.for</span><span class="class">.partition</span>=<span class="number">2</span> \ 
+    -<span class="tag">input</span> /user/test/<span class="tag">input</span> -output /user/test/output \
+    -mapper “mymapper.sh” -reducer “ myreducer.sh” \
+    -partitioner org<span class="class">.apache</span><span class="class">.hadoop</span><span class="class">.mapred</span><span class="class">.lib</span><span class="class">.KeyFieldBasedPartitioner</span> \
+    -file /home/work/mymapper<span class="class">.sh</span> \
+    -file /home/work/myreducer<span class="class">.sh</span> \
+    -jobconf mapred<span class="class">.job</span><span class="class">.name</span>=”key-partition-demo”
+</code></pre><p><code>-D stream.map.output.field.separator=. \</code><br><code>-D stream.num.map.output.key.fields=4 \</code><br>表示输出分隔符为’.’，并且第4个.之后为value，之前为key</p>
+<p><code>-D map.output.key.field.separator=. \</code><br><code>-D num.key.fields.for.partition=2 \</code><br>表示key内的分隔符为’.’，第2个’.’之前作为主key，之后作为辅key</p>
+<p><code>-partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner \</code>指定要使用KeyFieldBasedPartitioner，也就是key域内的partioner。这样的话会把主key的内容作为partition的依据，相同的主key分配到同一个reducer中。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Hadoop/">Hadoop</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://rudy-zhang.me/2015/05/24/HadoopStreaming/" data-title="Hadoop Streaming学习文档 | Rudy&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/04/22/一步一步写一个PHP框架2/"  title="一步一步写一个PHP框架（二）">
+ <strong>下一篇：</strong><br/> 
+ <span>一步一步写一个PHP框架（二）
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/05/24/HadoopStreaming/" data-title="Hadoop Streaming学习文档" data-url="http://rudy-zhang.me/2015/05/24/HadoopStreaming/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Hadoop_Streaming是什么"><span class="toc-number">1.</span> <span class="toc-text">Hadoop Streaming是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Streaming原理"><span class="toc-number">2.</span> <span class="toc-text">Streaming原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#考虑的问题"><span class="toc-number">3.</span> <span class="toc-text">考虑的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行"><span class="toc-number">4.</span> <span class="toc-text">执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用参数的使用"><span class="toc-number">5.</span> <span class="toc-text">常用参数的使用</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/NET/" title=".NET">.NET<sup>10</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/leetcode习题集/" title="leetcode习题集">leetcode习题集<sup>43</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/web开发/" title="web开发">web开发<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/回忆/" title="回忆">回忆<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发工具/" title="开发工具">开发工具<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据结构和算法/" title="数据结构和算法">数据结构和算法<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科研/" title="科研">科研<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/C/" title="C#">C#<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ASP-MVC/" title="ASP MVC">ASP MVC<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CodeIgniter/" title="CodeIgniter">CodeIgniter<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C&amp;C++">C&amp;C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/bootstrap/" title="bootstrap">bootstrap<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="http://rudy-zhang.me/about" target="_blank" title="Rudy Zhang">Rudy Zhang</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"Rudy-Zhang"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+  </body>
+</html>
