@@ -4,7 +4,7 @@
   <subtitle><![CDATA[seize the day]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://rudy-zhang.me/"/>
-  <updated>2015-05-25T23:40:53.184Z</updated>
+  <updated>2015-05-31T08:02:35.435Z</updated>
   <id>http://rudy-zhang.me/</id>
   
   <author>
@@ -15,11 +15,79 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[从图灵到图灵测试再到图灵停机]]></title>
+    <link href="http://rudy-zhang.me/2015/05/31/%E4%BB%8E%E5%9B%BE%E7%81%B5%E6%B5%8B%E8%AF%95%E5%88%B0%E5%9B%BE%E7%81%B5%E5%81%9C%E6%9C%BA/"/>
+    <id>http://rudy-zhang.me/2015/05/31/从图灵测试到图灵停机/</id>
+    <published>2015-05-31T07:23:33.000Z</published>
+    <updated>2015-05-31T08:02:35.435Z</updated>
+    <content type="html"><![CDATA[<p>今天看了电影《机械姬》，讲述了由人类制造出了AI最终具有了通过图灵测试的能力，故事的核心在于判断一个机器人是否具真的具有人工智能。从一个理科生的角度来讲能够发现重重漏洞，但是电影还是不错的电影，引发了对人工智能的思考。</p>
+<p>年初的《模仿游戏》讲述了图灵在二战时期帮助盟军破解德军密码系统Enigma的故事。图灵，这个计算机之父，影响着计算机技术发展的方方面面，计算机的最高奖图灵奖也是以他的名字命名的，没办法人家是祖师爷呀。</p>
+<h2 id="图灵生平">图灵生平</h2><blockquote>
+<p>阿兰·麦席森·图灵（Alan Mathison Turing），生于1912年6月23日，逝于1954年6月7日 ，被誉为“<strong>计算机科学之父</strong>”和“人工智能之父”。图灵和同事破译的情报，在盟军诺曼底登陆等重大军事行动中发挥了重要作用，图灵因此在1946年获得“不列颠帝国勋章”。历史学家认为，他让二战提早了2年结束，至少拯救了2000万人的生命 。<br>计算机逻辑的奠基者，提出了“图灵机”和“图灵测试”等重要概念。美国计算机协会（ACM）1966年设立的以其名命名的“<strong>图灵奖</strong>”是计算机界最负盛名和最崇高的一个奖项，有“计算机界的诺贝尔奖”之称。</p>
+<p>1912年6月23日出生于英国帕丁顿，1931年进入剑桥大学国王学院，师从著名数学家哈代，1938年在美国普林斯顿大学取得博士学位，二战爆发后返回剑桥，曾经协助军方破解德国的著名密码系统Enigma，帮助盟军取得了二战的胜利。</p>
+<p>因图灵的同性恋倾向，他于1952年被起诉（这种行为在当时的英国仍属刑事犯罪）。 为了继续科研工作，他接受了治疗雌激素注射（ 化学阉割 ）代替牢狱之刑。 图灵于1954年6月7日去世（食用氰化物泡过的苹果中毒）， 勘验确定他的死亡是自杀。 英国女王伊丽莎白二世在2013年追授特赦。</p>
+<p>阿兰·麦席森·图灵是一名世界级的长跑运动员。他的马拉松最好成绩是2小时46分3秒，比1948年奥林匹克运动会金牌成绩慢11分钟。1948年的一次跨国赛跑比赛中，他跑赢了同年奥运会银牌得主汤姆·理查兹（Tom Richards）。</p>
+</blockquote>
+<h2 id="图灵测试">图灵测试</h2><blockquote>
+<p>如果一台机器能够与人类展开对话（通过电传设备）而不能被辨别出其机器身份，那么称这台机器具有智能。</p>
+</blockquote>
+<p>这也是《机械姬》这部电影讨论的核心所在。善良单纯的天才程序员被大Boss天才坑蒙拐骗参加设计的图灵测试，机器人ava通过利用程序员的同情心（程序员多么可怜），诱骗他完成了逃离实验基地的任务。最终是否通过测试不是由程序员判断的，而是由机器人能否骗到程序员决定的。多么精巧的设计！一个高智商的程序员，明知道很有可能被骗，但还是被骗了，这无疑是真正的人工智能。</p>
+<p>最后实验失控，大Boss被AI杀死（预示着人类要灭亡么？），AI进入到人群之中。</p>
+<p>这是一部好电影，但这篇文章不是一篇影评，就不赘述电影的细节了。</p>
+<h2 id="图灵停机问题">图灵停机问题</h2><p>突然想起来本科离散数学提到的一个很有意思的问题，图灵停机问题（The Halting Problem））。描述如下：</p>
+<blockquote>
+<p>不存在这样一个程序（算法），它能够计算任何程序（算法）在给定输入上是否会结束（停机）。</p>
+</blockquote>
+<p>精妙的是这个问题的证明过程。通过反证法可以证明这个命题。</p>
+<p>假设我们某一天真做出了这么一个极度聪明的万能算法（就叫God_algo吧），你只要给它一段程序（二进制描述），再给它这段程序的输入，它就能告诉你这段程序在这个输入上会不会结束（停机），我们来编写一下我们的这个算法吧：</p>
+<pre><code>bool God_algo(<span class="keyword">char</span>* <span class="keyword">program</span>, <span class="keyword">char</span>* <span class="keyword">input</span>)
+{
+    <span class="keyword">if</span>(&lt;<span class="keyword">program</span>&gt; halts <span class="keyword">on</span> &lt;<span class="keyword">input</span>&gt;)
+        <span class="keyword">return</span> true;
+    <span class="keyword">return</span> false;
+}
+</code></pre><p>这里我们假设if的判断语句里面是你天才思考的结晶，它能够像上帝一样洞察一切程序的宿命。现在，我们从这个God_algo出发导出一个新的算法：</p>
+<pre><code><span class="function"><span class="keyword">bool</span> <span class="title">Satan_algo</span><span class="params">(<span class="keyword">char</span>* program)</span>
+</span>{
+    <span class="keyword">if</span>( God_algo(program, program) )
+    {
+           <span class="keyword">while</span>(<span class="number">1</span>);        <span class="comment">// loop forever!</span>
+           <span class="keyword">return</span> <span class="keyword">false</span>;   <span class="comment">// can never get here!</span>
+    }
+    <span class="keyword">else</span>
+       <span class="keyword">return</span> <span class="keyword">true</span>;
+}
+</code></pre><p>正如它的名字所暗示的那样，这个算法便是一切邪恶的根源了。当我们把这个算法运用到它自身身上时，会发生什么呢？</p>
+<pre><code>Satan_algo<span class="list">(<span class="keyword">Satan_algo</span>)</span><span class="comment">;</span>
+</code></pre><p>我们来分析一下这行简单的调用：</p>
+<ol>
+<li><p>Satan_algo(Satan_algo)这个调用要么能够运行结束返回（停机），要么不能返回（loop forever）。</p>
+</li>
+<li><p>如果它能够结束，那么Santa_algo算法里面的那个if判断就会成立（因为God_algo(Santa_algo,Santa_algo)将会返回true），从而程序便进入那个包含一个无穷循环while(1);的if分支，于是这个Satan_algo(Satan_algo)调用便永远不会返回（结束）了。</p>
+</li>
+<li><p>如果不能结束（停机），则if判断就会失败，从而选择另一个if分支并返回true，即Satan_algo(Satan_algo)又能够返回（停机）。</p>
+</li>
+</ol>
+<p>总之，我们有：</p>
+<p>Satan_algo(Satan_algo)能够停机=&gt; 它不能停机</p>
+<p>Satan_algo(Satan_algo)不能停机=&gt; 它能够停机</p>
+<p>所以它停也不是，不停也不是，左右矛盾。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>今天看了电影《机械姬》，讲述了由人类制造出了AI最终具有了通过图灵测试的能力，故事的核心在于判断一个机器人是否具真的具有人工智能。从一个理科生的角度来讲能够发现重重漏洞，但是电影还是不错的电影，引发了对人工智能的思考。</p>
+<p>年初的《模仿游戏》讲述了图灵在二战时期帮]]>
+    </summary>
+    
+      <category term="杂七杂八" scheme="http://rudy-zhang.me/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[linux命令sed和awk]]></title>
     <link href="http://rudy-zhang.me/2015/05/26/linux%E5%91%BD%E4%BB%A4sed%E5%92%8Cawk/"/>
     <id>http://rudy-zhang.me/2015/05/26/linux命令sed和awk/</id>
     <published>2015-05-25T23:39:28.000Z</published>
-    <updated>2015-05-25T23:40:53.184Z</updated>
+    <updated>2015-05-25T23:57:30.414Z</updated>
     <content type="html"><![CDATA[<h2 id="sed">sed</h2><h3 id="主要功能">主要功能</h3><p>sed，stream editor。是一个”非交互式“字符流编辑器。输入流通过程序并输出到标准输出端。<br>sed主要用来自动编辑一个或者多个文件（替换，插入，删除，追加，更改）</p>
 <h3 id="常见应用">常见应用</h3><ol>
 <li>抽区域</li>
@@ -117,7 +185,7 @@
 <p>BEGIN可以设置计数和打印头（可选）</p>
 <p>END打印输出文本总数和结尾状态标识(可选)</p>
 <h3 id="常用参数">常用参数</h3><p>-F 指定读取一行数据的分隔符，默认为空格<br>-f 指定处理程序的脚本文件，这个文件必须符合awk语法</p>
-<h2 id="调用方式：">调用方式：</h2><p><code>awk –f awk-script-file input-files</code></p>
+<h3 id="调用方式：">调用方式：</h3><p><code>awk –f awk-script-file input-files</code></p>
 <h3 id="常用内置参数">常用内置参数</h3><p><code>$0,$1,....$n</code>   <code>$0</code>代表当前行的内容，<code>$i</code>代表当前行被分割后的第i个字段的内容</p>
 <p>ARGC 命令行参数个数</p>
 <p>ARGV 命令行参数排列</p>
@@ -215,6 +283,8 @@ END{
     
       <category term="linux命令" scheme="http://rudy-zhang.me/tags/linux%E5%91%BD%E4%BB%A4/"/>
     
+      <category term="linux" scheme="http://rudy-zhang.me/categories/linux/"/>
+    
   </entry>
   
   <entry>
@@ -222,7 +292,7 @@ END{
     <link href="http://rudy-zhang.me/2015/05/26/linux%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%92%8Cgrep/"/>
     <id>http://rudy-zhang.me/2015/05/26/linux正则表达式和grep/</id>
     <published>2015-05-25T23:27:44.000Z</published>
-    <updated>2015-05-25T23:38:55.906Z</updated>
+    <updated>2015-05-25T23:54:44.308Z</updated>
     <content type="html"><![CDATA[<h2 id="正则表达式">正则表达式</h2><p>正则表达式描述了一种字符串匹配的模式，常用于：</p>
 <ul>
 <li>grep:从特定的文件中或从标准输入中查找含有某个字符串的行</li>
@@ -329,9 +399,11 @@ END{
 <li>awk:]]>
     </summary>
     
-      <category term="正则表达式，linux命令" scheme="http://rudy-zhang.me/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%EF%BC%8Clinux%E5%91%BD%E4%BB%A4/"/>
+      <category term="linux命令" scheme="http://rudy-zhang.me/tags/linux%E5%91%BD%E4%BB%A4/"/>
     
-      <category term="Linux" scheme="http://rudy-zhang.me/categories/Linux/"/>
+      <category term="正则表达式" scheme="http://rudy-zhang.me/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
+    
+      <category term="linux" scheme="http://rudy-zhang.me/categories/linux/"/>
     
   </entry>
   
@@ -755,29 +827,27 @@ END{
   </entry>
   
   <entry>
-    <title><![CDATA[leetcode习题集 1 Two Sum]]></title>
-    <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%861/"/>
-    <id>http://rudy-zhang.me/2015/04/06/leetcode习题集1/</id>
+    <title><![CDATA[leetcode习题集 15 3Sum   ]]></title>
+    <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%8615/"/>
+    <id>http://rudy-zhang.me/2015/04/06/leetcode习题集15/</id>
     <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T08:55:06.389Z</updated>
-    <content type="html"><![CDATA[<p>Given an array of integers, find two numbers such that they add up to a specific target number.</p>
-<p>The function twoSum should return indices of the two numbers such that they add up to the target, where index1 must be less than index2. Please note that your returned answers (both index1 and index2) are not zero-based.</p>
-<p>You may assume that each input would have exactly one solution.</p>
-<p>Input: numbers={2, 7, 11, 15}, target=9<br>Output: index1=1, index2=2</p>
-<p>题意：找vector中的两个数，和为target</p>
+    <updated>2015-05-24T08:56:17.159Z</updated>
+    <content type="html"><![CDATA[<p>Given an array S of n integers, are there elements a, b, c in S such that a + b + c = 0? Find all unique triplets in the array which gives the sum of zero.</p>
+<p>Note:<br>Elements in a triplet (a,b,c) must be in non-descending order. (ie, a ≤ b ≤ c)<br>The solution set must not contain duplicate triplets.<br>For example, given array S = {-1 0 1 2 -1 -4},</p>
+<pre><code>A solution <span class="keyword">set</span> <span class="keyword">is</span>:
+(-<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>)
+(-<span class="number">1</span>, -<span class="number">1</span>, <span class="number">2</span>)
+</code></pre><p>题意：找出一组数字，其中的三个数字和等于0，所有的情况</p>
 <p>思路：</p>
 <ol>
-<li><p>两重循环遍历，复杂度O(n^2)</p>
-</li>
-<li><p>先排序，标记left，right，扫描一遍即可，复杂度O(nlogn)</p>
-</li>
-<li><p>空间换时间,每次访问一个数记下这个数的index和值，使用hash表存储，下次需要的时候直接取出来复杂度O(n)</p>
-</li>
+<li>暴力解法，遍历，复杂度O(n^3)，超时，必须使用O(n^2)的解法</li>
+<li>这是一个K-Sum的问题，目标可以等于0也可以等于任何数字，所有的K-Sum问题暴力解法都有O(n^k)的复杂度，我们可以在遍历i的时候使用target-num[i]然后使用2-Sum在O(n)复杂度的解法就可以了。所以，K-Sum的问题，都可以优化到O(n^(k-1))的复杂度解决 </li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;    vector&#60;int&#62; twoSum(vector&#60;int&#62; &#38;numbers, int target) &#123;&#10;&#9;&#9;vector&#60;int&#62; vec;&#10;&#9;&#9;unordered_map&#60;int,int&#62; hash;&#10;&#9;&#9;for(int i=0;i&#60;numbers.size();i++)&#10;&#9;&#9;&#123;&#10;&#9;&#9;&#9;int numToFind=target-numbers[i];&#10;&#9;&#9;&#9;if(hash.find(numToFind)!=hash.end())&#10;&#9;&#9;&#9;&#123;&#10;&#9;&#9;&#9;&#9;vec.push_back(hash[numToFind]+1);&#10;&#9;&#9;&#9;&#9;vec.push_back(i+1);&#10;&#9;&#9;&#9;&#9;return vec;&#10;&#9;&#9;&#9;&#125;&#10;&#9;&#9;&#9;else&#10;&#9;&#9;&#9;&#9;hash[numbers[i]]=i;&#10;&#9;&#9;&#125;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>]]></content>
+<p>注意：如何避免重复，是K-Sum中很关键的问题，可以使用set避免重复，但是本题中使用set也会超时，所以只能手动避免重复情况发生。</p>
+<p><a href="http://tech-wonderland.net/blog/summary-of-ksum-problems.html" target="_blank" rel="external">更多K-Sum问题的资料</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;//&#20808;&#25490;&#24207;&#65292;&#28982;&#21518;&#36941;&#21382;O(n^3),&#36229;&#26102;&#65292;&#24517;&#39035;&#20351;&#29992;O(n^2)&#30340;&#35299;&#27861;&#10;//k-sum&#38382;&#39064;&#38656;&#35201;&#20248;&#21270;&#21040;O(n^(k-1))&#65292;&#20808;&#25490;&#24207;&#65292;&#20877;&#36864;&#21270;&#25104;2sum&#38382;&#39064;&#10;//&#27880;&#24847;&#19981;&#33021;&#37325;&#22797;&#65292;&#20351;&#29992;set,&#23548;&#33268;&#25805;&#20316;&#36807;&#22810;&#65292;&#36229;&#26102;&#10;//&#25163;&#21160;&#36991;&#20813;&#37325;&#22797;&#10;//&#21442;&#32771;&#10;    vector&#60;vector&#60;int&#62; &#62; threeSum(vector&#60;int&#62; &#38;num) &#123;&#10;        vector&#60;vector&#60;int&#62;&#62; vecs;&#10;        sort(num.begin(),num.end());&#10;        for(int i=0;i+2&#60;num.size();i++)&#10;        &#123;&#10;            int target=-num[i];&#10;            int left=i+1,right=num.size()-1;&#10;            while(left&#60;right)&#10;            &#123;&#10;                int sum=num[left]+num[right];&#10;                if(sum==target)&#10;                &#123;&#10;                    vector&#60;int&#62; vec;&#10;                    int templeft=num[left],tempright=num[right];&#10;                    vec.push_back(num[i]);&#10;                    vec.push_back(num[left]);&#10;                    vec.push_back(num[right]);&#10;                    vecs.push_back(vec);&#10;&#9;&#9;&#9;&#9;&#9;while(left&#60;right &#38;&#38; num[left]==templeft) left++;&#10;&#9;&#9;&#9;&#9;&#9;while(left&#60;right &#38;&#38; num[right]==tempright) right--;&#10;                &#125;&#10;                else if(sum&#60;target)&#10;                    left++;&#10;                else if(sum&#62;target)&#10;                    right--;&#10;                //&#36825;&#19968;&#21477;&#24456;&#20851;&#38190;&#65292;&#19981;&#28982;&#20250;&#36229;&#26102;    &#10;                while (i + 1 &#60; num.size() &#38;&#38; num[i + 1] == num[i]) &#10;                    i++;&#10;                &#10;            &#125;&#10;        &#125;&#10;        return vecs;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>]]></content>
     <summary type="html">
-    <![CDATA[<p>Given an array of integers, find two numbers such that they add up to a specific target number.</p>
-<p>The function twoSum should return ]]>
+    <![CDATA[<p>Given an array S of n integers, are there elements a, b, c in S such that a + b + c = 0? Find all unique triplets in the array which give]]>
     </summary>
     
       <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
@@ -818,21 +888,29 @@ END{
   </entry>
   
   <entry>
-    <title><![CDATA[leetcode习题集 14 Longest Common Prefix  ]]></title>
-    <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%8614/"/>
-    <id>http://rudy-zhang.me/2015/04/06/leetcode习题集14/</id>
+    <title><![CDATA[leetcode习题集 1 Two Sum]]></title>
+    <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%861/"/>
+    <id>http://rudy-zhang.me/2015/04/06/leetcode习题集1/</id>
     <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T08:56:13.443Z</updated>
-    <content type="html"><![CDATA[<p>Write a function to find the longest common prefix string amongst an array of strings.</p>
-<p>题意：找出一组字符串的最长相同前缀</p>
+    <updated>2015-05-24T08:55:06.389Z</updated>
+    <content type="html"><![CDATA[<p>Given an array of integers, find two numbers such that they add up to a specific target number.</p>
+<p>The function twoSum should return indices of the two numbers such that they add up to the target, where index1 must be less than index2. Please note that your returned answers (both index1 and index2) are not zero-based.</p>
+<p>You may assume that each input would have exactly one solution.</p>
+<p>Input: numbers={2, 7, 11, 15}, target=9<br>Output: index1=1, index2=2</p>
+<p>题意：找vector中的两个数，和为target</p>
 <p>思路：</p>
-<p>找出strs最小长度，遍历即可</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;//&#25214;&#20986;&#26368;&#23567;&#38271;&#24230;&#10;    string longestCommonPrefix(vector&#60;string&#62; &#38;strs) &#123;&#10;        string prefix;&#10;        if(strs.size()==0) return prefix;&#10;        int minLength=strs[0].size();&#10;        for(int i=0;i&#60;strs.size();i++)&#10;        &#123;&#10;            if(strs[i].size()&#60;minLength)&#10;                minLength=strs[i].size();&#10;        &#125;&#10;        &#10;        for(int j=0;j&#60;minLength;j++)&#10;        &#123;&#10;            for(int i=0;i&#60;strs.size()-1;i++)&#10;            &#123;&#10;                if(strs[i][j]!=strs[i+1][j]) return prefix;&#10;            &#125;&#10;            prefix+=strs[0][j];&#10;        &#125;&#10;        return prefix;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>]]></content>
+<ol>
+<li><p>两重循环遍历，复杂度O(n^2)</p>
+</li>
+<li><p>先排序，标记left，right，扫描一遍即可，复杂度O(nlogn)</p>
+</li>
+<li><p>空间换时间,每次访问一个数记下这个数的index和值，使用hash表存储，下次需要的时候直接取出来复杂度O(n)</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;    vector&#60;int&#62; twoSum(vector&#60;int&#62; &#38;numbers, int target) &#123;&#10;&#9;&#9;vector&#60;int&#62; vec;&#10;&#9;&#9;unordered_map&#60;int,int&#62; hash;&#10;&#9;&#9;for(int i=0;i&#60;numbers.size();i++)&#10;&#9;&#9;&#123;&#10;&#9;&#9;&#9;int numToFind=target-numbers[i];&#10;&#9;&#9;&#9;if(hash.find(numToFind)!=hash.end())&#10;&#9;&#9;&#9;&#123;&#10;&#9;&#9;&#9;&#9;vec.push_back(hash[numToFind]+1);&#10;&#9;&#9;&#9;&#9;vec.push_back(i+1);&#10;&#9;&#9;&#9;&#9;return vec;&#10;&#9;&#9;&#9;&#125;&#10;&#9;&#9;&#9;else&#10;&#9;&#9;&#9;&#9;hash[numbers[i]]=i;&#10;&#9;&#9;&#125;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>]]></content>
     <summary type="html">
-    <![CDATA[<p>Write a function to find the longest common prefix string amongst an array of strings.</p>
-<p>题意：找出一组字符串的最长相同前缀</p>
-<p>思路：</p>
-<p>找出strs最]]>
+    <![CDATA[<p>Given an array of integers, find two numbers such that they add up to a specific target number.</p>
+<p>The function twoSum should return ]]>
     </summary>
     
       <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
@@ -1077,29 +1155,6 @@ END{
 <p>Example1: x = 123, return 321<br>Example2: x = -123, return -321</p>
 <p>click to show spoilers.</p>
 ]]>
-    </summary>
-    
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
-    
-      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[leetcode习题集 67 Add Binary ]]></title>
-    <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%8667/"/>
-    <id>http://rudy-zhang.me/2015/04/06/leetcode习题集67/</id>
-    <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T08:57:09.894Z</updated>
-    <content type="html"><![CDATA[<p>Given two binary strings, return their sum (also a binary string).</p>
-<p>For example,<br>a = <code>&quot;11&quot;</code><br>b = <code>&quot;1&quot;</code><br>Return <code>&quot;100&quot;</code>.</p>
-<p>题意：给定一个int的vector，给这个数字加上1，返回最终的数字</p>
-<p>思路：模拟</p>
-<p>注意：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;//&#24605;&#36335;1&#65306;stoi&#36716;&#21270;&#20026;&#25972;&#25968;&#65292;&#36716;&#25442;&#36827;&#20301;&#65292;itos&#36716;&#21270;&#20026;&#23383;&#31526;&#20018;&#65292;&#27604;&#36739;&#22797;&#26434;&#10;//&#24605;&#36335;2&#65306;&#30452;&#25509;&#20351;&#29992;&#23383;&#31526;&#20174;&#21518;&#21521;&#21069;&#21152;&#65292;carry&#35760;&#24405;&#10;//&#24212;&#35813;&#20808;&#34917;&#40784;&#30701;&#23383;&#31526;&#20018;&#30340;&#38271;&#24230;&#10;//&#25968;&#25454;&#65306;&#23383;&#31526;&#20018;&#20026;&#31354;&#65292;&#23383;&#31526;&#20018;&#39318;&#20301;&#26377;&#36827;&#20301;&#10;    string addBinary(string a, string b) &#123;&#10;        if(a.size()==0) return b;&#10;        if(b.size()==0) return a;&#10;        string ans;&#10;        int carry=0;&#10;        int i=a.size()-1,j=b.size()-1;&#10;        for(;i&#62;=0&#38;&#38;j&#62;=0;i--,j--)&#10;        &#123;&#10;            ans=add(a[i],b[j],carry)+ans;&#10;        &#125;&#10;        string sub;&#10;        if(i&#62;=0)&#10;            sub=a.substr(0,i+1);&#10;        else if(j&#62;=0)&#10;            sub=b.substr(0,j+1);&#10;        else&#10;            sub=&#34;&#34;;&#10;        if(carry==0)&#10;            return (sub+ans);&#10;        else if(carry==1 &#38;&#38; i&#60;0 &#38;&#38; j&#60;0)&#10;            return (&#39;1&#39;+ans);&#10;        else &#10;        &#123;&#10;            for(int k=sub.size()-1;k&#62;=0;k--)&#10;            &#123;&#10;                ans=add(&#39;0&#39;,sub[k],carry)+ans;&#10;            &#125;    &#10;            if(carry==1)&#10;                return (&#39;1&#39;+ans);&#10;            else&#10;                return ans;&#10;            &#10;        &#125;&#10;        &#10;    &#125;&#10;    &#10;    char add(char a,char b,int &#38;carry)&#10;        &#123;&#10;            if(a==&#39;0&#39;&#38;&#38;b==&#39;0&#39;) &#10;&#9;&#9;&#9;&#123;&#10;&#9;&#9;&#9;&#9;if(carry==1) &#10;&#9;&#9;&#9;&#9;&#123;&#10;&#9;&#9;&#9;&#9;&#9;carry=0;&#10;&#9;&#9;&#9;&#9;&#9;return &#39;1&#39;;&#10;&#9;&#9;&#9;&#9;&#125;&#10;&#9;&#9;&#9;&#9;else return &#39;0&#39;;&#10;&#9;&#9;&#9;&#125;&#10;            if((a==&#39;0&#39;&#38;&#38;b==&#39;1&#39;)||(a==&#39;1&#39;&#38;&#38;b==&#39;0&#39;)) &#10;            &#123;&#10;                if(carry==0) return &#39;1&#39;;&#10;                if(carry==1)&#10;                &#123;&#10;                    carry==1;&#10;                    return &#39;0&#39;;&#10;                &#125;&#10;            &#125;&#10;            if(a==&#39;1&#39;&#38;&#38;b==&#39;1&#39;)&#10;            &#123;&#10;                if(carry==0)&#10;                &#123;&#10;                    carry=1;&#10;                    return &#39;0&#39;;&#10;                &#125;&#10;                if(carry==1)&#10;                &#123;&#10;                    carry=1;&#10;                    return &#39;1&#39;;&#10;                &#125;&#10;            &#125;&#10;            &#10;        &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>]]></content>
-    <summary type="html">
-    <![CDATA[<p>Given two binary strings, return their sum (also a binary string).</p>
-<p>For example,<br>a = <code>&quot;11&quot;</code><br>b = <code>&q]]>
     </summary>
     
       <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>

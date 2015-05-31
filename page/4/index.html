@@ -123,6 +123,92 @@
           
           
             
+              <a class="post-title-link" href="/2015/04/06/leetcode习题集21/">
+                leetcode习题集 21 Merge Two Sorted Lists
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-04-06
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/算法/">算法</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/04/06/leetcode习题集21/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/06/leetcode习题集21/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.</p>
+<p>题意：合并两个已经排好序的链表为一个新的链表，不能使用新的存储空间</p>
+<p>思路：<br>就一个一个合并</p>
+<p>注意：<br>链表为空，头结点处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/**&#10; * Definition for singly-linked list.&#10; * struct ListNode &#123;&#10; *     int val;&#10; *     ListNode *next;&#10; *     ListNode(int x) : val(x), next(NULL) &#123;&#125;&#10; * &#125;;&#10; */&#10;class Solution &#123;&#10;public:&#10;//&#20551;&#22914;&#33267;&#23569;&#26377;&#19968;&#20010;&#20026;&#31354;&#65292;&#36820;&#22238;&#21478;&#19968;&#20010;&#10;//&#20004;&#20010;&#37117;&#19981;&#26159;&#31354;&#10;    ListNode *mergeTwoLists(ListNode *l1, ListNode *l2) &#123;&#10;        if(l1==NULL) return l2;&#10;        if(l2==NULL) return l1;&#10;        ListNode *l3;&#10;        ListNode *p1=l1,*p2=l2,*p3=NULL;&#10;        if(p1-&#62;val &#60;= p2-&#62;val)&#10;        &#123;&#10;            l3=p1;&#10;            p1=p1-&#62;next;&#10;            l3-&#62;next=NULL;&#10;            p3=l3;&#10;        &#125;&#10;        else&#10;        &#123;&#10;            l3=p2;&#10;            p2=p2-&#62;next;&#10;            l3-&#62;next=NULL;&#10;            p3=l3;&#10;        &#125;&#10;        while(p1!=NULL &#38;&#38; p2!=NULL)&#10;        &#123;&#10;            if(p1-&#62;val &#60;= p2-&#62;val)&#10;            &#123;&#10;                p3-&#62;next=p1;&#10;                p1=p1-&#62;next;&#10;                p3=p3-&#62;next;&#10;                p3-&#62;next=NULL;&#10;            &#125;&#10;            else&#10;            &#123;&#10;                p3-&#62;next=p2;&#10;                p2=p2-&#62;next;&#10;                p3=p3-&#62;next;&#10;                p3-&#62;next=NULL;&#10;            &#125;&#10;        &#125;&#10;        if(p1) p3-&#62;next=p1;&#10;        else if(p2) p3-&#62;next=p2;&#10;        return l3;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/leetcode习题集/"> #leetcode习题集 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/04/06/leetcode习题集20/">
                 leetcode习题集 20 Valid Parentheses
               </a>
@@ -482,101 +568,6 @@ The sum that is closest to the target is 2.<span class="function"> (</span>-1 + 
           
           
             
-              <a class="post-title-link" href="/2015/04/06/leetcode习题集15/">
-                leetcode习题集 15 3Sum   
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-04-06
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/算法/">算法</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/04/06/leetcode习题集15/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/06/leetcode习题集15/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>Given an array S of n integers, are there elements a, b, c in S such that a + b + c = 0? Find all unique triplets in the array which gives the sum of zero.</p>
-<p>Note:<br>Elements in a triplet (a,b,c) must be in non-descending order. (ie, a ≤ b ≤ c)<br>The solution set must not contain duplicate triplets.<br>For example, given array S = {-1 0 1 2 -1 -4},</p>
-<pre><code>A solution <span class="keyword">set</span> <span class="keyword">is</span>:
-(-<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>)
-(-<span class="number">1</span>, -<span class="number">1</span>, <span class="number">2</span>)
-</code></pre><p>题意：找出一组数字，其中的三个数字和等于0，所有的情况</p>
-<p>思路：</p>
-<ol>
-<li>暴力解法，遍历，复杂度O(n^3)，超时，必须使用O(n^2)的解法</li>
-<li>这是一个K-Sum的问题，目标可以等于0也可以等于任何数字，所有的K-Sum问题暴力解法都有O(n^k)的复杂度，我们可以在遍历i的时候使用target-num[i]然后使用2-Sum在O(n)复杂度的解法就可以了。所以，K-Sum的问题，都可以优化到O(n^(k-1))的复杂度解决 </li>
-</ol>
-<p>注意：如何避免重复，是K-Sum中很关键的问题，可以使用set避免重复，但是本题中使用set也会超时，所以只能手动避免重复情况发生。</p>
-<p><a href="http://tech-wonderland.net/blog/summary-of-ksum-problems.html" target="_blank" rel="external">更多K-Sum问题的资料</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;//&#20808;&#25490;&#24207;&#65292;&#28982;&#21518;&#36941;&#21382;O(n^3),&#36229;&#26102;&#65292;&#24517;&#39035;&#20351;&#29992;O(n^2)&#30340;&#35299;&#27861;&#10;//k-sum&#38382;&#39064;&#38656;&#35201;&#20248;&#21270;&#21040;O(n^(k-1))&#65292;&#20808;&#25490;&#24207;&#65292;&#20877;&#36864;&#21270;&#25104;2sum&#38382;&#39064;&#10;//&#27880;&#24847;&#19981;&#33021;&#37325;&#22797;&#65292;&#20351;&#29992;set,&#23548;&#33268;&#25805;&#20316;&#36807;&#22810;&#65292;&#36229;&#26102;&#10;//&#25163;&#21160;&#36991;&#20813;&#37325;&#22797;&#10;//&#21442;&#32771;&#10;    vector&#60;vector&#60;int&#62; &#62; threeSum(vector&#60;int&#62; &#38;num) &#123;&#10;        vector&#60;vector&#60;int&#62;&#62; vecs;&#10;        sort(num.begin(),num.end());&#10;        for(int i=0;i+2&#60;num.size();i++)&#10;        &#123;&#10;            int target=-num[i];&#10;            int left=i+1,right=num.size()-1;&#10;            while(left&#60;right)&#10;            &#123;&#10;                int sum=num[left]+num[right];&#10;                if(sum==target)&#10;                &#123;&#10;                    vector&#60;int&#62; vec;&#10;                    int templeft=num[left],tempright=num[right];&#10;                    vec.push_back(num[i]);&#10;                    vec.push_back(num[left]);&#10;                    vec.push_back(num[right]);&#10;                    vecs.push_back(vec);&#10;&#9;&#9;&#9;&#9;&#9;while(left&#60;right &#38;&#38; num[left]==templeft) left++;&#10;&#9;&#9;&#9;&#9;&#9;while(left&#60;right &#38;&#38; num[right]==tempright) right--;&#10;                &#125;&#10;                else if(sum&#60;target)&#10;                    left++;&#10;                else if(sum&#62;target)&#10;                    right--;&#10;                //&#36825;&#19968;&#21477;&#24456;&#20851;&#38190;&#65292;&#19981;&#28982;&#20250;&#36229;&#26102;    &#10;                while (i + 1 &#60; num.size() &#38;&#38; num[i + 1] == num[i]) &#10;                    i++;&#10;                &#10;            &#125;&#10;        &#125;&#10;        return vecs;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/leetcode习题集/"> #leetcode习题集 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
               <a class="post-title-link" href="/2015/04/06/leetcode习题集101/">
                 leetcode习题集 101 Symmetric Tree
               </a>
@@ -638,6 +629,92 @@ The sum that is closest to the target is 2.<span class="function"> (</span>-1 + 
 <p>先序递归遍历<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;    bool isSymmetric(TreeNode *root) &#123;&#10;        if(root==NULL) return true;&#10;        else return isSym(root-&#62;left,root-&#62;right);&#10;    &#125;&#10;    &#10;    bool isSym(TreeNode *left,TreeNode *right)&#10;    &#123;&#10;        if(left==NULL &#38;&#38; right==NULL) return true;&#10;        if(left==NULL &#38;&#38; right!=NULL) return false;&#10;        if(left!=NULL &#38;&#38; right==NULL) return false;&#10;        if(left-&#62;val==right-&#62;val &#38;&#38; isSym(left-&#62;left,right-&#62;right) &#38;&#38; isSym(left-&#62;right,right-&#62;left))&#10;            return true;&#10;    &#125;&#10;&#125;;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
 <p>层次遍历<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;    bool isSymmetric(TreeNode *root) &#123;&#10;        queue&#60;TreeNode *&#62; q1,q2;&#10;        if(root==NULL) return true;&#10;        if(NULL != root-&#62;left &#38;&#38; NULL==root-&#62;right ) return false;&#10;        if(NULL ==root-&#62;left &#38;&#38; NULL!=root-&#62;right) return false;&#10;        q1.push(root);&#10;        q2.push(root);&#10;        TreeNode *n1,*n2;&#10;        while(!q1.empty() &#38;&#38; !q2.empty())&#10;        &#123;&#10;            n1=q1.front();&#10;            q1.pop();&#10;            n2=q2.front();&#10;            q2.pop();&#10;            if(NULL==n1 &#38;&#38; NULL==n2)&#10;                continue;&#10;            if(NULL==n1 &#38;&#38; NULL!=n2)&#10;                return false;&#10;            if(NULL!=n1 &#38;&#38; NULL==n2)&#10;                return false;&#10;            if(n1-&#62;val != n2-&#62;val)&#10;                return false;&#10;            q1.push(n1-&#62;left);&#10;            q1.push(n1-&#62;right);&#10;            q2.push(n2-&#62;right);&#10;            q2.push(n2-&#62;left);&#10;        &#125;&#10;        if(!(q1.empty()&#38;&#38;q2.empty()))&#10;            return false;&#10;        return true;&#10;        &#10;    &#125;&#10;    &#10;    &#10;&#125;;</span><br></pre></td></tr></table></figure></p>
 
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/leetcode习题集/"> #leetcode习题集 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/04/06/leetcode习题集14/">
+                leetcode习题集 14 Longest Common Prefix  
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-04-06
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/算法/">算法</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/04/06/leetcode习题集14/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/06/leetcode习题集14/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>Write a function to find the longest common prefix string amongst an array of strings.</p>
+<p>题意：找出一组字符串的最长相同前缀</p>
+<p>思路：</p>
+<p>找出strs最小长度，遍历即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;//&#25214;&#20986;&#26368;&#23567;&#38271;&#24230;&#10;    string longestCommonPrefix(vector&#60;string&#62; &#38;strs) &#123;&#10;        string prefix;&#10;        if(strs.size()==0) return prefix;&#10;        int minLength=strs[0].size();&#10;        for(int i=0;i&#60;strs.size();i++)&#10;        &#123;&#10;            if(strs[i].size()&#60;minLength)&#10;                minLength=strs[i].size();&#10;        &#125;&#10;        &#10;        for(int j=0;j&#60;minLength;j++)&#10;        &#123;&#10;            for(int i=0;i&#60;strs.size()-1;i++)&#10;            &#123;&#10;                if(strs[i][j]!=strs[i+1][j]) return prefix;&#10;            &#125;&#10;            prefix+=strs[0][j];&#10;        &#125;&#10;        return prefix;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>
         
       
     </div>
@@ -930,102 +1007,11 @@ The sum that is closest to the target is 2.<span class="function"> (</span>-1 + 
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/04/06/leetcode习题集125/">
-                leetcode习题集 125 Valid Palindrome
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-04-06
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/算法/">算法</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/04/06/leetcode习题集125/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/06/leetcode习题集125/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.</p>
-<p>For example,<br><code>&quot;A man, a plan, a canal: Panama&quot;</code> is a palindrome.<br><code>&quot;race a car&quot;</code> is not a palindrome.</p>
-<p>Note:<br>Have you consider that the string might be empty? This is a good question to ask during an interview.</p>
-<p>For the purpose of this problem, we define empty string as valid palindrome.</p>
-<p>题意：给定一个字符串判断是不是回文字符串</p>
-<p>思路：模拟</p>
-<p>注意：</p>
-<p>字符串为空<br>中间的非字母,数字的char不比较，包括开头和结束<br>在for内部对ij操作要防止越界</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;    bool isPalindrome(string s) &#123;&#10;        if(s.empty()) return true;&#10;        int i=0,j=s.size()-1;&#10;        for(;i&#60;s.size();i++,j--)&#10;        &#123;&#10;            while(i&#60;s.size() &#38;&#38; !ischar(s[i])) i++;&#10;            while(j&#62;=0 &#38;&#38; !ischar(s[j])) j--;&#10;            if(i==s.size() || j==-1) &#10;                break;&#10;            if(tolower(s[i])!=tolower(s[j])) &#10;                return false;&#10;        &#125;&#10;        while(i&#60;s.size() &#38;&#38; !ischar(s[i])) i++;&#10;        while(j&#62;=0 &#38;&#38; !ischar(s[j])) j--;&#10;        if(i==s.size()&#38;&#38;j==-1) return true;&#10;        else return false;&#10;    &#125;&#10;    &#10;    bool ischar(char a)&#10;    &#123;&#10;        return ((a&#62;=&#39;A&#39;&#38;&#38;a&#60;=&#39;Z&#39;)||(a&#62;=&#39;a&#39;&#38;&#38;a&#60;=&#39;z&#39;)||(a&#62;=&#39;0&#39;&#38;&#38;a&#60;=&#39;9&#39;));&#10;    &#125;&#10;    &#10;&#125;;</span><br></pre></td></tr></table></figure>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/leetcode习题集/"> #leetcode习题集 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
   <div class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/">&raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/">&raquo;</a>
   </div>
 
 
@@ -1059,7 +1045,7 @@ The sum that is closest to the target is 2.<span class="function"> (</span>-1 + 
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

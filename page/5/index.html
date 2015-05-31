@@ -123,6 +123,97 @@
           
           
             
+              <a class="post-title-link" href="/2015/04/06/leetcode习题集125/">
+                leetcode习题集 125 Valid Palindrome
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-04-06
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/算法/">算法</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/04/06/leetcode习题集125/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/06/leetcode习题集125/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.</p>
+<p>For example,<br><code>&quot;A man, a plan, a canal: Panama&quot;</code> is a palindrome.<br><code>&quot;race a car&quot;</code> is not a palindrome.</p>
+<p>Note:<br>Have you consider that the string might be empty? This is a good question to ask during an interview.</p>
+<p>For the purpose of this problem, we define empty string as valid palindrome.</p>
+<p>题意：给定一个字符串判断是不是回文字符串</p>
+<p>思路：模拟</p>
+<p>注意：</p>
+<p>字符串为空<br>中间的非字母,数字的char不比较，包括开头和结束<br>在for内部对ij操作要防止越界</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;    bool isPalindrome(string s) &#123;&#10;        if(s.empty()) return true;&#10;        int i=0,j=s.size()-1;&#10;        for(;i&#60;s.size();i++,j--)&#10;        &#123;&#10;            while(i&#60;s.size() &#38;&#38; !ischar(s[i])) i++;&#10;            while(j&#62;=0 &#38;&#38; !ischar(s[j])) j--;&#10;            if(i==s.size() || j==-1) &#10;                break;&#10;            if(tolower(s[i])!=tolower(s[j])) &#10;                return false;&#10;        &#125;&#10;        while(i&#60;s.size() &#38;&#38; !ischar(s[i])) i++;&#10;        while(j&#62;=0 &#38;&#38; !ischar(s[j])) j--;&#10;        if(i==s.size()&#38;&#38;j==-1) return true;&#10;        else return false;&#10;    &#125;&#10;    &#10;    bool ischar(char a)&#10;    &#123;&#10;        return ((a&#62;=&#39;A&#39;&#38;&#38;a&#60;=&#39;Z&#39;)||(a&#62;=&#39;a&#39;&#38;&#38;a&#60;=&#39;z&#39;)||(a&#62;=&#39;0&#39;&#38;&#38;a&#60;=&#39;9&#39;));&#10;    &#125;&#10;    &#10;&#125;;</span><br></pre></td></tr></table></figure>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/leetcode习题集/"> #leetcode习题集 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/04/06/leetcode习题集119/">
                 leetcode习题集 118 Pascal's Triangle II
               </a>
@@ -934,98 +1025,11 @@
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/04/06/leetcode习题集104/">
-                leetcode习题集 104 Maximum Depth of Binary Tree  
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-04-06
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/算法/">算法</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/04/06/leetcode习题集104/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/06/leetcode习题集104/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>Given a binary tree, find its maximum depth.</p>
-<p>The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.</p>
-<p>题意：给定一个二叉树，找出最大深度</p>
-<p>思路：<br>使用递归解法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;//&#20351;&#29992;&#36882;&#24402;&#10;//&#24038;&#21491;&#21482;&#26377;&#19968;&#20010;&#23376;&#26641;&#19981;&#24433;&#21709;&#10;    int maxDepth(TreeNode *root) &#123;&#10;        if(root==NULL) return 0;&#10;        int left=maxDepth(root-&#62;left)+1;&#10;        int right=maxDepth(root-&#62;right)+1;&#10;        return (left&#62;=right?left:right);&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/leetcode习题集/"> #leetcode习题集 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
   <div class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/6/">&raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/4/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/6/">&raquo;</a>
   </div>
 
 
@@ -1059,7 +1063,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

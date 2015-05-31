@@ -123,8 +123,8 @@
           
           
             
-              <a class="post-title-link" href="/2015/04/06/leetcode习题集14/">
-                leetcode习题集 14 Longest Common Prefix  
+              <a class="post-title-link" href="/2015/04/06/leetcode习题集100/">
+                leetcode习题集 100 Same Tree
               </a>
             
           
@@ -153,8 +153,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/04/06/leetcode习题集14/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/06/leetcode习题集14/"></span>
+            <a href="/2015/04/06/leetcode习题集100/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/06/leetcode习题集100/"></span>
             </a>
           </span>
           
@@ -169,11 +169,116 @@
 
       
         
-          <p>Write a function to find the longest common prefix string amongst an array of strings.</p>
-<p>题意：找出一组字符串的最长相同前缀</p>
+          <p>Given two binary trees, write a function to check if they are equal or not.</p>
+<p>Two binary trees are considered equal if they are structurally identical and the nodes have the same value.</p>
+<p>题意：给定两个二叉树，判断两个二叉树是不是一样的（树结构相同，节点值相同）</p>
 <p>思路：</p>
-<p>找出strs最小长度，遍历即可</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;//&#25214;&#20986;&#26368;&#23567;&#38271;&#24230;&#10;    string longestCommonPrefix(vector&#60;string&#62; &#38;strs) &#123;&#10;        string prefix;&#10;        if(strs.size()==0) return prefix;&#10;        int minLength=strs[0].size();&#10;        for(int i=0;i&#60;strs.size();i++)&#10;        &#123;&#10;            if(strs[i].size()&#60;minLength)&#10;                minLength=strs[i].size();&#10;        &#125;&#10;        &#10;        for(int j=0;j&#60;minLength;j++)&#10;        &#123;&#10;            for(int i=0;i&#60;strs.size()-1;i++)&#10;            &#123;&#10;                if(strs[i][j]!=strs[i+1][j]) return prefix;&#10;            &#125;&#10;            prefix+=strs[0][j];&#10;        &#125;&#10;        return prefix;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>先序中序递归遍历，如果两个序列都相等，则一定相同</li>
+<li>先序递归遍历</li>
+<li>先序非递归</li>
+<li>层次遍历</li>
+</ol>
+<p>先序递归遍历</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bool isSameTree(TreeNode *p, TreeNode *q) &#123;&#10;&#9;if(NULL==p &#38;&#38; NULL==q) return true;&#10;&#9;if(NULL==p &#38;&#38; NULL!=q) return false;&#10;&#9;if(NULL!=p &#38;&#38; NULL==q) return false;&#10;&#9;if(p-&#62;val != q-&#62;val) return false;&#10;&#9;return (isSameTree(p-&#62;left,q-&#62;left)&#38;&#38;isSameTree(p-&#62;right,q-&#62;right));&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>层次遍历<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/**&#10; * Definition for binary tree&#10; * struct TreeNode &#123;&#10; *     int val;&#10; *     TreeNode *left;&#10; *     TreeNode *right;&#10; *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;&#10; * &#125;;&#10; */&#10;class Solution &#123;&#10;public:&#10;    /*bool isSameTree(TreeNode *p, TreeNode *q) &#123;&#10;        if(NULL==p &#38;&#38; NULL==q) return true;&#10;        if(NULL==p &#38;&#38; NULL!=q) return false;&#10;        if(NULL!=p &#38;&#38; NULL==q) return false;&#10;        if(p-&#62;val != q-&#62;val) return false;&#10;        return (isSameTree(p-&#62;left,q-&#62;left)&#38;&#38;isSameTree(p-&#62;right,q-&#62;right));&#10;    &#125;*/&#10;    bool isSameTree(TreeNode *p, TreeNode *q) &#123;&#10;        queue&#60;TreeNode *&#62; queue1,queue2;&#10;        if(NULL == p &#38;&#38; NULL==q) return true;&#10;        if(NULL != p &#38;&#38; NULL==q) return false;&#10;        if(NULL == p &#38;&#38; NULL!=q) return false;&#10;        queue&#60;TreeNode *&#62; q1,q2;&#10;        q1.push(p);&#10;        q2.push(q);&#10;        TreeNode *n1,*n2;&#10;        while(!q1.empty() &#38;&#38; !q2.empty())&#10;        &#123;&#10;            n1=q1.front();&#10;            q1.pop();&#10;            n2=q2.front();&#10;            q2.pop();&#10;            if(NULL==n1 &#38;&#38; NULL==n2)&#10;                continue;&#10;            if(NULL==n1 &#38;&#38; NULL!=n2)&#10;                return false;&#10;            if(NULL!=n1 &#38;&#38; NULL==n2)&#10;                return false;&#10;            if(n1-&#62;val != n2-&#62;val)&#10;                return false;&#10;            q1.push(n1-&#62;left);&#10;            q1.push(n1-&#62;right);&#10;            q2.push(n2-&#62;left);&#10;            q2.push(n2-&#62;right);&#10;        &#125;&#10;        if(!(q1.empty()&#38;&#38;q2.empty()))&#10;            return false;&#10;        return true;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure></p>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/leetcode习题集/"> #leetcode习题集 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/04/06/leetcode习题集1/">
+                leetcode习题集 1 Two Sum
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-04-06
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/算法/">算法</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/04/06/leetcode习题集1/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/06/leetcode习题集1/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>Given an array of integers, find two numbers such that they add up to a specific target number.</p>
+<p>The function twoSum should return indices of the two numbers such that they add up to the target, where index1 must be less than index2. Please note that your returned answers (both index1 and index2) are not zero-based.</p>
+<p>You may assume that each input would have exactly one solution.</p>
+<p>Input: numbers={2, 7, 11, 15}, target=9<br>Output: index1=1, index2=2</p>
+<p>题意：找vector中的两个数，和为target</p>
+<p>思路：</p>
+<ol>
+<li><p>两重循环遍历，复杂度O(n^2)</p>
+</li>
+<li><p>先排序，标记left，right，扫描一遍即可，复杂度O(nlogn)</p>
+</li>
+<li><p>空间换时间,每次访问一个数记下这个数的index和值，使用hash表存储，下次需要的时候直接取出来复杂度O(n)</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;    vector&#60;int&#62; twoSum(vector&#60;int&#62; &#38;numbers, int target) &#123;&#10;&#9;&#9;vector&#60;int&#62; vec;&#10;&#9;&#9;unordered_map&#60;int,int&#62; hash;&#10;&#9;&#9;for(int i=0;i&#60;numbers.size();i++)&#10;&#9;&#9;&#123;&#10;&#9;&#9;&#9;int numToFind=target-numbers[i];&#10;&#9;&#9;&#9;if(hash.find(numToFind)!=hash.end())&#10;&#9;&#9;&#9;&#123;&#10;&#9;&#9;&#9;&#9;vec.push_back(hash[numToFind]+1);&#10;&#9;&#9;&#9;&#9;vec.push_back(i+1);&#10;&#9;&#9;&#9;&#9;return vec;&#10;&#9;&#9;&#9;&#125;&#10;&#9;&#9;&#9;else&#10;&#9;&#9;&#9;&#9;hash[numbers[i]]=i;&#10;&#9;&#9;&#125;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>
         
       
     </div>
@@ -950,98 +1055,11 @@
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/04/06/leetcode习题集67/">
-                leetcode习题集 67 Add Binary 
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-04-06
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/算法/">算法</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/04/06/leetcode习题集67/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/06/leetcode习题集67/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>Given two binary strings, return their sum (also a binary string).</p>
-<p>For example,<br>a = <code>&quot;11&quot;</code><br>b = <code>&quot;1&quot;</code><br>Return <code>&quot;100&quot;</code>.</p>
-<p>题意：给定一个int的vector，给这个数字加上1，返回最终的数字</p>
-<p>思路：模拟</p>
-<p>注意：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;//&#24605;&#36335;1&#65306;stoi&#36716;&#21270;&#20026;&#25972;&#25968;&#65292;&#36716;&#25442;&#36827;&#20301;&#65292;itos&#36716;&#21270;&#20026;&#23383;&#31526;&#20018;&#65292;&#27604;&#36739;&#22797;&#26434;&#10;//&#24605;&#36335;2&#65306;&#30452;&#25509;&#20351;&#29992;&#23383;&#31526;&#20174;&#21518;&#21521;&#21069;&#21152;&#65292;carry&#35760;&#24405;&#10;//&#24212;&#35813;&#20808;&#34917;&#40784;&#30701;&#23383;&#31526;&#20018;&#30340;&#38271;&#24230;&#10;//&#25968;&#25454;&#65306;&#23383;&#31526;&#20018;&#20026;&#31354;&#65292;&#23383;&#31526;&#20018;&#39318;&#20301;&#26377;&#36827;&#20301;&#10;    string addBinary(string a, string b) &#123;&#10;        if(a.size()==0) return b;&#10;        if(b.size()==0) return a;&#10;        string ans;&#10;        int carry=0;&#10;        int i=a.size()-1,j=b.size()-1;&#10;        for(;i&#62;=0&#38;&#38;j&#62;=0;i--,j--)&#10;        &#123;&#10;            ans=add(a[i],b[j],carry)+ans;&#10;        &#125;&#10;        string sub;&#10;        if(i&#62;=0)&#10;            sub=a.substr(0,i+1);&#10;        else if(j&#62;=0)&#10;            sub=b.substr(0,j+1);&#10;        else&#10;            sub=&#34;&#34;;&#10;        if(carry==0)&#10;            return (sub+ans);&#10;        else if(carry==1 &#38;&#38; i&#60;0 &#38;&#38; j&#60;0)&#10;            return (&#39;1&#39;+ans);&#10;        else &#10;        &#123;&#10;            for(int k=sub.size()-1;k&#62;=0;k--)&#10;            &#123;&#10;                ans=add(&#39;0&#39;,sub[k],carry)+ans;&#10;            &#125;    &#10;            if(carry==1)&#10;                return (&#39;1&#39;+ans);&#10;            else&#10;                return ans;&#10;            &#10;        &#125;&#10;        &#10;    &#125;&#10;    &#10;    char add(char a,char b,int &#38;carry)&#10;        &#123;&#10;            if(a==&#39;0&#39;&#38;&#38;b==&#39;0&#39;) &#10;&#9;&#9;&#9;&#123;&#10;&#9;&#9;&#9;&#9;if(carry==1) &#10;&#9;&#9;&#9;&#9;&#123;&#10;&#9;&#9;&#9;&#9;&#9;carry=0;&#10;&#9;&#9;&#9;&#9;&#9;return &#39;1&#39;;&#10;&#9;&#9;&#9;&#9;&#125;&#10;&#9;&#9;&#9;&#9;else return &#39;0&#39;;&#10;&#9;&#9;&#9;&#125;&#10;            if((a==&#39;0&#39;&#38;&#38;b==&#39;1&#39;)||(a==&#39;1&#39;&#38;&#38;b==&#39;0&#39;)) &#10;            &#123;&#10;                if(carry==0) return &#39;1&#39;;&#10;                if(carry==1)&#10;                &#123;&#10;                    carry==1;&#10;                    return &#39;0&#39;;&#10;                &#125;&#10;            &#125;&#10;            if(a==&#39;1&#39;&#38;&#38;b==&#39;1&#39;)&#10;            &#123;&#10;                if(carry==0)&#10;                &#123;&#10;                    carry=1;&#10;                    return &#39;0&#39;;&#10;                &#125;&#10;                if(carry==1)&#10;                &#123;&#10;                    carry=1;&#10;                    return &#39;1&#39;;&#10;                &#125;&#10;            &#125;&#10;            &#10;        &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/leetcode习题集/"> #leetcode习题集 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
   <div class="pagination">
-    <a class="extend prev" rel="prev" href="/">&laquo;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/">&raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/">&raquo;</a>
   </div>
 
 
@@ -1075,7 +1093,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
