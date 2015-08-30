@@ -123,6 +123,130 @@
           
           
             
+              <a class="post-title-link" href="/2014/10/28/CodeIgniter笔记之数据库访问/">
+                CodeIgniter笔记之数据库访问
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-10-27
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/web开发/">web开发</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/10/28/CodeIgniter笔记之数据库访问/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/28/CodeIgniter笔记之数据库访问/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h4 id="修改配置文件">修改配置文件</h4><p><code>application/config/database.php</code></p>
+<h4 id="装载">装载</h4><p>将数据库访问对象，装载到超级对象属性中 $this-&gt;load-&gt;database();</p>
+<h4 id="查询">查询</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res-&#62;$this-&#62;db-&#62;query($sql) //&#36820;&#22238;&#26597;&#35810;&#32467;&#26524;&#23545;&#35937;&#23545;&#35937;&#10;$res-&#62;result() ;// &#36820;&#22238;&#25968;&#32452;&#65292;&#25968;&#32452;&#20013;&#26159;&#19968;&#20010;&#20010;&#23545;&#35937;&#10;$res-&#62;result_array(); // &#36820;&#22238;&#20108;&#32500;&#25968;&#32452;&#65292;&#37324;&#38754;&#26159;&#20851;&#32852;&#25968;&#32452;&#10;$res-&#62;row(); // &#36820;&#22238;&#31532;&#19968;&#26465;&#25968;&#25454;</span><br></pre></td></tr></table></figure>
+<h4 id="参数绑定">参数绑定</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&#34;select * from blog_user where name=?&#34;;&#10;$this-&#62;db-&#62;query($sql,$name); // &#22914;&#26524;&#26377;&#22810;&#20010;&#21442;&#25968;&#65288;&#38382;&#21495;&#65289;&#65292;&#38656;&#35201;&#20351;&#29992;&#32034;&#24341;&#25968;&#32452;</span><br></pre></td></tr></table></figure>
+<h4 id="db的自动加载">db的自动加载</h4><p>配置自动加载db <code>application/config/autoload.php</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$autoload[&#39;libaraied&#39;] = array(&#39;database&#39;); // &#23601;&#19981;&#38656;&#35201;$this-&#62;load-&#62;database();</span><br></pre></td></tr></table></figure></p>
+<h4 id="CI的AR模型_Active_Record">CI的AR模型 Active Record</h4><h5 id="配置">配置</h5><p><code>applicaion/config/database.php</code> 设置<code>$active_record = TRUE</code></p>
+<h5 id="操作">操作</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res=$this-&#62;db-&#62;get(&#39;&#34920;&#21517;&#39;); // &#36820;&#22238;&#32467;&#26524;&#23545;&#35937;&#10;$res-&#62;result();&#10;$bool = $this-&#62;db-&#62;insert(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;);&#10;$bool=$this-&#62;db-&#62;update(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;,&#26465;&#20214;);&#10;$bool=$this-&#62;db-&#62;delete(&#39;&#34920;&#21517;&#39;,&#26465;&#20214;)</span><br></pre></td></tr></table></figure>
+<h5 id="连贯操作">连贯操作</h5><p>模拟sql语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res=$this-&#62;db-&#62;select(&#39;id,name&#39;)-&#62;from(&#39;user&#39;)-&#62;where(&#39;id&#62;=3&#39;);</span><br></pre></td></tr></table></figure>
+<p>使用where</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res=$this-&#62;db-&#62;where(&#39;name&#39;,&#39;mary&#39;)-&#62;get(&#39;user&#39;);</span><br></pre></td></tr></table></figure>
+<h5 id="复杂的查询使用参数绑定">复杂的查询使用参数绑定</h5><p><code>$this-&gt;db-&gt;query($sql,$data)</code></p>
+<h4 id="数据库查询结果">数据库查询结果</h4><h5 id="result()">result()</h5><p>方法执行成功返回一个对象数组，失败则返回一个空数组。<br>例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$query = $this-&#62;db-&#62;query(&#34;&#35201;&#25191;&#34892;&#30340; SQL&#34;);&#10;&#10;foreach ($query-&#62;result() as $row)&#10;&#123;&#10;   echo $row-&#62;title;&#10;   echo $row-&#62;name;&#10;   echo $row-&#62;body;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="判断结果集的条目数">判断结果集的条目数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if ($query-&#62;num_rows() &#62; 0)</span><br></pre></td></tr></table></figure>
+<h5 id="result_array()">result_array()</h5><p>该方法执行成功时将记录集作为关联数组返回。失败时返回空数组。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$query = $this-&#62;db-&#62;query(&#34;&#35201;&#25191;&#34892;&#30340; SQL&#34;);&#10;&#10;foreach ($query-&#62;result_array() as $row)&#10;&#123;&#10;   echo $row[&#39;title&#39;];&#10;   echo $row[&#39;name&#39;];&#10;   echo $row[&#39;body&#39;];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="row()">row()</h5><p>该函数将当前请求的第一行数据作为 object 返回。</p>
+<h4 id="总结，CI中的增删改查">总结，CI中的增删改查</h4><h5 id="查">查</h5><ul>
+<li>得到一个表</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;get(&#39;&#34920;&#21517;&#39;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>单个表条件查询</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;get_where(&#39;&#34920;&#21517;&#39;,&#39;&#20851;&#32852;&#25968;&#32452;&#26465;&#20214;&#39;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>单表查询多个限定条件，链式查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;select(&#39;title&#39;)-&#62;from(&#39;mytable&#39;)-&#62;where(&#39;id&#39;, $id)-&#62;limit(10, 20);&#10;$query  = $this-&#62;db-&#62;get();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>多表查询</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this -&#62;db-&#62;query($sql,$data)&#10;$sql   = &#34;SELECT * FROM some_table WHERE id = ? AND status = ? AND author = ?&#34;;&#10;$query = $this-&#62;admin-&#62;query($sql, array($id, $status, $author));</span><br></pre></td></tr></table></figure>
+<h5 id="增">增</h5><p>可以向函数传递 数组 或一个 对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$bool = $this-&#62;db-&#62;insert(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;);&#10;$data = array(&#10;               &#39;title&#39; =&#62; &#39;My title&#39; ,&#10;               &#39;name&#39; =&#62; &#39;My Name&#39; ,&#10;               &#39;date&#39; =&#62; &#39;My date&#39;&#10;            );&#10;$this-&#62;db-&#62;insert(&#39;mytable&#39;, $data); &#10;// Produces: INSERT INTO mytable (title, name, date) VALUES (&#39;My title&#39;, &#39;My name&#39;, &#39;My date&#39;)</span><br></pre></td></tr></table></figure>
+<h5 id="改">改</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$bool=$this-&#62;db-&#62;update(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;,&#26465;&#20214;);&#10;&#10;$data = array(&#10;               &#39;title&#39; =&#62; $title,&#10;               &#39;name&#39; =&#62; $name,&#10;               &#39;date&#39; =&#62; $date&#10;            );&#10;&#10;$this-&#62;db-&#62;where(&#39;id&#39;, $id);&#10;$this-&#62;db-&#62;update(&#39;mytable&#39;, $data);</span><br></pre></td></tr></table></figure>
+<p>或</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;update(&#39;mytable&#39;, $data, array(&#39;id&#39; =&#62; $id));</span><br></pre></td></tr></table></figure>
+<h5 id="删">删</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$bool =$this-&#62;db-&#62;delete(&#39;&#34920;&#21517;&#39;,&#26465;&#20214;)</span><br></pre></td></tr></table></figure>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CodeIgniter/"> #CodeIgniter </a>
+          
+            <a href="/tags/PHP/"> #PHP </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/10/28/CodeIgniter笔记/">
                 CodeIgniter笔记
               </a>
@@ -1141,91 +1265,6 @@
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/04/Csharp中的out和ref/">
-                C#中的out和ref
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-03-04
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/NET/">.NET</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/04/Csharp中的out和ref/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/04/Csharp中的out和ref/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="为什么要用out和ref">为什么要用out和ref</h2><p>C#中默认的参数传递都是值传递，想要使用<strong>引用传递</strong>就需要使用ref和out关键字，ref和out都是引用传递，但是逻辑上有区别</p>
-<h2 id="区别">区别</h2><p>ref需要初始化参数才能进行传递，逻辑是已经有了，传进来，来帮我改改</p>
-<p>out不需要，out的逻辑是不管有没有，传进来，主要给我传出来</p>
-<h2 id="例子">例子</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> study</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> Program</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// ref关键字可以让一个值类型的输入按引用传递，类似于C语言中的&amp;</span></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">refFunction</span><span class="params">(<span class="keyword">int</span> x,ref <span class="keyword">int</span> a)</span>  </span><br><span class="line">        </span>&#123;  </span><br><span class="line">            a = a * x;  </span><br><span class="line">        &#125;   </span><br><span class="line">        <span class="comment">// 使用out关键字,输入参数str在传递给outKeyWord()方法前不必进行初始化</span></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">outKeyWord</span><span class="params">(out <span class="built_in">string</span> str)</span>  </span><br><span class="line">        </span>&#123;  </span><br><span class="line">            <span class="comment">//输出参数str在方法返回前必须被赋值 </span></span><br><span class="line">            str = <span class="string">"a string"</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span><span class="params">(<span class="built_in">string</span>[] args)</span>  </span><br><span class="line">        </span>&#123;  </span><br><span class="line">            <span class="comment">//***********ref关键字的使用  </span></span><br><span class="line">            <span class="keyword">int</span> x = <span class="number">12</span>, a = <span class="number">5</span>;  </span><br><span class="line">            Console.WriteLine(a);<span class="comment">//输出:5  </span></span><br><span class="line">            refFunction(x, ref a);  </span><br><span class="line">            Console.WriteLine(a);<span class="comment">//输出:60  </span></span><br><span class="line">              </span><br><span class="line">            <span class="comment">//***********out关键字的使用  </span></span><br><span class="line">            <span class="built_in">string</span> str;<span class="comment">//不必初始化  </span></span><br><span class="line">            outKeyWord(out str);<span class="comment">//输出:a string  </span></span><br><span class="line">            Console.WriteLine(str);  </span><br><span class="line">            Console.ReadKey();  </span><br><span class="line">  </span><br><span class="line">        &#125;  </span><br><span class="line">            </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/C/"> #C# </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
@@ -1264,21 +1303,21 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">71</span>
+              <span class="site-state-item-count">72</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
