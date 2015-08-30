@@ -4,7 +4,7 @@
   <subtitle><![CDATA[seize the day]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://rudy-zhang.me/"/>
-  <updated>2015-08-30T07:50:25.306Z</updated>
+  <updated>2015-08-30T07:56:03.789Z</updated>
   <id>http://rudy-zhang.me/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://rudy-zhang.me/2015/08/21/effectiveCPP%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     <id>http://rudy-zhang.me/2015/08/21/effectiveCPP读书笔记/</id>
     <published>2015-08-20T23:23:33.000Z</published>
-    <updated>2015-08-30T07:50:25.306Z</updated>
+    <updated>2015-08-30T07:56:03.789Z</updated>
     <content type="html"><![CDATA[<h2 id="条款1，视C++为一个语言联邦">条款1，视C++为一个语言联邦</h2><p>可以把C++看成四个组成部分：</p>
 <ul>
 <li>C语言的部分 </li>
@@ -29,7 +29,7 @@
 </ul>
 <p>每一个部分都有各自的规约</p>
 <h2 id="条款2，_尽量以const，enum，inline替换#define">条款2， 尽量以const，enum，inline替换#define</h2><ul>
-<li><h1 id="define只有替换功能，在预处理阶段完成，没有类型检查，也没有封装性">define只有替换功能，在预处理阶段完成，没有<strong>类型检查</strong>，也没有封装性</h1></li>
+<li>#define只有替换功能，在预处理阶段完成，没有<strong>类型检查</strong>，也没有封装性</li>
 <li>使用const替代变量定义，inline替代函数定义</li>
 <li>预处理器中，#include必不可少，#ifdef，#else可以用来进行控制编译</li>
 </ul>
