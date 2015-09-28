@@ -20,7 +20,7 @@
 
 
 
-  <meta name="keywords" content="PHP,PHP框架," />
+  <meta name="keywords" content="Rudy" />
 
 
 
@@ -41,7 +41,7 @@
   </script>
 
 
-  <title> 一步一步写一个PHP框架（一） // Rudy's Blog </title>
+  <title> 字符串专题 // Rudy's Blog </title>
 </head>
 
 <body>
@@ -121,7 +121,7 @@
           
           
             
-              一步一步写一个PHP框架（一）
+              字符串专题
             
           
         </h1>
@@ -129,14 +129,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-04-20
+          发表于 2015-09-27
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/web开发/">web开发</a>
+              <a href="/categories/找工作总结/">找工作总结</a>
 
               
               
@@ -149,8 +149,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/04/20/一步一步写一个PHP框架1/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/20/一步一步写一个PHP框架1/"></span>
+            <a href="/2015/09/27/找工作总结-字符串专题/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/27/找工作总结-字符串专题/"></span>
             </a>
           </span>
           
@@ -164,70 +164,226 @@
       
 
       
-        <h2 id="前言">前言</h2><p>完成了一个小项目，使用Apache+MySql+PHP。PHP中使用的框架是CodeIgniter，这是一个轻量易扩展的PHP MVC框架，适用于轻量级的网站搭建。CodeIgniter手册清晰丰富，覆盖了一般网站的所有需求。</p>
-<p>为了更好地理解PHP里面框架的设计，目标是自己写一个简单的PHP MVC框架，一方面可以更深入地学习PHP，一方面也能够更深入地理解框架设计里面的思想。</p>
-<h2 id="Apache的工作流程">Apache的工作流程</h2><p>Apache是一个Web服务器，也可以叫做http服务器，因为Apache只能处理http请求。常见的web服务器还有Nginx</p>
-<p>Apache的工作流程如下：</p>
-<ol>
-<li>浏览器向服务器发出HTTP请求(Request)。</li>
-<li>服务器收到浏览器的请求数据，经过分析处理，向浏览器输出响应数据（Response）。</li>
-<li>浏览器收到服务器的响应数据，经过分析处理，将最终结果显示在浏览器中。</li>
-</ol>
-<p>Apache和Nginx都属于Web服务器，两者都实现了HTTP 1.1协议。</p>
-<p>所以如果有人问FTP协议可以在Apache上工作吗？答案是用Apache FTP Server可以，Apache web服务器不可以。</p>
-<p>Apache是用C语言写的，服务器当然要追求高效率。</p>
-<h2 id="PHP原理">PHP原理</h2><p>PHP的核心解释器是用C语言写的，相当于我们写了PHP代码，会有一个C语言写好的解释工具一边解释，一边执行。实际上在写PHP的时候就是在使用一个C语言写好的工具，我们的PHP代码就是指挥这个工具的命令。</p>
-<p>PHP包括四层体系：</p>
-<ol>
-<li>Zend引擎：Zend整体用纯C实现，是PHP的内核部分。负责翻译PHP代码，是一切的核心。</li>
-<li>Extensions：围绕Zend引擎，通过组件方式提供基础服务。常见内置函数如array是由extension实现的。</li>
-<li>Sapi通过一系列的<strong>钩子函数</strong>，使得PHP可以和外围交互数据。如Apache</li>
-<li>上层应用：平时写的PHP程序</li>
-</ol>
-<blockquote>
-<p>如果PHP是一辆车，那么车的框架就是PHP本身，Zend是车的引擎（发动机），Ext下面的各种组件就是车的轮子，Sapi可以看做是公路， 车可以跑在不同类型的公路上，而一次PHP程序的执行就是汽车跑在公路上。因此，我们需要：性能优异的引擎+合适的车轮+正确的跑道。</p>
-</blockquote>
-<p>PHP的执行的核心是翻译出来的一条一条指令，也即opcode。</p>
-<p><strong>hashtable</strong>是PHP的核心数据结构，数组就是典型的应用。Zend hash table实现了典型的hash表散列结构，同时通过附加一个双向链表（解决冲突），提供了正向、反向遍历数组的功能。</p>
-<p>更详细的内容参考<a href="!http://www.cnblogs.com/zcy_soft/archive/2013/03/14/2959396.html">这里</a></p>
-<h2 id="PHP在Apache上运行">PHP在Apache上运行</h2><h3 id="以模块加载的方式运行">以模块加载的方式运行</h3><p>这种方式使用了Apache的Hook机制。所谓Hook机制，就是在自己的程序运行的时候允许别的模块插上一腿。当我们配置Apache服务器的<code>http.config</code>文件时，写入<code>mod_php5.so/php5apache2.dll</code>就是将自定义的函数注入到Apache的请求处理循环当中。在模块化的运行方式中，PHP与Web服务器一起启动并且运行，通过Apache自身的进程线程管理来处理并发的请求。</p>
-<h3 id="以CGI，FastCGI方式运行">以CGI，FastCGI方式运行</h3><p>CGI英文叫做公共网关接口，CGI是外部应用程序（CGI程序）与Web服务器之间的接口标准，是在CGI程序和Web服务器之间传递信息的规程。Apache在Http请求的时候会将请求提交给CGI应用程序（php-cgi.exe）解释，解释之后的结果返回给Apache，然后再返回给相应的请求用户。</p>
-<p>CGI VS FastCGI</p>
-<p>FastCGI是CGI的加强版本，CGI是单进程，多线程的运行方式，程序执行完成之后就会销毁。FastCGI是常驻(long-live)型的CGI.有自身的进程管理器，不必每一次都fork一个进程（CGI解释器）去执行。常见的PHP-FPM是一个PHP FastCGI管理器。</p>
-<p>关于更多的对比可以看<a href="http://fifiole.blog.163.com/blog/static/169459225201222962651804/" target="_blank" rel="external">这里</a>。</p>
-<blockquote>
-<p>目前在HTTPServer这块基本可以看到有三种stack比较流行：</p>
-<p>（1）Apache+mod_php5</p>
-<p>（2）lighttp+spawn-fcgi</p>
-<p>（3）nginx+PHP-FPM</p>
-<p>三者后两者性能可能稍优，但是Apache由于有丰富的模块和功能，目前来说仍旧是老大。有人测试nginx+PHP-FPM在高并发情况下可能会达到Apache+mod_php5的5~10倍，现在nginx+PHP-FPM使用的人越来越多。</p>
-</blockquote>
+        <h3 id="剑指offer4_替换空格">剑指offer4 替换空格</h3><p>问题描述：请实现一个函数，将一个字符串中的空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。</p>
+<p>解法：扫描一遍，记录空格个数。申请newSize，从后向前填充数组。</p>
+<pre><code>class Solution {
+<span class="keyword">public</span>:
+    string replaceSpace(string <span class="built_in">str</span>) {
+        <span class="keyword">if</span>(<span class="built_in">str</span>.<span class="built_in">size</span>()==<span class="number">0</span>)
+            <span class="keyword">return</span> <span class="built_in">str</span>;
+        <span class="built_in">int</span> numOfSpace=<span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="built_in">int</span> i=<span class="number">0</span>;i&lt;<span class="built_in">str</span>.<span class="built_in">size</span>();++i)
+            <span class="keyword">if</span>(<span class="built_in">str</span>[i]==<span class="string">' '</span>)
+                ++numOfSpace;
+        <span class="built_in">int</span> newSize=<span class="built_in">str</span>.<span class="built_in">size</span>()+<span class="number">2</span>*numOfSpace;
+        string ans;
+        ans.resize(newSize);
+        <span class="built_in">int</span> i=<span class="built_in">str</span>.<span class="built_in">size</span>()-<span class="number">1</span>,j=newSize-<span class="number">1</span>;
+        <span class="keyword">while</span>(i&gt;=<span class="number">0</span>&amp;&amp;j&gt;=<span class="number">0</span>)   
+        {
+            <span class="keyword">if</span>(<span class="built_in">str</span>[i]==<span class="string">' '</span>)
+            {
+                ans[j--]=<span class="string">'0'</span>;
+                ans[j--]=<span class="string">'2'</span>;
+                ans[j--]=<span class="string">'%'</span>;
+                --i;
+            }
+            <span class="keyword">else</span>
+                ans[j--]=<span class="built_in">str</span>[i--];
+        }
+        <span class="keyword">return</span> ans;
+    }
+};
+</code></pre><h3 id="剑指offer54_表示数值的字符串">剑指offer54 表示数值的字符串</h3><p>问题描述：请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如，字符串”+100”,”5e2”,”-123”,”3.1416”和”-1E-16”都表示数值。 但是”12e”,”1a3.14”,”1.2.3”,”+-5”和”12e+4.3”都不是。</p>
+<p>解法：首先可以写出这个字符串的正则表达式</p>
+<pre><code>(+|-)？\<span class="keyword">d</span>+(.\<span class="keyword">d</span>+)?(<span class="keyword">e</span>|<span class="literal">E</span>(+|-)?\<span class="keyword">d</span>+)?
+</code></pre><p>对于正则表达式中的符号，<code>?</code>表示0或1，使用<code>if</code>判断，+表示1或者更多，直接扫描判断。</p>
+<p>注意点：<br>(1) 非法输入，传入str == NULL<br>(2) 结束条件的判断</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+    bool isNumeric(<span class="keyword">char</span>* <span class="keyword">str</span>)
+    {
+        <span class="keyword">if</span>(<span class="keyword">str</span> == NULL)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'+'</span> || *<span class="keyword">str</span> == <span class="string">'-'</span>)
+            <span class="keyword">str</span>++;
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        scanDigits(<span class="keyword">str</span>);
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'.'</span>)
+        {
+            <span class="keyword">str</span>++;
+            <span class="comment">//根据题目要求是否允许"32."这样的数据</span>
+            <span class="comment">//if(*str == '\0')</span>
+            <span class="comment">//    return false;</span>
+            scanDigits(<span class="keyword">str</span>);
+        }
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'e'</span> || *<span class="keyword">str</span> == <span class="string">'E'</span>)
+            <span class="keyword">str</span>++;
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'+'</span> || *<span class="keyword">str</span> == <span class="string">'-'</span>)
+            <span class="keyword">str</span>++;
+        scanDigits(<span class="keyword">str</span>);
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
 
+    <span class="keyword">void</span> scanDigits(<span class="keyword">char</span> *(&amp;<span class="keyword">str</span>))
+    {
+        <span class="keyword">while</span>(*<span class="keyword">str</span> != <span class="string">'\0'</span> &amp;&amp; *<span class="keyword">str</span> &gt;= <span class="string">'0'</span> &amp;&amp; *<span class="keyword">str</span> &lt;= <span class="string">'9'</span>)
+            <span class="keyword">str</span>++;
+    }
+};
+</code></pre><h3 id="剑指offer55_字符流中第一个不重复的字符">剑指offer55 字符流中第一个不重复的字符</h3><p>问题描述：请实现一个函数用来找出字符流中第一个只出现一次的字符。例如，当从字符流中只读出前两个字符”go”时，第一个只出现一次的字符是”g”。当从该字符流中读出前六个字符“google”时，第一个只出现一次的字符是”l”。</p>
+<p>解法：字符只有256个，所以可以使用<code>int dict[256]</code>数组来记录所有字符出现的情况。0表示未出现过，-1表示出现过大于1次，&gt;0时dict[i]表示字符i第一次出现的index</p>
+<p>注意点：<br>通过遍历dict[26]找到minIndex找到<strong>第一次出现</strong>的字符</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>
+</span>{
+<span class="keyword">public</span>:
+      <span class="comment">//Insert one char from stringstream</span>
+    <span class="keyword">void</span> Insert(<span class="keyword">char</span> ch)
+    {
+        <span class="keyword">if</span>(dict[ch] == <span class="number">0</span>) <span class="comment">//没出现过</span>
+            dict[ch] = <span class="keyword">index</span>;
+        <span class="keyword">else</span> <span class="comment">//出现过</span>
+            dict[ch] = -<span class="number">1</span>;
+        <span class="keyword">index</span>++;
+    }
+      <span class="comment">//return the first appearence once char in current stringstream</span>
+    <span class="keyword">char</span> FirstAppearingOnce()
+    {
+        <span class="keyword">char</span> ans=<span class="string">'#'</span>;
+        <span class="keyword">int</span> minIndex = INT_MAX;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">256</span>;i++)
+        {
+            <span class="keyword">if</span>(dict[i] &gt; <span class="number">0</span> &amp;&amp; dict[i] &lt; minIndex)
+            {
+                ans = i;
+                minIndex = dict[i];
+            }
+        }
+        <span class="keyword">return</span> ans;
+    }
+
+    Solution()
+    {
+        <span class="keyword">index</span> = <span class="number">1</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">256</span>;i++)
+            dict[i] = <span class="number">0</span>;
+    }
+<span class="keyword">private</span>:
+    <span class="keyword">int</span> dict[<span class="number">256</span>];
+    <span class="keyword">int</span> <span class="keyword">index</span>=<span class="number">1</span>;
+};
+</code></pre><h3 id="剑指offer42_反转单词顺序_VS_左旋字符串">剑指offer42 反转单词顺序 VS 左旋字符串</h3><p>反转字符串函数：</p>
+<pre><code>void reverseString(<span class="built_in">string</span> &amp;str, <span class="built_in">int</span> <span class="built_in">left</span>, <span class="built_in">int</span> <span class="built_in">right</span>)
+{
+    <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+    {
+        char temp = str[<span class="built_in">left</span>];
+        str[<span class="built_in">left</span>] = str[<span class="built_in">right</span>];
+        str[<span class="built_in">right</span>] = temp;
+        <span class="built_in">left</span>++;
+        <span class="built_in">right</span>--;
+    }
+}
+</code></pre><h4 id="反转单词顺序">反转单词顺序</h4><p>问题描述：JOBDU最近来了一个新员工Fish，每天早晨总是会拿着一本英文杂志，写些句子在本子上。同事Cat对Fish写的内容颇感兴趣，有一天他向Fish借来翻看，但却读不懂它的意思。例如，“student. a am I”。后来才意识到，这家伙原来把句子单词的顺序翻转了，正确的句子应该是“I am a student.”。Cat对一一的翻转这些单词顺序可不在行，你能帮助他么？</p>
+<p>解法：先反转每一个单词，再反转整句</p>
+<p>注意点：</p>
+<ol>
+<li>功能测试：”student. a am I”</li>
+<li>特殊测试用例”aaa “,” aaa”</li>
+</ol>
+<pre><code>class Solution {
+<span class="keyword">public</span>:
+    string ReverseSentence(string <span class="built_in">str</span>) {
+        <span class="keyword">if</span>(<span class="built_in">str</span>.<span class="built_in">size</span>() == <span class="number">0</span>) <span class="keyword">return</span> <span class="built_in">str</span>;
+        reverseString(<span class="built_in">str</span>, <span class="number">0</span>, <span class="built_in">str</span>.<span class="built_in">size</span>() - <span class="number">1</span>);
+        <span class="built_in">int</span> left = <span class="number">0</span>, right = <span class="number">0</span>;
+        <span class="keyword">while</span>(right &lt; <span class="built_in">str</span>.<span class="built_in">size</span>())
+        {
+            <span class="keyword">while</span>(<span class="built_in">str</span>[left] == <span class="string">' '</span>)
+            {
+                left++;
+                right++;
+            }
+            <span class="comment">//应对用例"aa "</span>
+            <span class="keyword">if</span>(left &gt;= <span class="built_in">str</span>.<span class="built_in">size</span>()) 
+                <span class="keyword">break</span>;
+            <span class="keyword">while</span>(<span class="built_in">str</span>[right] != <span class="string">' '</span> &amp;&amp; <span class="built_in">str</span>[right] != <span class="string">'\0'</span>)
+                right++;
+            reverseString(<span class="built_in">str</span>,left,right-<span class="number">1</span>);
+            left = right;
+        }
+        <span class="keyword">return</span> <span class="built_in">str</span>;
+    }
+
+    <span class="keyword">void</span> reverseString(string &amp;<span class="built_in">str</span>,<span class="built_in">int</span> left,<span class="built_in">int</span> right)
+    {
+        <span class="keyword">while</span>(left &lt; right)
+        {
+            <span class="built_in">char</span> temp = <span class="built_in">str</span>[left];
+            <span class="built_in">str</span>[left] = <span class="built_in">str</span>[right];
+            <span class="built_in">str</span>[right] = temp;
+            left++;
+            right--;
+        }
+    }
+};
+</code></pre><h4 id="左旋字符串">左旋字符串</h4><p>问题描述：汇编语言中有一种移位指令叫做循环左移（ROL），现在有个简单的任务，就是用字符串模拟这个指令的运算结果。对于一个给定的字符序列S，请你把其循环左移K位后的序列输出。例如，字符序列S=”abcXYZdef”,要求输出循环左移3位后的结果，即“XYZdefabc”。是不是很简单？OK，搞定它！</p>
+<p>解法：先反转3分割的两部分，再旋转这个字符串</p>
+<pre><code>class Solution {
+<span class="keyword">public</span>:
+    string LeftRotateString(string <span class="built_in">str</span>, <span class="built_in">int</span> n) {
+        <span class="keyword">if</span>(<span class="built_in">str</span>.<span class="built_in">size</span>() == <span class="number">0</span>) <span class="keyword">return</span> <span class="built_in">str</span>;
+        <span class="keyword">if</span>(n &gt;= <span class="built_in">str</span>.<span class="built_in">size</span>() || n &lt;= <span class="number">0</span>) <span class="keyword">return</span> <span class="built_in">str</span>;
+        reverseString(<span class="built_in">str</span>, <span class="number">0</span>, n - <span class="number">1</span>);
+        reverseString(<span class="built_in">str</span>, n, <span class="built_in">str</span>.<span class="built_in">size</span>() - <span class="number">1</span>);
+        reverseString(<span class="built_in">str</span>, <span class="number">0</span>, <span class="built_in">str</span>.<span class="built_in">size</span>() - <span class="number">1</span>);
+        <span class="keyword">return</span> <span class="built_in">str</span>;
+    }
+
+    <span class="keyword">void</span> reverseString(string &amp;<span class="built_in">str</span>,<span class="built_in">int</span> left,<span class="built_in">int</span> right)
+    {
+        <span class="keyword">while</span>(left &lt; right)
+        {
+            <span class="built_in">char</span> temp = <span class="built_in">str</span>[left];
+            <span class="built_in">str</span>[left] = <span class="built_in">str</span>[right];
+            <span class="built_in">str</span>[right] = temp;
+            left++;
+            right--;
+        }
+    }
+};
+</code></pre>
       
     </div>
 
     <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/PHP/"> #PHP </a>
-          
-            <a href="/tags/PHP框架/"> #PHP框架 </a>
-          
-        </div>
       
 
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/04/22/一步一步写一个PHP框架2/">一步一步写一个PHP框架（二）</a>
+              <a href="/2015/09/27/排序算法总结/">排序算法总结</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/04/07/如何完成一个在线考试的功能/">如何完成一个在线考试的功能</a>
+              <a href="/2015/08/21/effectiveCPP读书笔记/">Effective C++ 读书笔记</a>
             
           </div>
         </div>
@@ -243,8 +399,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/04/20/一步一步写一个PHP框架1/"
-               data-title="一步一步写一个PHP框架（一）" data-url="http://rudy-zhang.me/2015/04/20/一步一步写一个PHP框架1/">
+          <div class="ds-thread" data-thread-key="2015/09/27/找工作总结-字符串专题/"
+               data-title="字符串专题" data-url="http://rudy-zhang.me/2015/09/27/找工作总结-字符串专题/">
           </div>
         
       </div>
@@ -339,7 +495,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Apache的工作流程"><span class="nav-number">2.</span> <span class="nav-text">Apache的工作流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP原理"><span class="nav-number">3.</span> <span class="nav-text">PHP原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP在Apache上运行"><span class="nav-number">4.</span> <span class="nav-text">PHP在Apache上运行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#以模块加载的方式运行"><span class="nav-number">4.1.</span> <span class="nav-text">以模块加载的方式运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#以CGI，FastCGI方式运行"><span class="nav-number">4.2.</span> <span class="nav-text">以CGI，FastCGI方式运行</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#剑指offer4_替换空格"><span class="nav-number">1.</span> <span class="nav-text">剑指offer4 替换空格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#剑指offer54_表示数值的字符串"><span class="nav-number">2.</span> <span class="nav-text">剑指offer54 表示数值的字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#剑指offer55_字符流中第一个不重复的字符"><span class="nav-number">3.</span> <span class="nav-text">剑指offer55 字符流中第一个不重复的字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#剑指offer42_反转单词顺序_VS_左旋字符串"><span class="nav-number">4.</span> <span class="nav-text">剑指offer42 反转单词顺序 VS 左旋字符串</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#反转单词顺序"><span class="nav-number">4.1.</span> <span class="nav-text">反转单词顺序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#左旋字符串"><span class="nav-number">4.2.</span> <span class="nav-text">左旋字符串</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

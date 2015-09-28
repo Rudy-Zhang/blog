@@ -123,8 +123,8 @@
           
           
             
-              <a class="post-title-link" href="/2015/04/06/leetcode习题集67/">
-                leetcode习题集 67 Add Binary 
+              <a class="post-title-link" href="/2014/10/28/CodeIgniter笔记/">
+                CodeIgniter笔记
               </a>
             
           
@@ -133,14 +133,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-04-06
+          发表于 2014-10-27
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/算法/">算法</a>
+              <a href="/categories/web开发/">web开发</a>
 
               
               
@@ -153,8 +153,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/04/06/leetcode习题集67/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/06/leetcode习题集67/"></span>
+            <a href="/2014/10/28/CodeIgniter笔记/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/28/CodeIgniter笔记/"></span>
             </a>
           </span>
           
@@ -169,12 +169,58 @@
 
       
         
-          <p>Given two binary strings, return their sum (also a binary string).</p>
-<p>For example,<br>a = <code>&quot;11&quot;</code><br>b = <code>&quot;1&quot;</code><br>Return <code>&quot;100&quot;</code>.</p>
-<p>题意：给定一个int的vector，给这个数字加上1，返回最终的数字</p>
-<p>思路：模拟</p>
-<p>注意：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;//&#24605;&#36335;1&#65306;stoi&#36716;&#21270;&#20026;&#25972;&#25968;&#65292;&#36716;&#25442;&#36827;&#20301;&#65292;itos&#36716;&#21270;&#20026;&#23383;&#31526;&#20018;&#65292;&#27604;&#36739;&#22797;&#26434;&#10;//&#24605;&#36335;2&#65306;&#30452;&#25509;&#20351;&#29992;&#23383;&#31526;&#20174;&#21518;&#21521;&#21069;&#21152;&#65292;carry&#35760;&#24405;&#10;//&#24212;&#35813;&#20808;&#34917;&#40784;&#30701;&#23383;&#31526;&#20018;&#30340;&#38271;&#24230;&#10;//&#25968;&#25454;&#65306;&#23383;&#31526;&#20018;&#20026;&#31354;&#65292;&#23383;&#31526;&#20018;&#39318;&#20301;&#26377;&#36827;&#20301;&#10;    string addBinary(string a, string b) &#123;&#10;        if(a.size()==0) return b;&#10;        if(b.size()==0) return a;&#10;        string ans;&#10;        int carry=0;&#10;        int i=a.size()-1,j=b.size()-1;&#10;        for(;i&#62;=0&#38;&#38;j&#62;=0;i--,j--)&#10;        &#123;&#10;            ans=add(a[i],b[j],carry)+ans;&#10;        &#125;&#10;        string sub;&#10;        if(i&#62;=0)&#10;            sub=a.substr(0,i+1);&#10;        else if(j&#62;=0)&#10;            sub=b.substr(0,j+1);&#10;        else&#10;            sub=&#34;&#34;;&#10;        if(carry==0)&#10;            return (sub+ans);&#10;        else if(carry==1 &#38;&#38; i&#60;0 &#38;&#38; j&#60;0)&#10;            return (&#39;1&#39;+ans);&#10;        else &#10;        &#123;&#10;            for(int k=sub.size()-1;k&#62;=0;k--)&#10;            &#123;&#10;                ans=add(&#39;0&#39;,sub[k],carry)+ans;&#10;            &#125;    &#10;            if(carry==1)&#10;                return (&#39;1&#39;+ans);&#10;            else&#10;                return ans;&#10;            &#10;        &#125;&#10;        &#10;    &#125;&#10;    &#10;    char add(char a,char b,int &#38;carry)&#10;        &#123;&#10;            if(a==&#39;0&#39;&#38;&#38;b==&#39;0&#39;) &#10;&#9;&#9;&#9;&#123;&#10;&#9;&#9;&#9;&#9;if(carry==1) &#10;&#9;&#9;&#9;&#9;&#123;&#10;&#9;&#9;&#9;&#9;&#9;carry=0;&#10;&#9;&#9;&#9;&#9;&#9;return &#39;1&#39;;&#10;&#9;&#9;&#9;&#9;&#125;&#10;&#9;&#9;&#9;&#9;else return &#39;0&#39;;&#10;&#9;&#9;&#9;&#125;&#10;            if((a==&#39;0&#39;&#38;&#38;b==&#39;1&#39;)||(a==&#39;1&#39;&#38;&#38;b==&#39;0&#39;)) &#10;            &#123;&#10;                if(carry==0) return &#39;1&#39;;&#10;                if(carry==1)&#10;                &#123;&#10;                    carry==1;&#10;                    return &#39;0&#39;;&#10;                &#125;&#10;            &#125;&#10;            if(a==&#39;1&#39;&#38;&#38;b==&#39;1&#39;)&#10;            &#123;&#10;                if(carry==0)&#10;                &#123;&#10;                    carry=1;&#10;                    return &#39;0&#39;;&#10;                &#125;&#10;                if(carry==1)&#10;                &#123;&#10;                    carry=1;&#10;                    return &#39;1&#39;;&#10;                &#125;&#10;            &#125;&#10;            &#10;        &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>
+          <h3 id="CodeIgniter">CodeIgniter</h3><blockquote>
+<p>CodeIgniter 是一个简单快速的PHP MVC框架。<br>CodeIgniter 是一套给 PHP 网站开发者使用的应用程序开发框架和工具包。它提供一套丰富的标准库以及简单的接口和逻辑结构，其目的是使开发人员更快速地进行项目开发。使用 CodeIgniter可以减少代码的编写量，并将你的精力投入到项目的创造性开发上。</p>
+</blockquote>
+<p>简单快速，这也是选择CI的原因。</p>
+<p>以下内容细节可以从CI<a href="http://codeigniter.org.cn/user_guide/index.html" target="_blank" rel="external">官方文档</a>寻找</p>
+<h3 id="超级对象this">超级对象this</h3><p>当前的控制器对象，this，提供了很多属性<br>加载方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;load-&#62;</span><br></pre></td></tr></table></figure>
+<p>装载器类的实例system/core/Loader.php<br>提供的方法：</p>
+<ul>
+<li>view()     装载视图</li>
+<li>vars()     分配变量到视图 </li>
+<li>database() 装载数据库操作</li>
+<li>model()   装载模型对象</li>
+<li>helper() <h3 id="var_dump">var_dump</h3></li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void var_dump ( mixed <span class="variable">$expression</span> [, mixed $... ] )</span><br></pre></td></tr></table></figure>
+<p>此函数显示关于一个或多个表达式的结构信息，包括表达式的类型与值。数组将递归展开值，通过缩进显示其结构。</p>
+<h3 id="$this-&gt;input_输入类">$this-&gt;input 输入类</h3><p>作用：默认帮助进行安全处理<br>CI_Input类 system/cor/Input.php<br><code>$this-&gt;input-&gt;server(&#39;DOCUMENT_ROOT&#39;)</code>相当于<code>$_POST[&#39;DOCUMENT_ROOT&#39;]</code><br><code>$this-&gt;input-&gt;post(&#39;表单提交的name&#39;)</code></p>
+<h3 id="URL相关函数">URL相关函数</h3><ul>
+<li>site_url<br>在form表单中提交action不能把路径写死,使用<code>site_url (controller/action)</code></li>
+<li>base_url 根目录<br>请求图片时，<code>&lt;img src=&quot;&lt;?php echo base_url()?&gt;uploads/jh.jpg&quot;&gt;</code></li>
+<li>自动加载URL函数，autoload.php<br>$autoload[‘helper’] = array(‘url’);</li>
+</ul>
+<h3 id="路由">路由</h3><p><code>config/routes.php</code><br>默认的控制器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$route[&#39;default_controller&#39;]=</span><br></pre></td></tr></table></figure>
+<p>伪静态页面,不再显示<code>xxx.php</code>,在路由中写一个正则表达式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$route[&#39;show/([\d]+)\.html&#39;]=&#39;article/show/&#39;</span><br></pre></td></tr></table></figure>
+<h3 id="分页">分页</h3><p>使用分页类<code>pagination</code></p>
+<h4 id="加载类文件">加载类文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;load-&#62;library(&#39;pagnination&#39;);</span><br></pre></td></tr></table></figure>
+<h4 id="配置">配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$config[&#39;per_page&#39;]=10;//&#27599;&#39029;&#26174;&#31034;10&#26465;&#25968;&#25454;</span><br></pre></td></tr></table></figure>
+<p>其他配置见<a href="http://codeigniter.org.cn/user_guide/libraries/pagination.html" target="_blank" rel="external">文档</a></p>
+<h4 id="初始化">初始化</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;pagination-&#62;initialize($config)</span><br></pre></td></tr></table></figure>
+<h4 id="创建链接">创建链接</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;pagination-&#62;create_links($config)</span><br></pre></td></tr></table></figure>
+<h4 id="跳过多少条">跳过多少条</h4><p> sql语句 <code>select from limit+跳过的条数</code></p>
+<h4 id="定制分页器">定制分页器</h4><p>$config[‘first_link’]=”首页”<br> 其他配置见<a href="http://codeigniter.org.cn/user_guide/libraries/pagination.html" target="_blank" rel="external">文档</a></p>
+<h3 id="文件上传">文件上传</h3><p>表单<br><code>&lt;form enctype=&quot;multipart/form-data&quot;&gt;&lt;/form&gt;</code></p>
+<h4 id="使用文件上传类">使用文件上传类</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;load-&#62;library(&#39;&#39;)</span><br></pre></td></tr></table></figure>
+<h4 id="配置-1">配置</h4><p>见<a href="http://codeigniter.org.cn/user_guide/libraries/pagination.html" target="_blank" rel="external">文档</a></p>
+<h4 id="上传">上传</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;upload-&#62;do_upload(&#39;pic&#39;)</span><br></pre></td></tr></table></figure>
+<h4 id="返回信息">返回信息</h4><p>文件上传的一些数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$his-&#62;upload-&#62;data()</span><br></pre></td></tr></table></figure>
+<h3 id="session">session</h3><p>CI中的session 默认不使用php的原生session，<strong>放在cookie中</strong>（限制大小4k），不太好使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;session-&#62;set_userdata(&#39;user&#39;,$user) ; //&#20351;&#29992;&#38190;&#20540;&#23545;&#26469;&#23384;&#20648;&#25968;&#25454;</span><br></pre></td></tr></table></figure>
+<p><strong>因为是存储在cookie中的，所以不能在当前的函数中获取到session中的数据，需要跳转的别的页面后才可以获取的到</strong></p>
+<h4 id="加密">加密</h4><p>生成随机不重复的字符串作为加密用的key，保存到config.php</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$[&#39;encryption_key&#39;]=&#34;key&#30340;&#20540;&#34;</span><br></pre></td></tr></table></figure>
+<p>或者不使用CI的session，囧。。。</p>
+<h3 id="表单验证">表单验证</h3><h4 id="使用表单验证类">使用表单验证类</h4><p>$this-&gt;load-&gt;library(‘form_validation’);</p>
+<h4 id="验证">验证</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;form_validation-&#62;set_rules(&#39;&#39;,&#39;&#39;,&#39;&#39;);&#10;$bool=$this-&#62;form_validation-&#62;run();</span><br></pre></td></tr></table></figure>
+<p>前台验证使用js，后台验证使用表单验证类</p>
+<h4 id="输出错误">输出错误</h4><p><code>form_error(&#39;name&#39;,&#39;&lt;span&gt;&#39;,&#39;&lt;/span&gt;&#39;)</code><br><code>echo validation_error()</code>直接输出所有结果（推荐使用）</p>
+
         
       
     </div>
@@ -183,7 +229,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/leetcode习题集/"> #leetcode习题集 </a>
+            <a href="/tags/CodeIgniter/"> #CodeIgniter </a>
+          
+            <a href="/tags/PHP/"> #PHP </a>
           
         </div>
       
@@ -210,8 +258,8 @@
           
           
             
-              <a class="post-title-link" href="/2015/04/06/leetcode习题集66/">
-                leetcode习题集 66 Plus One
+              <a class="post-title-link" href="/2014/10/21/PHP框架比较/">
+                PHP框架比较
               </a>
             
           
@@ -220,14 +268,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-04-06
+          发表于 2014-10-20
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/算法/">算法</a>
+              <a href="/categories/web开发/">web开发</a>
 
               
               
@@ -240,8 +288,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/04/06/leetcode习题集66/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/06/leetcode习题集66/"></span>
+            <a href="/2014/10/21/PHP框架比较/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/21/PHP框架比较/"></span>
             </a>
           </span>
           
@@ -256,11 +304,11 @@
 
       
         
-          <p>Given a non-negative number represented as an array of digits, plus one to the number.</p>
-<p>The digits are stored such that the most significant digit is at the head of the list.</p>
-<p>题意：给定一个int的vector，给这个数字加上1，返回最终的数字</p>
-<p>思路：模拟</p>
-<p>注意：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;    vector&#60;int&#62; plusOne(vector&#60;int&#62; &#38;digits) &#123;&#10;        int length=digits.size();&#10;        int i;&#10;        for(i=length-1;i&#62;=0;i--)&#10;        &#123;&#10;            digits[i]++;&#10;            if(digits[i]&#60;10) break;&#10;            else digits[i]=0;&#10;        &#125;&#10;        &#10;        if(i&#60;0)&#10;            digits.insert(digits.begin(),1);&#10;        return digits;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure></p>
+          <h2 id="CodeIgniter">CodeIgniter</h2><p>Codeigniter 相当轻量级，下载下来就能用， CI 的最大特点就是可扩展性很强 你可以通过不修改源码的方式 优雅的扩展几乎所有的东西。</p>
+<h2 id="thinkphp">thinkphp</h2><p>官方文档比较全<br>国产的</p>
+<h2 id="yii">yii</h2><p>英文好点的推荐yii</p>
+<h2 id="Laravel">Laravel</h2><p>Laravel是PHP 5.3之后开发的新框架，充分使用了PHP 5.3之后的新特性，不像很多老牌框架有一大堆历史包袱。<br>Codeigniter 的文档相当丰富，Laravel 4 的资料不多。<br>Laravel 4 需要用 composer 下载安装各种第三方依赖库，在国内下载网速很慢。<br>Codeigniter 兼容 PHP 5.2，Laravel 4 要求 PHP 5.3.7 以上。</p>
+<h2 id="总结">总结</h2><p>CI的设计比较老套，且还有历史包袱<br>Laravel因为是后来者，设计上更先进一些</p>
 
         
       
@@ -270,7 +318,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/leetcode习题集/"> #leetcode习题集 </a>
+            <a href="/tags/PHP/"> #PHP </a>
+          
+            <a href="/tags/PHP框架/"> #PHP框架 </a>
           
         </div>
       
@@ -297,8 +347,8 @@
           
           
             
-              <a class="post-title-link" href="/2015/04/06/leetcode习题集6/">
-                leetcode习题集 6 ZigZag Conversion
+              <a class="post-title-link" href="/2014/10/10/ASP.NET MVC 之Razor/">
+                ASP.NET MVC 之Razor
               </a>
             
           
@@ -307,14 +357,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-04-06
+          发表于 2014-10-10
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/算法/">算法</a>
+              <a href="/categories/NET/">.NET</a>
 
               
               
@@ -327,8 +377,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/04/06/leetcode习题集6/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/06/leetcode习题集6/"></span>
+            <a href="/2014/10/10/ASP.NET MVC 之Razor/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/10/ASP.NET MVC 之Razor/"></span>
             </a>
           </span>
           
@@ -343,21 +393,21 @@
 
       
         
-          <p>The string “PAYPALISHIRING” is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)</p>
-<pre><code>P   A   <span class="keyword">H</span>   <span class="keyword">N</span>
-A P <span class="keyword">L</span> S I I <span class="keyword">G</span>
-Y   I   <span class="literal">R</span>
-</code></pre><p>And then read line by line: <code>&quot;PAHNAPLSIIGYIR&quot;</code><br>Write the code that will take a string and make this conversion given a number of rows:</p>
-<pre><code><span class="function"><span class="built_in">string</span> <span class="title">convert</span><span class="params">(<span class="built_in">string</span> text, <span class="keyword">int</span> nRows)</span></span>;
-</code></pre><p><code>convert(&quot;PAYPALISHIRING&quot;, 3)</code> should return <code>&quot;PAHNAPLSIIGYIR&quot;</code>.</p>
-<p>题意：zigzag斜线方向的问题，给定竖向扫描字符串和行数，返回横向的字符串</p>
-<p>思路：</p>
-<ol>
-<li>暴力解法，声明一个nRow的字符串数组，每个字符串统计这行的内容。模拟扫描</li>
+          <h2 id="什么是razor？">什么是razor？</h2><p>Razor类似于JSP是一种服务端标记语言，运行的时候被程序动态转化为Html，用户只能看到相应的html文件。</p>
+<h2 id="简单的语法">简单的语法</h2><p>简单直接的理念，@后直接写代码：</p>
+<ul>
+<li>代码 ：@{此处为Razor代码}</li>
+<li>在html中使用@变量名，来引用asp.net对象</li>
+<li>Razor通过从尖括号会看来确定变量，但有时会出现二义性，就需要用括号解决@(rootNamespace).Models</li>
+<li>@@转义一个@字符</li>
+</ul>
+<p>使用 var 关键词或类型对变量进行声明，不过 ASP.NET 通常能够自动确定数据的类型。</p>
+<h2 id="razor组织页面的结构">razor组织页面的结构</h2><ol>
+<li>View下的_ViewStart.cshtml优先于任何代码的运行</li>
+<li>通过这个页面指定页面布局@{layout=……..}</li>
+<li>在渲染页面的时候对layout属性重写，从而选择一个新的布局</li>
 </ol>
-<p>注意：</p>
-<p>考虑<code>nRow=1</code>的情况</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;    string convert(string s, int nRows) &#123;&#10;        if(nRows==1) return s;//&#32771;&#34385;nRows&#31561;&#20110;1&#30340;&#24773;&#20917;&#10;        string *strs=new string[nRows];&#10;        int rowIndex=0,direction=1;&#10;        for(int i=0;i&#60;s.size();i++)&#10;        &#123;&#10;            strs[rowIndex]+=s[i];&#10;            rowIndex+=direction;&#10;            if(rowIndex==nRows-1) direction=-1;&#10;            if(rowIndex==0) direction=1;&#10;        &#125;&#10;        s.clear();&#10;        for(int i=0;i&#60;nRows;i++)&#10;            s+=strs[i];&#10;        delete[] strs;//&#36825;&#37324;&#35201;&#29992;delete[] str&#21024;&#38500;&#25968;&#32452;&#10;        return s;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>
+
         
       
     </div>
@@ -366,7 +416,7 @@ Y   I   <span class="literal">R</span>
       
         <div class="post-tags">
           
-            <a href="/tags/leetcode习题集/"> #leetcode习题集 </a>
+            <a href="/tags/ASP-MVC/"> #ASP MVC </a>
           
         </div>
       
@@ -393,8 +443,8 @@ Y   I   <span class="literal">R</span>
           
           
             
-              <a class="post-title-link" href="/2015/04/06/leetcode习题集58/">
-                leetcode习题集 58 Length of Last Word
+              <a class="post-title-link" href="/2014/10/10/ASP.NET MVC之ViewBag/">
+                ASP.NET MVC之ViewBag
               </a>
             
           
@@ -403,14 +453,14 @@ Y   I   <span class="literal">R</span>
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-04-06
+          发表于 2014-10-09
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/算法/">算法</a>
+              <a href="/categories/NET/">.NET</a>
 
               
               
@@ -423,8 +473,8 @@ Y   I   <span class="literal">R</span>
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/04/06/leetcode习题集58/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/06/leetcode习题集58/"></span>
+            <a href="/2014/10/10/ASP.NET MVC之ViewBag/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/10/ASP.NET MVC之ViewBag/"></span>
             </a>
           </span>
           
@@ -439,13 +489,16 @@ Y   I   <span class="literal">R</span>
 
       
         
-          <p>Given a string s consists of upper/lower-case alphabets and empty space characters ‘ ‘, return the length of last word in the string.</p>
-<p>If the last word does not exist, return 0.</p>
-<p>Note: A word is defined as a character sequence consists of non-space characters only.</p>
-<p>For example,<br>Given s = “Hello World”,<br>return 5.</p>
-<p>题意：给定一个字符串，返回字符串中最后一个单词的长度</p>
-<p>思路：模拟</p>
-<p>注意：最后面有空格<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;//&#19981;&#20351;&#29992;strlen&#19968;&#27425;&#36941;&#21382;&#24471;&#20986;&#32467;&#26524;&#10;//&#25968;&#25454;&#65306;s==NULL,&#24320;&#22836;&#32467;&#26463;&#26377;&#31354;&#26684;!&#25152;&#20197;&#19981;&#33021;&#20197;&#30896;&#21040;&#39; &#39;&#25226;len&#24402;&#38646;&#65292;&#38656;&#35201;&#20197;&#26222;&#36890;&#23383;&#31526;&#24320;&#22987;&#20026;&#20934;&#10;    int lengthOfLastWord(const char *s) &#123;&#10;        int len=0;&#10;        while(*s!=&#39;\0&#39;)&#10;        &#123;&#10;            if(*s!=&#39; &#39;)&#10;            &#123;&#10;                len=0;&#10;                while(*s &#38;&#38; *s!=&#39; &#39;)&#10;                &#123;&#10;                    len++;&#10;                    s++;&#10;                &#125;&#10;            &#125;&#10;            else&#10;                s++;&#10;        &#125;&#10;        return len;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure></p>
+          <h2 id="解释">解释</h2><p>ViewBag是一个动态对象，可以将属性添加到 ViewBag对象。<br>ViewBag是一个动态对象，这意味着可以随便提取这个属性 。<br>ViewBag是一个动态对象，提供方便的后期绑定方式将信息传递给视图。</p>
+<h2 id="什么时候使用">什么时候使用</h2><p>ASP.NET MVC 还提供将强类型数据或对象传递到视图模板的能力。便于检查类型错误。<br>使用方法：</p>
+<ul>
+<li>简单独立的数据使用ViewBag</li>
+<li>向前端传递一个大的对象，使用试图模板，便于检查错误<h2 id="ViewBag_VS_ViewData_VS_TempData">ViewBag VS ViewData VS TempData</h2></li>
+<li>viewbag是动态的viewdata,是一种更受欢迎的语法</li>
+<li>ViewBag其实本质就是ViewData,只是多了层Dynamic控制。使用何种方式完全取决于个人的爱好。</li>
+<li>ViewBag和ViewData仅针对当前Action中有效，生命周期和View相同。</li>
+<li>TempData 只是一个容器（类似于ViewBag），区别在于，重定向后（下一个页面）仍然可用</li>
+</ul>
 
         
       
@@ -455,7 +508,7 @@ Y   I   <span class="literal">R</span>
       
         <div class="post-tags">
           
-            <a href="/tags/leetcode习题集/"> #leetcode习题集 </a>
+            <a href="/tags/ASP-MVC/"> #ASP MVC </a>
           
         </div>
       
@@ -482,8 +535,8 @@ Y   I   <span class="literal">R</span>
           
           
             
-              <a class="post-title-link" href="/2015/04/06/leetcode习题集39/">
-                leetcode习题集 39 Count and Say 
+              <a class="post-title-link" href="/2014/10/10/ASP.NET MVC之URL映射/">
+                ASP.NET MVC之URL映射
               </a>
             
           
@@ -492,14 +545,14 @@ Y   I   <span class="literal">R</span>
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-04-06
+          发表于 2014-10-09
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/算法/">算法</a>
+              <a href="/categories/NET/">.NET</a>
 
               
               
@@ -512,8 +565,8 @@ Y   I   <span class="literal">R</span>
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/04/06/leetcode习题集39/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/06/leetcode习题集39/"></span>
+            <a href="/2014/10/10/ASP.NET MVC之URL映射/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/10/ASP.NET MVC之URL映射/"></span>
             </a>
           </span>
           
@@ -528,12 +581,12 @@ Y   I   <span class="literal">R</span>
 
       
         
-          <p>The count-and-say sequence is the sequence of integers beginning as follows:<br>1, 11, 21, 1211, 111221, …</p>
-<p>1 is read off as “one 1” or 11.<br>11 is read off as “two 1s” or 21.<br>21 is read off as “one 2, then one 1” or 1211.<br>Given an integer n, generate the nth sequence.</p>
-<p>Note: The sequence of integers will be represented as a string.</p>
-<p>题意：数一列数，碰到n个一样的m输出nm，连续往下数</p>
-<p>思路：模拟</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;//&#20351;&#29992;&#31528;&#26041;&#27861;&#27169;&#25311;&#65292;&#30896;&#21040;&#19968;&#20010;&#25968;&#23383;&#24448;&#21518;&#25968;&#30456;&#21516;&#30340;&#26367;&#25442;&#10;    string countAndSay(int n) &#123;&#10;        string ans=&#34;1&#34;;&#10;        if(n==1) return ans;&#10;        for(int i=1;i&#60;n;i++)&#10;        &#123;&#10;            //&#20570;n-1&#27425;&#10;            string temp=ans;&#10;            //&#35201;&#25226;ans&#28165;&#31354;&#10;            ans.resize(0);&#10;            int j=0;&#10;            for(;j&#60;temp.size();)&#10;            &#123;&#10;                int k=0;&#10;                for(;j+k&#60;temp.size() &#38;&#38; temp[j+k]==temp[j];k++);&#10;                /*&#123;&#36825;&#37096;&#20998;&#36923;&#36753;&#26377;&#38169;&#35823;&#19981;&#26159;&#27599;&#27425;&#37117;&#25805;&#20316;&#10;                    ans+=(k+&#39;0&#39;);&#10;                    ans+=(temp[j]+&#39;0&#39;);&#26412;&#26469;&#23601;&#26159;asc&#30721;&#10;                    &#10;                &#125;*/&#10;                ans+=(k+&#39;0&#39;);&#10;                ans+=temp[j];&#10;                j=j+k;//&#20351;&#29992;&#36825;&#20010;&#20316;&#20026;j&#30340;&#22686;&#21152;&#26465;&#20214;&#10;            &#125;&#10;        &#125;&#10;        return ans;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>
+          <h2 id="通常">通常</h2><p>web 服务器通常会将进入的 URL 请求直接映射到服务器上的磁盘文件。例如：某个 URL 请求（比如 “<a href="http://www.w3school.com.cn/index.asp&quot;）将映射到服务器根目录上的文件" target="_blank" rel="external">http://www.w3school.com.cn/index.asp&quot;）将映射到服务器根目录上的文件</a> “index.asp”。</p>
+<h2 id="MVC的URL映射">MVC的URL映射</h2><p>MVC 框架的映射方式有所不同。MVC 将 URL 映射到方法。这些方法在类中被称为“控制器”。控制器负责处理进入的请求、处理输入、保存数据、并把响应发送回客户端。</p>
+<p>ASP.NET MVC 所使用的默认 URL的路径映射为方法的调用：/[Controller]/[ActionName]/[Parameters]</p>
+<h2 id="例子">例子</h2><p>传参数  <code>/HelloWorld/Welcome?name=Scott&amp;numtimes=4</code></p>
+<p>```<br>public string Welcome(string name, int numTimes = 1) {<br>     return HttpUtility.HtmlEncode(“Hello “ + name + “, NumTimes is: “ + numTimes);}</p>
+
         
       
     </div>
@@ -542,7 +595,7 @@ Y   I   <span class="literal">R</span>
       
         <div class="post-tags">
           
-            <a href="/tags/leetcode习题集/"> #leetcode习题集 </a>
+            <a href="/tags/ASP-MVC/"> #ASP MVC </a>
           
         </div>
       
@@ -569,8 +622,8 @@ Y   I   <span class="literal">R</span>
           
           
             
-              <a class="post-title-link" href="/2015/04/06/leetcode习题集36/">
-                leetcode习题集 36 Valid Sudoku 
+              <a class="post-title-link" href="/2014/03/27/从Lambda表达式到Linq查询/">
+                从Lambda表达式到Linq查询
               </a>
             
           
@@ -579,14 +632,14 @@ Y   I   <span class="literal">R</span>
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-04-06
+          发表于 2014-03-27
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/算法/">算法</a>
+              <a href="/categories/NET/">.NET</a>
 
               
               
@@ -599,8 +652,8 @@ Y   I   <span class="literal">R</span>
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/04/06/leetcode习题集36/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/06/leetcode习题集36/"></span>
+            <a href="/2014/03/27/从Lambda表达式到Linq查询/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/27/从Lambda表达式到Linq查询/"></span>
             </a>
           </span>
           
@@ -615,15 +668,63 @@ Y   I   <span class="literal">R</span>
 
       
         
-          <p>Determine if a Sudoku is valid, according to: Sudoku Puzzles - The Rules.</p>
-<p>The Sudoku board could be partially filled, where empty cells are filled with the character ‘.’.</p>
-<p>Note:<br>A valid Sudoku board (partially filled) is not necessarily solvable. Only the filled cells need to be validated.</p>
-<p>题意：判断一个9<em>9的数独表是不是可解的，当且仅当每一行每一列，9个3</em>3小块都可解的时候，数独表是可解的</p>
-<p>思路：</p>
-<p>使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bool row[9][9];&#10;bool col[9][9];&#10;bool block[9][9];</span><br></pre></td></tr></table></figure></p>
-<p>row[i][j]表示第i行数字为j的数字有没有出现<br>col[i][j]表示第i列数字为j的数字有没有出现<br>block[i][j]表示第i块数字为j的数字有没有出现<br>块序号为0-8，和<code>i</code>,<code>j</code>的换算关系为<code>i-i%3+j/3</code></p>
-<p>然后遍历数组即可</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;//&#19968;&#27425;&#36941;&#21382;&#65292;&#35760;&#24405;&#34892;&#21015;&#22359;&#20013;&#23545;&#24212;&#25968;&#23383;&#26159;&#21542;&#24050;&#32463;&#23384;&#22312;&#10;//row[i][j]&#24847;&#24605;&#26159;&#35760;&#24405;i&#34892;&#65292;&#25968;&#23383;&#20026;j&#30340;&#25968;&#23383;&#26377;&#27809;&#26377;&#23384;&#22312;&#10;//&#22359;&#24207;&#21495;0-8&#65292;&#35745;&#31639;&#32467;&#26524;&#20026;i-i%3+j/3&#10;    bool isValidSudoku(vector&#60;vector&#60;char&#62; &#62; &#38;board) &#123;&#10;        bool row[9][9];&#10;        bool col[9][9];&#10;        bool block[9][9];&#10;        for(int i=0;i&#60;9;i++)&#10;            for(int j=0;j&#60;9;j++)&#10;            &#123;&#10;                row[i][j]=false;&#10;                col[i][j]=false;&#10;                block[i][j]=false;&#10;            &#125;&#10;            &#10;        for(int i=0;i&#60;9;i++)&#10;        &#123;&#10;            for(int j=0;j&#60;9;j++)&#10;            &#123;&#10;                if(board[i][j]!=&#39;.&#39;)&#10;                &#123;&#10;                    if(row[i][board[i][j]-&#39;1&#39;]||col[j][board[i][j]-&#39;1&#39;]||block[i-i%3+j/3][board[i][j]-&#39;1&#39;])&#10;                        return false;&#10;                    else&#10;                    &#123;&#10;                        row[i][board[i][j]-&#39;1&#39;]=true;&#10;                        col[j][board[i][j]-&#39;1&#39;]=true;&#10;                        block[i-i%3+j/3][board[i][j]-&#39;1&#39;]=true;&#10;                    &#125; &#10;                &#125;&#10;            &#125;&#10;        &#125;&#10;        return true;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>
+          <h2 id="Lambda表达式">Lambda表达式</h2><p>lamda表达式是一种匿名函数（没有函数名），使用方式</p>
+<blockquote>
+<p>输入参数=&gt;表达式或语句块</p>
+</blockquote>
+<p>仅当 lambda 只有一个输入参数时，括号才是可选的；否则括号是必需的。例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(x, y) =&#62; x == y</span><br></pre></td></tr></table></figure>
+<p>显示指定类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(int x, string s) =&#62; s.Length &#62; x</span><br></pre></td></tr></table></figure>
+<p>异步lamda：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">button1.Click += async (sender, e) =&#62;&#10;&#123;&#10;    textBox1.Text += &#34;\r\nControl returned to Click event handler.\r\n&#34;;&#10;&#125;;</span><br></pre></td></tr></table></figure>
+<p>Lamda中的<strong>类型推理</strong>：<br>通过推断来确定lamda表达式的输入参数的类型和返回值<br>Lambda 的一般规则如下：</p>
+<ul>
+<li>Lambda 包含的参数数量必须与委托类型包含的参数数量相同。</li>
+<li>Lambda 中的每个输入参数必须都能够隐式转换为其对应的委托参数。</li>
+<li>Lambda 的返回值（如果有）必须能够隐式转换为委托的返回类型。</li>
+</ul>
+<p>举例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">customers.Where(c =&#62; c.City == &#34;London&#34;);</span><br></pre></td></tr></table></figure>
+<p>通过c.City == “London”来推断出最终c的类型。</p>
+<h2 id="Linq">Linq</h2><p>Linq是<strong>使用C#语法进行的强类型查询语言</strong>，目的是提供统一对称的方式，在广义的数据上得到数据和操作数据.</p>
+<p>好处：可以进行多种数据形式的查询，如SQL，XML<br>Linq应用场景：</p>
+<ul>
+<li>Linq to object 针对数组和集合</li>
+<li>Linq to XML 操纵查询XML文档</li>
+<li>Linq to DataSet 针对ADO.Net的DataSet对象</li>
+<li>Linq to Entities：针对ADO.Net Entity Framework API使用LINQ查询</li>
+</ul>
+<p>举例：Linq to object</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> string[] strs = &#123; &#34;Morrroewed&#34;, &#34;djfuajre 2&#34; , &#34;dfa ad f 3&#34;, &#34;ad adf 4&#34; &#125;;&#10;IEnumerable&#60;string &#62; subset = from str in strs&#10;    where str.Contains(&#34; &#34; )&#10;    orderby str&#10;    select str;&#10;    foreach (string s in subset)&#10;        Console.WriteLine(&#34;item:&#123;0&#125;&#34; , s);</span><br></pre></td></tr></table></figure>
+<p>结果集由实现了IEnumberable<t>的对象表示，在这个例子中T为string<br>实际上查询的函数都是由IEnumberable<t>中的函数（被子类重载后）来帮助我们实现的</t></t></p>
+<p>简便方法：<strong>使用隐式类型</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var subset = from str in strs</span><br></pre></td></tr></table></figure>
+<p>Linq的操作只有在迭代查询结果的时候才执行，这种功能叫做<strong>延迟执行</strong><br>Linq中关键词的作用：</p>
+<ul>
+<li>from in指定查询数据容器,</li>
+<li>where 查询条件</li>
+<li>select 从容其中选择一个序列</li>
+<li>join、on、equals、into基于指定键进行关联操作</li>
+<li>order by、ascending、descending 排序</li>
+<li>group by 对数据分组</li>
+</ul>
+<p>转换结果集：</p>
+<ul>
+<li>Reverse&lt;&gt;()</li>
+<li>RoArray&lt;&gt;()</li>
+<li>ToList&lt;&gt;()</li>
+</ul>
+<p>from item in container,select item<br>item是从container中查找的元素，可以起任意的名字，select是最终选择的内容</p>
+<h2 id="使用Enumerable类型和Lamda表达式建立查询">使用Enumerable类型和Lamda表达式建立查询</h2><h3 id="原理">原理</h3><p>Linq to object中的一些功能可以使用Enumerable对象（可以理解为数据容器）的扩展方法来访问。<br>如调用Enumerable.Where()方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public static IEnumerable&#60;Tsource&#62; Where &#60;Tsource&#62;(this IEnumerable&#60;Tsource&#62; source,System.Func&#60;Tsource,int,bool&#62; predicate)</span><br></pre></td></tr></table></figure>
+<p>其中Func&lt;&gt;是一个<strong>泛型委托</strong>，接受一定的参数，通过把写好的<strong>匿名函数</strong>（Lamda表达式）作为参数传入，就可以执行查询逻辑了</p>
+<h3 id="目的">目的</h3><p>使得查询语句写法更加简便</p>
+<h3 id="举例">举例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var subset = strs.Where(str =&#62; str.Contains( &#34; &#34;));</span><br></pre></td></tr></table></figure>
+<p>str相当于from str in strs<br> str.Contains( “ “))相当于执行where的条件判断</p>
+<h3 id="更复杂的版本">更复杂的版本</h3><p>var subset = strs.Where(str =&gt; str.Contains( “ “)).OrderBy(str=&gt;str).Select(str=&gt;str);</p>
+<h3 id="后记">后记</h3><p>这种方法不过是LINQ查询语句的简记版本而已</p>
+
         
       
     </div>
@@ -632,7 +733,7 @@ Y   I   <span class="literal">R</span>
       
         <div class="post-tags">
           
-            <a href="/tags/leetcode习题集/"> #leetcode习题集 </a>
+            <a href="/tags/C/"> #C# </a>
           
         </div>
       
@@ -659,8 +760,8 @@ Y   I   <span class="literal">R</span>
           
           
             
-              <a class="post-title-link" href="/2015/04/06/leetcode习题集3/">
-                leetcode习题集 3 Longest Substring Without Repeating Characters
+              <a class="post-title-link" href="/2014/03/25/如何阅读一篇论文/">
+                如何阅读一篇论文
               </a>
             
           
@@ -669,14 +770,14 @@ Y   I   <span class="literal">R</span>
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-04-06
+          发表于 2014-03-25
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/算法/">算法</a>
+              <a href="/categories/杂七杂八/">杂七杂八</a>
 
               
               
@@ -689,8 +790,8 @@ Y   I   <span class="literal">R</span>
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/04/06/leetcode习题集3/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/06/leetcode习题集3/"></span>
+            <a href="/2014/03/25/如何阅读一篇论文/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/25/如何阅读一篇论文/"></span>
             </a>
           </span>
           
@@ -705,109 +806,209 @@ Y   I   <span class="literal">R</span>
 
       
         
-          <p>Given a string, find the length of the longest substring without repeating characters. For example, the longest substring without repeating letters for “abcabcbb” is “abc”, which the length is 3. For “bbbbb” the longest substring is “b”, with the length of 1.</p>
-<p>题意：给定一个字符串，找到最长不重复字母的字串</p>
-<p>思路：</p>
-<ol>
-<li><p>暴力搜索，遍历字符串，以每个字符串开头向后找非重复的串碰到重复停止，使用map记录，降低复杂度到n^2,还是超时了</p>
+          <h2 id="前言">前言</h2><p>翻译自ACM Fellow，加拿大滑铁卢大学计算机系教授Srinivasan Keshav的一个简单的三步论文阅读法：</p>
+<blockquote>
+<p>How to Read a Paper<br>August 2, 2013<br>S. Keshav<br>David R. Cheriton School of Computer Science, University of Waterloo<br>Waterloo, ON, Canada<br>keshav@uwaterloo.ca</p>
+</blockquote>
+<p>原文地址:<a href="http://www-users.cselabs.umn.edu/classes/Spring-2014/csci8211/Papers/Misc%20How%20to%20Read%20a%20Paper.pdf" target="_blank" rel="external">How to read a paper</a></p>
+<h2 id="第一遍">第一遍</h2><h3 id="目的">目的</h3><p>第一遍目的是快速浏览对文章有个整体印象，这样你可以决定是不是进行更深次的阅读。</p>
+<h3 id="时间">时间</h3><p><strong>5-10min</strong></p>
+<h3 id="步骤">步骤</h3><ol>
+<li><p>认真阅读：<strong>题目、摘要、简介</strong>(introduction)</p>
 </li>
-<li><p>使用int[256]数组记录每个字符上次出现的位置，start记录字串的起始位置，碰到有记录的start变为记录位置+1，只扫描一遍，复杂度O(n)</p>
+<li><p>读章节和子章节的<strong>标题</strong>，忽略其他部分</p>
+</li>
+<li><p>浏览<strong>数学</strong>内容，来确定基本的理论基础</p>
+</li>
+<li><p>阅读<strong>结论</strong></p>
+</li>
+<li><p>浏览<strong>引用</strong>，剔除那些已经阅读过的</p>
 </li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;    int lengthOfLongestSubstring(string s) &#123;&#10;        vector&#60;int&#62; vec(256,-1);&#10;        int start=0;&#10;        int max=0;&#10;        for(int i=0;i&#60;s.size();i++)&#10;        &#123;&#10;            if(vec[s[i]]&#62;=start)&#10;            &#123;&#10;                start=vec[s[i]]+1;&#10;            &#125;&#10;            vec[s[i]]=i;&#10;            if(i-start+1&#62;max)&#10;                max=i-start+1;&#10;        &#125;&#10;        return max;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/leetcode习题集/"> #leetcode习题集 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/04/06/leetcode习题集28/">
-                leetcode习题集 27 Remove Element
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-04-06
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/算法/">算法</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/04/06/leetcode习题集28/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/06/leetcode习题集28/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>Implement strStr().</p>
-<p>Returns the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.</p>
-<p>题意：实现strstr()函数，返回第二个字符串在第一个字符串中出现的index</p>
-<p>思路：模拟</p>
-<p>注意：</p>
+<h3 id="完成后">完成后</h3><p>可以回答下面5个问题：</p>
 <ol>
-<li>两个指针指向NULL的情况</li>
-<li>后面字符串比前面长的情况</li>
-<li>使用strlen会超时,必须只能扫描一次</li>
-<li>‘\0’的asc码值是0，*needle==0判断结束</li>
+<li><p><strong>类别</strong>(category):文章的类型是什么？实验测量的论文？已经存在的系统分析？一个设计原型的介绍？</p>
+</li>
+<li><p><strong>内容</strong>(context):这篇论文是和什么相关的？使用什么理论基础来分析这个问题？</p>
+</li>
+<li><p><strong>正确性</strong>(correctness):假设是合理的吗</p>
+</li>
+<li><p><strong>贡献</strong>(contribution):</p>
+</li>
+<li><p><strong>清晰度</strong>(clarity):文章写得好不好</p>
+</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;    int strStr(char *haystack, char *needle) &#123;&#10;        if(NULL==haystack || NULL==needle) return -1;&#10;        if(*needle==0) return 0;&#10;        for(int i=0;haystack[i]!=&#39;\0&#39;;i++)&#10;        &#123;&#10;            if(haystack[i]==needle[0])&#10;            &#123;&#10;                int j;&#10;                for(j=0;needle[j]!=&#39;\0&#39;;j++)&#10;                &#123;&#10;                    if(haystack[i+j]==&#39;\0&#39;)&#10;                        return -1;&#10;                    if(haystack[i+j]!=needle[j])&#10;                        break;&#10;                &#125;&#10;                if(needle[j]==&#39;\0&#39;)&#10;                    return i;&#10;            &#125;&#10;        &#125;&#10;        return -1;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="总结">总结</h3><p>使用这个信息，你就可以决定是否深入阅读(打印出来)。也许你对这篇文章不感兴趣，也许因为你对这个领域了解的还不够多以至于你不能看懂这篇论文，也许作者的假设不合理。<strong>第一遍足够来判定，那些看起来和你研究领域相关的论文，究竟是不是属于你的研究领域。</strong></p>
+<p>同样，当你写论文的时候，大部分的审稿人和读者只像这样读一遍你的论文。认真选择章节名称，写出简洁全面的摘要。如果审稿人一遍不能明白论文的主旨(gist)，论文就很可能被拒了。如果读者一遍不能看到论文的亮点(highlight)，很可能读者就不会读这篇论文了。</p>
+<h2 id="第二遍">第二遍</h2><h3 id="目的-1">目的</h3><p>第二遍要更认真的读，但是忽略如证明的细节。这样便于<strong>草记下关键点</strong>，或者在论文边上写下评论。Dominik Grusemann说，“记下你不懂的内容，或者想问作者的问题”。如果你作为一个论文的审稿人，当你写review的时候这些内容会帮助你，作为委员会议上review的备份。</p>
+<h3 id="时间-1">时间</h3><p>时间：有经验的论文阅读者需要花费一个小时左右。</p>
+<h3 id="步骤-1">步骤</h3><ol>
+<li><p>仔细看<strong>图</strong>，和<strong>图表</strong>，和其它论文中的插画。对于图要特别进行关注。坐标轴是否正确标注？结果的柱形图是否错误？得到的结果是否在统计学上是正确的？这样常见的错误可以区分仓促的假的工作和真的好的工作。</p>
+</li>
+<li><p>记得<strong>标注</strong>相关的但是没阅读的的<strong>引用</strong>，作为扩展阅读。</p>
+</li>
+</ol>
+<h3 id="总结-1">总结</h3><p>这遍之后需要能够抓住论文的内容。你需要<strong>能够使用论文中的依据，概括论文的主要观点，介绍给读者</strong>。如果你对一个论文感兴趣，但是这个论文不是你研究的特殊领域，达到这个级别的细节比较合适。</p>
+<p>有时，即使你读了两遍，你仍然看不懂这个文章。这也许是因为这个课题对你来说比较新，有很多不懂的术语和缩写，或者作者使用了你不懂的结论或者实验技术。也许是论文写得不好，使用了很多未证明的断言和引用。你可以选择(a)把论文放一边，也许在你的领域你不用完全理解他。(b)在读了论文的背景材料之后，再把论文拿回来读(c)继续坚持读第三遍。</p>
+<h2 id="第三遍">第三遍</h2><h3 id="目的-2">目的</h3><p>为了完全理解这个论文，特别是如果你是评审的话，需要进行第三遍阅读。</p>
+<h3 id="步骤-2">步骤</h3><p>第三边阅读的关键点是<strong>几乎重新实现</strong>这个论文：使用作者使用的假设，重新进行工作。通过比较重新实现和原来的论文，你可以很容易地鉴别，论文的创新点，甚至论文隐藏的失败和假设。</p>
+<p>这遍需要对细节强烈的关注。你应该鉴别并且挑战每一句话中的假设。此外，你应该<strong>自己提出一个特定的观点与原来论文中的观点进行比较</strong>。这个比较会使得你对于论文证明和论文结果有深刻的洞见。读这遍的过程中，你还可以<strong>草草写下自己将来工作的观点</strong>。</p>
+<h3 id="时间-2">时间</h3><p>这遍对于初学者来说会花费很长时间，对于有经验的研究者也需要<strong>一个或者两个小时以上</strong>。这遍的最后，你应该能够通过记忆重建论文全部的架构，并且能够甄别论文的优势和弱点。你也要能够指出论文中隐含的假设，缺少的相关的引用，和实验和分析技术中潜在的问题。</p>
+<h2 id="如何做一个领域的调研">如何做一个领域的调研</h2><p>论文阅读的技巧可以用来实践，进行一个文献调研。</p>
+<p>这要求你阅读很多论文，也许是一个不熟悉的领域。应该阅读哪些论文来完成调研？论文三遍阅读法隆重登场。</p>
+<ol>
+<li><p>首先使用一个文献搜索网站如谷歌学术搜索，使用适当的关键词进行搜索，去查找三到五篇这个领域内引用数很高的文章。每篇文章读一遍，对文章有个初步的认识，然后阅读这些文章相关的工作内容(引用)。你会发现一个很小的最近工作(recent work)的概括，并且如果你足够幸运你会发现本文指向了一个最近的survey(概述，调研)。如果你能找到这种survey，工作就结束了，可以开始阅读这个survey了。</p>
+</li>
+<li><p>如果没有找到survey需要进行下一步，找到这些文章共同引用的文章，或者作者的名字。这些就是这个领域的关键论文和研究者。下载这些关键的论文收好。然后去网站搜索这些研究者最近发表的论文。这能够帮助你找到这个领域内的顶级会议，因为最好的研究者通常在顶级会议发表文章。</p>
+</li>
+<li><p>第三步就是去这些顶级会议的相关网站来查找他们最近的进展。快速浏览，找到最近相关的高质量的工作。这些论文和哪些你收好的论文，就形成了你对于这个领域最初的survey。这些论文读两遍，如果都引用了之前你没找到的关键论文，寻找这个论文阅读，然后不断迭代。</p>
+</li>
+</ol>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/03/11/CSharp由委托到Observer设计模式，再到事件机制/">
+                C#由委托到Observer设计模式，再到事件机制
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-03-11
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/NET/">.NET</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/11/CSharp由委托到Observer设计模式，再到事件机制/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/11/CSharp由委托到Observer设计模式，再到事件机制/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="什么是委托">什么是委托</h2><p>处理诸如int，bool等基本数据类型，它们是数据的类型。<strong>委托，是方法的类型</strong>。如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int a; //a&#21487;&#20197;&#26159;1,2,3,4,5.........</span><br></pre></td></tr></table></figure></p>
+<p>那么<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delegate D;//D&#30456;&#24403;&#20110;int,&#26159;&#19968;&#31181;&#31867;&#22411;&#10;D d; //&#22768;&#26126;&#20102;&#21464;&#37327;&#65292;d&#21487;&#20197;&#26159;fun1,fun2,fun3........&#36825;&#37324;funX&#26159;&#20989;&#25968;&#30340;&#21517;&#23383;&#12290;</span><br></pre></td></tr></table></figure></p>
+<h2 id="如何使用委托">如何使用委托</h2><p>函数并不像数那么简单直接赋值就可以了，函数有返回值，或者无返回值，还有参数列表。</p>
+<p>如果说<strong>定义了一个委托，那么这个委托就对应了一种函数(返回值+参数列表)，像具有了int和double一样的类型。</strong></p>
+<p>为了使得声明委托能够和一种函数对应，我们使用这样的方法声明委托:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public delegate void MyDelegate(int a);//&#22996;&#25176;&#30340;&#22768;&#26126;&#65292;public&#35268;&#23450;&#20102;delegate&#30340;&#21487;&#35265;&#24615;&#10;public static void myFunction(int a) //&#26222;&#36890;&#26041;&#27861;&#30340;&#22768;&#26126;&#10;&#123;&#10;    Console.WriteLine(&#34;a=&#34; + a);&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>这样，MyDelegate就对应了一种函数，相当一种函数的类型(对应于数据类型的int，double)。那么使用这个类型就可以声明变量了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static void Main(string[] args)&#10;&#123;&#10;    MyDelegate d;&#10;    d = myFunction;//&#23558;myFunction&#32465;&#23450;&#21040;d&#65292;&#22240;&#20026;&#20855;&#26377;&#30456;&#21516;&#30340;&#36820;&#22238;&#20540;&#21644;&#21442;&#25968;&#21015;&#34920;&#65292;&#25152;&#20197;&#21487;&#20197;&#32465;&#23450;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="委托的绑定">委托的绑定</h3><p>委托不同于普通数据类型(如int)的一个特性是：可以将多个方法赋给同一个委托，或者叫<strong>将多个方法绑定到同一个委托，当调用这个委托的时候，将依次调用其所绑定的方法。</strong></p>
+<p>看下面的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Program&#10;&#123;&#10;    public delegate void MyDelegate(int a);//&#22996;&#25176;&#30340;&#22768;&#26126;&#65292;public&#35268;&#23450;&#20102;delegate&#30340;&#21487;&#35265;&#24615;&#10;    public static void myFunction1(int a) //&#26222;&#36890;&#26041;&#27861;1&#30340;&#22768;&#26126;&#10;    &#123;&#10;        Console.WriteLine(&#34;a=&#34; + a);&#10;    &#125;&#10;    public static void myFunction2(int a) //&#26222;&#36890;&#26041;&#27861;2&#30340;&#22768;&#26126;&#10;    &#123;&#10;        Console.WriteLine(&#34;a&#31561;&#20110;&#65306;&#34; + a);&#10;    &#125;&#10;    static void Main(string[] args)&#10;    &#123;&#10;        MyDelegate d;&#10;        d = myFunction1;&#10;        d += myFunction2;&#10;        d(3);//&#35843;&#29992;&#36825;&#20010;&#22996;&#25176;&#10;        Console.ReadLine();&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="总结">总结</h3><p>委托是一个类，它定义了<strong>方法的类型</strong>，使得可以将方法<strong>当作另一个方法的参数来进行传递</strong>，这种将方法动态地赋给参数的做法，可以避免在程序中大量使用If-Else(Switch)语句，同时使得程序具有更好的可扩展性。</p>
+<h2 id="观察者模式（Observber）">观察者模式（Observber）</h2><p>事件处理机制的基础是一种叫观察者模式的设计模式。Observer设计模式是为了定义对象间的一种<strong>一对多</strong>的依赖关系，以便于当一个对象的状态改变时，其他依赖于它的对象会被<strong>自动告知并更新</strong>。Observer模式是一种松耦合的设计模式。</p>
+<p>举个简单的例子：</p>
+<blockquote>
+<p>假设我们有个高档的热水器，我们给它通上电，当水温超过95度的时候：1、扬声器会开始发出语音，告诉你水的温度；2、液晶屏也会改变水温的显示，来提示水已经快烧开了。</p>
+</blockquote>
+<p>现在我们需要写个程序来模拟这个烧水的过程，我们将定义一个类来代表热水器，我们管它叫：<strong>Heater</strong>，它有代表水温的字段，叫做<strong>temperature</strong>；当然，还有必不可少的给水加热方法<strong>BoilWater()</strong>，一个发出语音警报的方法<strong>MakeAlert()</strong>，一个显示水温的方法，<strong>ShowMsg()</strong>。</p>
+<p>在本例中，事情发生的顺序应该是这样的：</p>
+<ol>
+<li>警报器和显示器告诉热水器，它对它的温度比较感兴趣(注册)。</li>
+<li>热水器知道后保留对警报器和显示器的引用。</li>
+<li>热水器进行烧水这一动作，当水温超过95度时，通过对警报器和显示器的引用，自动调用警报器的MakeAlert()方法、显示器的ShowMsg()方法。</li>
+</ol>
+<p>在这个设计模式中有两种角色：</p>
+<ol>
+<li>Subject：监视对象，它往往包含着其他对象所感兴趣的内容。在本范例中，热水器就是一个监视对象，它包含的其他对象所感兴趣的内容，就是temprature字段，当这个字段的值快到100时，会不断把数据发给监视它的对象。</li>
+<li>Observer：监视者，它监视Subject，当Subject中的某件事发生的时候，会告知Observer，而Observer则会采取相应的行动。在本范例中，Observer有警报器和显示器，它们采取的行动分别是发出警报和显示水温。</li>
+</ol>
+<p>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">namespace Observer&#10;&#123;&#10;    public interface Iobservable //subject&#23545;&#35937;&#20855;&#26377;&#30340;&#25509;&#21475;&#65292;&#25152;&#26377;subject&#37117;&#35201;&#32487;&#25215;&#20110;&#36825;&#20010;&#25509;&#21475;&#10;    &#123;&#10;        void add(Iobserver o);&#10;        void notify();&#10;&#10;    &#125;&#10;    &#10;    public interface Iobserver //observer&#23545;&#35937;&#20855;&#26377;&#30340;&#25509;&#21475;&#65292;&#25152;&#26377;observer&#37117;&#35201;&#32487;&#25215;&#20110;&#36825;&#20010;&#25509;&#21475;&#10;    &#123;&#10;        void update(int temperature);&#10;    &#125;&#10;&#10;    public class Heater : Iobservable&#10;    &#123;&#10;        private int temperature;&#10;        List&#60;Iobserver&#62; list = new List&#60;Iobserver&#62;();&#10;        // &#28903;&#27700;&#10;        public void BoilWater()&#10;        &#123;&#10;            for (int i = 0; i &#60;= 100; i++)&#10;            &#123;&#10;                temperature = i;&#10;&#10;                if (temperature &#62; 95)&#10;                &#123;&#10;                    notify();&#10;                &#125;&#10;            &#125;&#10;        &#125;&#10;        public void add(Iobserver o)&#10;        &#123;&#10;            list.Add(o);&#10;        &#125;&#10;&#10;        public void notify()&#10;        &#123;&#10;            foreach (var o in list)&#10;            &#123;&#10;                o.update(temperature);&#10;            &#125;&#10;        &#125;&#10;    &#125;&#10;&#10;    // &#35686;&#25253;&#22120;&#10;    public class Alarm : Iobserver&#10;    &#123;&#10;        public void MakeAlert(int param)&#10;        &#123;&#10;            Console.WriteLine(&#34;Alarm&#65306;&#22016;&#22016;&#22016;&#65292;&#27700;&#24050;&#32463; &#123;0&#125; &#24230;&#20102;&#65306;&#34;, param);&#10;        &#125;&#10;&#10;        public void update(int temperature)&#10;        &#123;&#10;            MakeAlert(temperature);&#10;        &#125;&#10;    &#125;&#10;&#10;    // &#26174;&#31034;&#22120;&#10;    public class Display : Iobserver&#10;    &#123;&#10;        public static void ShowMsg(int param)&#10;        &#123; //&#38745;&#24577;&#26041;&#27861;&#10;            Console.WriteLine(&#34;Display&#65306;&#27700;&#24555;&#28903;&#24320;&#20102;&#65292;&#24403;&#21069;&#28201;&#24230;&#65306;&#123;0&#125;&#24230;&#12290;&#34;, param);&#10;        &#125;&#10;&#10;        public void update(int temperature)&#10;        &#123;&#10;            ShowMsg(temperature);&#10;        &#125;&#10;    &#125;&#10;    class Program&#10;    &#123;&#10;        static void Main(string[] args)&#10;        &#123;&#10;            Heater h = new Heater();&#10;            Alarm a = new Alarm();&#10;            Display d = new Display();&#10;            h.add(a);//&#27880;&#20876;&#10;            h.add(d);//&#27880;&#20876;&#10;            h.BoilWater();&#10;            Console.ReadLine();&#10;        &#125;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<blockquote>
+<p>Alarm：嘀嘀嘀，水已经 96 度了：<br>Display：水快烧开了，当前温度：96度。<br>Alarm：嘀嘀嘀，水已经 97 度了：<br>Display：水快烧开了，当前温度：97度。<br>Alarm：嘀嘀嘀，水已经 98 度了：<br>Display：水快烧开了，当前温度：98度。<br>Alarm：嘀嘀嘀，水已经 99 度了：<br>Display：水快烧开了，当前温度：99度。<br>Alarm：嘀嘀嘀，水已经 100 度了：<br>Display：水快烧开了，当前温度：100度。</p>
+</blockquote>
+<p>例子中的observable就是subject，Heater继承这个接口。Alarm和Display是观察者，继承observer接口。Iobserverable可以添加观察者(注册)，可以通知观察者。Iobserver可以更新自己的信息。这样就完成了观察者的注册观察，以及通知的过程。</p>
+<p>通过以上过程可以发现，<strong>注册这个行为不就是委托当中的注册吗？通知这个行为不就是委托的调用吗？水烧开这不就是一个事件的发生吗？</strong></p>
+<h2 id="C#中的事件处理机制">C#中的事件处理机制</h2><h3 id="委托声明成private还是public？">委托声明成private还是public？</h3><p>因为声明委托的目的就是为了把它暴露在类的客户端进行方法的注册，你把它声明为private了，客户端对它<strong>根本就不可见</strong>，那它还有什么用？但是如果声明为public在客户端可以对它进行随意的赋值等操作，<strong>严重破坏对象的封装性</strong>。这时候就轮到<strong>event关键字</strong>出场了</p>
+<h3 id="event关键字有什么作用？">event关键字有什么作用？</h3><p>前面提到委托在程序运行事会变成一个类，如果使用了event关键字，又会生成一个类，将前面的类<strong>封装起来</strong>，这样做的作用是：</p>
+<p><strong>在类的内部的delegate，不管你声明它是public还是protected，它总是private的。在类的外部，注册“+=”和注销“-=”的访问限定符与你在声明事件时使用的访问符相同。</strong></p>
+<p>猜测实现方法类似于：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class event&#123;&#10;     private Delegate delegate;&#10;     &#37325;&#36733;+=&#65288;&#65289;&#10;     &#123;&#10;          delegate...&#10;     &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>如果使用事件处理的方法实现observer的例子，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">using System;&#10;using System.Collections.Generic;&#10;using System.Text;&#10;&#10;namespace Delegate &#123;&#10;    // &#28909;&#27700;&#22120;&#10;    public class Heater &#123;&#10;       private int temperature;&#10;       public delegate void BoilHandler(int param);   //&#22768;&#26126;&#22996;&#25176;&#10;       public event BoilHandler BoilEvent;        //&#60;strong&#62;&#22768;&#26126;&#20107;&#20214;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#60;/strong&#62;&#10;&#10;       // &#28903;&#27700;&#10;       public void BoilWater() &#123;&#10;           for (int i = 0; i &#60;= 100; i++) &#123;&#10;              temperature = i;&#10;&#10;              if (temperature &#62; 95) &#123;&#10;                  if (BoilEvent != null) &#123; //&#22914;&#26524;&#26377;&#23545;&#35937;&#27880;&#20876;&#10;                      BoilEvent(temperature);  //&#35843;&#29992;&#25152;&#26377;&#27880;&#20876;&#23545;&#35937;&#30340;&#26041;&#27861;&#10;                  &#125;&#10;              &#125;&#10;           &#125;&#10;       &#125;&#10;    &#125;&#10;&#10;    // &#35686;&#25253;&#22120;&#10;    public class Alarm &#123;&#10;       public void MakeAlert(int param) &#123;&#10;           Console.WriteLine(&#34;Alarm&#65306;&#22016;&#22016;&#22016;&#65292;&#27700;&#24050;&#32463; &#123;0&#125; &#24230;&#20102;&#65306;&#34;, param);&#10;       &#125;&#10;    &#125;&#10;&#10;    // &#26174;&#31034;&#22120;&#10;    public class Display &#123;&#10;       public static void ShowMsg(int param) &#123; //&#38745;&#24577;&#26041;&#27861;&#10;           Console.WriteLine(&#34;Display&#65306;&#27700;&#24555;&#28903;&#24320;&#20102;&#65292;&#24403;&#21069;&#28201;&#24230;&#65306;&#123;0&#125;&#24230;&#12290;&#34;, param);&#10;       &#125;&#10;    &#125;&#10;   &#10;    class Program &#123;&#10;       static void Main() &#123;&#10;           Heater heater = new Heater();&#10;           Alarm alarm = new Alarm();&#10;&#10;           heater.BoilEvent += alarm.MakeAlert;    //&#27880;&#20876;&#26041;&#27861;&#10;           heater.BoilEvent += (new Alarm()).MakeAlert;   //&#32473;&#21311;&#21517;&#23545;&#35937;&#27880;&#20876;&#26041;&#27861;&#10;           heater.BoilEvent += Display.ShowMsg;       //&#27880;&#20876;&#38745;&#24577;&#26041;&#27861;&#10;&#10;           heater.BoilWater();   //&#28903;&#27700;&#65292;&#20250;&#33258;&#21160;&#35843;&#29992;&#27880;&#20876;&#36807;&#23545;&#35937;&#30340;&#26041;&#27861;&#10;       &#125;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>输出为：</p>
+<blockquote>
+<p>Alarm：嘀嘀嘀，水已经 96 度了：<br>Alarm：嘀嘀嘀，水已经 96 度了：<br>Display：水快烧开了，当前温度：96度。<br>// 省略…</p>
+</blockquote>
+<h3 id="平时处理事件会有Object_o,…_eventargs？">平时处理事件会有Object o,… eventargs？</h3><p>其实这是 <strong>.Net Framework的编码规范</strong>：</p>
+<blockquote>
+<ul>
+<li>委托类型的名称都应该以EventHandler结束。那么就应该这样声明</li>
+<li>委托的原型定义：有一个void返回值，并接受两个输入参数：一个Object 类型，一个 EventArgs类型(或继承自EventArgs)。</li>
+<li>事件的命名为 委托去掉 EventHandler之后剩余的部分。</li>
+<li>继承自EventArgs的类型应该以EventArgs结尾。</li>
+</ul>
+</blockquote>
+<p>所以声明应该变成这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public delegate void BoiledEventHandler(Object sender, BoiledEventArgs e); //&#22768;&#26126;&#22996;&#25176;&#10;public event BoiledEventHandler Boiled; //&#22768;&#26126;&#20107;&#20214;</span><br></pre></td></tr></table></figure>
+<p>烧水的函数就变成这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// &#28903;&#27700;&#12290;&#10;public void BoilWater() &#123;&#10;   for (int i = 0; i &#60;= 100; i++) &#123;&#10;      temperature = i;&#10;      if (temperature &#62; 95) &#123;&#10;          //&#24314;&#31435;BoiledEventArgs &#23545;&#35937;&#12290;&#10;          BoiledEventArgs e = new BoiledEventArgs(temperature);&#10;          OnBoiled(e);  // &#35843;&#29992; OnBolied&#26041;&#27861;&#10;      &#125;&#10;   &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>委托声明原型中的<strong>Object类型的参数代表了Subject，也就是监视对象</strong>，在本例中是 Heater(热水器)。回调函数(比如Alarm的MakeAlert)可以通过它访问触发事件的对象(Heater)。<strong>EventArgs 对象包含了Observer所感兴趣的数据，在本例中是temperature。</strong></p>
+<p>完整实例如下，供参考：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">using System;&#10;using System.Collections.Generic;&#10;using System.Text;&#10;&#10;namespace Delegate &#123;&#10;    // &#28909;&#27700;&#22120;&#10;    public class Heater &#123;&#10;       private int temperature;&#10;       public string type = &#34;RealFire 001&#34;;       // &#28155;&#21152;&#22411;&#21495;&#20316;&#20026;&#28436;&#31034;&#10;       public string area = &#34;China Xian&#34;;         // &#28155;&#21152;&#20135;&#22320;&#20316;&#20026;&#28436;&#31034;&#10;       //&#22768;&#26126;&#22996;&#25176;&#10;       public delegate void BoiledEventHandler(Object sender, BoiledEventArgs e);&#10;       public event BoiledEventHandler Boiled; //&#22768;&#26126;&#20107;&#20214;&#10;&#10;       // &#23450;&#20041;BoiledEventArgs&#31867;&#65292;&#20256;&#36882;&#32473;Observer&#25152;&#24863;&#20852;&#36259;&#30340;&#20449;&#24687;&#10;       public class BoiledEventArgs : EventArgs &#123;&#10;           public readonly int temperature;&#10;           public BoiledEventArgs(int temperature) &#123;&#10;              this.temperature = temperature;&#10;           &#125;&#10;       &#125;&#10;&#10;       // &#21487;&#20197;&#20379;&#32487;&#25215;&#33258; Heater &#30340;&#31867;&#37325;&#20889;&#65292;&#20197;&#20415;&#32487;&#25215;&#31867;&#25298;&#32477;&#20854;&#20182;&#23545;&#35937;&#23545;&#23427;&#30340;&#30417;&#35270;&#10;       protected virtual void OnBoiled(BoiledEventArgs e) &#123;&#10;           if (Boiled != null) &#123; // &#22914;&#26524;&#26377;&#23545;&#35937;&#27880;&#20876;&#10;              Boiled(this, e);  // &#35843;&#29992;&#25152;&#26377;&#27880;&#20876;&#23545;&#35937;&#30340;&#26041;&#27861;&#65292;&#20107;&#20214;&#21457;&#29983;&#10;           &#125;&#10;       &#125;&#10;      &#10;       // &#28903;&#27700;&#12290;&#10;       public void BoilWater() &#123;&#10;           for (int i = 0; i &#60;= 100; i++) &#123;&#10;              temperature = i;&#10;              if (temperature &#62; 95) &#123;&#10;                  //&#24314;&#31435;BoiledEventArgs &#23545;&#35937;&#12290;&#10;                  BoiledEventArgs e = new BoiledEventArgs(temperature);&#10;                  OnBoiled(e);  // &#35843;&#29992; OnBolied&#26041;&#27861;&#10;              &#125;&#10;           &#125;&#10;       &#125;&#10;    &#125;&#10;&#10;    // &#35686;&#25253;&#22120;&#10;    public class Alarm &#123;&#10;       public void MakeAlert(Object sender, Heater.BoiledEventArgs e) &#123;//&#20351;&#24471;&#31867;&#22411;&#31526;&#21512;.net&#20107;&#20214;&#35268;&#33539;&#65292;&#28385;&#36275;&#22996;&#25176;&#31867;&#22411;&#65292;&#21487;&#20197;&#27880;&#20876;&#10;           Heater heater = (Heater)sender;     //&#36825;&#37324;&#26159;&#19981;&#26159;&#24456;&#29087;&#24713;&#21602;&#65311;&#10;           //&#35775;&#38382; sender &#20013;&#30340;&#20844;&#20849;&#23383;&#27573;&#10;           Console.WriteLine(&#34;Alarm&#65306;&#123;0&#125; - &#123;1&#125;: &#34;, heater.area, heater.type);&#10;           Console.WriteLine(&#34;Alarm: &#22016;&#22016;&#22016;&#65292;&#27700;&#24050;&#32463; &#123;0&#125; &#24230;&#20102;&#65306;&#34;, e.temperature);&#10;           Console.WriteLine();&#10;       &#125;&#10;    &#125;&#10;&#10;    // &#26174;&#31034;&#22120;&#10;    public class Display &#123;&#10;       public static void ShowMsg(Object sender, Heater.BoiledEventArgs e) &#123;   //&#38745;&#24577;&#26041;&#27861;&#10;           Heater heater = (Heater)sender;&#10;           Console.WriteLine(&#34;Display&#65306;&#123;0&#125; - &#123;1&#125;: &#34;, heater.area, heater.type);&#10;           Console.WriteLine(&#34;Display&#65306;&#27700;&#24555;&#28903;&#24320;&#20102;&#65292;&#24403;&#21069;&#28201;&#24230;&#65306;&#123;0&#125;&#24230;&#12290;&#34;, e.temperature);&#10;           Console.WriteLine();&#10;       &#125;&#10;    &#125;&#10;&#10;    class Program &#123;&#10;       static void Main() &#123;&#10;           Heater heater = new Heater();&#10;           Alarm alarm = new Alarm();&#10;&#10;           heater.Boiled += alarm.MakeAlert;   //&#27880;&#20876;&#26041;&#27861;&#10;           heater.Boiled += (new Alarm()).MakeAlert;      //&#32473;&#21311;&#21517;&#23545;&#35937;&#27880;&#20876;&#26041;&#27861;&#10;           heater.Boiled += new Heater.BoiledEventHandler(alarm.MakeAlert);    //&#20063;&#21487;&#20197;&#36825;&#20040;&#27880;&#20876;&#10;           heater.Boiled += Display.ShowMsg;       //&#27880;&#20876;&#38745;&#24577;&#26041;&#27861;&#10;&#10;           heater.BoilWater();   //&#28903;&#27700;&#65292;&#20250;&#33258;&#21160;&#35843;&#29992;&#27880;&#20876;&#36807;&#23545;&#35937;&#30340;&#26041;&#27861;&#10;       &#125;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>输出为：</p>
+<blockquote>
+<p>Alarm：China Xian - RealFire 001:<br>Alarm: 嘀嘀嘀，水已经 96 度了：<br>Alarm：China Xian - RealFire 001:<br>Alarm: 嘀嘀嘀，水已经 96 度了：<br>Alarm：China Xian - RealFire 001:<br>Alarm: 嘀嘀嘀，水已经 96 度了：<br>Display：China Xian - RealFire 001:<br>Display：水快烧开了，当前温度：96度。<br>// 省略 …</p>
+</blockquote>
+
         
       
     </div>
@@ -816,7 +1017,7 @@ Y   I   <span class="literal">R</span>
       
         <div class="post-tags">
           
-            <a href="/tags/leetcode习题集/"> #leetcode习题集 </a>
+            <a href="/tags/C/"> #C# </a>
           
         </div>
       
@@ -843,8 +1044,8 @@ Y   I   <span class="literal">R</span>
           
           
             
-              <a class="post-title-link" href="/2015/04/06/leetcode习题集27/">
-                leetcode习题集 27 Remove Element
+              <a class="post-title-link" href="/2014/03/07/CSharp异步编程/">
+                C# 异步编程
               </a>
             
           
@@ -853,14 +1054,14 @@ Y   I   <span class="literal">R</span>
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-04-06
+          发表于 2014-03-07
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/算法/">算法</a>
+              <a href="/categories/NET/">.NET</a>
 
               
               
@@ -873,8 +1074,8 @@ Y   I   <span class="literal">R</span>
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/04/06/leetcode习题集27/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/06/leetcode习题集27/"></span>
+            <a href="/2014/03/07/CSharp异步编程/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/07/CSharp异步编程/"></span>
             </a>
           </span>
           
@@ -889,12 +1090,33 @@ Y   I   <span class="literal">R</span>
 
       
         
-          <p>Given an array and a value, remove all instances of that value in place and return the new length.</p>
-<p>The order of elements can be changed. It doesn’t matter what you leave beyond the new length.</p>
-<p>题意：给定一个数组和一个值，移除数组中和这个值相等的元素，新长度后面的元素无所谓，返回数组新长度</p>
-<p>思路：<br>遍历，碰到一样的把最后一个元素覆盖上来</p>
-<p>注意：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;    int removeElement(int A[], int n, int elem) &#123;&#10;        for (int i = 0; i &#60; n; i++)&#10;&#9;&#9;&#123;&#10;&#9;&#9;&#9;if(A[i]==elem)&#10;&#9;&#9;&#9;&#123;&#10;&#9;&#9;&#9;&#9;A[i]=A[n-1];&#10;&#9;&#9;&#9;&#9;n--;&#10;&#9;&#9;&#9;&#9;i--;&#10;&#9;&#9;&#9;&#125;&#10;&#9;&#9;&#125;&#10;&#9;&#9;return n;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>
+          <h2 id="为什么要使用异步编程">为什么要使用异步编程</h2><p>普通程序单线程运行，如果遇到I/O操作，大量数据库操作，使用普通方法会使得当前线程阻塞。使用异步编程就会另外开启一个线程并行 ，解决了这些问题。</p>
+<h2 id="常见异步过程">常见异步过程</h2><p>第一步：准备一个准备进行异步调用的方法，如TestMethod</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class AsyncDemo&#10;&#123;&#10;    public string TestMethod(int callDuration,out int threadId)&#10;    &#123;&#10;        Console.WriteLine(&#34;Test method begins.&#34;);&#10;        Thread.Sleep(callDuration);&#10;        threadId = AppDomain.GetCurrentThreadId();&#10;        return &#34;MyCallTime was &#34; + callDuration.ToString();  &#10;    &#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>第二步：和这个方法对应的委托</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public delegate string AsynDelegate(int callDuration,out int threadId);</span><br></pre></td></tr></table></figure>
+<p>第三步：声明委托变量，并将第一步中的方法绑定到这个变量上去</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int threadId;&#10;AsyncDemo ad = new AsyncDemo();&#10;AsynDelegate asynDelegate = new AsynDelegate(ad.TestMethod);</span><br></pre></td></tr></table></figure>
+<p>第四步：进行异步调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IAsyncResult ir = asynDelegate.BeginInvoke(3000, out threadId, null, null);</span><br></pre></td></tr></table></figure>
+<p>第五步：调用结束后，收回线程资源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string ret = asynDelegate.EndInvoke(out threadId, ir);</span><br></pre></td></tr></table></figure>
+<h2 id="线程回收方式">线程回收方式</h2><p>在C#中，用户启动的线程资源是必须收回的，因为浪费可耻。启动线程容易，但是何时收回，如何收回就比较值得考虑了，根据收回的方式，可以将异步调用，分为两种方式，一种是 <strong>主动收回</strong> （通过主线程阻塞，等待异步线程完成，然后在主线程收回线程资源），<strong>被动收回</strong>（当异步线程运行完后，触发回调函数，在回调函数中收回线程资源）。</p>
+<h3 id="阻塞主线程">阻塞主线程</h3><p>有三种方式</p>
+<ol>
+<li>使用EndInvoke直到结束</li>
+<li>使用waithandle等待调用结束</li>
+<li>轮询异步调用完成 </li>
+</ol>
+<h4 id="使用EndInvoke直到结束">使用EndInvoke直到结束</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IAsyncResult ir = asynDelegate.BeginInvoke(3000, out threadId, null, null);&#10;string ret = asynDelegate.EndInvoke(out threadId, ir);//&#36890;&#36807;out&#21487;&#20197;&#23558;&#24322;&#27493;&#35843;&#29992;&#20013;&#30340;&#21464;&#37327;&#20256;&#36882;&#20986;&#26469;&#65292;&#20026;&#20160;&#20040;&#38656;&#35201;ir&#65311;&#31243;&#24207;&#38656;&#35201;&#36890;&#36807;ir&#33719;&#24471;&#24322;&#27493;&#22996;&#25176;&#65292;&#20174;&#32780;&#36827;&#34892;&#32447;&#31243;&#36164;&#28304;&#30340;&#25910;&#22238;</span><br></pre></td></tr></table></figure>
+<p>BeginInvoke前两个参数是声明TestMethod函数的时候的参数，第三个是<strong>回调函数委托</strong> ，第四个，当使用回调函数时需要将asynDelegate作为参数传入，从而使得在异步结果（ir）中能够拿到asynDelegate变量，从而进行相关操作。<br>EndInvoke 前面是testMethod中ref和out参数，后面是异步状态变量IAsyncResult</p>
+<h4 id="使用waithandle等待调用结束">使用waithandle等待调用结束</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IAsyncResult ar = asynDelegate.BeginInvoke(3000, out threadId, null, null);    &#10;// C#&#24322;&#27493;&#35843;&#29992;&#23436;&#25104;&#26102;&#20250;&#21457;&#20986; WaitHandle &#20449;&#21495; &#65292;&#31243;&#24207;&#22312;&#27492;&#38459;&#22622;&#10;ar.AsyncWaitHandle.WaitOne();&#10;string ret = asynDelegate.EndInvoke(out threadId, ar);</span><br></pre></td></tr></table></figure>
+<h4 id="轮询异步调用完成">轮询异步调用完成</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IAsyncResult ar = asynDelegate.BeginInvoke(3000,out threadId, null, null);&#10;//&#36718;&#35810;ar.IsCompleted&#30340;&#29366;&#24577;&#10;while(ar.IsCompleted == false) &#123;  &#10;    Thread.Sleep(10);  &#10;&#125;  &#10;//&#20250;&#23548;&#33268;&#31243;&#24207;&#22312;&#27492;&#38459;&#22622;  &#10;string ret = asynDelegate.EndInvoke(out threadId, ar);</span><br></pre></td></tr></table></figure>
+<h3 id="使用回调函数收回线程资源">使用回调函数收回线程资源</h3><h4 id="声明回调函数">声明回调函数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static void CallbackMethod(IAsyncResult ar) &#123;&#10;    int threadId;&#10;    // &#36890;&#36807;&#24322;&#27493;&#32467;&#26524;&#65288;IAsyncResult&#65289;&#37325;&#26032;&#24471;&#21040;&#22996;&#25176;&#23545;&#35937;&#10;    AsynDelegate asynDelegate = (AsynDelegate)ar.AsyncState;&#10;    //&#22312;&#22238;&#35843;&#20989;&#25968;&#20013;&#35843;&#29992;EndInvoke&#65292;&#25910;&#22238;&#24322;&#27493;&#32447;&#31243;&#30340;&#36164;&#28304;&#10;    string ret = asynDelegate.EndInvoke(out threadId, ar);  &#10;    Console.WriteLine(&#34;The call executed on thread &#123;0&#125;, with return value \&#34;&#123;1&#125;\&#34;.&#34;, threadId, ret);  &#10;    &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="将回调函数作为异步调用的参数，进行异步调用">将回调函数作为异步调用的参数，进行异步调用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IAsyncResult ar = asynDelegate.BeginInvoke(3000, out threadId, new AsyncCallback(CallbackMethod), asynDelegate);</span><br></pre></td></tr></table></figure>
+<h2 id="异步操作与多线程">异步操作与多线程</h2><p>当需要执行I/O操作时，使用异步操作比使用线程+同步 I/O操作更合适。I/O操作不仅包括了直接的文件、网络的读写，还包括数据库操作、Web Service、HttpRequest以及.net Remoting等跨进程的调用。</p>
+<p>而线程的适用范围则是那种需要长时间CPU运算的场合，例如耗时较长的图形处理和算法执行。但是往 往由于使用线程编程的简单和符合习惯，所以很多朋友往往会使用线程来执行耗时较长的I/O操作。这样在只有少数几个并发操作的时候还无伤大雅，如果需要处 理大量的并发操作时就不合适了。</p>
+
         
       
     </div>
@@ -903,7 +1125,7 @@ Y   I   <span class="literal">R</span>
       
         <div class="post-tags">
           
-            <a href="/tags/leetcode习题集/"> #leetcode习题集 </a>
+            <a href="/tags/C/"> #C# </a>
           
         </div>
       
@@ -930,8 +1152,8 @@ Y   I   <span class="literal">R</span>
           
           
             
-              <a class="post-title-link" href="/2015/04/06/leetcode习题集26/">
-                leetcode习题集 26 Remove Duplicates from Sorted Array
+              <a class="post-title-link" href="/2014/03/04/Csharp中的out和ref/">
+                C#中的out和ref
               </a>
             
           
@@ -940,14 +1162,14 @@ Y   I   <span class="literal">R</span>
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-04-06
+          发表于 2014-03-04
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/算法/">算法</a>
+              <a href="/categories/NET/">.NET</a>
 
               
               
@@ -960,8 +1182,8 @@ Y   I   <span class="literal">R</span>
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/04/06/leetcode习题集26/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/06/leetcode习题集26/"></span>
+            <a href="/2014/03/04/Csharp中的out和ref/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/04/Csharp中的out和ref/"></span>
             </a>
           </span>
           
@@ -976,14 +1198,10 @@ Y   I   <span class="literal">R</span>
 
       
         
-          <p>Given a sorted array, remove the duplicates in place such that each element appear only once and return the new length.</p>
-<p>Do not allocate extra space for another array, you must do this in place with constant memory.</p>
-<p>For example,<br>Given input array <code>A = [1,1,2]</code>,</p>
-<p>Your function should return length = <code>2</code>, and A is now <code>[1,2]</code>.</p>
-<p>题意：给定一个已经排好序的数组，除掉重复的元素</p>
-<p>思路：<br>两个index，一个指向遍历的元素，一个指向下一个被覆盖的位置</p>
-<p>注意：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;    int removeDuplicates(int A[], int n) &#123;&#10;        if(n==0) return 0;&#10;        int cur=0,length=1;&#10;        for(int i=1;i&#60;n;i++)&#10;        &#123;&#10;            if(A[i]==A[cur]) continue;&#10;            else &#10;            &#123;&#10;                A[cur+1]=A[i];&#10;                cur++;&#10;                length++;&#10;            &#125;&#10;            &#10;        &#125;&#10;        return length;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>
+          <h2 id="为什么要用out和ref">为什么要用out和ref</h2><p>C#中默认的参数传递都是值传递，想要使用<strong>引用传递</strong>就需要使用ref和out关键字，ref和out都是引用传递，但是逻辑上有区别</p>
+<h2 id="区别">区别</h2><p>ref需要初始化参数才能进行传递，逻辑是已经有了，传进来，来帮我改改</p>
+<p>out不需要，out的逻辑是不管有没有，传进来，主要给我传出来</p>
+<h2 id="例子">例子</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> study</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> Program</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// ref关键字可以让一个值类型的输入按引用传递，类似于C语言中的&amp;</span></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">refFunction</span><span class="params">(<span class="keyword">int</span> x,ref <span class="keyword">int</span> a)</span>  </span><br><span class="line">        </span>&#123;  </span><br><span class="line">            a = a * x;  </span><br><span class="line">        &#125;   </span><br><span class="line">        <span class="comment">// 使用out关键字,输入参数str在传递给outKeyWord()方法前不必进行初始化</span></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">outKeyWord</span><span class="params">(out <span class="built_in">string</span> str)</span>  </span><br><span class="line">        </span>&#123;  </span><br><span class="line">            <span class="comment">//输出参数str在方法返回前必须被赋值 </span></span><br><span class="line">            str = <span class="string">"a string"</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span><span class="params">(<span class="built_in">string</span>[] args)</span>  </span><br><span class="line">        </span>&#123;  </span><br><span class="line">            <span class="comment">//***********ref关键字的使用  </span></span><br><span class="line">            <span class="keyword">int</span> x = <span class="number">12</span>, a = <span class="number">5</span>;  </span><br><span class="line">            Console.WriteLine(a);<span class="comment">//输出:5  </span></span><br><span class="line">            refFunction(x, ref a);  </span><br><span class="line">            Console.WriteLine(a);<span class="comment">//输出:60  </span></span><br><span class="line">              </span><br><span class="line">            <span class="comment">//***********out关键字的使用  </span></span><br><span class="line">            <span class="built_in">string</span> str;<span class="comment">//不必初始化  </span></span><br><span class="line">            outKeyWord(out str);<span class="comment">//输出:a string  </span></span><br><span class="line">            Console.WriteLine(str);  </span><br><span class="line">            Console.ReadKey();  </span><br><span class="line">  </span><br><span class="line">        &#125;  </span><br><span class="line">            </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
         
       
     </div>
@@ -992,7 +1210,7 @@ Y   I   <span class="literal">R</span>
       
         <div class="post-tags">
           
-            <a href="/tags/leetcode习题集/"> #leetcode习题集 </a>
+            <a href="/tags/C/"> #C# </a>
           
         </div>
       
@@ -1012,7 +1230,7 @@ Y   I   <span class="literal">R</span>
 
   
   <div class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/">&laquo;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/">&raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">&raquo;</a>
   </div>
 
 
@@ -1046,21 +1264,21 @@ Y   I   <span class="literal">R</span>
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-count">31</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-count">10</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

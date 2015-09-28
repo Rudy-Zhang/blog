@@ -20,7 +20,7 @@
 
 
 
-  <meta name="keywords" content="PHP,PHP框架," />
+  <meta name="keywords" content="排序," />
 
 
 
@@ -41,7 +41,7 @@
   </script>
 
 
-  <title> 一步一步写一个PHP框架（一） // Rudy's Blog </title>
+  <title> 排序算法总结 // Rudy's Blog </title>
 </head>
 
 <body>
@@ -121,7 +121,7 @@
           
           
             
-              一步一步写一个PHP框架（一）
+              排序算法总结
             
           
         </h1>
@@ -129,14 +129,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-04-20
+          发表于 2015-09-27
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/web开发/">web开发</a>
+              <a href="/categories/找工作总结/">找工作总结</a>
 
               
               
@@ -149,8 +149,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/04/20/一步一步写一个PHP框架1/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/20/一步一步写一个PHP框架1/"></span>
+            <a href="/2015/09/27/排序算法总结/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/27/排序算法总结/"></span>
             </a>
           </span>
           
@@ -164,44 +164,234 @@
       
 
       
-        <h2 id="前言">前言</h2><p>完成了一个小项目，使用Apache+MySql+PHP。PHP中使用的框架是CodeIgniter，这是一个轻量易扩展的PHP MVC框架，适用于轻量级的网站搭建。CodeIgniter手册清晰丰富，覆盖了一般网站的所有需求。</p>
-<p>为了更好地理解PHP里面框架的设计，目标是自己写一个简单的PHP MVC框架，一方面可以更深入地学习PHP，一方面也能够更深入地理解框架设计里面的思想。</p>
-<h2 id="Apache的工作流程">Apache的工作流程</h2><p>Apache是一个Web服务器，也可以叫做http服务器，因为Apache只能处理http请求。常见的web服务器还有Nginx</p>
-<p>Apache的工作流程如下：</p>
-<ol>
-<li>浏览器向服务器发出HTTP请求(Request)。</li>
-<li>服务器收到浏览器的请求数据，经过分析处理，向浏览器输出响应数据（Response）。</li>
-<li>浏览器收到服务器的响应数据，经过分析处理，将最终结果显示在浏览器中。</li>
-</ol>
-<p>Apache和Nginx都属于Web服务器，两者都实现了HTTP 1.1协议。</p>
-<p>所以如果有人问FTP协议可以在Apache上工作吗？答案是用Apache FTP Server可以，Apache web服务器不可以。</p>
-<p>Apache是用C语言写的，服务器当然要追求高效率。</p>
-<h2 id="PHP原理">PHP原理</h2><p>PHP的核心解释器是用C语言写的，相当于我们写了PHP代码，会有一个C语言写好的解释工具一边解释，一边执行。实际上在写PHP的时候就是在使用一个C语言写好的工具，我们的PHP代码就是指挥这个工具的命令。</p>
-<p>PHP包括四层体系：</p>
-<ol>
-<li>Zend引擎：Zend整体用纯C实现，是PHP的内核部分。负责翻译PHP代码，是一切的核心。</li>
-<li>Extensions：围绕Zend引擎，通过组件方式提供基础服务。常见内置函数如array是由extension实现的。</li>
-<li>Sapi通过一系列的<strong>钩子函数</strong>，使得PHP可以和外围交互数据。如Apache</li>
-<li>上层应用：平时写的PHP程序</li>
-</ol>
+        <h2 id="插入排序">插入排序</h2><h3 id="直接插入排序">直接插入排序</h3><p>原理：将数组分为无序区和有序区两个区，然后不断将无序区的第一个元素按大小顺序插入到有序区中去，最终将所有无序区元素都移动到有序区完成排序。</p>
+<pre><code>void insertSort(int a[], int N)
+<span class="comment">{
+    for(int i = 1; i &lt; N; i++)
+    {
+        int temp = a[i];
+        int j;
+        for(j = i; j &gt; 0 &amp;&amp; temp &lt; a[j-1]; j--)
+            a[j] = a[j-1];
+        a[j] = temp;
+    }</span>
+}
+</code></pre><h3 id="希尔排序">希尔排序</h3><p>原理：又称增量缩小排序。先将序列按增量划分为元素个数相同的若干组，使用直接插入排序法进行排序，然后不断缩小增量直至为1，最后使用直接插入排序完成排序。</p>
 <blockquote>
-<p>如果PHP是一辆车，那么车的框架就是PHP本身，Zend是车的引擎（发动机），Ext下面的各种组件就是车的轮子，Sapi可以看做是公路， 车可以跑在不同类型的公路上，而一次PHP程序的执行就是汽车跑在公路上。因此，我们需要：性能优异的引擎+合适的车轮+正确的跑道。</p>
+<p>由于多次插入排序，我们知道一次插入排序是稳定的，不会改变相同元素的相对顺序，但在不同的插入排序过程中，相同的元素可能在各自的插入排序中移动，最后其稳定性就会被打乱，所以shell排序是不稳定的。</p>
 </blockquote>
-<p>PHP的执行的核心是翻译出来的一条一条指令，也即opcode。</p>
-<p><strong>hashtable</strong>是PHP的核心数据结构，数组就是典型的应用。Zend hash table实现了典型的hash表散列结构，同时通过附加一个双向链表（解决冲突），提供了正向、反向遍历数组的功能。</p>
-<p>更详细的内容参考<a href="!http://www.cnblogs.com/zcy_soft/archive/2013/03/14/2959396.html">这里</a></p>
-<h2 id="PHP在Apache上运行">PHP在Apache上运行</h2><h3 id="以模块加载的方式运行">以模块加载的方式运行</h3><p>这种方式使用了Apache的Hook机制。所谓Hook机制，就是在自己的程序运行的时候允许别的模块插上一腿。当我们配置Apache服务器的<code>http.config</code>文件时，写入<code>mod_php5.so/php5apache2.dll</code>就是将自定义的函数注入到Apache的请求处理循环当中。在模块化的运行方式中，PHP与Web服务器一起启动并且运行，通过Apache自身的进程线程管理来处理并发的请求。</p>
-<h3 id="以CGI，FastCGI方式运行">以CGI，FastCGI方式运行</h3><p>CGI英文叫做公共网关接口，CGI是外部应用程序（CGI程序）与Web服务器之间的接口标准，是在CGI程序和Web服务器之间传递信息的规程。Apache在Http请求的时候会将请求提交给CGI应用程序（php-cgi.exe）解释，解释之后的结果返回给Apache，然后再返回给相应的请求用户。</p>
-<p>CGI VS FastCGI</p>
-<p>FastCGI是CGI的加强版本，CGI是单进程，多线程的运行方式，程序执行完成之后就会销毁。FastCGI是常驻(long-live)型的CGI.有自身的进程管理器，不必每一次都fork一个进程（CGI解释器）去执行。常见的PHP-FPM是一个PHP FastCGI管理器。</p>
-<p>关于更多的对比可以看<a href="http://fifiole.blog.163.com/blog/static/169459225201222962651804/" target="_blank" rel="external">这里</a>。</p>
-<blockquote>
-<p>目前在HTTPServer这块基本可以看到有三种stack比较流行：</p>
-<p>（1）Apache+mod_php5</p>
-<p>（2）lighttp+spawn-fcgi</p>
-<p>（3）nginx+PHP-FPM</p>
-<p>三者后两者性能可能稍优，但是Apache由于有丰富的模块和功能，目前来说仍旧是老大。有人测试nginx+PHP-FPM在高并发情况下可能会达到Apache+mod_php5的5~10倍，现在nginx+PHP-FPM使用的人越来越多。</p>
-</blockquote>
+<pre><code><span class="function"><span class="keyword">void</span> <span class="title">shellSort</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> N)</span>
+</span>{
+    <span class="keyword">for</span>(<span class="keyword">int</span> incre = N / <span class="number">2</span>; incre &gt; <span class="number">0</span>; incre /= <span class="number">2</span>)
+    {
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = incre; i &lt; N; i++)
+        {
+            <span class="keyword">int</span> temp = a[i];
+            <span class="keyword">int</span> j;
+            <span class="keyword">for</span>(j = i; j &gt;= incre &amp;&amp; temp &lt; a[j - incre]; j -= incre)
+                a[j] = a[j - incre];
+            a[j] = temp;
+        }
+    }
+}
+</code></pre><h2 id="交换排序">交换排序</h2><h3 id="冒泡排序">冒泡排序</h3><p>原理：将序列划分为无序和有序区，不断通过交换较大元素至无序区尾完成排序。</p>
+<pre><code>void bubbleSort(int <span class="literal">a</span>[], int N)
+{
+    for(int i = <span class="number">0</span><span class="comment">; i &lt; N; i++)</span>
+    {
+        for(int j = i<span class="comment">; j &lt; N - i - 1; j++)</span>
+        {
+            <span class="keyword">if</span>(<span class="literal">a</span>[j] &gt; <span class="literal">a</span>[j+<span class="number">1</span>])
+            {
+                int temp = <span class="literal">a</span>[j]<span class="comment">;</span>
+                <span class="literal">a</span>[j] = <span class="literal">a</span>[j+<span class="number">1</span>]<span class="comment">;</span>
+                <span class="literal">a</span>[j+<span class="number">1</span>] = temp<span class="comment">;</span>
+            }
+        }
+    }
+}
+</code></pre><p>补充说明：使用didSwap=true/false可以避免重复的比较，使得最好情况的复杂度变为O(n)</p>
+<h3 id="快速排序">快速排序</h3><p>原理：不断寻找一个序列的中点，然后对中点左右的序列递归的进行排序，直至全部序列排序完成，使用了分治的思想。<br>1．先从数列中取出一个数作为基准数。<br>2．分区过程，将比这个数大的数全放到它的右边，小于或等于它的数全放到它的左边。<br>3．再对左右区间重复第二步，直到各区间只有一个数。</p>
+<p>实现：</p>
+<pre><code>void quickSortCore(<span class="built_in">int</span> a[], <span class="built_in">int</span> <span class="built_in">left</span>, <span class="built_in">int</span> <span class="built_in">right</span>)
+{
+    <span class="keyword">if</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+    {
+        <span class="built_in">int</span> temp = a[<span class="built_in">left</span>];
+        <span class="built_in">int</span> i = <span class="built_in">left</span>, j = <span class="built_in">right</span>;
+        <span class="keyword">while</span>(i &lt; j)
+        {
+            <span class="keyword">while</span>(i &lt; j &amp;&amp; temp &lt;= a[j])
+                j--;
+            <span class="keyword">if</span>(i &lt; j)
+                a[i++] = a[j];
+            <span class="keyword">while</span>(i &lt; j &amp;&amp; temp &gt;= a[i])
+                i++;
+            <span class="keyword">if</span>(i &lt; j)
+                a[j--] = a[i];
+        }
+        a[i] = temp;
+        quickSortCore(a, <span class="built_in">left</span>, i-<span class="number">1</span>);
+        quickSortCore(a, i+<span class="number">1</span>, <span class="built_in">right</span>);
+    }
+
+}
+
+void quickSort(<span class="built_in">int</span> a[], <span class="built_in">int</span> N)
+{
+    quickSortCore(a, <span class="number">0</span>, N-<span class="number">1</span>);
+}
+</code></pre><h2 id="选择排序">选择排序</h2><h3 id="直接选择排序">直接选择排序</h3><p>原理：将序列划分为无序和有序区，寻找无序区中的最小值和无序区的首元素交换，有序区扩大一个，循环最终完成全部排序。</p>
+<pre><code><span class="function"><span class="keyword">void</span> <span class="title">selectSort</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> N)</span>
+</span>{
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)
+    {
+        <span class="keyword">int</span> k = i;
+        <span class="keyword">for</span>(<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; N; j++)
+        {
+            <span class="keyword">if</span>(a[j] &lt; a[k])
+                k = j;
+        }
+        <span class="keyword">int</span> temp = a[i];
+        a[i] = a[k];
+        a[k] = temp;
+    }
+}
+</code></pre><h3 id="堆排序">堆排序</h3><p>堆序性质： 堆分为大顶堆和小顶堆，满足<code>Key[i]&gt;=Key[2i+1]&amp;&amp;key&gt;=key[2i+2]</code>称为大顶堆，满足 <code>Key[i]&lt;=key[2i+1]&amp;&amp;Key[i]&lt;=key[2i+2]</code>称为小顶堆。</p>
+<p>原理：利用大顶堆或小顶堆思想，首先建立堆，然后将堆首与堆尾交换，堆尾之后为有序区。如从小到大排序，建立大顶堆，堆顶元素与堆尾不断交换，同时缩小堆的范围，最终得到排序结果。</p>
+<pre><code>void percDown(int a[], int i, int N)
+<span class="comment">{
+    int temp = a[i], child;
+    for(; 2 * i + 1 &lt; N; i = child)
+    {
+        child = 2 * i + 1;
+        if(child + 1 &lt; N &amp;&amp; a[child] &lt; a[child + 1])
+            child++;
+        if(temp &lt; a[child])
+            a[i] = a[child];
+        else
+            break;
+    }</span>
+    a[i] = temp;
+}
+
+void heapSort(int a[], int N)
+<span class="comment">{
+    for(int i = N / 2; i &gt;= 0; i--)
+        percDown(a, i, N);
+    for(int i = N-1; i &gt; 0; i--)
+    {
+        int temp = a[i];
+        a[i] = a[0];
+        a[0] = temp;
+        percDown(a, 0, i);
+    }</span>
+}
+</code></pre><h2 id="归并排序">归并排序</h2><p>原理：将原序列划分为有序的两个序列，然后利用归并算法进行合并，合并之后即为有序序列。</p>
+<pre><code>void merge(<span class="built_in">int</span> a[], <span class="built_in">int</span> temp[], <span class="built_in">int</span> <span class="built_in">left</span>, <span class="built_in">int</span> <span class="built_in">mid</span>, <span class="built_in">int</span> <span class="built_in">right</span>)
+{
+    <span class="keyword">if</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+    {
+        <span class="built_in">int</span> lpos = <span class="built_in">left</span>, lend = <span class="built_in">mid</span>;
+        <span class="built_in">int</span> rpos = <span class="built_in">mid</span> + <span class="number">1</span>, rend = <span class="built_in">right</span>;
+        <span class="built_in">int</span> tpos = <span class="built_in">left</span>;
+        <span class="keyword">while</span>(lpos &lt;= lend &amp;&amp; rpos &lt;= rend)
+        {
+            <span class="keyword">if</span>(a[lpos] &lt;= a[rpos])
+                temp[tpos++] = a[lpos++];
+            <span class="keyword">else</span>
+                temp[tpos++] = a[rpos++];
+        }
+        <span class="keyword">while</span>(lpos &lt;= lend)
+            temp[tpos++] = a[lpos++];
+        <span class="keyword">while</span>(rpos &lt;= rend)
+            temp[tpos++] = a[rpos++];
+        <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt;= <span class="built_in">right</span>; i++)
+            a[i] = temp[i];
+    }
+}
+void mergeSortCore(<span class="built_in">int</span> a[], <span class="built_in">int</span> temp[], <span class="built_in">int</span> <span class="built_in">left</span>, <span class="built_in">int</span> <span class="built_in">right</span>)
+{
+    <span class="keyword">if</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+    {
+        <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>) / <span class="number">2</span>;
+        mergeSortCore(a, temp, <span class="built_in">left</span>, <span class="built_in">mid</span>);
+        mergeSortCore(a, temp, <span class="built_in">mid</span>+<span class="number">1</span>, <span class="built_in">right</span>);
+        merge(a, temp, <span class="built_in">left</span>, <span class="built_in">mid</span>, <span class="built_in">right</span>);
+    }
+}
+void mergeSort(<span class="built_in">int</span> a[], <span class="built_in">int</span> N)
+{
+    <span class="built_in">int</span> *temp = <span class="keyword">new</span> <span class="built_in">int</span>[N];
+    mergeSortCore(a, temp, <span class="number">0</span>, N-<span class="number">1</span>);
+    delete [] temp;
+}
+</code></pre><h2 id="各种排序算法的复杂度稳定性分析">各种排序算法的复杂度稳定性分析</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">分类</th>
+<th style="text-align:left">名称</th>
+<th style="text-align:left">复杂度分析</th>
+<th>稳定性</th>
+<th>稳定性原因分析</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">插入排序</td>
+<td style="text-align:left">简单插入</td>
+<td style="text-align:left">平均O(n^2),最好O(n),最坏O(n^2)</td>
+<td>稳定</td>
+<td>没有跨元素交换</td>
+</tr>
+<tr>
+<td style="text-align:left">———-</td>
+<td style="text-align:left">希尔排序</td>
+<td style="text-align:left">平均接近nlogn,最好O(n),最坏O(n^2)</td>
+<td>不稳定</td>
+<td>增量分组，有跨元素交换</td>
+</tr>
+<tr>
+<td style="text-align:left">交换排序</td>
+<td style="text-align:left">冒泡排序</td>
+<td style="text-align:left">平均O(n^2),最好O(n),最坏O(n^2)</td>
+<td>稳定</td>
+<td>没有跨元素交换</td>
+</tr>
+<tr>
+<td style="text-align:left">———-</td>
+<td style="text-align:left">快速排序</td>
+<td style="text-align:left">平均nlogn,最好nlogn,最坏O(n^2)</td>
+<td>不稳定</td>
+<td>有跨元素交换</td>
+</tr>
+<tr>
+<td style="text-align:left">选择排序</td>
+<td style="text-align:left">直接选择</td>
+<td style="text-align:left">平均O(n^2),最好O(n^2),最坏O(n^2)</td>
+<td>不稳定</td>
+<td>5 8 5 2</td>
+</tr>
+<tr>
+<td style="text-align:left">———-</td>
+<td style="text-align:left">堆排序</td>
+<td style="text-align:left">平均,最好,最坏nlogn</td>
+<td>不稳定</td>
+<td>3 2 3 2</td>
+</tr>
+<tr>
+<td style="text-align:left">归并排序</td>
+<td style="text-align:left">归并排序</td>
+<td style="text-align:left">平均,最好,最坏nlogn，有O(n)空间复杂度</td>
+<td>稳定</td>
+<td>没有跨元素交换</td>
+</tr>
+</tbody>
+</table>
+<h2 id="扩展问题">扩展问题</h2><ul>
+<li>单链表可以做快速排序吗？为什么？</li>
+</ul>
+<p>可以。快速排序的核心函数partition，选择某个元素为枢纽元x(通常是第一个)，一遍扫描之后使得比x小的在枢纽元左边，比x大的在枢纽元的右边。使用链表时，x指向链表头(枢纽元)，扫描这个链表，小元素拼在链表头，大元素拼在链表尾部，从而完成一次partition函数的流程。</p>
 
       
     </div>
@@ -210,9 +400,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/PHP/"> #PHP </a>
-          
-            <a href="/tags/PHP框架/"> #PHP框架 </a>
+            <a href="/tags/排序/"> #排序 </a>
           
         </div>
       
@@ -221,13 +409,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/04/22/一步一步写一个PHP框架2/">一步一步写一个PHP框架（二）</a>
+              <a href="/2015/09/27/找工作总结-数组专题/">数组专题-简单题目</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/04/07/如何完成一个在线考试的功能/">如何完成一个在线考试的功能</a>
+              <a href="/2015/09/27/找工作总结-字符串专题/">字符串专题</a>
             
           </div>
         </div>
@@ -243,8 +431,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/04/20/一步一步写一个PHP框架1/"
-               data-title="一步一步写一个PHP框架（一）" data-url="http://rudy-zhang.me/2015/04/20/一步一步写一个PHP框架1/">
+          <div class="ds-thread" data-thread-key="2015/09/27/排序算法总结/"
+               data-title="排序算法总结" data-url="http://rudy-zhang.me/2015/09/27/排序算法总结/">
           </div>
         
       </div>
@@ -339,7 +527,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Apache的工作流程"><span class="nav-number">2.</span> <span class="nav-text">Apache的工作流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP原理"><span class="nav-number">3.</span> <span class="nav-text">PHP原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP在Apache上运行"><span class="nav-number">4.</span> <span class="nav-text">PHP在Apache上运行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#以模块加载的方式运行"><span class="nav-number">4.1.</span> <span class="nav-text">以模块加载的方式运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#以CGI，FastCGI方式运行"><span class="nav-number">4.2.</span> <span class="nav-text">以CGI，FastCGI方式运行</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#插入排序"><span class="nav-number">1.</span> <span class="nav-text">插入排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接插入排序"><span class="nav-number">1.1.</span> <span class="nav-text">直接插入排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#希尔排序"><span class="nav-number">1.2.</span> <span class="nav-text">希尔排序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#交换排序"><span class="nav-number">2.</span> <span class="nav-text">交换排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#冒泡排序"><span class="nav-number">2.1.</span> <span class="nav-text">冒泡排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速排序"><span class="nav-number">2.2.</span> <span class="nav-text">快速排序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择排序"><span class="nav-number">3.</span> <span class="nav-text">选择排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接选择排序"><span class="nav-number">3.1.</span> <span class="nav-text">直接选择排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#堆排序"><span class="nav-number">3.2.</span> <span class="nav-text">堆排序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#归并排序"><span class="nav-number">4.</span> <span class="nav-text">归并排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#各种排序算法的复杂度稳定性分析"><span class="nav-number">5.</span> <span class="nav-text">各种排序算法的复杂度稳定性分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展问题"><span class="nav-number">6.</span> <span class="nav-text">扩展问题</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

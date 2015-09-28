@@ -4,7 +4,7 @@
   <subtitle><![CDATA[seize the day]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://rudy-zhang.me/"/>
-  <updated>2015-08-30T07:56:03.789Z</updated>
+  <updated>2015-09-28T02:36:42.796Z</updated>
   <id>http://rudy-zhang.me/</id>
   
   <author>
@@ -15,11 +15,644 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[数组专题-简单题目]]></title>
+    <link href="http://rudy-zhang.me/2015/09/27/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E6%95%B0%E7%BB%84%E4%B8%93%E9%A2%98/"/>
+    <id>http://rudy-zhang.me/2015/09/27/找工作总结-数组专题/</id>
+    <published>2015-09-27T13:56:00.000Z</published>
+    <updated>2015-09-28T02:36:42.796Z</updated>
+    <content type="html"><![CDATA[<h3 id="剑指offer3_二维数组查找">剑指offer3 二维数组查找</h3><h4 id="问题描述">问题描述</h4><p>在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
+<h4 id="解法">解法</h4><p>从右上角（这样使得这一行剩余元素都比他小，这一列剩余元素都比他大）向左下角扫描</p>
+<h4 id="代码">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="function"><span class="keyword">bool</span> <span class="title">Find</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; <span class="built_in">array</span>,<span class="keyword">int</span> target)</span> </span>{
+        <span class="keyword">if</span>(<span class="built_in">array</span>.size() == <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">int</span> width = <span class="built_in">array</span>[<span class="number">0</span>].size();
+        <span class="keyword">int</span> height = <span class="built_in">array</span>.size();
+        <span class="keyword">int</span> i = <span class="number">0</span>, j = width - <span class="number">1</span>;
+        <span class="keyword">while</span>(i &lt; height &amp;&amp; j &gt;= <span class="number">0</span>)
+        {
+            <span class="keyword">if</span>(<span class="built_in">array</span>[i][j] == target)
+                <span class="keyword">return</span> <span class="keyword">true</span>;
+            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">array</span>[i][j] &lt; target)
+                i++;
+            <span class="keyword">else</span>
+                j--;
+        }
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+};
+</code></pre><h3 id="剑指offer51_数组中重复的数字">剑指offer51 数组中重复的数字</h3><h4 id="问题描述-1">问题描述</h4><p>在一个长度为n的数组里的所有数字都在0到n-1的范围内。 数组中某些数字是重复的，但不知道有几个数字是重复的。也不知道每个数字重复几次。请找出数组中任意一个重复的数字。 例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出是重复的数字2或者3。</p>
+<h4 id="解法-1">解法</h4><ul>
+<li>排序后扫描，时间复杂度nlogn，空间复杂度O(1)</li>
+<li>使用map记录，时间复杂度O(n)，空间复杂度O(n)</li>
+</ul>
+<h4 id="注意点">注意点</h4><ul>
+<li>map的遍历<br><code>map&lt;int, int&gt;::iterator iter;</code><br><code>iter-&gt;first</code> <code>iter-&gt;second</code></li>
+</ul>
+<h4 id="代码-1">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="function"><span class="keyword">bool</span> <span class="title">duplicate</span><span class="params">(<span class="keyword">int</span> numbers[], <span class="keyword">int</span> length, <span class="keyword">int</span>* duplication)</span> </span>{
+        <span class="keyword">if</span>(length &lt;= <span class="number">1</span>)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; dict;
+        <span class="keyword">bool</span> ans = <span class="keyword">false</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++)
+        {
+            <span class="keyword">if</span>(dict.count(numbers[i]) == <span class="number">0</span>)
+                dict[numbers[i]] = <span class="number">1</span>;
+            <span class="keyword">else</span>{
+                dict[numbers[i]] += <span class="number">1</span>;
+                ans = <span class="keyword">true</span>;
+            }
+        }
+        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;::iterator iter;
+        <span class="keyword">for</span>(iter = dict.begin();iter != dict.end();iter++)
+        {
+            <span class="keyword">if</span>(iter-&gt;second &gt; <span class="number">1</span>)
+            {
+                *duplication = iter-&gt;first;
+                duplication++;
+            }
+        }
+        <span class="keyword">return</span> ans;
+    }
+};
+</code></pre><h3 id="剑指offer29_数组中出现次数超过一半的数字">剑指offer29 数组中出现次数超过一半的数字</h3><h4 id="问题描述-2">问题描述</h4><p>数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。由于数字2在数组中出现了5次，超过数组长度的一半，因此输出2。</p>
+<h4 id="解法-2">解法</h4><ul>
+<li>使用快排partition函数，扫描一遍数组中间元素就是出现超过一半的数字</li>
+<li>使用time记录数字出现的次数，cur记录当前数字</li>
+</ul>
+<h4 id="注意点-1">注意点</h4><ul>
+<li>使用解法2需要判断最后的次数是否真的大于一半，如果不是，返回特定值</li>
+</ul>
+<h4 id="代码-2">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="keyword">int</span> MoreThanHalfNum_Solution(vector&lt;<span class="keyword">int</span>&gt; numbers) {
+        <span class="keyword">if</span>(numbers.<span class="keyword">size</span>() == <span class="number">0</span>) 
+            <span class="keyword">return</span> <span class="number">0</span>;
+        <span class="keyword">int</span> time = <span class="number">1</span>;
+        <span class="keyword">int</span> cur = numbers[<span class="number">0</span>];
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; numbers.<span class="keyword">size</span>(); i++)
+        {
+            <span class="keyword">if</span>(time == <span class="number">0</span>)
+            {
+                cur = numbers[i];
+                time = <span class="number">1</span>;
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(numbers[i] == cur)
+                time++;
+            <span class="keyword">else</span>
+                time--;
+        }
+        <span class="keyword">int</span> <span class="keyword">count</span> = <span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;numbers.<span class="keyword">size</span>(); i++)
+        {
+            <span class="keyword">if</span>(numbers[i] == cur)
+                <span class="keyword">count</span>++;
+        }
+        <span class="keyword">if</span>(<span class="keyword">count</span> * <span class="number">2</span> &gt; numbers.<span class="keyword">size</span>())
+            <span class="keyword">return</span> cur;
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> <span class="number">0</span>;
+    }
+};
+</code></pre><h3 id="剑指offer40_数组中只出现一次的数字">剑指offer40 数组中只出现一次的数字</h3><h4 id="问题描述-3">问题描述</h4><p>一个整型数组里除了两个数字之外，其他的数字都出现了两次。请写程序找出这两个只出现一次的数字。</p>
+<h4 id="解法-3">解法</h4><ul>
+<li>对于只有一个数字出现一次，对所有数字做异或操作</li>
+<li>有两个数字a,b出现了一次，其它出现偶数次。所有数字异或得temp = a^b，使用result做spliter，每一个数字和temp做与操作，把数组分成两组</li>
+</ul>
+<h4 id="注意点-2">注意点</h4><ul>
+<li>与或非的操作符优先级</li>
+</ul>
+<h4 id="代码-3">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    void FindNumsAppearOnce(vector&lt;<span class="built_in">int</span>&gt; <span class="type">data</span>,<span class="built_in">int</span>* num1,<span class="built_in">int</span> *num2) {
+        <span class="keyword">if</span>(<span class="type">data</span>.<span class="built_in">size</span>() &lt;= <span class="number">1</span>)
+        {
+            *num1 = <span class="number">0</span>;
+            *num2 = <span class="number">0</span>;
+            <span class="keyword">return</span> ;
+        }
+        <span class="built_in">int</span> temp = <span class="number">0</span>;
+        for(<span class="built_in">int</span> i = <span class="number">0</span>;i &lt;<span class="type">data</span>.<span class="built_in">size</span>(); i++)
+            temp ^= <span class="type">data</span>[i];
+
+        <span class="built_in">int</span> a = <span class="number">0</span>, b = <span class="number">0</span>;
+        for(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="type">data</span>.<span class="built_in">size</span>(); i++)
+        {
+            <span class="keyword">if</span>((<span class="type">data</span>[i] &amp; temp) == <span class="number">0</span>)
+                a ^= <span class="type">data</span>[i];
+            <span class="keyword">else</span>
+                b ^= <span class="type">data</span>[i];
+
+        }
+        *num1 = a;
+        *num2 = b;
+    }
+};
+</code></pre><h3 id="剑指offer32_整数中1出现的次数（从1到n整数中1出现的次数）">剑指offer32 整数中1出现的次数（从1到n整数中1出现的次数）</h3><h4 id="问题描述-4">问题描述</h4><p>求出1~13的整数中1出现的次数,并算出100~1300的整数中1出现的次数？为此他特别数了一下1~13中包含1的数字有1、10、11、12、13因此共出现6次,但是对于后面问题他就没辙了。ACMer希望你们帮帮他,并把问题更加普遍化,可以很快的求出任意非负整数区间中1出现的次数。</p>
+<h4 id="解法-4">解法</h4><p>这个解法对于1-9的原理是一样的。首先找到规律：<br>从 1 至 10，在它们的个位数中，任意的 X 都出现了 1 次。<br>从 1 至 100，在它们的十位数中，任意的 X 都出现了 10 次。<br>从 1 至 1000，在它们的百位数中，任意的 X 都出现了 100 次。<br>依此类推，从 1 至  10^i ，在它们右数第  i  位中，任意的 X 都出现了  10^(i−1)  次。这个可以用来计算高位的值。<br>计算方法：<br>当计算右数第  i  位包含的 X 的个数时：<br>取第  i  位左边（高位）的数字，乘以  10^(i−1) ，得到基础值  a 。<br>取第  i  位数字，计算修正值：<br>如果大于 X，则结果为  a+ 10^(i−1)。<br>如果小于 X，则结果为  a。<br>如果等 X，则取第  i  位右边（低位）数字，设为  b ，最后结果为  (a+b+1) 。<br>例如对于num=52134, i=3, a=52, b=34, i位数字k=1,k=x故 result=a+b+1<br>解释，a等于0~51，可推出高位的结果，a=52时，讨论低位的结果。</p>
+<h4 id="代码-4">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+    <span class="keyword">int</span> NumberOf1Between1AndN_Solution(<span class="keyword">int</span> n)
+    {
+        <span class="keyword">int</span> x = <span class="number">1</span>;
+        <span class="keyword">int</span> <span class="keyword">count</span> = <span class="number">0</span>, k;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; n / i &gt; <span class="number">0</span>; i *= <span class="number">10</span>)
+        {
+            k = n / i;
+            <span class="comment">//k/10为高位数字</span>
+            <span class="keyword">count</span> += (k / <span class="number">10</span>) * i;
+            <span class="keyword">int</span> cur = k % <span class="number">10</span>;
+            <span class="keyword">if</span>(cur &gt; x)
+                <span class="keyword">count</span>+=i;               
+            <span class="keyword">else</span> <span class="keyword">if</span>(cur == x)
+                <span class="comment">//n%i为低位数字</span>
+                <span class="keyword">count</span> += n % i + <span class="number">1</span>;
+            <span class="keyword">else</span>{}
+        }
+        <span class="keyword">return</span> <span class="keyword">count</span>;
+    }
+};
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<h3 id="剑指offer3_二维数组查找">剑指offer3 二维数组查找</h3><h4 id="问题描述">问题描述</h4><p>在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数]]>
+    </summary>
+    
+      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[排序算法总结]]></title>
+    <link href="http://rudy-zhang.me/2015/09/27/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/"/>
+    <id>http://rudy-zhang.me/2015/09/27/排序算法总结/</id>
+    <published>2015-09-27T13:56:00.000Z</published>
+    <updated>2015-09-27T08:15:56.891Z</updated>
+    <content type="html"><![CDATA[<h2 id="插入排序">插入排序</h2><h3 id="直接插入排序">直接插入排序</h3><p>原理：将数组分为无序区和有序区两个区，然后不断将无序区的第一个元素按大小顺序插入到有序区中去，最终将所有无序区元素都移动到有序区完成排序。</p>
+<pre><code>void insertSort(int a[], int N)
+<span class="comment">{
+    for(int i = 1; i &lt; N; i++)
+    {
+        int temp = a[i];
+        int j;
+        for(j = i; j &gt; 0 &amp;&amp; temp &lt; a[j-1]; j--)
+            a[j] = a[j-1];
+        a[j] = temp;
+    }</span>
+}
+</code></pre><h3 id="希尔排序">希尔排序</h3><p>原理：又称增量缩小排序。先将序列按增量划分为元素个数相同的若干组，使用直接插入排序法进行排序，然后不断缩小增量直至为1，最后使用直接插入排序完成排序。</p>
+<blockquote>
+<p>由于多次插入排序，我们知道一次插入排序是稳定的，不会改变相同元素的相对顺序，但在不同的插入排序过程中，相同的元素可能在各自的插入排序中移动，最后其稳定性就会被打乱，所以shell排序是不稳定的。</p>
+</blockquote>
+<pre><code><span class="function"><span class="keyword">void</span> <span class="title">shellSort</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> N)</span>
+</span>{
+    <span class="keyword">for</span>(<span class="keyword">int</span> incre = N / <span class="number">2</span>; incre &gt; <span class="number">0</span>; incre /= <span class="number">2</span>)
+    {
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = incre; i &lt; N; i++)
+        {
+            <span class="keyword">int</span> temp = a[i];
+            <span class="keyword">int</span> j;
+            <span class="keyword">for</span>(j = i; j &gt;= incre &amp;&amp; temp &lt; a[j - incre]; j -= incre)
+                a[j] = a[j - incre];
+            a[j] = temp;
+        }
+    }
+}
+</code></pre><h2 id="交换排序">交换排序</h2><h3 id="冒泡排序">冒泡排序</h3><p>原理：将序列划分为无序和有序区，不断通过交换较大元素至无序区尾完成排序。</p>
+<pre><code>void bubbleSort(int <span class="literal">a</span>[], int N)
+{
+    for(int i = <span class="number">0</span><span class="comment">; i &lt; N; i++)</span>
+    {
+        for(int j = i<span class="comment">; j &lt; N - i - 1; j++)</span>
+        {
+            <span class="keyword">if</span>(<span class="literal">a</span>[j] &gt; <span class="literal">a</span>[j+<span class="number">1</span>])
+            {
+                int temp = <span class="literal">a</span>[j]<span class="comment">;</span>
+                <span class="literal">a</span>[j] = <span class="literal">a</span>[j+<span class="number">1</span>]<span class="comment">;</span>
+                <span class="literal">a</span>[j+<span class="number">1</span>] = temp<span class="comment">;</span>
+            }
+        }
+    }
+}
+</code></pre><p>补充说明：使用didSwap=true/false可以避免重复的比较，使得最好情况的复杂度变为O(n)</p>
+<h3 id="快速排序">快速排序</h3><p>原理：不断寻找一个序列的中点，然后对中点左右的序列递归的进行排序，直至全部序列排序完成，使用了分治的思想。<br>1．先从数列中取出一个数作为基准数。<br>2．分区过程，将比这个数大的数全放到它的右边，小于或等于它的数全放到它的左边。<br>3．再对左右区间重复第二步，直到各区间只有一个数。</p>
+<p>实现：</p>
+<pre><code>void quickSortCore(<span class="built_in">int</span> a[], <span class="built_in">int</span> <span class="built_in">left</span>, <span class="built_in">int</span> <span class="built_in">right</span>)
+{
+    <span class="keyword">if</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+    {
+        <span class="built_in">int</span> temp = a[<span class="built_in">left</span>];
+        <span class="built_in">int</span> i = <span class="built_in">left</span>, j = <span class="built_in">right</span>;
+        <span class="keyword">while</span>(i &lt; j)
+        {
+            <span class="keyword">while</span>(i &lt; j &amp;&amp; temp &lt;= a[j])
+                j--;
+            <span class="keyword">if</span>(i &lt; j)
+                a[i++] = a[j];
+            <span class="keyword">while</span>(i &lt; j &amp;&amp; temp &gt;= a[i])
+                i++;
+            <span class="keyword">if</span>(i &lt; j)
+                a[j--] = a[i];
+        }
+        a[i] = temp;
+        quickSortCore(a, <span class="built_in">left</span>, i-<span class="number">1</span>);
+        quickSortCore(a, i+<span class="number">1</span>, <span class="built_in">right</span>);
+    }
+
+}
+
+void quickSort(<span class="built_in">int</span> a[], <span class="built_in">int</span> N)
+{
+    quickSortCore(a, <span class="number">0</span>, N-<span class="number">1</span>);
+}
+</code></pre><h2 id="选择排序">选择排序</h2><h3 id="直接选择排序">直接选择排序</h3><p>原理：将序列划分为无序和有序区，寻找无序区中的最小值和无序区的首元素交换，有序区扩大一个，循环最终完成全部排序。</p>
+<pre><code><span class="function"><span class="keyword">void</span> <span class="title">selectSort</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> N)</span>
+</span>{
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)
+    {
+        <span class="keyword">int</span> k = i;
+        <span class="keyword">for</span>(<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; N; j++)
+        {
+            <span class="keyword">if</span>(a[j] &lt; a[k])
+                k = j;
+        }
+        <span class="keyword">int</span> temp = a[i];
+        a[i] = a[k];
+        a[k] = temp;
+    }
+}
+</code></pre><h3 id="堆排序">堆排序</h3><p>堆序性质： 堆分为大顶堆和小顶堆，满足<code>Key[i]&gt;=Key[2i+1]&amp;&amp;key&gt;=key[2i+2]</code>称为大顶堆，满足 <code>Key[i]&lt;=key[2i+1]&amp;&amp;Key[i]&lt;=key[2i+2]</code>称为小顶堆。</p>
+<p>原理：利用大顶堆或小顶堆思想，首先建立堆，然后将堆首与堆尾交换，堆尾之后为有序区。如从小到大排序，建立大顶堆，堆顶元素与堆尾不断交换，同时缩小堆的范围，最终得到排序结果。</p>
+<pre><code>void percDown(int a[], int i, int N)
+<span class="comment">{
+    int temp = a[i], child;
+    for(; 2 * i + 1 &lt; N; i = child)
+    {
+        child = 2 * i + 1;
+        if(child + 1 &lt; N &amp;&amp; a[child] &lt; a[child + 1])
+            child++;
+        if(temp &lt; a[child])
+            a[i] = a[child];
+        else
+            break;
+    }</span>
+    a[i] = temp;
+}
+
+void heapSort(int a[], int N)
+<span class="comment">{
+    for(int i = N / 2; i &gt;= 0; i--)
+        percDown(a, i, N);
+    for(int i = N-1; i &gt; 0; i--)
+    {
+        int temp = a[i];
+        a[i] = a[0];
+        a[0] = temp;
+        percDown(a, 0, i);
+    }</span>
+}
+</code></pre><h2 id="归并排序">归并排序</h2><p>原理：将原序列划分为有序的两个序列，然后利用归并算法进行合并，合并之后即为有序序列。</p>
+<pre><code>void merge(<span class="built_in">int</span> a[], <span class="built_in">int</span> temp[], <span class="built_in">int</span> <span class="built_in">left</span>, <span class="built_in">int</span> <span class="built_in">mid</span>, <span class="built_in">int</span> <span class="built_in">right</span>)
+{
+    <span class="keyword">if</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+    {
+        <span class="built_in">int</span> lpos = <span class="built_in">left</span>, lend = <span class="built_in">mid</span>;
+        <span class="built_in">int</span> rpos = <span class="built_in">mid</span> + <span class="number">1</span>, rend = <span class="built_in">right</span>;
+        <span class="built_in">int</span> tpos = <span class="built_in">left</span>;
+        <span class="keyword">while</span>(lpos &lt;= lend &amp;&amp; rpos &lt;= rend)
+        {
+            <span class="keyword">if</span>(a[lpos] &lt;= a[rpos])
+                temp[tpos++] = a[lpos++];
+            <span class="keyword">else</span>
+                temp[tpos++] = a[rpos++];
+        }
+        <span class="keyword">while</span>(lpos &lt;= lend)
+            temp[tpos++] = a[lpos++];
+        <span class="keyword">while</span>(rpos &lt;= rend)
+            temp[tpos++] = a[rpos++];
+        <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt;= <span class="built_in">right</span>; i++)
+            a[i] = temp[i];
+    }
+}
+void mergeSortCore(<span class="built_in">int</span> a[], <span class="built_in">int</span> temp[], <span class="built_in">int</span> <span class="built_in">left</span>, <span class="built_in">int</span> <span class="built_in">right</span>)
+{
+    <span class="keyword">if</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+    {
+        <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>) / <span class="number">2</span>;
+        mergeSortCore(a, temp, <span class="built_in">left</span>, <span class="built_in">mid</span>);
+        mergeSortCore(a, temp, <span class="built_in">mid</span>+<span class="number">1</span>, <span class="built_in">right</span>);
+        merge(a, temp, <span class="built_in">left</span>, <span class="built_in">mid</span>, <span class="built_in">right</span>);
+    }
+}
+void mergeSort(<span class="built_in">int</span> a[], <span class="built_in">int</span> N)
+{
+    <span class="built_in">int</span> *temp = <span class="keyword">new</span> <span class="built_in">int</span>[N];
+    mergeSortCore(a, temp, <span class="number">0</span>, N-<span class="number">1</span>);
+    delete [] temp;
+}
+</code></pre><h2 id="各种排序算法的复杂度稳定性分析">各种排序算法的复杂度稳定性分析</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">分类</th>
+<th style="text-align:left">名称</th>
+<th style="text-align:left">复杂度分析</th>
+<th>稳定性</th>
+<th>稳定性原因分析</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">插入排序</td>
+<td style="text-align:left">简单插入</td>
+<td style="text-align:left">平均O(n^2),最好O(n),最坏O(n^2)</td>
+<td>稳定</td>
+<td>没有跨元素交换</td>
+</tr>
+<tr>
+<td style="text-align:left">———-</td>
+<td style="text-align:left">希尔排序</td>
+<td style="text-align:left">平均接近nlogn,最好O(n),最坏O(n^2)</td>
+<td>不稳定</td>
+<td>增量分组，有跨元素交换</td>
+</tr>
+<tr>
+<td style="text-align:left">交换排序</td>
+<td style="text-align:left">冒泡排序</td>
+<td style="text-align:left">平均O(n^2),最好O(n),最坏O(n^2)</td>
+<td>稳定</td>
+<td>没有跨元素交换</td>
+</tr>
+<tr>
+<td style="text-align:left">———-</td>
+<td style="text-align:left">快速排序</td>
+<td style="text-align:left">平均nlogn,最好nlogn,最坏O(n^2)</td>
+<td>不稳定</td>
+<td>有跨元素交换</td>
+</tr>
+<tr>
+<td style="text-align:left">选择排序</td>
+<td style="text-align:left">直接选择</td>
+<td style="text-align:left">平均O(n^2),最好O(n^2),最坏O(n^2)</td>
+<td>不稳定</td>
+<td>5 8 5 2</td>
+</tr>
+<tr>
+<td style="text-align:left">———-</td>
+<td style="text-align:left">堆排序</td>
+<td style="text-align:left">平均,最好,最坏nlogn</td>
+<td>不稳定</td>
+<td>3 2 3 2</td>
+</tr>
+<tr>
+<td style="text-align:left">归并排序</td>
+<td style="text-align:left">归并排序</td>
+<td style="text-align:left">平均,最好,最坏nlogn，有O(n)空间复杂度</td>
+<td>稳定</td>
+<td>没有跨元素交换</td>
+</tr>
+</tbody>
+</table>
+<h2 id="扩展问题">扩展问题</h2><ul>
+<li>单链表可以做快速排序吗？为什么？</li>
+</ul>
+<p>可以。快速排序的核心函数partition，选择某个元素为枢纽元x(通常是第一个)，一遍扫描之后使得比x小的在枢纽元左边，比x大的在枢纽元的右边。使用链表时，x指向链表头(枢纽元)，扫描这个链表，小元素拼在链表头，大元素拼在链表尾部，从而完成一次partition函数的流程。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="插入排序">插入排序</h2><h3 id="直接插入排序">直接插入排序</h3><p>原理：将数组分为无序区和有序区两个区，然后不断将无序区的第一个元素按大小顺序插入到有序区中去，最终将所有无序区元素都移动到有序区完成排序。</p>
+<pre><code>vo]]>
+    </summary>
+    
+      <category term="排序" scheme="http://rudy-zhang.me/tags/%E6%8E%92%E5%BA%8F/"/>
+    
+      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[字符串专题]]></title>
+    <link href="http://rudy-zhang.me/2015/09/27/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%93%E9%A2%98/"/>
+    <id>http://rudy-zhang.me/2015/09/27/找工作总结-字符串专题/</id>
+    <published>2015-09-27T13:56:00.000Z</published>
+    <updated>2015-09-27T11:56:15.393Z</updated>
+    <content type="html"><![CDATA[<h3 id="剑指offer4_替换空格">剑指offer4 替换空格</h3><p>问题描述：请实现一个函数，将一个字符串中的空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。</p>
+<p>解法：扫描一遍，记录空格个数。申请newSize，从后向前填充数组。</p>
+<pre><code>class Solution {
+<span class="keyword">public</span>:
+    string replaceSpace(string <span class="built_in">str</span>) {
+        <span class="keyword">if</span>(<span class="built_in">str</span>.<span class="built_in">size</span>()==<span class="number">0</span>)
+            <span class="keyword">return</span> <span class="built_in">str</span>;
+        <span class="built_in">int</span> numOfSpace=<span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="built_in">int</span> i=<span class="number">0</span>;i&lt;<span class="built_in">str</span>.<span class="built_in">size</span>();++i)
+            <span class="keyword">if</span>(<span class="built_in">str</span>[i]==<span class="string">' '</span>)
+                ++numOfSpace;
+        <span class="built_in">int</span> newSize=<span class="built_in">str</span>.<span class="built_in">size</span>()+<span class="number">2</span>*numOfSpace;
+        string ans;
+        ans.resize(newSize);
+        <span class="built_in">int</span> i=<span class="built_in">str</span>.<span class="built_in">size</span>()-<span class="number">1</span>,j=newSize-<span class="number">1</span>;
+        <span class="keyword">while</span>(i&gt;=<span class="number">0</span>&amp;&amp;j&gt;=<span class="number">0</span>)   
+        {
+            <span class="keyword">if</span>(<span class="built_in">str</span>[i]==<span class="string">' '</span>)
+            {
+                ans[j--]=<span class="string">'0'</span>;
+                ans[j--]=<span class="string">'2'</span>;
+                ans[j--]=<span class="string">'%'</span>;
+                --i;
+            }
+            <span class="keyword">else</span>
+                ans[j--]=<span class="built_in">str</span>[i--];
+        }
+        <span class="keyword">return</span> ans;
+    }
+};
+</code></pre><h3 id="剑指offer54_表示数值的字符串">剑指offer54 表示数值的字符串</h3><p>问题描述：请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如，字符串”+100”,”5e2”,”-123”,”3.1416”和”-1E-16”都表示数值。 但是”12e”,”1a3.14”,”1.2.3”,”+-5”和”12e+4.3”都不是。</p>
+<p>解法：首先可以写出这个字符串的正则表达式</p>
+<pre><code>(+|-)？\<span class="keyword">d</span>+(.\<span class="keyword">d</span>+)?(<span class="keyword">e</span>|<span class="literal">E</span>(+|-)?\<span class="keyword">d</span>+)?
+</code></pre><p>对于正则表达式中的符号，<code>?</code>表示0或1，使用<code>if</code>判断，+表示1或者更多，直接扫描判断。</p>
+<p>注意点：<br>(1) 非法输入，传入str == NULL<br>(2) 结束条件的判断</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+    bool isNumeric(<span class="keyword">char</span>* <span class="keyword">str</span>)
+    {
+        <span class="keyword">if</span>(<span class="keyword">str</span> == NULL)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'+'</span> || *<span class="keyword">str</span> == <span class="string">'-'</span>)
+            <span class="keyword">str</span>++;
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        scanDigits(<span class="keyword">str</span>);
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'.'</span>)
+        {
+            <span class="keyword">str</span>++;
+            <span class="comment">//根据题目要求是否允许"32."这样的数据</span>
+            <span class="comment">//if(*str == '\0')</span>
+            <span class="comment">//    return false;</span>
+            scanDigits(<span class="keyword">str</span>);
+        }
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'e'</span> || *<span class="keyword">str</span> == <span class="string">'E'</span>)
+            <span class="keyword">str</span>++;
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'+'</span> || *<span class="keyword">str</span> == <span class="string">'-'</span>)
+            <span class="keyword">str</span>++;
+        scanDigits(<span class="keyword">str</span>);
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+
+    <span class="keyword">void</span> scanDigits(<span class="keyword">char</span> *(&amp;<span class="keyword">str</span>))
+    {
+        <span class="keyword">while</span>(*<span class="keyword">str</span> != <span class="string">'\0'</span> &amp;&amp; *<span class="keyword">str</span> &gt;= <span class="string">'0'</span> &amp;&amp; *<span class="keyword">str</span> &lt;= <span class="string">'9'</span>)
+            <span class="keyword">str</span>++;
+    }
+};
+</code></pre><h3 id="剑指offer55_字符流中第一个不重复的字符">剑指offer55 字符流中第一个不重复的字符</h3><p>问题描述：请实现一个函数用来找出字符流中第一个只出现一次的字符。例如，当从字符流中只读出前两个字符”go”时，第一个只出现一次的字符是”g”。当从该字符流中读出前六个字符“google”时，第一个只出现一次的字符是”l”。</p>
+<p>解法：字符只有256个，所以可以使用<code>int dict[256]</code>数组来记录所有字符出现的情况。0表示未出现过，-1表示出现过大于1次，&gt;0时dict[i]表示字符i第一次出现的index</p>
+<p>注意点：<br>通过遍历dict[26]找到minIndex找到<strong>第一次出现</strong>的字符</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>
+</span>{
+<span class="keyword">public</span>:
+      <span class="comment">//Insert one char from stringstream</span>
+    <span class="keyword">void</span> Insert(<span class="keyword">char</span> ch)
+    {
+        <span class="keyword">if</span>(dict[ch] == <span class="number">0</span>) <span class="comment">//没出现过</span>
+            dict[ch] = <span class="keyword">index</span>;
+        <span class="keyword">else</span> <span class="comment">//出现过</span>
+            dict[ch] = -<span class="number">1</span>;
+        <span class="keyword">index</span>++;
+    }
+      <span class="comment">//return the first appearence once char in current stringstream</span>
+    <span class="keyword">char</span> FirstAppearingOnce()
+    {
+        <span class="keyword">char</span> ans=<span class="string">'#'</span>;
+        <span class="keyword">int</span> minIndex = INT_MAX;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">256</span>;i++)
+        {
+            <span class="keyword">if</span>(dict[i] &gt; <span class="number">0</span> &amp;&amp; dict[i] &lt; minIndex)
+            {
+                ans = i;
+                minIndex = dict[i];
+            }
+        }
+        <span class="keyword">return</span> ans;
+    }
+
+    Solution()
+    {
+        <span class="keyword">index</span> = <span class="number">1</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">256</span>;i++)
+            dict[i] = <span class="number">0</span>;
+    }
+<span class="keyword">private</span>:
+    <span class="keyword">int</span> dict[<span class="number">256</span>];
+    <span class="keyword">int</span> <span class="keyword">index</span>=<span class="number">1</span>;
+};
+</code></pre><h3 id="剑指offer42_反转单词顺序_VS_左旋字符串">剑指offer42 反转单词顺序 VS 左旋字符串</h3><p>反转字符串函数：</p>
+<pre><code>void reverseString(<span class="built_in">string</span> &amp;str, <span class="built_in">int</span> <span class="built_in">left</span>, <span class="built_in">int</span> <span class="built_in">right</span>)
+{
+    <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+    {
+        char temp = str[<span class="built_in">left</span>];
+        str[<span class="built_in">left</span>] = str[<span class="built_in">right</span>];
+        str[<span class="built_in">right</span>] = temp;
+        <span class="built_in">left</span>++;
+        <span class="built_in">right</span>--;
+    }
+}
+</code></pre><h4 id="反转单词顺序">反转单词顺序</h4><p>问题描述：JOBDU最近来了一个新员工Fish，每天早晨总是会拿着一本英文杂志，写些句子在本子上。同事Cat对Fish写的内容颇感兴趣，有一天他向Fish借来翻看，但却读不懂它的意思。例如，“student. a am I”。后来才意识到，这家伙原来把句子单词的顺序翻转了，正确的句子应该是“I am a student.”。Cat对一一的翻转这些单词顺序可不在行，你能帮助他么？</p>
+<p>解法：先反转每一个单词，再反转整句</p>
+<p>注意点：</p>
+<ol>
+<li>功能测试：”student. a am I”</li>
+<li>特殊测试用例”aaa “,” aaa”</li>
+</ol>
+<pre><code>class Solution {
+<span class="keyword">public</span>:
+    string ReverseSentence(string <span class="built_in">str</span>) {
+        <span class="keyword">if</span>(<span class="built_in">str</span>.<span class="built_in">size</span>() == <span class="number">0</span>) <span class="keyword">return</span> <span class="built_in">str</span>;
+        reverseString(<span class="built_in">str</span>, <span class="number">0</span>, <span class="built_in">str</span>.<span class="built_in">size</span>() - <span class="number">1</span>);
+        <span class="built_in">int</span> left = <span class="number">0</span>, right = <span class="number">0</span>;
+        <span class="keyword">while</span>(right &lt; <span class="built_in">str</span>.<span class="built_in">size</span>())
+        {
+            <span class="keyword">while</span>(<span class="built_in">str</span>[left] == <span class="string">' '</span>)
+            {
+                left++;
+                right++;
+            }
+            <span class="comment">//应对用例"aa "</span>
+            <span class="keyword">if</span>(left &gt;= <span class="built_in">str</span>.<span class="built_in">size</span>()) 
+                <span class="keyword">break</span>;
+            <span class="keyword">while</span>(<span class="built_in">str</span>[right] != <span class="string">' '</span> &amp;&amp; <span class="built_in">str</span>[right] != <span class="string">'\0'</span>)
+                right++;
+            reverseString(<span class="built_in">str</span>,left,right-<span class="number">1</span>);
+            left = right;
+        }
+        <span class="keyword">return</span> <span class="built_in">str</span>;
+    }
+
+    <span class="keyword">void</span> reverseString(string &amp;<span class="built_in">str</span>,<span class="built_in">int</span> left,<span class="built_in">int</span> right)
+    {
+        <span class="keyword">while</span>(left &lt; right)
+        {
+            <span class="built_in">char</span> temp = <span class="built_in">str</span>[left];
+            <span class="built_in">str</span>[left] = <span class="built_in">str</span>[right];
+            <span class="built_in">str</span>[right] = temp;
+            left++;
+            right--;
+        }
+    }
+};
+</code></pre><h4 id="左旋字符串">左旋字符串</h4><p>问题描述：汇编语言中有一种移位指令叫做循环左移（ROL），现在有个简单的任务，就是用字符串模拟这个指令的运算结果。对于一个给定的字符序列S，请你把其循环左移K位后的序列输出。例如，字符序列S=”abcXYZdef”,要求输出循环左移3位后的结果，即“XYZdefabc”。是不是很简单？OK，搞定它！</p>
+<p>解法：先反转3分割的两部分，再旋转这个字符串</p>
+<pre><code>class Solution {
+<span class="keyword">public</span>:
+    string LeftRotateString(string <span class="built_in">str</span>, <span class="built_in">int</span> n) {
+        <span class="keyword">if</span>(<span class="built_in">str</span>.<span class="built_in">size</span>() == <span class="number">0</span>) <span class="keyword">return</span> <span class="built_in">str</span>;
+        <span class="keyword">if</span>(n &gt;= <span class="built_in">str</span>.<span class="built_in">size</span>() || n &lt;= <span class="number">0</span>) <span class="keyword">return</span> <span class="built_in">str</span>;
+        reverseString(<span class="built_in">str</span>, <span class="number">0</span>, n - <span class="number">1</span>);
+        reverseString(<span class="built_in">str</span>, n, <span class="built_in">str</span>.<span class="built_in">size</span>() - <span class="number">1</span>);
+        reverseString(<span class="built_in">str</span>, <span class="number">0</span>, <span class="built_in">str</span>.<span class="built_in">size</span>() - <span class="number">1</span>);
+        <span class="keyword">return</span> <span class="built_in">str</span>;
+    }
+
+    <span class="keyword">void</span> reverseString(string &amp;<span class="built_in">str</span>,<span class="built_in">int</span> left,<span class="built_in">int</span> right)
+    {
+        <span class="keyword">while</span>(left &lt; right)
+        {
+            <span class="built_in">char</span> temp = <span class="built_in">str</span>[left];
+            <span class="built_in">str</span>[left] = <span class="built_in">str</span>[right];
+            <span class="built_in">str</span>[right] = temp;
+            left++;
+            right--;
+        }
+    }
+};
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<h3 id="剑指offer4_替换空格">剑指offer4 替换空格</h3><p>问题描述：请实现一个函数，将一个字符串中的空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。</p>
+<p>解法：扫描一]]>
+    </summary>
+    
+      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Effective C++ 读书笔记]]></title>
     <link href="http://rudy-zhang.me/2015/08/21/effectiveCPP%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     <id>http://rudy-zhang.me/2015/08/21/effectiveCPP读书笔记/</id>
     <published>2015-08-20T23:23:33.000Z</published>
-    <updated>2015-08-30T07:56:03.789Z</updated>
+    <updated>2015-08-30T07:56:04.000Z</updated>
     <content type="html"><![CDATA[<h2 id="条款1，视C++为一个语言联邦">条款1，视C++为一个语言联邦</h2><p>可以把C++看成四个组成部分：</p>
 <ul>
 <li>C语言的部分 </li>
@@ -352,7 +985,7 @@ typename C::const_iterator iter(container.begin())
     <link href="http://rudy-zhang.me/2015/05/31/%E4%BB%8E%E5%9B%BE%E7%81%B5%E6%B5%8B%E8%AF%95%E5%88%B0%E5%9B%BE%E7%81%B5%E5%81%9C%E6%9C%BA/"/>
     <id>http://rudy-zhang.me/2015/05/31/从图灵测试到图灵停机/</id>
     <published>2015-05-31T07:23:33.000Z</published>
-    <updated>2015-05-31T08:02:35.435Z</updated>
+    <updated>2015-05-31T08:02:36.000Z</updated>
     <content type="html"><![CDATA[<p>今天看了电影《机械姬》，讲述了由人类制造出了AI最终具有了通过图灵测试的能力，故事的核心在于判断一个机器人是否具真的具有人工智能。从一个理科生的角度来讲能够发现重重漏洞，但是电影还是不错的电影，引发了对人工智能的思考。</p>
 <p>年初的《模仿游戏》讲述了图灵在二战时期帮助盟军破解德军密码系统Enigma的故事。图灵，这个计算机之父，影响着计算机技术发展的方方面面，计算机的最高奖图灵奖也是以他的名字命名的，没办法人家是祖师爷呀。</p>
 <h2 id="图灵生平">图灵生平</h2><blockquote>
@@ -420,7 +1053,7 @@ typename C::const_iterator iter(container.begin())
     <link href="http://rudy-zhang.me/2015/05/26/linux%E5%91%BD%E4%BB%A4sed%E5%92%8Cawk/"/>
     <id>http://rudy-zhang.me/2015/05/26/linux命令sed和awk/</id>
     <published>2015-05-25T23:39:28.000Z</published>
-    <updated>2015-05-25T23:57:30.414Z</updated>
+    <updated>2015-05-25T23:57:32.000Z</updated>
     <content type="html"><![CDATA[<h2 id="sed">sed</h2><h3 id="主要功能">主要功能</h3><p>sed，stream editor。是一个”非交互式“字符流编辑器。输入流通过程序并输出到标准输出端。<br>sed主要用来自动编辑一个或者多个文件（替换，插入，删除，追加，更改）</p>
 <h3 id="常见应用">常见应用</h3><ol>
 <li>抽区域</li>
@@ -625,7 +1258,7 @@ END{
     <link href="http://rudy-zhang.me/2015/05/26/linux%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%92%8Cgrep/"/>
     <id>http://rudy-zhang.me/2015/05/26/linux正则表达式和grep/</id>
     <published>2015-05-25T23:27:44.000Z</published>
-    <updated>2015-05-25T23:54:44.308Z</updated>
+    <updated>2015-05-25T23:54:46.000Z</updated>
     <content type="html"><![CDATA[<h2 id="正则表达式">正则表达式</h2><p>正则表达式描述了一种字符串匹配的模式，常用于：</p>
 <ul>
 <li>grep:从特定的文件中或从标准输入中查找含有某个字符串的行</li>
@@ -745,7 +1378,7 @@ END{
     <link href="http://rudy-zhang.me/2015/05/24/HadoopStreaming/"/>
     <id>http://rudy-zhang.me/2015/05/24/HadoopStreaming/</id>
     <published>2015-05-24T01:30:00.000Z</published>
-    <updated>2015-05-24T08:54:54.516Z</updated>
+    <updated>2015-05-24T08:54:56.000Z</updated>
     <content type="html"><![CDATA[<h2 id="Hadoop_Streaming是什么">Hadoop Streaming是什么</h2><p>Hadoop MapReduce和HDFS使用Java实现，默认是Java接口，另外提供了C++编程接口和Streaming框架。</p>
 <p>Streaming框架允许任何程序语言实现的程序（只要该程序支持标准输入输出即可），在Hadoop MapReduce中使用，方便已有程序向Hadoop平台移植。</p>
 <h2 id="Streaming原理">Streaming原理</h2><p>使用Java实现了一个包装<strong>用户程序</strong>（mapper，reducer方法）的MapReduce程序，该程序调用MapReduce的Java接口，创建一个<strong>新的进程</strong>包装用户程序，将数据通过<strong>管道</strong>传递给包装的用户程序。</p>
@@ -843,7 +1476,7 @@ END{
     <link href="http://rudy-zhang.me/2015/05/23/Hadoop%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/"/>
     <id>http://rudy-zhang.me/2015/05/23/Hadoop基本原理/</id>
     <published>2015-05-23T02:38:00.000Z</published>
-    <updated>2015-05-24T14:11:32.606Z</updated>
+    <updated>2015-05-24T14:11:34.000Z</updated>
     <content type="html"><![CDATA[<h3 id="了解大数据">了解大数据</h3><p>首先，搞清楚hadoop在处理大数据的定位在哪里</p>
 <h4 id="什么是大数据？为什么要处理大数据？">什么是大数据？为什么要处理大数据？</h4><p>数据量大（Volume） 数据类别复杂（Variety） 数据处理速度快（Velocity） 数据真实性高（Veracity） 合起来被称为4V。</p>
 <p>处理大数据是为了挖掘数据中的隐含价值</p>
@@ -951,7 +1584,7 @@ END{
     <link href="http://rudy-zhang.me/2015/04/22/%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E5%86%99%E4%B8%80%E4%B8%AAPHP%E6%A1%86%E6%9E%B62/"/>
     <id>http://rudy-zhang.me/2015/04/22/一步一步写一个PHP框架2/</id>
     <published>2015-04-22T07:31:44.000Z</published>
-    <updated>2015-05-24T08:58:54.266Z</updated>
+    <updated>2015-05-24T08:58:56.000Z</updated>
     <content type="html"><![CDATA[<p>在写第一个PHP框架的时候参考<a href="!http://www.yuansir-web.com/2012/01/10/%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%86%99php-mvc%E6%A1%86%E6%9E%B6%E4%B8%80/">这位大哥</a>,的内容和Codeigniter框架的源码。</p>
 <h2 id="程序框架的搭建">程序框架的搭建</h2><p>前提：已经搭建好了一个apache+PHP的开发环境，我使用的是Apache+mod_php5的方式。</p>
 <p>在根目录<code>simplemvc</code>下新建以下文件夹</p>
@@ -990,7 +1623,7 @@ END{
     <link href="http://rudy-zhang.me/2015/04/20/%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E5%86%99%E4%B8%80%E4%B8%AAPHP%E6%A1%86%E6%9E%B61/"/>
     <id>http://rudy-zhang.me/2015/04/20/一步一步写一个PHP框架1/</id>
     <published>2015-04-20T07:31:44.000Z</published>
-    <updated>2015-05-24T08:58:59.649Z</updated>
+    <updated>2015-05-24T08:59:00.000Z</updated>
     <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>完成了一个小项目，使用Apache+MySql+PHP。PHP中使用的框架是CodeIgniter，这是一个轻量易扩展的PHP MVC框架，适用于轻量级的网站搭建。CodeIgniter手册清晰丰富，覆盖了一般网站的所有需求。</p>
 <p>为了更好地理解PHP里面框架的设计，目标是自己写一个简单的PHP MVC框架，一方面可以更深入地学习PHP，一方面也能够更深入地理解框架设计里面的思想。</p>
 <h2 id="Apache的工作流程">Apache的工作流程</h2><p>Apache是一个Web服务器，也可以叫做http服务器，因为Apache只能处理http请求。常见的web服务器还有Nginx</p>
@@ -1048,7 +1681,7 @@ END{
     <link href="http://rudy-zhang.me/2015/04/07/%E5%A6%82%E4%BD%95%E5%AE%8C%E6%88%90%E4%B8%80%E4%B8%AA%E5%9C%A8%E7%BA%BF%E8%80%83%E8%AF%95%E7%9A%84%E5%8A%9F%E8%83%BD/"/>
     <id>http://rudy-zhang.me/2015/04/07/如何完成一个在线考试的功能/</id>
     <published>2015-04-07T00:58:06.000Z</published>
-    <updated>2015-05-24T02:27:13.006Z</updated>
+    <updated>2015-05-24T02:27:14.000Z</updated>
     <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>现在类似于在线考试的网站层出不穷，最近在做的leetcode还有各种OJ，都让我们能够在网络上实现考试的功能。最近在做一个类似的项目，就如何完成一个体验良好的在线考试系统梳理一下自己的看法</p>
 <h2 id="功能">功能</h2><h3 id="考卷生成">考卷生成</h3><p>卷子总是由试题组成的，试题包括内容，选项之类的<strong>文本</strong>，以及相关的<strong>图片</strong>。每个试题在数据库中当然只能存一份，否则就浪费了存储空间。很多的OJ题目是随机生成的，一句特定的内容随机生成考题，并且答题结果也是每人一份的，这时候很容易就想到需要中间表来存储这个内容了。</p>
 <h3 id="保存现场">保存现场</h3><p>如果使用一个大form，在用户提交考试结果的时候把所有数据提交到server，那中间如果用户不小心退出了，所有的答题内容就<strong>丢失</strong>了。所以需要在用户答题的过程中不断<strong>异步存储</strong>用户答题的结果，使得用户在任何一个时候退出，我们都能够统计出他已经答过的题并且给出分数（或者结果）的。</p>
@@ -1119,7 +1752,7 @@ END{
     <link href="http://rudy-zhang.me/2015/04/06/%E7%BD%91%E7%AB%99%E5%BA%94%E5%AF%B9%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%87%8F%E9%AB%98%E5%B9%B6%E5%8F%91%E7%9A%84%E6%8C%91%E6%88%98/"/>
     <id>http://rudy-zhang.me/2015/04/06/网站应对大数据量高并发的挑战/</id>
     <published>2015-04-06T13:12:52.000Z</published>
-    <updated>2015-05-24T13:51:34.456Z</updated>
+    <updated>2015-05-24T13:51:36.000Z</updated>
     <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>本文是网站关于应对数据量和负载的压力的调研。</p>
 <p>随着网站数据量和请求的增加，系统承受的压力会越来越大。在web服务的各个阶段，都要通过各种各样的方式来进行优化，或者改变为新的架构。在数据量不同的阶段，会遇到不同的问题，需要使用不同的架构和解决方案。架构的改变和升级，往往意味着成本，所有没有最好的架构，只有最适合的架构。</p>
 <p>应对数据量和负载的压力，可以从以下几个方面入手:</p>
@@ -1160,302 +1793,454 @@ END{
   </entry>
   
   <entry>
-    <title><![CDATA[leetcode习题集 14 Longest Common Prefix  ]]></title>
-    <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%8614/"/>
-    <id>http://rudy-zhang.me/2015/04/06/leetcode习题集14/</id>
-    <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T08:56:13.443Z</updated>
-    <content type="html"><![CDATA[<p>Write a function to find the longest common prefix string amongst an array of strings.</p>
-<p>题意：找出一组字符串的最长相同前缀</p>
-<p>思路：</p>
-<p>找出strs最小长度，遍历即可</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;//&#25214;&#20986;&#26368;&#23567;&#38271;&#24230;&#10;    string longestCommonPrefix(vector&#60;string&#62; &#38;strs) &#123;&#10;        string prefix;&#10;        if(strs.size()==0) return prefix;&#10;        int minLength=strs[0].size();&#10;        for(int i=0;i&#60;strs.size();i++)&#10;        &#123;&#10;            if(strs[i].size()&#60;minLength)&#10;                minLength=strs[i].size();&#10;        &#125;&#10;        &#10;        for(int j=0;j&#60;minLength;j++)&#10;        &#123;&#10;            for(int i=0;i&#60;strs.size()-1;i++)&#10;            &#123;&#10;                if(strs[i][j]!=strs[i+1][j]) return prefix;&#10;            &#125;&#10;            prefix+=strs[0][j];&#10;        &#125;&#10;        return prefix;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>]]></content>
-    <summary type="html">
-    <![CDATA[<p>Write a function to find the longest common prefix string amongst an array of strings.</p>
-<p>题意：找出一组字符串的最长相同前缀</p>
-<p>思路：</p>
-<p>找出strs最]]>
-    </summary>
-    
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
-    
-      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[leetcode习题集 1 Two Sum]]></title>
-    <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%861/"/>
-    <id>http://rudy-zhang.me/2015/04/06/leetcode习题集1/</id>
-    <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T08:55:06.389Z</updated>
-    <content type="html"><![CDATA[<p>Given an array of integers, find two numbers such that they add up to a specific target number.</p>
-<p>The function twoSum should return indices of the two numbers such that they add up to the target, where index1 must be less than index2. Please note that your returned answers (both index1 and index2) are not zero-based.</p>
-<p>You may assume that each input would have exactly one solution.</p>
-<p>Input: numbers={2, 7, 11, 15}, target=9<br>Output: index1=1, index2=2</p>
-<p>题意：找vector中的两个数，和为target</p>
-<p>思路：</p>
+    <title><![CDATA[Windows上搭建Git服务器]]></title>
+    <link href="http://rudy-zhang.me/2015/03/28/Windows%E4%B8%8A%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    <id>http://rudy-zhang.me/2015/03/28/Windows上搭建Git服务器/</id>
+    <published>2015-03-28T08:25:35.000Z</published>
+    <updated>2015-05-24T14:09:50.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="需要的软件">需要的软件</h2><ul>
+<li><a href="http://msysgit.github.io/" target="_blank" rel="external"><strong>msysgit</strong></a> (服务器和客户端)</li>
+</ul>
+<p>首先你要有一个git环境。git 是分布式版本管理软件，大家都是服务器，大家都是客户端，所以客户端和服务器的安装文件是一样的。</p>
+<ul>
+<li><a href="https://www.itefix.net/copssh" target="_blank" rel="external"><strong>CopSSH</strong></a>  (服务器) </li>
+</ul>
+<p>Git支持ssh和http，所以我们要想在git服务器和客户端之间通信通过ssh，就需要再windows server下面安装一个ssh服务器，能够处理ssh请求。COPSSH是一个windows下的SSH服务器,可以远程管理电脑系统。</p>
+<ul>
+<li><a href="http://download.tortoisegit.org/" target="_blank" rel="external"><strong>TortoiseGit </strong></a>(客户端) </li>
+</ul>
+<p>TortoiseGit 是git的图形化管理工具。如果对git命令行比较熟悉，可以不用安装。<br><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eqlipxsfhij20lc07waaj.jpg" alt="enter image description here"></p>
+<h2 id="在Server上安装msygit">在Server上安装msygit</h2><p>下一步，下一步，下一步</p>
+<h2 id="在Server上安装ssh服务器">在Server上安装ssh服务器</h2><h3 id="安装CopSSH软件">安装CopSSH软件</h3><p>下一步，下一步，下一步</p>
+<h3 id="配置用户">配置用户</h3><p>添加系统的administrator用户到SSH服务器当中，之后git需要通过这个用户才能访问。<br><img src="http://ww3.sinaimg.cn/mw690/4c2edcb7jw1eqlipy48axj20fn0cadgk.jpg" alt="enter image description here"></p>
+<p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eqlipydgvfj20jm0dg75j.jpg" alt="enter image description here"></p>
+<p>设置了密码验证，公钥验证</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eqlipympf3j20ji0ddt9z.jpg" alt="enter image description here"></p>
+<p>在使用github连接远程仓库的时候我们需要用到命令：<br><code>git remote add origin git@github.com:michaelliao/learngit.git</code><br><code>git@github.com</code>是远程地址，我们连接自建的server要改成<code>administrator@ipaddress</code>这样就能够识别远程仓库地址和我们要使用的用户，后面<code>:path</code>要改成我们git仓库的地址，稍后有例子。</p>
+<h3 id="配置COPSSH的安装目录">配置COPSSH的安装目录</h3><p>COPSSH获得了ssh请求，如何才能调用git命令呢，需要：</p>
 <ol>
-<li><p>两重循环遍历，复杂度O(n^2)</p>
-</li>
-<li><p>先排序，标记left，right，扫描一遍即可，复杂度O(nlogn)</p>
-</li>
-<li><p>空间换时间,每次访问一个数记下这个数的index和值，使用hash表存储，下次需要的时候直接取出来复杂度O(n)</p>
+<li>将Git安装目录<code>yourpath\Git\libexec\git-core</code>文件夹下的<code>git-upload-pack.exe</code>、<code>git.exe</code>、<code>git-receive-pack.exe</code>和<code>git-upload-archive.exe</code>这4个文件复制到SSH的安装路径1yourpath\ICW\bin1下。</li>
+<li><p>将Git安装目录<code>yourapth\Git\bin\libiconv-2.dll</code>复制到<code>yourpath\ICW\bin</code>下。<br>这样COPSSH就可以帮我们调用git命令了<br><img src="http://ww4.sinaimg.cn/mw690/4c2edcb7jw1eqlipzeknej20s20a4abj.jpg" alt="enter image description here"></p>
+<p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eqlipznquwj20ir0713z8.jpg" alt="enter image description here"></p>
+<h3 id="测试连接">测试连接</h3><p>本地打开gitbash，ssh连接服务器:<code>ssh administrator@192.168.199.171</code><br>输入administrator的密码后就通过ssh远程连接到了服务器上，在这上面可以通过git命令做操作。</p>
 </li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;    vector&#60;int&#62; twoSum(vector&#60;int&#62; &#38;numbers, int target) &#123;&#10;&#9;&#9;vector&#60;int&#62; vec;&#10;&#9;&#9;unordered_map&#60;int,int&#62; hash;&#10;&#9;&#9;for(int i=0;i&#60;numbers.size();i++)&#10;&#9;&#9;&#123;&#10;&#9;&#9;&#9;int numToFind=target-numbers[i];&#10;&#9;&#9;&#9;if(hash.find(numToFind)!=hash.end())&#10;&#9;&#9;&#9;&#123;&#10;&#9;&#9;&#9;&#9;vec.push_back(hash[numToFind]+1);&#10;&#9;&#9;&#9;&#9;vec.push_back(i+1);&#10;&#9;&#9;&#9;&#9;return vec;&#10;&#9;&#9;&#9;&#125;&#10;&#9;&#9;&#9;else&#10;&#9;&#9;&#9;&#9;hash[numbers[i]]=i;&#10;&#9;&#9;&#125;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>]]></content>
-    <summary type="html">
-    <![CDATA[<p>Given an array of integers, find two numbers such that they add up to a specific target number.</p>
-<p>The function twoSum should return ]]>
-    </summary>
-    
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
-    
-      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[leetcode习题集 92 Reverse Linked List II ]]></title>
-    <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%8692/"/>
-    <id>http://rudy-zhang.me/2015/04/06/leetcode习题集92/</id>
-    <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T08:57:57.894Z</updated>
-    <content type="html"><![CDATA[<p>Reverse a linked list from position m to n. Do it in-place and in one-pass.</p>
-<p>For example:<br>Given <code>1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL</code>, m = 2 and n = 4,</p>
-<p>return <code>1-&gt;4-&gt;3-&gt;2-&gt;5-&gt;NULL</code>.</p>
-<p>Note:<br>Given m, n satisfy the following condition:<br>1 ≤ m ≤ n ≤ length of list.</p>
-<p>题意：反转一个链表的指定部分</p>
-<p>思路：</p>
+<h2 id="建库操作">建库操作</h2><p>使用通过ssh远程登录的账户调用git命令建库</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eqlipzviylj20hw05p3z2.jpg" alt="enter image description here"></p>
+<h3 id="关于裸库">关于裸库</h3><p>用<code>git init</code>初始化的版本库用户也可以在该目录下执行所有git方面的操作。但别的用户在将更新push上来的时候容易出现冲突。<br>使用<code>git init –bare</code>方法创建一个所谓的裸仓库，之所以叫裸仓库是因为这个仓库只保存git历史提交的版本信息，而不允许用户在上面进行各种git操作，如果你硬要操作的话，只会得到下面的错误（”This operation must be run in a work tree”）<br>这个就是最好把远端仓库初始化成bare仓库的原因。<br>在裸仓库中只能切换分支，不能合并分支</p>
+<h2 id="远程clone，push，pull">远程clone，push，pull</h2><h3 id="clone">clone</h3><p>在本地打开gitbash，输入<br><code>git clone administrator@192.168.199.171:yourpath/testrepo</code></p>
+<h3 id="认证身份">认证身份</h3><p>服务器怎么知道clone，push的人的身份呢，COPSSH使用了系统用户的密码，在我们clone的时候，需要输入administrator的密码，这样就完成了身份验证，并不需要把我们本地的公钥加入的COPSSH用户的公钥当中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone administrator@192.168.199.171:yourpath/testrepo&#10;Cloning into &#39;testrepo&#39;...&#10;administrator@192.168.199.171&#39;s password:&#10;warning: You appear to have cloned an empty repository.&#10;Checking connectivity... done.</span><br></pre></td></tr></table></figure>
+<p>克隆的过程是，克隆过来整个版本库，包括远程的各个分支，在本地创建master分支，把远程的master分支内容克隆到本地的master分支上。<br>所以我们克隆过来的是master分支，如果我们想获远程取别的分支上的内容，如dev：<br><code>git branch -a</code>获取所有分支内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git branch -a&#10;* (detached from origin/dev)&#10;  master&#10;  remotes/origin/HEAD -&#62; origin/master&#10;  remotes/origin/dev&#10;  remotes/origin/master</span><br></pre></td></tr></table></figure></p>
+<p><code>git checkout -b dev remotes/origin/dev</code>新建dev分支，内容来自<code>remotes/origin/dev</code></p>
+<h3 id="push">push</h3><p><code>git push origin dev</code><br>推送当前的分支到远程的dev分支</p>
+<h3 id="pull">pull</h3><p><code>git pull origin dev</code><br>含义是获取远程dev分支上的内容到本地工作的分支。<br>所以也可以通过</p>
 <ol>
-<li>将原始链表分为三个部分part1,2,3翻转part2部分到新链表然后连接起来</li>
-<li>p1,p2在reverse部分的前一个节点和最后一个节点停下，翻转，注意考虑前后为空的处理</li>
+<li>在本地创建dev分支<br><code>git checkout -b dev</code></li>
+<li>拉取远程dev分支的内容<br><code>git pull origin dev</code><br>来获取远程dev分支的内容到本地dev分支<h2 id="TortoiseGit">TortoiseGit</h2>客户端软件，图形化界面，下一步即可。</li>
 </ol>
-<p>注意：<br>可以相信mn的值，但是也要判断一下，头结点和空节点的处理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;//&#24605;&#36335;&#65306;&#23558;&#21407;&#22987;&#38142;&#34920;&#20998;&#20026;&#19977;&#20010;&#37096;&#20998;part1,2,3&#32763;&#36716;part2&#37096;&#20998;&#21040;&#26032;&#38142;&#34920;&#28982;&#21518;&#36830;&#25509;&#36215;&#26469;&#10;//&#27880;&#24847;&#65306;&#21487;&#20197;&#30456;&#20449;mn&#30340;&#20540;&#65292;&#20294;&#26159;&#20063;&#35201;&#21028;&#26029;&#19968;&#19979;&#65292;&#22836;&#32467;&#28857;&#21644;&#31354;&#33410;&#28857;&#30340;&#22788;&#29702;&#10;//&#24605;&#36335;2&#65306;p1,p2&#22312;reverse&#37096;&#20998;&#30340;&#21069;&#19968;&#20010;&#33410;&#28857;&#21644;&#26368;&#21518;&#19968;&#20010;&#33410;&#28857;&#20572;&#19979;&#65292;&#32763;&#36716;&#65292;&#27880;&#24847;&#32771;&#34385;&#21069;&#21518;&#20026;&#31354;&#30340;&#22788;&#29702;&#10;    ListNode *reverseBetween(ListNode *head, int m, int n) &#123;&#10;        ListNode *part1head=head,*node=head;&#10;        ListNode *part1tail=NULL,*part2head=NULL,*part2tail=NULL,*part3head=NULL;&#10;        if(m==n) return head;&#10;        if(m==1)&#10;        &#123;&#10;            part1head=part1tail=NULL;&#10;&#9;&#9;&#9;part2head=head;&#10;        &#125;&#10;&#9;&#9;else&#10;&#9;&#9;&#123;&#10;&#9;&#9;    //&#21028;&#26029;&#30340;&#26102;&#20505;&#20986;&#29616;&#20102;&#38169;&#35823;&#65292;&#24212;&#35813;&#20174;1&#24320;&#22987;&#21040;m-1&#10;&#9;&#9;&#9;for(int i=1;i&#60;m-1&#38;&#38;node-&#62;next!=NULL;i++)&#10;&#9;&#9;&#9;&#9;node=node-&#62;next;&#10;&#9;&#9;&#9;part1tail=node;&#10;&#9;&#9;&#9;node=node-&#62;next;&#10;&#9;&#9;&#9;part2head=node;&#10;&#9;&#9;&#125;&#10;        &#10;        for(int i=0;i&#60;n-m&#38;&#38;node-&#62;next!=NULL;i++)&#10;            node=node-&#62;next;&#10;        part2tail=node;&#10;        if(node-&#62;next==NULL)&#10;            part3head=NULL;&#10;        else&#10;        &#123;&#10;            part3head=node-&#62;next;&#10;            node-&#62;next=NULL;&#10;        &#125;&#10;        ListNode *revhead=NULL,*revtail=NULL;&#10;        node=part2head;&#10;        ListNode *tnode=node-&#62;next;&#10;        node-&#62;next=revhead;&#10;        revhead=node;&#10;        revtail=revhead;&#10;        node=tnode;&#10;        while(node)&#10;        &#123;&#10;            tnode=node-&#62;next;&#10;            node-&#62;next=revhead;&#10;            revhead=node;&#10;            node=tnode;&#10;        &#125;&#10;        if(part1head)&#10;        &#123;&#10;            part1tail-&#62;next=revhead;&#10;            revtail-&#62;next=part3head;&#10;            return part1head;&#10;        &#125;&#10;        else&#10;        &#123;&#10;            revtail-&#62;next=part3head;&#10;            return revhead;&#10;        &#125;&#10;        &#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>Reverse a linked list from position m to n. Do it in-place and in one-pass.</p>
-<p>For example:<br>Given <code>1-&gt;2-&gt;3-&gt;4-&gt;5-]]>
+    <![CDATA[<h2 id="需要的软件">需要的软件</h2><ul>
+<li><a href="http://msysgit.github.io/" target="_blank" rel="external"><strong>msysgit</strong></a> (服务器和客户端)<]]>
     </summary>
     
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+      <category term="Git" scheme="http://rudy-zhang.me/tags/Git/"/>
     
-      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
+      <category term="开发工具" scheme="http://rudy-zhang.me/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
     
   </entry>
   
   <entry>
-    <title><![CDATA[leetcode习题集 9 Palindrome Number]]></title>
-    <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%869/"/>
-    <id>http://rudy-zhang.me/2015/04/06/leetcode习题集9/</id>
-    <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T08:57:54.976Z</updated>
-    <content type="html"><![CDATA[<p>Determine whether an integer is a palindrome. Do this without extra space.</p>
-<p>click to show spoilers.</p>
-<p>Some hints:<br>Could negative integers be palindromes? (ie, -1)</p>
-<p>If you are thinking of converting the integer to string, note the restriction of using extra space.</p>
-<p>You could also try reversing an integer. However, if you have solved the problem “Reverse Integer”, you know that the reversed integer might overflow. How would you handle such case?</p>
-<p>There is a more generic way of solving this problem.</p>
-<p>题意：判断一个整数是不是回文数</p>
-<p>思路：</p>
-<ol>
-<li>和反转整数的思路一样，反转到一半进行比较（其实反转到比较能相等就可以了）。需要考虑比较多的是测试用例的情况</li>
-</ol>
-<p>注意：</p>
-<ol>
-<li>负数都不是回文数</li>
-<li>10的倍数不能当做回文数，计算时翻转0就消失了</li>
-<li>当然0是回文数</li>
-<li>整数变化问题都要考虑是否越界,翻转其实只需要做到一半比较就可以了</li>
-<li>考虑中间有一位，和中间有两位的情况</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public:&#10;    bool isPalindrome(int x) &#123;&#10;        if(x==0) return true;&#10;        if(x&#60;0 || (x%10==0)) return false;&#10;        int y=0;&#10;        while(y&#60;x)&#10;        &#123;&#10;            y=y*10+x%10;&#10;            if(x==y) return true;&#10;            x/=10;&#10;            if(x==y) return true;&#10;        &#125;&#10;        return (x==y);&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>]]></content>
-    <summary type="html">
-    <![CDATA[<p>Determine whether an integer is a palindrome. Do this without extra space.</p>
-<p>click to show spoilers.</p>
-<p>Some hints:<br>Could neg]]>
-    </summary>
-    
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
-    
-      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[leetcode习题集 88 Merge Sorted Array ]]></title>
-    <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%8688/"/>
-    <id>http://rudy-zhang.me/2015/04/06/leetcode习题集88/</id>
-    <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T08:57:52.129Z</updated>
-    <content type="html"><![CDATA[<p>Given two sorted integer arrays A and B, merge B into A as one sorted array.</p>
-<p>Note:<br>You may assume that A has enough space (size that is greater or equal to m + n) to hold additional elements from B. The number of elements initialized in A and B are m and n respectively.</p>
-<p>题意：给两个有序数组，合并成一个</p>
-<p>思路：模拟</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;    void merge(int A[], int m, int B[], int n) &#123;&#10;        int i=m-1,j=n-1,k=m+n-1;&#10;&#9;&#9;while(i&#62;=0&#38;&#38;j&#62;=0)&#10;&#9;&#9;&#123;&#10;&#9;&#9;&#9;if(A[i]&#62;=B[j])&#10;&#9;&#9;&#9;&#123; &#10;&#9;&#9;&#9;&#9;A[k--]=A[i];&#10;&#9;&#9;&#9;&#9;i--;&#9;&#10;&#9;&#9;&#9;&#125;&#10;&#9;&#9;&#9;else&#10;&#9;&#9;&#9;&#123;&#10;&#9;&#9;&#9;&#9;A[k--]=B[j];&#10;&#9;&#9;&#9;&#9;j--;&#10;&#9;&#9;&#9;&#125; &#10;&#9;&#9;&#125;&#10;&#9;&#9;if(j&#62;=0)&#10;&#9;&#9;&#9;for(;k&#62;=0;k--)&#10;&#9;&#9;&#9;&#9;A[k]=B[k];&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>
+    <title><![CDATA[使用bootstrap进行布局]]></title>
+    <link href="http://rudy-zhang.me/2015/03/21/%E4%BD%BF%E7%94%A8bootstrap%E8%BF%9B%E8%A1%8C%E5%B8%83%E5%B1%80/"/>
+    <id>http://rudy-zhang.me/2015/03/21/使用bootstrap进行布局/</id>
+    <published>2015-03-21T02:49:20.000Z</published>
+    <updated>2015-05-24T07:27:44.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>bootstrap来自twitter，是最受欢迎的前端框架。Bootstrap提供了优雅的HTML和CSS规范，它即是由动态CSS语言Less写成。</p>
+<blockquote>
+<p>LESS 包含一套自定义的语法及一个解析器，用户根据这些语法定义自己的样式规则，这些规则最终会通过解析器，编译生成对应的 CSS 文件。</p>
+</blockquote>
+<p><a href="http://v3.bootcss.com/components/" target="_blank" rel="external">使用boostrap的组件</a><br><a href="https://bootswatch.com/" target="_blank" rel="external">寻找漂亮的的bootstrap主题</a><br>本文主要讨论bootstrap的布局</p>
+<h2 id="栅格化布局">栅格化布局</h2><blockquote>
+<p>Bootstrap 提供了一套<strong>响应式</strong>、<strong>移动设备优先</strong>的流式栅格系统，随着屏幕或视口（viewport）尺寸的增加，系统会自动分为最多12列。</p>
+</blockquote>
+<h2 id="内边距，外边距">内边距，外边距</h2><p>首先需要理解，html内边距（padding），外边距（margin）</p>
+<p>CSS中的边距指的是当前元素border与周围其它元素border的距离（或者称为空间）。</p>
+<p><strong>Box Model</strong>: 任意一个块级元素均由</p>
+<ul>
+<li>content(内容),</li>
+<li>padding</li>
+<li>background(包括背景颜色和图片),</li>
+<li>border(边框)</li>
+<li>margin<br>五个部分组成<br><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eqd4plmz36j20dk0crmyn.jpg" alt="enter image description here"></li>
+</ul>
+<h2 id="栅格系统之布局容器-container">栅格系统之布局容器.container</h2><p>Bootstrap 需要为页面内容和栅格系统包裹一个 .container 容器。我们提供了两个作此用处的类。</p>
+<ul>
+<li>.container 类用于固定宽度并支持响应式布局的容器。</li>
+<li>.container-fluid 类用于 100% 宽度，占据全部视口（viewport）的容器。</li>
+</ul>
+<p>作用：</p>
+<ul>
+<li>在响应式宽度上提供<strong>宽度约束</strong>。响应式尺寸的改变其实改变的是 container ，行 (rows) 和列 (columns) 都是基于1 、在响应式宽度上提供宽度约束。响应式尺寸的改变其实改变的是 container ，行 (rows) 和列 (columns) 都是基于百分比的所以它们不需要做任何改变；</li>
+<li>提供 padding 以至于不内容不直为紧贴于浏览器边缘，两边都是 15px ，下图中粉色的就是了，稍后解释更多；<br><img src="http://ww4.sinaimg.cn/mw690/4c2edcb7jw1eqd4plxjvkj20go08kaad.jpg" alt="enter image description here"><br><strong>在一个container中永远不需要再嵌一个container，记住永远不要。</strong></li>
+</ul>
+<h2 id="栅格系统之row">栅格系统之row</h2><p>row 为 col 提供了空间，理想上一行上分了 12 col<br>Rows  的两侧都拥有独特的负 15px margin 值<br><strong>永远不要在 container 外用 row, row 在 container 外面使用是无效的</strong><br><img src="http://ww4.sinaimg.cn/mw690/4c2edcb7jw1eqd4pm6ym6j20go08jmxm.jpg" alt="enter image description here"></p>
+<h2 id="栅格系统之column">栅格系统之column</h2><p>列(col)现在有15px的padding了，如下图中黄颜色部分。Container的正padding值造成了15px的留空，row用负margin值反的延伸回去，<br><strong>所以现在col的padding值与container的padding重叠了</strong><br><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eqd4pmjifqj20go08kjrz.jpg" alt="enter image description here"><br><strong>永远不要在row外使用col,在row外使用col是无效的</strong><br>然后col就是一个.container了，你可以在里面继续使用row了<br><strong>container/row/column整这么些事儿最终要达到的结果就体现在这里了，就是为了col的补白</strong></p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>Given two sorted integer arrays A and B, merge B into A as one sorted array.</p>
-<p>Note:<br>You may assume that A has enough space (size]]>
+    <![CDATA[<h2 id="前言">前言</h2><p>bootstrap来自twitter，是最受欢迎的前端框架。Bootstrap提供了优雅的HTML和CSS规范，它即是由动态CSS语言Less写成。</p>
+<blockquote>
+<p>LESS 包含一套自定义的语法及一个解析器，用]]>
     </summary>
     
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+      <category term="bootstrap" scheme="http://rudy-zhang.me/tags/bootstrap/"/>
     
-      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
+      <category term="web开发" scheme="http://rudy-zhang.me/categories/web%E5%BC%80%E5%8F%91/"/>
     
   </entry>
   
   <entry>
-    <title><![CDATA[leetcode习题集 83 Remove Duplicates from Sorted List]]></title>
-    <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%8683/"/>
-    <id>http://rudy-zhang.me/2015/04/06/leetcode习题集83/</id>
-    <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T08:57:48.976Z</updated>
-    <content type="html"><![CDATA[<p>Given a sorted linked list, delete all duplicates such that each element appear only once.</p>
-<p>For example,<br>Given <code>1-&gt;1-&gt;2</code>, return <code>1-&gt;2</code>.<br>Given <code>1-&gt;1-&gt;2-&gt;3-&gt;3</code>, return <code>1-&gt;2-&gt;3</code>.</p>
-<p>题意：给一个链表，删除链表中的重复元素</p>
-<p>思路：两个指针，遍历，模拟</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/**&#10; * Definition for singly-linked list.&#10; * struct ListNode &#123;&#10; *     int val;&#10; *     ListNode *next;&#10; *     ListNode(int x) : val(x), next(NULL) &#123;&#125;&#10; * &#125;;&#10; */&#10;class Solution &#123;&#10;public:&#10;//&#36890;&#36807;&#20004;&#20010;&#25351;&#38024;&#21516;&#26102;&#21521;&#21069;&#31227;&#21160;&#21024;&#38500;&#20803;&#32032;&#10;//&#27880;&#24847;&#65306;&#20026;&#31354;&#65292;&#19968;&#20010;&#20803;&#32032;&#65292;&#22810;&#20010;&#20803;&#32032;&#65292;&#23614;&#20803;&#32032;&#10;    ListNode *deleteDuplicates(ListNode *head) &#123;&#10;        if(NULL == head || NULL==head-&#62;next)&#10;            return head;&#10;        ListNode *n1=head;&#10;        ListNode *n2=head-&#62;next;&#10;        while(n2)&#10;        &#123;&#10;            if(n1-&#62;val == n2-&#62;val)&#10;            &#123;&#10;                ListNode *toBeDelete;&#10;                toBeDelete=n2;&#10;                n1-&#62;next=n2-&#62;next;&#10;                n2=n1-&#62;next;&#10;                delete toBeDelete;&#10;            &#125;&#10;            else&#10;            &#123;&#10;                n1=n1-&#62;next;&#10;                n2=n2-&#62;next;&#10;            &#125;&#10;        &#125;&#10;        return head;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>
+    <title><![CDATA[Git笔记]]></title>
+    <link href="http://rudy-zhang.me/2015/03/21/Git%E7%AC%94%E8%AE%B0/"/>
+    <id>http://rudy-zhang.me/2015/03/21/Git笔记/</id>
+    <published>2015-03-21T00:21:32.000Z</published>
+    <updated>2015-05-24T14:10:46.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>实验室的项目需要用到一个版本管理系统进行管理，鉴于Git如此风靡，所以正好拿来用，顺便学习一下。一下是Git学习的笔记，大部分内容来自<a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="external">廖雪峰的Git教程</a>。</p>
+<p>为什么Git比其他版本控制系统设计得优秀，因为Git跟踪并管理的是修改，而非文件。所以一切操作几乎都是在一瞬间完成的。</p>
+<h2 id="集中式VS分布式">集中式VS分布式</h2><p>集中式版本控制系统，版本库是集中存放在中央服务器的。所有的修改都要经过中央服务器。<br>分布式版本控制系统根本没有“中央服务器”，每个人的电脑上都是一个完整的版本库。<br><strong>Git的特点就是，没有中央服务器，大家都是中央服务器</strong></p>
+<h2 id="创建版本库">创建版本库</h2><p>初始化一个Git仓库，使用<code>git init</code>命令。</p>
+<p>添加文件到Git仓库，分两步：</p>
+<ol>
+<li><p>第一步，使用命令<code>git add &lt;file&gt;</code>，可反复多次使用，添加多个文件；</p>
+</li>
+<li><p>第二步，使用命令<code>git commit</code>，完成。</p>
+</li>
+</ol>
+<h2 id="查看状态">查看状态</h2><p>要随时掌握工作区的状态，使用<code>git status</code>命令。<br> 如果<code>git status</code>告诉你有文件被修改过，用<code>git diff</code>可以查看修改内容。</p>
+<h2 id="版本回退">版本回退</h2><p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eqd05t0do1j206j04imx4.jpg" alt=""><br>HEAD指向的版本就是当前版本(HEAD指向当前的分支)</p>
+<p> 因此，Git允许我们在版本的历史之间穿梭，使用命令<code>git reset --hard commit_id</code>。</p>
+<p>返回过去，用<code>git log</code>可以查看提交历史，以便确定要回退到哪个版本。</p>
+<p>要重返未来，用<code>git reflog</code>查看命令历史，以便确定要回到未来的哪个版本。</p>
+<h2 id="工作区VS版本库VS暂存区">工作区VS版本库VS暂存区</h2><ul>
+<li>工作区（Working Directory）：就是你在电脑里能看到的目录</li>
+<li>版本库（Repository）：工作区有一个隐藏目录.git，这个不算工作区，而是Git的版本库。</li>
+<li>暂存区(stage) : 版本库里存了很多东西，其中最重要的就是称为<strong>stage</strong>（或者叫index）的暂存区，还有Git为我们自动创建的第一个分支master，以及指向master的一个指针叫HEAD。<br><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eqd05ta69vj20cq06imxh.jpg" alt="enter image description here"></li>
+</ul>
+<p><code>git add</code>命令实际上就是把要提交的所有修改放到暂存区（Stage）<br>执行<code>git commit</code>就可以一次性把暂存区的所有修改提交到分支。<br><strong>Git跟踪的是修改，每次修改，如果不add到暂存区，那就不会加入到commit中。</strong></p>
+<h2 id="撤销修改">撤销修改</h2><ul>
+<li>还没有<code>git add</code>到暂存区的代码<br><code>git checkout</code> 从暂存区或者版本库签出（取消工作区代码）,例：<code>git checkout -- readme.txt</code></li>
+</ul>
+<ol>
+<li>暂存区有代码，签出暂存区代码</li>
+<li>暂存区没代码，签出版本库代码</li>
+</ol>
+<ul>
+<li><p>已经添加到暂存区的代码,<code>git reset HEAD readme.txt</code><br>再用<code>checkout</code>命令</p>
+</li>
+<li><p>已经commit的代码<br>在推送到远程版本库之前切换版本,<code>git reset --hard</code> 版本号</p>
+</li>
+<li><p>删除文件(删除也是一个修改操作)<br><code>git rm</code>用于删除一个文件（类似于git add将更改放到暂存区）<br><code>git commit</code> 提交</p>
+</li>
+</ul>
+<h2 id="github远程仓库">github远程仓库</h2><p>提供Git仓库托管服务的，所以，只要注册一个GitHub账号，就可以免费获得Git远程仓库</p>
+<h3 id="生成ssh密钥">生成ssh密钥</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &#34;youremail@example.com&#34;</span><br></pre></td></tr></table></figure>
+<p>生成ssh 公钥和私钥</p>
+<h3 id="关联远程库">关联远程库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin git@server-name:path/repo-name.git</span><br></pre></td></tr></table></figure>
+<h3 id="推送">推送</h3><p>使用命令<code>git push -u origin master</code>第一次推送master分支的所有内容，每次本地提交后，只要有必要，就可以使用命令<code>git push origin master</code>推送最新修改；</p>
+<h3 id="克隆">克隆</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:michaelliao/gitskills.git</span><br></pre></td></tr></table></figure>
+<h2 id="分支管理">分支管理</h2><p>Git用master（主分支）指向最新的提交，再用HEAD指向当前分支<br>查看分支：<code>git branch</code><br>创建分支：<code>git branch &lt;name&gt;</code><br>切换分支：<code>git checkout &lt;name&gt;</code><br>创建+切换分支：<code>git checkout -b &lt;name&gt;</code><br>合并某分支到当前分支：<code>git merge &lt;name&gt;</code><br>删除分支：<code>git branch -d &lt;name&gt;</code></p>
+<h3 id="解决冲突">解决冲突</h3><p><code>Rudy@RUDY ~/learngit (master|MERGING)</code><br>相当于另外创建了一个分支，保存冲突，提交时以这个分支为准</p>
+<h3 id="分支策略">分支策略</h3><p>首先，master分支应该是非常稳定的，也就是仅用来发布新版本，平时不能在上面干活；</p>
+<p>那在哪干活呢？干活都在dev分支上，也就是说，dev分支是不稳定的，到某个时候，比如1.0版本发布时，再把dev分支合并到master上，在master分支发布1.0版本；</p>
+<p>小伙伴们每个人都在dev分支上干活，每个人都有自己的分支，时不时地往dev分支上合并就可以<br><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eqd05tptzoj20du03h3yy.jpg" alt="enter image description here"></p>
+<h3 id="修复bug，保存现场状态">修复bug，保存现场状态</h3><p>修复bug时，我们会通过创建新的bug分支进行修复，然后合并，最后删除；</p>
+<p>当手头工作没有完成时，先把工作现场<code>git stash</code>一下，然后去修复bug，修复后，再<code>git stash pop</code>，回到工作现场。</p>
+<blockquote>
+<p>git stash: 备份当前的工作区的内容，从最近的一次提交中读取相关内容，让工作区保证和上次提交的内容一致。同时，将当前的工作区内容保存到Git栈中。</p>
+<h3 id="新的feature分支">新的feature分支</h3><p>开发一个新feature，最好新建一个分支；</p>
+</blockquote>
+<p>如果要丢弃一个没有被合并过的分支，可以通过<code>git branch -D &lt;name&gt;</code>强行删除。</p>
+<h2 id="多人协作工作">多人协作工作</h2><p>实际上Git自动把本地的master分支和远程的master分支对应起来了，并且，远程仓库的默认名称是<code>origin</code>。</p>
+<p>试图推送：可以试图用<code>git push origin branch-name</code>推送自己的修改；</p>
+<p>如果推送失败，则因为远程分支比你的本地更新，需要先用<code>git pull</code>试图合并；如果合并有冲突，则解决冲突，并在本地提交；</p>
+<p>没有冲突或者解决掉冲突后，再用<code>git push origin branch-name</code>推送就能成功！</p>
+<p>如果git pull提示<code>no tracking information</code><br>     说明本地分支和远程分支的链接关系没有创建，用命令<code>git branch --set-upstream branch-name origin/branch-name</code>。</p>
+<h2 id="标签管理">标签管理</h2><p><strong>发布一个版本时</strong>，我们通常先在版本库中打一个标签。标签也是<strong>版本库的一个快照</strong>。</p>
+<p>Git的标签虽然是版本库的快照，但其实<strong>它就是指向某个commit的指针</strong>（跟分支很像对不对？但是分支可以移动，标签不能移动），所以，创建和删除标签都是瞬间完成的。</p>
+<p>查看所有标签<code>git tag</code></p>
+<p>新建标签<code>git tag &lt;name&gt;</code>，默认为HEAD，也可以指定一个commit id；</p>
+<p>指定标签信息,<code>git tag -a &lt;tagname&gt; -m &quot;blablabla...&quot;</code></p>
+<p>用PGP签名标签,<code>git tag -s &lt;tagname&gt; -m &quot;blablabla...&quot;</code>可以用PGP签名标签；</p>
+<p>推送一个本地标签<code>git push origin &lt;tagname&gt;</code></p>
+<p>推送全部未推送过的本地标签<code>git push origin --tags</code></p>
+<p>删除一个本地标签<code>git tag -d &lt;tagname&gt;</code></p>
+<p>删除一个远程标签<code>git push origin :refs/tags/&lt;tagname&gt;</code></p>
+<h2 id="忽略特殊文件">忽略特殊文件</h2><h3 id="问题">问题</h3><p>有些时候，必须把某些文件放到Git工作目录中，但又不能提交它们，比如保存了数据库密码的配置文件,每次git status都会显示“Untracked files …”</p>
+<h3 id="解决办法">解决办法</h3><p>在Git工作区的根目录下创建一个特殊的.gitignore文件，然后把要忽略的文件名填进去，Git就会自动忽略这些文件。</p>
+<p>忽略文件的原则是：</p>
+<blockquote>
+<ul>
+<li>忽略操作系统自动生成的文件，比如缩略图等；</li>
+<li>忽略编译生成的中间文件、可执行文件等，也就是如果一个文件是通过另一个文件自动生成的，那自动生成的文件就没必要放进版本库，比如Java编译产生的.class文件；</li>
+<li>忽略你自己的带有敏感信息的配置文件，比如存放口令的配置文件。</li>
+</ul>
+</blockquote>
+<h2 id="配置别名">配置别名</h2><p><code>git config --global alias.st status</code>设置st为status的别名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global alias.lg &#34;log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&#60;%an&#62;%Creset&#39; --abbrev-commit&#34;</span><br></pre></td></tr></table></figure>
+<p><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eqd05u3pp8j20ca08agnx.jpg" alt="enter image description here"></p>
+<h2 id="在windows下复制版本库">在windows下复制版本库</h2><p>注意路径<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone administrator@192.168.1.13:c:/GitProject/testrepo</span><br></pre></td></tr></table></figure></p>
+<h2 id="git_init_VS_git_init_–bare">git init VS git init –bare</h2><p>用<code>git init</code>初始化的版本库用户也可以在该目录下执行所有git方面的操作。但别的用户在将更新push上来的时候容易出现冲突。<br>使用<code>git init –bare</code>方法创建一个所谓的裸仓库，之所以叫裸仓库是因为这个仓库只保存git历史提交的版本信息，而<strong>不允许用户在上面进行各种git操作</strong>，如果你硬要操作的话，只会得到下面的错误（”This operation must be run in a work tree”）<br>这个就是<strong>最好把远端仓库初始化成bare仓库的原因</strong>。</p>
+<p>在裸仓库中只能切换分支，不能合并分支</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>Given a sorted linked list, delete all duplicates such that each element appear only once.</p>
-<p>For example,<br>Given <code>1-&gt;1-&gt]]>
+    <![CDATA[<h2 id="前言">前言</h2><p>实验室的项目需要用到一个版本管理系统进行管理，鉴于Git如此风靡，所以正好拿来用，顺便学习一下。一下是Git学习的笔记，大部分内容来自<a href="http://www.liaoxuefeng.com/wiki/0013739516]]>
     </summary>
     
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+      <category term="Git" scheme="http://rudy-zhang.me/tags/Git/"/>
     
-      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
+      <category term="工具" scheme="http://rudy-zhang.me/categories/%E5%B7%A5%E5%85%B7/"/>
     
   </entry>
   
   <entry>
-    <title><![CDATA[leetcode习题集 8 String to Integer (atoi) ]]></title>
-    <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%868/"/>
-    <id>http://rudy-zhang.me/2015/04/06/leetcode习题集8/</id>
-    <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T08:57:43.417Z</updated>
-    <content type="html"><![CDATA[<p>Implement atoi to convert a string to an integer.</p>
-<p>Hint: Carefully consider all possible input cases. If you want a challenge, please do not see below and ask yourself what are the possible input cases.</p>
-<p>Notes: It is intended for this problem to be specified vaguely (ie, no given input specs). You are responsible to gather all the input requirements up front.</p>
-<p>spoilers alert… click to show requirements for atoi.</p>
-<p>Requirements for atoi:<br>The function first discards as many whitespace characters as necessary until the first non-whitespace character is found. Then, starting from this character, takes an optional initial plus or minus sign followed by as many numerical digits as possible, and interprets them as a numerical value.</p>
-<p>The string can contain additional characters after those that form the integral number, which are ignored and have no effect on the behavior of this function.</p>
-<p>If the first sequence of non-whitespace characters in str is not a valid integral number, or if no such sequence exists because either str is empty or it contains only whitespace characters, no conversion is performed.</p>
-<p>If no valid conversion could be performed, a zero value is returned. If the correct value is out of the range of representable values, INT_MAX (2147483647) or INT_MIN (-2147483648) is returned.</p>
-<p>题意：实现C++库函数（在cstdlib中）atoi，转化string为整数</p>
-<p>思路：</p>
-<ol>
-<li>开头可能是正负号，然后以数字的字符开始，到第一个不是数字字符结束，忽略后面的内容。如果字符串不合法，返回0；</li>
-</ol>
-<p>注意：</p>
-<ol>
-<li><p>处理开头为空的情况</p>
-</li>
-<li><p>开头有可能是负号,正号</p>
-</li>
-<li><p>注意测试用例完备，超过int_max小于int_min</p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;    int atoi(string str) &#123;&#10;        int emptyIndex=0;&#10;        while(str[emptyIndex]==&#39; &#39;) emptyIndex++;&#10;        str=str.substr(emptyIndex);&#10;        &#10;        bool isneg=false;&#10;        if(!isNum(str[0]) &#38;&#38; str[0]!=&#39;-&#39; &#38;&#38; str[0]!=&#39;+&#39;) return 0;&#10;        if(str[0]==&#39;-&#39;)&#10;        &#123;&#10;          isneg=true;&#10;          str=str.substr(1);&#10;        &#125; &#10;        else if(str[0]==&#39;+&#39;)&#10;            str=str.substr(1);&#10;        long long num=0;&#10;        for(int i=0;isNum(str[i]);i++)&#10;        &#123;&#10;            num=num*10+(str[i]-&#39;0&#39;);&#10;            if(isneg==false&#38;&#38;num&#62;INT_MAX) return INT_MAX;&#10;            if(isneg==true&#38;&#38;(0-num)&#60;INT_MIN) return INT_MIN;&#10;        &#125;&#10;        if(isneg==true) return (int)(0-num);&#10;        else return (int)num;&#10;        &#10;    &#125;&#10;    &#10;    bool isNum(char a)&#10;    &#123;&#10;        if((a-&#39;0&#39;)&#62;=0 &#38;&#38; (a-&#39;0&#39;)&#60;10)&#10;            return 1;&#10;        else return 0;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>]]></content>
-    <summary type="html">
-    <![CDATA[<p>Implement atoi to convert a string to an integer.</p>
-<p>Hint: Carefully consider all possible input cases. If you want a challenge, plea]]>
-    </summary>
-    
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
-    
-      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[leetcode习题集 73 Set Matrix Zeroes]]></title>
-    <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%8673/"/>
-    <id>http://rudy-zhang.me/2015/04/06/leetcode习题集73/</id>
-    <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T08:57:40.407Z</updated>
-    <content type="html"><![CDATA[<p>Given a m x n matrix, if an element is 0, set its entire row and column to 0. Do it in place.</p>
-<p>click to show follow up.</p>
-<p>Follow up:<br>Did you use extra space?<br>A straight forward solution using O(mn) space is probably a bad idea.<br>A simple improvement uses O(m + n) space, but still not the best solution.<br>Could you devise a constant space solution?</p>
-<p>题意：给定一个m*n的矩阵，如果有一个元素等于0，那么这个元素属于的行和列都变成0</p>
-<p>思路：</p>
-<ol>
-<li>使用另外的存储m*n矩阵记录遍历结果，不太好</li>
-<li>使用M+N的存储记录遍历结果，指示第M[i]行和第N[j]列是否被置0</li>
-<li>使用row0，col0记录第一行，第一列的状态，然后把matrix[i][j]映射到第一行第一列，然后遍历，根据第一行，第一列的情况为矩阵置0，处理第一行第一列。使用了常数存储，两次遍历。</li>
-</ol>
-<p>M+N存储</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;    void setZeroes(vector&#60;vector&#60;int&#62; &#62; &#38;matrix) &#123;&#10;        vector&#60;bool&#62; vecM(matrix.size(),false);&#10;&#9;&#9;vector&#60;bool&#62; vecN(matrix[0].size(),false);&#10;&#9;&#9;for(int i=0;i&#60;matrix.size();i++)&#10;&#9;&#9;&#123;&#10;&#9;&#9;&#9;for(int j=0;j&#60;matrix[i].size();j++)&#10;&#9;&#9;&#9;&#123;&#10;&#9;&#9;&#9;&#9;if(matrix[i][j]==0)&#123;&#10;&#9;&#9;&#9;&#9;&#9;vecM[i]=true;&#10;&#9;&#9;&#9;&#9;&#9;vecN[j]=true;&#10;&#9;&#9;&#9;&#9;&#125;&#10;&#9;&#9;&#9;&#125;&#10;&#9;&#9;&#125; &#10;&#9;&#9;for(int i=0;i&#60;vecM.size();i++)&#10;&#9;&#9;&#9;if(vecM[i]==true)&#10;&#9;&#9;&#9;&#9;for(int j=0;j&#60;matrix[i].size();j++)&#10;&#9;&#9;&#9;&#9;&#9;matrix[i][j]=0;&#10;&#9;&#9;for(int i=0;i&#60;vecN.size();i++)&#10;&#9;&#9;&#9;if(vecN[i]==true)&#10;&#9;&#9;&#9;&#9;for(int j=0;j&#60;matrix.size();j++)&#10;&#9;&#9;&#9;&#9;&#9;matrix[j][i]=0;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>
-<p>常数存储<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;    void setZeroes(vector&#60;vector&#60;int&#62; &#62; &#38;matrix) &#123;&#10;        int col0=0,row0=0,rows = matrix.size(), cols = matrix[0].size();&#10;&#10;&#9;&#9;for(int j=0;j&#60;cols;j++)&#10;&#9;&#9;&#9;if(matrix[0][j]==0) row0=1;&#10;&#10;&#9;&#9;for(int i=0;i&#60;rows;i++)&#10;&#9;&#9;&#123;&#10;&#9;&#9;&#9;if(matrix[i][0]==0) col0=1;&#10;&#9;&#9;&#9;for(int j=0;j&#60;cols;j++)&#10;&#9;&#9;&#9;&#123;&#10;&#9;&#9;&#9;&#9;if(matrix[i][j]==0) &#10;&#9;&#9;&#9;&#9;&#9;matrix[i][0]=matrix[0][j]=0;&#10;&#9;&#9;&#9;&#125;&#10;&#9;&#9;&#125;&#10;&#9;&#9;for(int i=1;i&#60;rows;i++)&#10;&#9;&#9;&#123;&#10;&#9;&#9;&#9;for(int j=1;j&#60;cols;j++)&#10;&#9;&#9;&#9;&#123;&#10;&#9;&#9;&#9;&#9;if(matrix[i][0]==0||matrix[0][j]==0) &#10;&#9;&#9;&#9;&#9;&#9;matrix[i][j]=0;&#10;&#9;&#9;&#9;&#125;&#10;&#9;&#9;&#125;&#10;&#9;&#9;if(col0==1)&#10;&#9;&#9;&#9;for(int i=0;i&#60;rows;i++)&#10;&#9;&#9;&#9;&#9;matrix[i][0]=0;&#10;&#9;&#9;if(row0==1)&#10;&#9;&#9;&#9;for(int j=0;j&#60;cols;j++)&#10;&#9;&#9;&#9;&#9;matrix[0][j]=0;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure></p>
+    <title><![CDATA[ASP.NET MVC之本地化多语言]]></title>
+    <link href="http://rudy-zhang.me/2015/03/20/ASP.NET%20MVC%E4%B9%8B%E6%9C%AC%E5%9C%B0%E5%8C%96%E5%A4%9A%E8%AF%AD%E8%A8%80/"/>
+    <id>http://rudy-zhang.me/2015/03/20/ASP.NET MVC之本地化多语言/</id>
+    <published>2015-03-20T11:56:58.000Z</published>
+    <updated>2015-05-24T14:05:06.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>使用ASP MVC的本地化多语言解决方案可以方便地让我们把程序中的字符串映射到一个资源文件中，这样便于统一修改，同时只要指定使用不同的语言，就可以瞬间切换资源文件，从而达到灵活修改网站的目的。</p>
+<h2 id="新建资源文件">新建资源文件</h2><p>如图在项目中新建了三个资源文件，一个默认Global.resx,一个是英文Global.en.resx，一个是备份的Global.ar.resx<br><img src="http://ww3.sinaimg.cn/mw690/4c2edcb7jw1eqcfrko5gaj209u07rdg5.jpg" alt="enter image description here"></p>
+<h2 id="修改key-value">修改key-value</h2><p><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eqcfrkznssj20k70cidhq.jpg" alt="enter image description here"></p>
+<h2 id="什么时候使用">什么时候使用</h2><p>ASP.NET MVC 还提供将强类型数据或对象传递到视图模板的能力。便于检查类型错误。<br>使用方法：</p>
+<ul>
+<li>简单独立的数据使用ViewBag</li>
+<li>向前端传递一个大的对象，使用试图模板，便于检查错误</li>
+</ul>
+<h2 id="如何把Key放入到程序当中">如何把Key放入到程序当中</h2><h3 id="在Model中">在Model中</h3><p>对应Display属性使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Display(Name = &#34;UserName&#34;,ResourceType=typeof(Resources.Global))]</span><br></pre></td></tr></table></figure>
+<p>对于ErrorMessage</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Required(ErrorMessageResourceName = &#34;PasswordRequiredMessage&#34;, ErrorMessageResourceType = typeof(Resources.Global))]</span><br></pre></td></tr></table></figure>
+<h3 id="在Controller中">在Controller中</h3><p>一般来说在Controller不出现汉字的字符串，如果使用，可以通过如下方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string myString=HospitalProject.Resources.Global.DoctorName;</span><br></pre></td></tr></table></figure>
+<h3 id="在前端">在前端</h3><p>使用razor表达式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Html.ActionLink(@HospitalProject.Resources.Global.NetworkDiagnosisHome, &#34;Index&#34;, &#34;Home&#34;, routeValues: null, htmlAttributes: new &#123; @class = &#34;navbar-brand&#34; &#125;)</span><br></pre></td></tr></table></figure></p>
+<h2 id="如何指定资源文件">如何指定资源文件</h2><p>在<code>ViewStart.cshtml</code>中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XXXProject.Extensions.CultureHelper.SetCulture(&#34;ar&#34;);</span><br></pre></td></tr></table></figure>
+<h2 id="后记">后记</h2><p>通过本方法可以方便进行网站资源文件的切换，如果需要实现网站同时支持多种语言，使用cookie或者URL route需要进行其他配置。参考：<br><a href="http://jingyan.baidu.com/article/3052f5a1d4410797f31f86f8.html" target="_blank" rel="external">参考1</a><br><a href="http://www.cnblogs.com/xyfy/articles/1970424.html" target="_blank" rel="external">参考2</a><br><a href="http://afana.me/post/aspnet-mvc-internationalization.aspx" target="_blank" rel="external">参考3</a></p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>Given a m x n matrix, if an element is 0, set its entire row and column to 0. Do it in place.</p>
-<p>click to show follow up.</p>
-<p>Foll]]>
+    <![CDATA[<h2 id="前言">前言</h2><p>使用ASP MVC的本地化多语言解决方案可以方便地让我们把程序中的字符串映射到一个资源文件中，这样便于统一修改，同时只要指定使用不同的语言，就可以瞬间切换资源文件，从而达到灵活修改网站的目的。</p>
+<h2 id="新建资源文件">新]]>
     </summary>
     
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+      <category term="ASP MVC" scheme="http://rudy-zhang.me/tags/ASP-MVC/"/>
     
-      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
+      <category term=".NET" scheme="http://rudy-zhang.me/categories/NET/"/>
     
   </entry>
   
   <entry>
-    <title><![CDATA[leetcode习题集 70 Climbing Stairs]]></title>
-    <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%8670/"/>
-    <id>http://rudy-zhang.me/2015/04/06/leetcode习题集70/</id>
-    <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T08:57:37.696Z</updated>
-    <content type="html"><![CDATA[<p>You are climbing a stair case. It takes n steps to reach to the top.</p>
-<p>Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?</p>
-<p>题意：爬楼梯，每次可以爬一步或者两步，爬到第n阶台阶有几种方法</p>
-<p>思路：<br>类似于斐波那契数列，f(n)=f(n-1)+f(n-2),使用a[n]空间换时间，否则递归太多容易爆栈<br>实际上这是一个动态规划问题</p>
-<p>注意：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;//&#31867;&#20284;&#20110;&#26000;&#27874;&#37027;&#22865;&#25968;&#21015;&#65292;f(n)=f(n-1)+f(n-2),&#20351;&#29992;a[n]&#31354;&#38388;&#25442;&#26102;&#38388;&#65292;&#21542;&#21017;&#36882;&#24402;&#22826;&#22810;&#23481;&#26131;&#29190;&#26632;&#10;    int climbStairs(int n) &#123;&#10;        int *a=new int[n+1];&#10;        for(int i=0;i&#60;n+1;i++)&#10;            a[i]=0;&#10;        a[1]=1;&#10;        a[2]=2;&#10;        count(a,n);&#10;    &#125;&#10;    &#10;    int count(int a[],int n)&#10;    &#123;&#10;        if(a[n]!=0) return a[n];&#10;        else &#10;        &#123;&#10;            int num=count(a,n-1)+count(a,n-2);&#10;            a[n]=num;&#10;            return num;&#10;        &#125;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>]]></content>
+    <title><![CDATA[ASP.NET MVC之Entity Framewrok]]></title>
+    <link href="http://rudy-zhang.me/2015/03/20/ASP.NET%20MVC%E4%B9%8BEntity%20Framewrok/"/>
+    <id>http://rudy-zhang.me/2015/03/20/ASP.NET MVC之Entity Framewrok/</id>
+    <published>2015-03-20T08:55:10.000Z</published>
+    <updated>2015-05-24T02:27:14.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="解释">解释</h2><p>Entity Framework 是微软以 ADO.NET 为基础所发展出来的对象关系对应 (O/R Mapping) 解决方案。</p>
+<blockquote>
+<p>对象关系映射（Object Relational Mapping，简称ORM）是一种为了解决面向对象与关系数据库存在的互不匹配的现象的技术。</p>
+</blockquote>
+<h2 id="三种方式">三种方式</h2><ul>
+<li>Database-first（数据库先行）：从一个数据库开始，然后实体框架生成相应代码。</li>
+<li>Model-first（模型先行）：先从一个可视化模型开始，然后实体框架生成数据库和代码。</li>
+<li>Code-first（代码先行）：先从代码开始，然后实体框架生成数据库</li>
+</ul>
+<p>CodeFirst 用中文说是代码优先，此技术可以让我们先写代码，然后由Entity Framework根据我们的代码建立数据库。</p>
+<p>CodeFirst和ModelFirst的数据库连接方式不一样，但都可以现在VS中测试连接</p>
+<h2 id="why_codefirst？">why codefirst？</h2><p>代码优先的开发支持更加优美的开发流程，它允许你：</p>
+<blockquote>
+<ul>
+<li>在不使用设计器或者定义一个 XML 映射文件的情况下进行开发。</li>
+<li>允许编写简单的模型对象POCO (plain old classes)，而不需要基类。</li>
+<li>通过”约定优于配置”，使得数据库持久层不需要任何的配置</li>
+<li>也可以覆盖”约定优于配置”，通过流畅的 API 来完全定制持层的映射。</li>
+</ul>
+</blockquote>
+<p>Code First是基于Entity Framework的新的开发模式，原先只有Database First和Model First两种。Code First顾名思义，就是先用C#/VB.NET的类定义好你的领域模型，然后用这些类映射到现有的数据库或者产生新的数据库结构。<strong>写好代码就行，数据库几乎不需要操作</strong>。</p>
+<h2 id="使用codefirst建立数据库">使用codefirst建立数据库</h2><h3 id="建立实体类">建立实体类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class Student&#10;&#123;&#10;    public int StudentID &#123; get; set; &#125;&#10;    public string LastName &#123; get; set; &#125;&#10;    public string FirstNidName &#123; get; set; &#125;&#10;    public DateTime EnrollmentDate &#123; get; set; &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="DAL数据库连接层，创建实体集">DAL数据库连接层，创建实体集</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class SchoolContext : DbContext&#10;&#123;&#10;    public DbSet &#60;Student&#62; Students &#123; get; set ; &#125;&#10;    public DbSet &#60;Enrollment&#62; Enrollments &#123; get; set ; &#125;&#10;    public DbSet &#60;Course&#62; Courses &#123; get; set ; &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>继承自System.Data.Entity下的DbContext，它将我们的数据模型映射到数据库中，将代码中的数据持久化。<br><strong>这里相当于做了代码和数据库的表映射。</strong></p>
+<h3 id="向web-config中添加数据库连接">向web.config中添加数据库连接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;add name=&#34; SchoolContext&#34; connectionString=&#34; Data Source=(LocalDb)\v11.0;Initial Catalog=ContosoUniversity;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|\ContosoUniversity.mdf&#34; providerName=&#34; System.Data.SqlClient&#34; /&#62;</span><br></pre></td></tr></table></figure>
+<h3 id="总结">总结</h3><p>当系统开始运行，会自动检查SchoolContext 对应的数据库是否建立，如果没有建立就通过已经做好的实体类和表映射关系在数据库中映射出需要的数据库表。</p>
+<h2 id="基于标注的前后端验证">基于标注的前后端验证</h2><p>在建立网站的时候，都需要进行数据验证。前后端都要验证，前端js，后台使用后台的代码。实际的项目中一般前后端程序员约定好，然后分别写代码进行验证，很麻烦。ASP MVC为我们建立了一套非常简单的方法，只需要为属性添加标注，即可在前后端使用同一套验证逻辑。</p>
+<h3 id="添加标注">添加标注</h3><p>在已经建好的实体类中，可以为属性添加Data Annotations（标注）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class Movie &#123;&#10;    public int ID &#123; get; set; &#125;&#10;&#10;    [Required]&#10;    public string Title &#123; get; set; &#125;&#10;&#10;    [DataType(DataType.Date)]&#10;    public DateTime ReleaseDate &#123; get; set; &#125;&#10;&#10;    [Required]&#10;    public string Genre &#123; get; set; &#125;&#10;&#10;    [Range(1, 100)]&#10;    [DataType(DataType.Currency)]&#10;    public decimal Price &#123; get; set; &#125;&#10;&#10;    [StringLength(5)]&#10;    public string Rating &#123; get; set; &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="后端验证">后端验证</h3><p>使用<code>ModelState.IsValid</code> 即可实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[HttpPost]&#10;public ActionResult Index(Party party)&#10;&#123;&#10;    if(ModelState.IsValid)&#10;    &#123;&#10;        // TO DO: save the party to database&#10;        return View(&#34;Thanks&#34;);&#10;    &#125;&#10;    return View();&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="前端验证">前端验证</h3><p>打开配置文件<code>web.config</code>，配置前端验证开启</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;appSettings&#62;&#10;    &#60;add key=&#34;ClientValidationEnabled&#34; value=&#34;true&#34; /&#62;&#10;    &#60;add key=&#34;UnobtrusiveJavaScriptEnabled&#34; value=&#34;true&#34;/&#62;&#10;&#60;/appSettings&#62;</span><br></pre></td></tr></table></figure>
+<p>包含JQuery验证库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;script src=&#34;@Url.Content(&#34;~/Scripts/jquery-1.5.1.min.js&#34;)&#34; type=&#34;text/javascript&#34;&#62;&#60;/script&#62;&#10;&#60;script src=&#34;@Url.Content(&#34;~/Scripts/jquery.validate.min.js&#34;)&#34; type=&#34;text/javascript&#34;&#62;&#60;/script&#62;&#10;&#60;script src=&#34;@Url.Content(&#34;~/Scripts/jquery.validate.unobtrusive.min.js&#34;)&#34; type=&#34;text/javascript&#34;&#62;&#60;/script&#62;</span><br></pre></td></tr></table></figure>
+<p>在前端输出验证信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Html.ValidationMessageFor()</span><br></pre></td></tr></table></figure>
+<p>ASP MVC为我们提供了可以满足大部分需求的验证逻辑。但是如果想定制验证逻辑，也是可以的。参考<a href="http://prideparrot.com/blog/archive/2012/4/model_validation_in_asp_net_mvc" target="_blank" rel="external">自定义验证</a></p>
+<h2 id="codefirst更新数据库">codefirst更新数据库</h2><h3 id="启用迁移">启用迁移</h3><p>打开VS，工具&gt;库程序包管理器&gt;程序包管理器控制台。使用命令<br><code>Enable-Migrations</code></p>
+<h3 id="生成和运行迁移">生成和运行迁移</h3><ul>
+<li><code>Add-Migration</code>      对比当前数据库和模型的差异，生成相应的代码，使数据库和模型匹配的。</li>
+<li><code>Update-Database</code>  将任何挂起的迁移到数据库。</li>
+</ul>
+]]></content>
     <summary type="html">
-    <![CDATA[<p>You are climbing a stair case. It takes n steps to reach to the top.</p>
-<p>Each time you can either climb 1 or 2 steps. In how many dist]]>
+    <![CDATA[<h2 id="解释">解释</h2><p>Entity Framework 是微软以 ADO.NET 为基础所发展出来的对象关系对应 (O/R Mapping) 解决方案。</p>
+<blockquote>
+<p>对象关系映射（Object Relational Mapping]]>
     </summary>
     
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+      <category term="ASP MVC" scheme="http://rudy-zhang.me/tags/ASP-MVC/"/>
     
-      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
+      <category term=".NET" scheme="http://rudy-zhang.me/categories/NET/"/>
     
   </entry>
   
   <entry>
-    <title><![CDATA[leetcode习题集 7 Reverse Integer]]></title>
-    <link href="http://rudy-zhang.me/2015/04/06/leetcode%E4%B9%A0%E9%A2%98%E9%9B%867/"/>
-    <id>http://rudy-zhang.me/2015/04/06/leetcode习题集7/</id>
-    <published>2015-04-06T07:31:44.000Z</published>
-    <updated>2015-05-24T08:57:34.428Z</updated>
-    <content type="html"><![CDATA[<p>Reverse digits of an integer.</p>
-<p>Example1: x = 123, return 321<br>Example2: x = -123, return -321</p>
-<p>click to show spoilers.</p>
-<p>Have you thought about this?<br>Here are some good questions to ask before coding. Bonus points for you if you have already thought through this!</p>
-<p>If the integer’s last digit is 0, what should the output be? ie, cases such as 10, 100.</p>
-<p>Did you notice that the reversed integer might overflow? Assume the input is a 32-bit integer, then the reverse of 1000000003 overflows. How should you handle such cases?</p>
-<p>For the purpose of this problem, assume that your function returns 0 when the reversed integer overflows.</p>
-<p>Update (2014-11-10):<br>Test cases had been added to test the overflow behavior.</p>
-<p>题意：整数反转</p>
-<p>思路：</p>
-<ol>
-<li>%10，然后一位一位往上加</li>
-</ol>
-<p>注意：</p>
-<p>这题有个陷阱，反转整数可能出现整数溢出的情况，要考虑到</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;&#10;public:&#10;//&#22238;&#25991;&#25972;&#25968;&#38382;&#39064;&#10;    int reverse(int x) &#123;&#10;        long long int ans=0;&#10;        while(x)&#10;        &#123;&#10;            ans=ans*10+x%10;//&#36825;&#37324;&#19981;&#33021;&#20889;&#25104;ans+=ans*10+x%10&#10;            x/=10;&#10;        &#125;&#10;        if(ans&#62;INT_MAX||ans&#60;INT_MIN) return 0;&#10;        else return ans;&#10;    &#125;&#10;&#125;;</span><br></pre></td></tr></table></figure>]]></content>
+    <title><![CDATA[电脑鼠的回忆]]></title>
+    <link href="http://rudy-zhang.me/2015/03/17/%E7%94%B5%E8%84%91%E9%BC%A0%E7%9A%84%E5%9B%9E%E5%BF%86/"/>
+    <id>http://rudy-zhang.me/2015/03/17/电脑鼠的回忆/</id>
+    <published>2015-03-17T02:57:40.000Z</published>
+    <updated>2015-05-24T07:31:34.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>电脑鼠项目是本科的时候参加的项目了，如今拿出来回一下，复习一下原来学习的C和相关的算法，看到当年青涩的我们，也是别有一番滋味。</p>
+<h2 id="IEEE电脑鼠介绍">IEEE电脑鼠介绍</h2><p>IEEE国际电脑鼠走迷宫邀请赛，比赛要求电脑鼠自动走索迷宫并完成冲刺。首先电脑鼠在16x16的未知迷宫中探索前进的路线，到达终点之后返回起点，这一过程称为 <strong>试跑</strong>。然后以最快速度最好路线冲刺到终点，这一过程称为 <strong>冲刺</strong> 。最终成绩=试跑时间*（1/30）+冲刺时间。当然过程中碰到迷宫墙壁是有罚时的。迷宫长的就是这个样子的，这是我们参加比赛的时候现场的赛道：</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eq8zwm7fvsj20t20ky400.jpg" alt="enter image description here"></p>
+<p>具体关于电脑鼠的规则可以参考这里：<a href="http://www.csuchico.edu/ieee/micromouse.html" target="_blank" rel="external">IEEE电脑鼠介绍</a></p>
+<h2 id="设计">设计</h2><h3 id="硬件部分">硬件部分</h3><p>硬件我不是很精通，好在我们有硬件大牛，邈哥，纯geek，只要是带电的，没有不懂的，他在硬件上的知识储备真是让人咋舌，为每一个硬件，每一个指标都进行追求极限的设计。</p>
+<p>硬件指标：</p>
+<blockquote>
+<ul>
+<li>中心控制器使用32位处理器STM32F103；</li>
+<li>传感器共有六对红外发射管、接收管，用于探测墙壁距离并提供迷宫墙壁信息。</li>
+<li>陀螺仪采用量程±2000°/s的数字式陀螺仪L3G4200，用来校正电脑鼠转弯时的角度误差。</li>
+<li>电机驱动电路使用两组H型全桥电路配合PWM信号控制，可以使电机正转与反转。</li>
+<li>电机选用微型直流空心杯减速电机，并配合512线编码器可获得电机转速。</li>
+<li>预留无线串口可外接蓝牙模块与PC机实现数据传输，配合按键与可编程LED实现人机交互。</li>
+</ul>
+</blockquote>
+<p>硬件架构图：</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eq8zwmgi89j20h20czdgj.jpg" alt="Alt text"></p>
+<p>最后做成了这样一辆小跑车。</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eq8zwmt483j20wb0jigo5.jpg" alt="Alt text"></p>
+<h3 id="软件部分">软件部分</h3><p>这个时候就要靠我们学软件的人了，由于采用的是嵌入式设备，必须把写好的C程序烧到中心控制器。中心控制器相当于整个设备的大脑，所有行走的策略，控制硬件启动，接收硬件数据，发出指令都存储在STM32控制芯片当中。</p>
+<p>下面是整个软件部分的架构图：</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eq8zwn1gcsj20gy0l4jtj.jpg" alt="Alt text"></p>
+<p>想要达到一个良好的表现，硬件是至关重要的，就像是经济基础决定上层建筑。同时有了经济基础也需要更好的策略来指挥硬件行动。电脑鼠的策略分成两部分：</p>
+<blockquote>
+<ul>
+<li>探索时候的策略</li>
+<li>冲刺时候的策略</li>
+</ul>
+</blockquote>
+<h4 id="探索的策略">探索的策略</h4><p>由于迷宫是未知的，需要电脑鼠不断探索迷宫中的格子，每次碰到岔路的时候都要决定下一次要往哪里探索，所以这一部分是最tricky的，好的算法不一定有好的结果，但是不好的算法很可能有不好的结果。<br>常见的策略</p>
+<blockquote>
+<ul>
+<li>右手法则： 以右边为优先的前进方向，然后是直线方向、左边方向。 </li>
+<li>左手法则： 以左边为优先的前进方向，然后是直线方向、右边方向。 </li>
+<li>中左法则： 以直线为优先的前进方向，然后是左边方向、右边方向。 </li>
+<li>乱数法则： 取随机值作为前进方向。 </li>
+<li>向心法则： 由于终点设在迷宫的中心，遇有交叉时，以指向迷宫中心的方向为优先的前进方向。 </li>
+</ul>
+</blockquote>
+<p>还有一种相对这些算法更加优秀的算法，也是我们采用的算法，叫做<strong>洪水填充算法</strong>：</p>
+<blockquote>
+<p>洪水填充法，也称为贝尔曼的算法(Bellman’s algorithm)，与上述的种演算法相比是更适合的方法。该演算法使用距离和墙壁的知识去寻找到达迷宫中心的较短路径。在这个该演算法中，每一个格子存在一个代表距离的物理量，此物理量代表该格子与迷宫中心可能的最短的曼哈顿距离(为方便本文就直接称此物理量为距离)。</p>
+<p>洪水填充法被称为“广度优先”演算法，因为如果迷宫被表示成一个生成树，演算法会先搜查同一层的格子，接着才搜寻下一层的格子。洪水填充算法的主要优点是，它总能找到到达迷宫中心的最短路径。但值得注意的是，此方法实际走的路径被非最短路径。</p>
+</blockquote>
+<p>使用到的关键函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">initDistance</span><span class="params">()</span></span>;<span class="comment">//当朝向迷宫中心时，曼哈顿距离的初始化</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">initDistance2</span><span class="params">()</span></span>;<span class="comment">//当朝向起点时，曼哈顿距离的初始化</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">initTempMap</span><span class="params">()</span></span>;<span class="comment">//初始化临时地图</span></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="title">atGoal</span><span class="params">(<span class="keyword">struct</span> Point robot)</span></span>;<span class="comment">//返回是否到达中心</span></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="title">atStart</span><span class="params">(<span class="keyword">struct</span> Point p)</span></span>;<span class="comment">//返回是否到达终点</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">l_Maze_Set</span><span class="params">(<span class="keyword">const</span> <span class="keyword">struct</span> Maze * m)</span></span>;<span class="comment">//设置迷宫句柄</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">InitializeMaze</span><span class="params">()</span></span>;<span class="comment">//初始化迷宫数据</span></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="title">l_HandleRequest</span><span class="params">(<span class="keyword">const</span> <span class="keyword">struct</span> Robot robot, <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> NW,</span><br><span class="line">                            <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> EW, <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> SW, <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> WW)</span></span>;</span><br><span class="line"><span class="comment">// 根据当前的位置和墙壁信息，返回应该走的方向</span></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="title">canGetByDir</span><span class="params">(<span class="keyword">struct</span> Point p,<span class="keyword">char</span> dir)</span></span>;<span class="comment">//返回是否从某点走向某个方向</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">refreshDistance</span><span class="params">(<span class="keyword">struct</span> Point p)</span></span>;<span class="comment">//更新某点的曼哈顿距离</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">freshTempMap</span><span class="params">(<span class="keyword">struct</span> Robot robot)</span></span>;<span class="comment">//更新临时地图的信息</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getDisByDir</span><span class="params">(<span class="keyword">struct</span> Point p,<span class="keyword">int</span> dir)</span></span>;<span class="comment">//返回某点某个方向上的距离</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">roundMinDistance</span><span class="params">(<span class="keyword">struct</span> Point p)</span></span>;<span class="comment">//计算某点周围可以到达的点的最小距离</span></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="title">roundMinDir</span><span class="params">(<span class="keyword">struct</span> Robot r)</span></span>;<span class="comment">//返回周围最小距离点相对于当前点的方向</span></span><br></pre></td></tr></table></figure>
+<p>l_HandleRequest函数的内容：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="title">l_HandleRequest</span><span class="params">(<span class="keyword">const</span> <span class="keyword">struct</span> Robot robot, <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> NW,</span><br><span class="line">                            <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> EW, <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> SW, <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> WW)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="comment">//!根据传入的信息更新tempMap中的墙壁</span></span><br><span class="line">    maze-&gt;walkHistory[robot.position.y][robot.position.x]=<span class="number">1</span>;</span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=NW;</span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=EW;</span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=SW;</span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=WW;</span><br><span class="line">    </span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=NORTH_WALL_COVERED;</span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=EAST_WALL_COVERED;</span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=SOUTH_WALL_COVERED;</span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=WEST_WALL_COVERED;</span><br><span class="line">    freshTempMap(robot);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//!更新距离信息</span></span><br><span class="line">    refreshDistance(robot.position);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//!返回应该走的方向</span></span><br><span class="line">    <span class="keyword">return</span> roundMinDir(robot);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="冲刺的策略">冲刺的策略</h4><p>冲刺的时候，中心控制器中已经存储了探索过程的数据。需要做的是根据车子的各方面的性能，如启动速度，减速的速度，转弯的速度，等所有的因素整合起来作为变量，再加上已知的迷宫数据，计算出最好的路径，然后出发就可以了。由于迷宫已知，所以算法也是确定的，关键在于考虑到足够多的因素，输入的变量越多，越真实，计算出的结果越可靠，同时计算量也就越大，在实际操作的时候要达到一个良好的平衡。</p>
+<p>我们使用图论的思想，在搜索最短路径的过程中加入直线和拐弯的权重，使用广度优先的搜索算法找出最短路径，从而接近真实的模拟老鼠的冲刺时间。使用堆进行优化，经测试，算法的复杂度为NlogN。</p>
+<p>冲刺用到的关键函数；</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Attack_Maze_Set</span><span class="params">(<span class="keyword">const</span> <span class="keyword">struct</span> Maze * m)</span></span>;<span class="comment">//设置迷宫句柄</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Attack_Main</span><span class="params">()</span></span>;<span class="comment">//冲刺主函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Attack_Initialize</span><span class="params">()</span></span>;<span class="comment">//初始化冲刺过程</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Attack_Attack_Map_Print</span><span class="params">()</span></span>;<span class="comment">//调试，输出冲刺地图</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Attack_Heap_Print</span><span class="params">()</span></span>;<span class="comment">//调试,输出堆的内容</span></span><br></pre></td></tr></table></figure>
+<p>冲刺算法的主函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Attack_Main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    Attack_Map[SIZE-<span class="number">1</span>][<span class="number">0</span>].pre=NULL;</span><br><span class="line">    Attack_Map[SIZE-<span class="number">1</span>][<span class="number">0</span>].cost=<span class="number">0</span>;</span><br><span class="line">    Attack_Map[SIZE-<span class="number">1</span>][<span class="number">0</span>].Have_In_Queue=TRUE;</span><br><span class="line">    InsertToHeap(&amp;Attack_Map[SIZE-<span class="number">1</span>][<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(heapSize&gt;<span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">struct</span> AttackNode *node;</span><br><span class="line">        node=heap[<span class="number">1</span>];</span><br><span class="line">        attackhistory[node-&gt;p.y][node-&gt;p.x]=<span class="number">1</span>;</span><br><span class="line">        DeleteMin();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(atGoal(node-&gt;p))</span><br><span class="line">        &#123;</span><br><span class="line">            getch();</span><br><span class="line">            <span class="comment">//!@note需要写的函数，向策略队列里填充结点</span></span><br><span class="line">            findAttackQueue(node);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,node-&gt;cost);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(canGetByDir(node-&gt;p,NORTH)&amp;&amp;(Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x].Have_In_Queue==FALSE)</span><br><span class="line">        &amp;&amp;(attack_maze-&gt;walkHistory[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x]==<span class="number">1</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//!如果北方节点是前驱结点，则什么都不做</span></span><br><span class="line">            <span class="keyword">if</span>((node-&gt;pre!=NULL)&amp;&amp;(node-&gt;pre-&gt;p.y==(node-&gt;p.y-<span class="number">1</span>))&amp;&amp;node-&gt;pre-&gt;p.x==node-&gt;p.x)&#123;&#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                </span><br><span class="line">                Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x].pre=node;</span><br><span class="line">                Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x].bend=getBend(&amp;Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x]);</span><br><span class="line">                Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x].cost=getCost(&amp;Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x]);</span><br><span class="line">                </span><br><span class="line">                Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x].Have_In_Queue=TRUE;</span><br><span class="line">                </span><br><span class="line">                InsertToHeap(&amp;Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(canGetByDir(node-&gt;p,EAST)&amp;&amp;(Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>].Have_In_Queue==FALSE)</span><br><span class="line">        &amp;&amp;(attack_maze-&gt;walkHistory[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>]==<span class="number">1</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//!如果东方节点是前驱结点，则什么都不做</span></span><br><span class="line">            <span class="keyword">if</span>((node-&gt;pre!=NULL)&amp;&amp;(node-&gt;pre-&gt;p.y==node-&gt;p.y)&amp;&amp;node-&gt;pre-&gt;p.x==(node-&gt;p.x+<span class="number">1</span>))&#123;&#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>].pre=node;</span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>].bend=getBend(&amp;Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>]);</span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>].cost=getCost(&amp;Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>]);</span><br><span class="line">                </span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>].Have_In_Queue=TRUE;</span><br><span class="line">                InsertToHeap(&amp;Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(canGetByDir(node-&gt;p,SOUTH)&amp;&amp;(Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x].Have_In_Queue==FALSE)</span><br><span class="line">        &amp;&amp;(attack_maze-&gt;walkHistory[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x]==<span class="number">1</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//!如果南方节点是前驱结点，则什么都不做</span></span><br><span class="line">            <span class="keyword">if</span>((node-&gt;pre!=NULL)&amp;&amp;(node-&gt;pre-&gt;p.y==(node-&gt;p.y+<span class="number">1</span>))&amp;&amp;node-&gt;pre-&gt;p.x==(node-&gt;p.x))&#123;&#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x].pre=node;</span><br><span class="line">                Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x].bend=getBend(&amp;Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x]);</span><br><span class="line">                Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x].cost=getCost(&amp;Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x]);</span><br><span class="line">                </span><br><span class="line">                Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x].Have_In_Queue=TRUE;</span><br><span class="line">                InsertToHeap(&amp;Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(canGetByDir(node-&gt;p,WEST)&amp;&amp;(Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>].Have_In_Queue==FALSE)</span><br><span class="line">        &amp;&amp;(attack_maze-&gt;walkHistory[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>]==<span class="number">1</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//!如果西方节点是前驱结点，则什么都不做</span></span><br><span class="line">            <span class="keyword">if</span>((node-&gt;pre!=NULL)&amp;&amp;(node-&gt;pre-&gt;p.y==(node-&gt;p.y))&amp;&amp;node-&gt;pre-&gt;p.x==(node-&gt;p.x-<span class="number">1</span>))&#123;&#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>].pre=node;</span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>].bend=getBend(&amp;Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>]);</span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>].cost=getCost(&amp;Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>]);</span><br><span class="line">                </span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>].Have_In_Queue=TRUE;</span><br><span class="line">                InsertToHeap(&amp;Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试迷宫的内容：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="built_in">map</span>[<span class="number">16</span>][<span class="number">16</span>] =&#123;</span><br><span class="line">                &#123;<span class="number">11</span>,<span class="number">11</span>,<span class="number">11</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>&#125;,</span><br><span class="line">                &#123;<span class="number">10</span>,<span class="number">10</span>, <span class="number">8</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">2</span>&#125;,</span><br><span class="line">                &#123;<span class="number">12</span>, <span class="number">0</span>, <span class="number">2</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">13</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123; <span class="number">9</span>, <span class="number">6</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">10</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">6</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">2</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123; <span class="number">8</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">10</span>,<span class="number">10</span>, <span class="number">8</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">3</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">10</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123; <span class="number">8</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">10</span>,<span class="number">10</span>, <span class="number">9</span>, <span class="number">4</span>, <span class="number">7</span>,<span class="number">14</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">10</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123;<span class="number">10</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">0</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">3</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">10</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123;<span class="number">10</span>, <span class="number">8</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">14</span>, <span class="number">9</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">14</span>,<span class="number">14</span>&#125;,</span><br><span class="line">                &#123;<span class="number">10</span>,<span class="number">10</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">11</span>,<span class="number">12</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">3</span>&#125;,</span><br><span class="line">                &#123;<span class="number">10</span>,<span class="number">12</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">10</span>, <span class="number">8</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">12</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">2</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123; <span class="number">8</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">2</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123; <span class="number">8</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">10</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">2</span>&#125;,</span><br><span class="line">                &#123;<span class="number">12</span>, <span class="number">3</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123; <span class="number">9</span>, <span class="number">0</span>, <span class="number">2</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">14</span>&#125;,</span><br><span class="line">                &#123;<span class="number">10</span>,<span class="number">10</span>, <span class="number">8</span>, <span class="number">2</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>&#125;,</span><br><span class="line">                &#123;<span class="number">14</span>,<span class="number">14</span>,<span class="number">14</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>&#125;</span><br><span class="line">                &#125;;</span><br></pre></td></tr></table></figure>
+<p>策略层主函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int main()&#10;&#123;&#10;    unsigned char NW, EW, SW, WW;&#10;&#10;    //!&#20256;&#20837;&#36855;&#23467;&#21477;&#26564;&#65292;&#21021;&#22987;&#21270;&#22320;&#22270;&#21644;&#36317;&#31163;&#10;    l_Maze_Set(&#38;myMaze);&#10;    initTempMap();&#10;    initDistance();&#10;    &#10;    //!&#21021;&#22987;&#21270;&#30005;&#33041;&#40736;&#20301;&#32622;&#26041;&#21521;&#10;    robot.position.x=0;&#10;    robot.position.y=SIZE-1;&#10;    robot.direction=NORTH;&#10;&#10;    while(!atGoal(robot.position))&#123;&#10;        //!&#36825;&#37324;&#20026;&#35835;&#21462;&#22681;&#22721;&#20449;&#24687;&#30340;&#20195;&#30721;&#65292;&#29992;&#24050;&#30693;&#36855;&#23467;&#20195;&#26367;&#10;        NW = map[robot.position.y][robot.position.x] &#38; NORTH;&#10;        EW = map[robot.position.y][robot.position.x] &#38; EAST;&#10;        SW = map[robot.position.y][robot.position.x] &#38; SOUTH;&#10;        WW = map[robot.position.y][robot.position.x] &#38; WEST;&#10;&#10;        //!&#33719;&#21462;&#19979;&#19968;&#20010;&#26041;&#21521;&#10;        nextDirection = l_HandleRequest(robot, NW, EW, SW, WW);&#10;        walk();  &#10;    &#125;&#10;&#10;    toCenter=FALSE;&#10;    initDistance2();&#10;    while(!atStart(robot.position))&#123;&#10;        //!&#36825;&#37324;&#20026;&#35835;&#21462;&#22681;&#22721;&#20449;&#24687;&#30340;&#20195;&#30721;&#65292;&#29992;&#24050;&#30693;&#36855;&#23467;&#20195;&#26367;&#10;        NW = map[robot.position.y][robot.position.x] &#38; NORTH;&#10;        EW = map[robot.position.y][robot.position.x] &#38; EAST;&#10;        SW = map[robot.position.y][robot.position.x] &#38; SOUTH;&#10;        WW = map[robot.position.y][robot.position.x] &#38; WEST;&#10;        &#10;        nextDirection = l_HandleRequest(robot, NW, EW, SW, WW);&#10;        walk();&#10;    &#125;&#10;    &#10;    Attack_Maze_Set(&#38;myMaze);&#10;    Attack_Initialize();&#10;    Attack_Main();&#10;&#10;    return 0;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>以上完成了策略层的所有内容。</p>
+<h2 id="后记">后记</h2><p>调试时间短，太专注于原创，没有经验。种种原因导致最终没有取得理想的成绩。但是整个过程让我学到了很多东西。压力下的工作，找到在团队里的角色，还有那些调了好多遍的算法，思想很简单，真的写出来一遍也能学到很多东西。</p>
+<p>这是我们的一点视频记录，很幼稚，哈哈。</p>
+<iframe height="498" width="510" src="http://player.youku.com/embed/XOTEzNjg2NTE2" frameborder="0" allowfullscreen></iframe>
+
+
+<p>最后，当然还是一起工作过的这帮朋友，我们来自五湖四海，各个专业，各个年级，如今也各奔东西。只是在那时相遇过，一起努力过，也是一种缘分吧。</p>
+<p>我们的合影,拍摄于天津工业大学，2012.4.22<br><img src="http://ww3.sinaimg.cn/mw690/4c2edcb7jw1eq8zwnp9wij20x20m8ae9.jpg" alt="Alt text"></p>
+]]></content>
     <summary type="html">
-    <![CDATA[<p>Reverse digits of an integer.</p>
-<p>Example1: x = 123, return 321<br>Example2: x = -123, return -321</p>
-<p>click to show spoilers.</p>
-]]>
+    <![CDATA[<h2 id="前言">前言</h2><p>电脑鼠项目是本科的时候参加的项目了，如今拿出来回一下，复习一下原来学习的C和相关的算法，看到当年青涩的我们，也是别有一番滋味。</p>
+<h2 id="IEEE电脑鼠介绍">IEEE电脑鼠介绍</h2><p>IEEE国际电脑鼠走迷宫邀请]]>
     </summary>
     
-      <category term="leetcode习题集" scheme="http://rudy-zhang.me/tags/leetcode%E4%B9%A0%E9%A2%98%E9%9B%86/"/>
+      <category term="杂七杂八" scheme="http://rudy-zhang.me/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/"/>
     
-      <category term="算法" scheme="http://rudy-zhang.me/categories/%E7%AE%97%E6%B3%95/"/>
+  </entry>
+  
+  <entry>
+    <title><![CDATA[CodeIgniter笔记之数据库访问]]></title>
+    <link href="http://rudy-zhang.me/2014/10/28/CodeIgniter%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BF%E9%97%AE/"/>
+    <id>http://rudy-zhang.me/2014/10/28/CodeIgniter笔记之数据库访问/</id>
+    <published>2014-10-27T16:00:00.000Z</published>
+    <updated>2015-05-24T07:33:02.000Z</updated>
+    <content type="html"><![CDATA[<h4 id="修改配置文件">修改配置文件</h4><p><code>application/config/database.php</code></p>
+<h4 id="装载">装载</h4><p>将数据库访问对象，装载到超级对象属性中 $this-&gt;load-&gt;database();</p>
+<h4 id="查询">查询</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res-&#62;$this-&#62;db-&#62;query($sql) //&#36820;&#22238;&#26597;&#35810;&#32467;&#26524;&#23545;&#35937;&#23545;&#35937;&#10;$res-&#62;result() ;// &#36820;&#22238;&#25968;&#32452;&#65292;&#25968;&#32452;&#20013;&#26159;&#19968;&#20010;&#20010;&#23545;&#35937;&#10;$res-&#62;result_array(); // &#36820;&#22238;&#20108;&#32500;&#25968;&#32452;&#65292;&#37324;&#38754;&#26159;&#20851;&#32852;&#25968;&#32452;&#10;$res-&#62;row(); // &#36820;&#22238;&#31532;&#19968;&#26465;&#25968;&#25454;</span><br></pre></td></tr></table></figure>
+<h4 id="参数绑定">参数绑定</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&#34;select * from blog_user where name=?&#34;;&#10;$this-&#62;db-&#62;query($sql,$name); // &#22914;&#26524;&#26377;&#22810;&#20010;&#21442;&#25968;&#65288;&#38382;&#21495;&#65289;&#65292;&#38656;&#35201;&#20351;&#29992;&#32034;&#24341;&#25968;&#32452;</span><br></pre></td></tr></table></figure>
+<h4 id="db的自动加载">db的自动加载</h4><p>配置自动加载db <code>application/config/autoload.php</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$autoload[&#39;libaraied&#39;] = array(&#39;database&#39;); // &#23601;&#19981;&#38656;&#35201;$this-&#62;load-&#62;database();</span><br></pre></td></tr></table></figure></p>
+<h4 id="CI的AR模型_Active_Record">CI的AR模型 Active Record</h4><h5 id="配置">配置</h5><p><code>applicaion/config/database.php</code> 设置<code>$active_record = TRUE</code></p>
+<h5 id="操作">操作</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res=$this-&#62;db-&#62;get(&#39;&#34920;&#21517;&#39;); // &#36820;&#22238;&#32467;&#26524;&#23545;&#35937;&#10;$res-&#62;result();&#10;$bool = $this-&#62;db-&#62;insert(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;);&#10;$bool=$this-&#62;db-&#62;update(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;,&#26465;&#20214;);&#10;$bool=$this-&#62;db-&#62;delete(&#39;&#34920;&#21517;&#39;,&#26465;&#20214;)</span><br></pre></td></tr></table></figure>
+<h5 id="连贯操作">连贯操作</h5><p>模拟sql语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res=$this-&#62;db-&#62;select(&#39;id,name&#39;)-&#62;from(&#39;user&#39;)-&#62;where(&#39;id&#62;=3&#39;);</span><br></pre></td></tr></table></figure>
+<p>使用where</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res=$this-&#62;db-&#62;where(&#39;name&#39;,&#39;mary&#39;)-&#62;get(&#39;user&#39;);</span><br></pre></td></tr></table></figure>
+<h5 id="复杂的查询使用参数绑定">复杂的查询使用参数绑定</h5><p><code>$this-&gt;db-&gt;query($sql,$data)</code></p>
+<h4 id="数据库查询结果">数据库查询结果</h4><h5 id="result()">result()</h5><p>方法执行成功返回一个对象数组，失败则返回一个空数组。<br>例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$query = $this-&#62;db-&#62;query(&#34;&#35201;&#25191;&#34892;&#30340; SQL&#34;);&#10;&#10;foreach ($query-&#62;result() as $row)&#10;&#123;&#10;   echo $row-&#62;title;&#10;   echo $row-&#62;name;&#10;   echo $row-&#62;body;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="判断结果集的条目数">判断结果集的条目数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if ($query-&#62;num_rows() &#62; 0)</span><br></pre></td></tr></table></figure>
+<h5 id="result_array()">result_array()</h5><p>该方法执行成功时将记录集作为关联数组返回。失败时返回空数组。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$query = $this-&#62;db-&#62;query(&#34;&#35201;&#25191;&#34892;&#30340; SQL&#34;);&#10;&#10;foreach ($query-&#62;result_array() as $row)&#10;&#123;&#10;   echo $row[&#39;title&#39;];&#10;   echo $row[&#39;name&#39;];&#10;   echo $row[&#39;body&#39;];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="row()">row()</h5><p>该函数将当前请求的第一行数据作为 object 返回。</p>
+<h4 id="总结，CI中的增删改查">总结，CI中的增删改查</h4><h5 id="查">查</h5><ul>
+<li>得到一个表</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;get(&#39;&#34920;&#21517;&#39;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>单个表条件查询</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;get_where(&#39;&#34920;&#21517;&#39;,&#39;&#20851;&#32852;&#25968;&#32452;&#26465;&#20214;&#39;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>单表查询多个限定条件，链式查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;select(&#39;title&#39;)-&#62;from(&#39;mytable&#39;)-&#62;where(&#39;id&#39;, $id)-&#62;limit(10, 20);&#10;$query  = $this-&#62;db-&#62;get();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>多表查询</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this -&#62;db-&#62;query($sql,$data)&#10;$sql   = &#34;SELECT * FROM some_table WHERE id = ? AND status = ? AND author = ?&#34;;&#10;$query = $this-&#62;admin-&#62;query($sql, array($id, $status, $author));</span><br></pre></td></tr></table></figure>
+<h5 id="增">增</h5><p>可以向函数传递 数组 或一个 对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$bool = $this-&#62;db-&#62;insert(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;);&#10;$data = array(&#10;               &#39;title&#39; =&#62; &#39;My title&#39; ,&#10;               &#39;name&#39; =&#62; &#39;My Name&#39; ,&#10;               &#39;date&#39; =&#62; &#39;My date&#39;&#10;            );&#10;$this-&#62;db-&#62;insert(&#39;mytable&#39;, $data); &#10;// Produces: INSERT INTO mytable (title, name, date) VALUES (&#39;My title&#39;, &#39;My name&#39;, &#39;My date&#39;)</span><br></pre></td></tr></table></figure>
+<h5 id="改">改</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$bool=$this-&#62;db-&#62;update(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;,&#26465;&#20214;);&#10;&#10;$data = array(&#10;               &#39;title&#39; =&#62; $title,&#10;               &#39;name&#39; =&#62; $name,&#10;               &#39;date&#39; =&#62; $date&#10;            );&#10;&#10;$this-&#62;db-&#62;where(&#39;id&#39;, $id);&#10;$this-&#62;db-&#62;update(&#39;mytable&#39;, $data);</span><br></pre></td></tr></table></figure>
+<p>或</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;update(&#39;mytable&#39;, $data, array(&#39;id&#39; =&#62; $id));</span><br></pre></td></tr></table></figure>
+<h5 id="删">删</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$bool =$this-&#62;db-&#62;delete(&#39;&#34920;&#21517;&#39;,&#26465;&#20214;)</span><br></pre></td></tr></table></figure>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h4 id="修改配置文件">修改配置文件</h4><p><code>application/config/database.php</code></p>
+<h4 id="装载">装载</h4><p>将数据库访问对象，装载到超级对象属性中 $this-&gt;load-&gt;]]>
+    </summary>
+    
+      <category term="CodeIgniter" scheme="http://rudy-zhang.me/tags/CodeIgniter/"/>
+    
+      <category term="PHP" scheme="http://rudy-zhang.me/tags/PHP/"/>
+    
+      <category term="web开发" scheme="http://rudy-zhang.me/categories/web%E5%BC%80%E5%8F%91/"/>
     
   </entry>
   
