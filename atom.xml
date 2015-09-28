@@ -4,7 +4,7 @@
   <subtitle><![CDATA[seize the day]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://rudy-zhang.me/"/>
-  <updated>2015-09-28T02:36:42.796Z</updated>
+  <updated>2015-09-28T08:55:21.558Z</updated>
   <id>http://rudy-zhang.me/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://rudy-zhang.me/2015/09/27/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E6%95%B0%E7%BB%84%E4%B8%93%E9%A2%98/"/>
     <id>http://rudy-zhang.me/2015/09/27/找工作总结-数组专题/</id>
     <published>2015-09-27T13:56:00.000Z</published>
-    <updated>2015-09-28T02:36:42.796Z</updated>
+    <updated>2015-09-28T08:55:21.558Z</updated>
     <content type="html"><![CDATA[<h3 id="剑指offer3_二维数组查找">剑指offer3 二维数组查找</h3><h4 id="问题描述">问题描述</h4><p>在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
 <h4 id="解法">解法</h4><p>从右上角（这样使得这一行剩余元素都比他小，这一列剩余元素都比他大）向左下角扫描</p>
 <h4 id="代码">代码</h4><pre><code><span class="keyword">class</span> Solution {
@@ -177,6 +177,228 @@
 </code></pre>]]></content>
     <summary type="html">
     <![CDATA[<h3 id="剑指offer3_二维数组查找">剑指offer3 二维数组查找</h3><h4 id="问题描述">问题描述</h4><p>在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数]]>
+    </summary>
+    
+      <category term="啊啊" scheme="http://rudy-zhang.me/tags/%E5%95%8A%E5%95%8A/"/>
+    
+      <category term="版本" scheme="http://rudy-zhang.me/tags/%E7%89%88%E6%9C%AC/"/>
+    
+      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[字符串专题]]></title>
+    <link href="http://rudy-zhang.me/2015/09/27/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%93%E9%A2%98/"/>
+    <id>http://rudy-zhang.me/2015/09/27/找工作总结-字符串专题/</id>
+    <published>2015-09-27T13:56:00.000Z</published>
+    <updated>2015-09-27T11:56:15.393Z</updated>
+    <content type="html"><![CDATA[<h3 id="剑指offer4_替换空格">剑指offer4 替换空格</h3><p>问题描述：请实现一个函数，将一个字符串中的空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。</p>
+<p>解法：扫描一遍，记录空格个数。申请newSize，从后向前填充数组。</p>
+<pre><code>class Solution {
+<span class="keyword">public</span>:
+    string replaceSpace(string <span class="built_in">str</span>) {
+        <span class="keyword">if</span>(<span class="built_in">str</span>.<span class="built_in">size</span>()==<span class="number">0</span>)
+            <span class="keyword">return</span> <span class="built_in">str</span>;
+        <span class="built_in">int</span> numOfSpace=<span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="built_in">int</span> i=<span class="number">0</span>;i&lt;<span class="built_in">str</span>.<span class="built_in">size</span>();++i)
+            <span class="keyword">if</span>(<span class="built_in">str</span>[i]==<span class="string">' '</span>)
+                ++numOfSpace;
+        <span class="built_in">int</span> newSize=<span class="built_in">str</span>.<span class="built_in">size</span>()+<span class="number">2</span>*numOfSpace;
+        string ans;
+        ans.resize(newSize);
+        <span class="built_in">int</span> i=<span class="built_in">str</span>.<span class="built_in">size</span>()-<span class="number">1</span>,j=newSize-<span class="number">1</span>;
+        <span class="keyword">while</span>(i&gt;=<span class="number">0</span>&amp;&amp;j&gt;=<span class="number">0</span>)   
+        {
+            <span class="keyword">if</span>(<span class="built_in">str</span>[i]==<span class="string">' '</span>)
+            {
+                ans[j--]=<span class="string">'0'</span>;
+                ans[j--]=<span class="string">'2'</span>;
+                ans[j--]=<span class="string">'%'</span>;
+                --i;
+            }
+            <span class="keyword">else</span>
+                ans[j--]=<span class="built_in">str</span>[i--];
+        }
+        <span class="keyword">return</span> ans;
+    }
+};
+</code></pre><h3 id="剑指offer54_表示数值的字符串">剑指offer54 表示数值的字符串</h3><p>问题描述：请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如，字符串”+100”,”5e2”,”-123”,”3.1416”和”-1E-16”都表示数值。 但是”12e”,”1a3.14”,”1.2.3”,”+-5”和”12e+4.3”都不是。</p>
+<p>解法：首先可以写出这个字符串的正则表达式</p>
+<pre><code>(+|-)？\<span class="keyword">d</span>+(.\<span class="keyword">d</span>+)?(<span class="keyword">e</span>|<span class="literal">E</span>(+|-)?\<span class="keyword">d</span>+)?
+</code></pre><p>对于正则表达式中的符号，<code>?</code>表示0或1，使用<code>if</code>判断，+表示1或者更多，直接扫描判断。</p>
+<p>注意点：<br>(1) 非法输入，传入str == NULL<br>(2) 结束条件的判断</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+    bool isNumeric(<span class="keyword">char</span>* <span class="keyword">str</span>)
+    {
+        <span class="keyword">if</span>(<span class="keyword">str</span> == NULL)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'+'</span> || *<span class="keyword">str</span> == <span class="string">'-'</span>)
+            <span class="keyword">str</span>++;
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        scanDigits(<span class="keyword">str</span>);
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'.'</span>)
+        {
+            <span class="keyword">str</span>++;
+            <span class="comment">//根据题目要求是否允许"32."这样的数据</span>
+            <span class="comment">//if(*str == '\0')</span>
+            <span class="comment">//    return false;</span>
+            scanDigits(<span class="keyword">str</span>);
+        }
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'e'</span> || *<span class="keyword">str</span> == <span class="string">'E'</span>)
+            <span class="keyword">str</span>++;
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'+'</span> || *<span class="keyword">str</span> == <span class="string">'-'</span>)
+            <span class="keyword">str</span>++;
+        scanDigits(<span class="keyword">str</span>);
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+
+    <span class="keyword">void</span> scanDigits(<span class="keyword">char</span> *(&amp;<span class="keyword">str</span>))
+    {
+        <span class="keyword">while</span>(*<span class="keyword">str</span> != <span class="string">'\0'</span> &amp;&amp; *<span class="keyword">str</span> &gt;= <span class="string">'0'</span> &amp;&amp; *<span class="keyword">str</span> &lt;= <span class="string">'9'</span>)
+            <span class="keyword">str</span>++;
+    }
+};
+</code></pre><h3 id="剑指offer55_字符流中第一个不重复的字符">剑指offer55 字符流中第一个不重复的字符</h3><p>问题描述：请实现一个函数用来找出字符流中第一个只出现一次的字符。例如，当从字符流中只读出前两个字符”go”时，第一个只出现一次的字符是”g”。当从该字符流中读出前六个字符“google”时，第一个只出现一次的字符是”l”。</p>
+<p>解法：字符只有256个，所以可以使用<code>int dict[256]</code>数组来记录所有字符出现的情况。0表示未出现过，-1表示出现过大于1次，&gt;0时dict[i]表示字符i第一次出现的index</p>
+<p>注意点：<br>通过遍历dict[26]找到minIndex找到<strong>第一次出现</strong>的字符</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>
+</span>{
+<span class="keyword">public</span>:
+      <span class="comment">//Insert one char from stringstream</span>
+    <span class="keyword">void</span> Insert(<span class="keyword">char</span> ch)
+    {
+        <span class="keyword">if</span>(dict[ch] == <span class="number">0</span>) <span class="comment">//没出现过</span>
+            dict[ch] = <span class="keyword">index</span>;
+        <span class="keyword">else</span> <span class="comment">//出现过</span>
+            dict[ch] = -<span class="number">1</span>;
+        <span class="keyword">index</span>++;
+    }
+      <span class="comment">//return the first appearence once char in current stringstream</span>
+    <span class="keyword">char</span> FirstAppearingOnce()
+    {
+        <span class="keyword">char</span> ans=<span class="string">'#'</span>;
+        <span class="keyword">int</span> minIndex = INT_MAX;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">256</span>;i++)
+        {
+            <span class="keyword">if</span>(dict[i] &gt; <span class="number">0</span> &amp;&amp; dict[i] &lt; minIndex)
+            {
+                ans = i;
+                minIndex = dict[i];
+            }
+        }
+        <span class="keyword">return</span> ans;
+    }
+
+    Solution()
+    {
+        <span class="keyword">index</span> = <span class="number">1</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">256</span>;i++)
+            dict[i] = <span class="number">0</span>;
+    }
+<span class="keyword">private</span>:
+    <span class="keyword">int</span> dict[<span class="number">256</span>];
+    <span class="keyword">int</span> <span class="keyword">index</span>=<span class="number">1</span>;
+};
+</code></pre><h3 id="剑指offer42_反转单词顺序_VS_左旋字符串">剑指offer42 反转单词顺序 VS 左旋字符串</h3><p>反转字符串函数：</p>
+<pre><code>void reverseString(<span class="built_in">string</span> &amp;str, <span class="built_in">int</span> <span class="built_in">left</span>, <span class="built_in">int</span> <span class="built_in">right</span>)
+{
+    <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+    {
+        char temp = str[<span class="built_in">left</span>];
+        str[<span class="built_in">left</span>] = str[<span class="built_in">right</span>];
+        str[<span class="built_in">right</span>] = temp;
+        <span class="built_in">left</span>++;
+        <span class="built_in">right</span>--;
+    }
+}
+</code></pre><h4 id="反转单词顺序">反转单词顺序</h4><p>问题描述：JOBDU最近来了一个新员工Fish，每天早晨总是会拿着一本英文杂志，写些句子在本子上。同事Cat对Fish写的内容颇感兴趣，有一天他向Fish借来翻看，但却读不懂它的意思。例如，“student. a am I”。后来才意识到，这家伙原来把句子单词的顺序翻转了，正确的句子应该是“I am a student.”。Cat对一一的翻转这些单词顺序可不在行，你能帮助他么？</p>
+<p>解法：先反转每一个单词，再反转整句</p>
+<p>注意点：</p>
+<ol>
+<li>功能测试：”student. a am I”</li>
+<li>特殊测试用例”aaa “,” aaa”</li>
+</ol>
+<pre><code>class Solution {
+<span class="keyword">public</span>:
+    string ReverseSentence(string <span class="built_in">str</span>) {
+        <span class="keyword">if</span>(<span class="built_in">str</span>.<span class="built_in">size</span>() == <span class="number">0</span>) <span class="keyword">return</span> <span class="built_in">str</span>;
+        reverseString(<span class="built_in">str</span>, <span class="number">0</span>, <span class="built_in">str</span>.<span class="built_in">size</span>() - <span class="number">1</span>);
+        <span class="built_in">int</span> left = <span class="number">0</span>, right = <span class="number">0</span>;
+        <span class="keyword">while</span>(right &lt; <span class="built_in">str</span>.<span class="built_in">size</span>())
+        {
+            <span class="keyword">while</span>(<span class="built_in">str</span>[left] == <span class="string">' '</span>)
+            {
+                left++;
+                right++;
+            }
+            <span class="comment">//应对用例"aa "</span>
+            <span class="keyword">if</span>(left &gt;= <span class="built_in">str</span>.<span class="built_in">size</span>()) 
+                <span class="keyword">break</span>;
+            <span class="keyword">while</span>(<span class="built_in">str</span>[right] != <span class="string">' '</span> &amp;&amp; <span class="built_in">str</span>[right] != <span class="string">'\0'</span>)
+                right++;
+            reverseString(<span class="built_in">str</span>,left,right-<span class="number">1</span>);
+            left = right;
+        }
+        <span class="keyword">return</span> <span class="built_in">str</span>;
+    }
+
+    <span class="keyword">void</span> reverseString(string &amp;<span class="built_in">str</span>,<span class="built_in">int</span> left,<span class="built_in">int</span> right)
+    {
+        <span class="keyword">while</span>(left &lt; right)
+        {
+            <span class="built_in">char</span> temp = <span class="built_in">str</span>[left];
+            <span class="built_in">str</span>[left] = <span class="built_in">str</span>[right];
+            <span class="built_in">str</span>[right] = temp;
+            left++;
+            right--;
+        }
+    }
+};
+</code></pre><h4 id="左旋字符串">左旋字符串</h4><p>问题描述：汇编语言中有一种移位指令叫做循环左移（ROL），现在有个简单的任务，就是用字符串模拟这个指令的运算结果。对于一个给定的字符序列S，请你把其循环左移K位后的序列输出。例如，字符序列S=”abcXYZdef”,要求输出循环左移3位后的结果，即“XYZdefabc”。是不是很简单？OK，搞定它！</p>
+<p>解法：先反转3分割的两部分，再旋转这个字符串</p>
+<pre><code>class Solution {
+<span class="keyword">public</span>:
+    string LeftRotateString(string <span class="built_in">str</span>, <span class="built_in">int</span> n) {
+        <span class="keyword">if</span>(<span class="built_in">str</span>.<span class="built_in">size</span>() == <span class="number">0</span>) <span class="keyword">return</span> <span class="built_in">str</span>;
+        <span class="keyword">if</span>(n &gt;= <span class="built_in">str</span>.<span class="built_in">size</span>() || n &lt;= <span class="number">0</span>) <span class="keyword">return</span> <span class="built_in">str</span>;
+        reverseString(<span class="built_in">str</span>, <span class="number">0</span>, n - <span class="number">1</span>);
+        reverseString(<span class="built_in">str</span>, n, <span class="built_in">str</span>.<span class="built_in">size</span>() - <span class="number">1</span>);
+        reverseString(<span class="built_in">str</span>, <span class="number">0</span>, <span class="built_in">str</span>.<span class="built_in">size</span>() - <span class="number">1</span>);
+        <span class="keyword">return</span> <span class="built_in">str</span>;
+    }
+
+    <span class="keyword">void</span> reverseString(string &amp;<span class="built_in">str</span>,<span class="built_in">int</span> left,<span class="built_in">int</span> right)
+    {
+        <span class="keyword">while</span>(left &lt; right)
+        {
+            <span class="built_in">char</span> temp = <span class="built_in">str</span>[left];
+            <span class="built_in">str</span>[left] = <span class="built_in">str</span>[right];
+            <span class="built_in">str</span>[right] = temp;
+            left++;
+            right--;
+        }
+    }
+};
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<h3 id="剑指offer4_替换空格">剑指offer4 替换空格</h3><p>问题描述：请实现一个函数，将一个字符串中的空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。</p>
+<p>解法：扫描一]]>
     </summary>
     
       <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
@@ -424,224 +646,6 @@ void mergeSort(<span class="built_in">int</span> a[], <span class="built_in">int
     </summary>
     
       <category term="排序" scheme="http://rudy-zhang.me/tags/%E6%8E%92%E5%BA%8F/"/>
-    
-      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[字符串专题]]></title>
-    <link href="http://rudy-zhang.me/2015/09/27/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%93%E9%A2%98/"/>
-    <id>http://rudy-zhang.me/2015/09/27/找工作总结-字符串专题/</id>
-    <published>2015-09-27T13:56:00.000Z</published>
-    <updated>2015-09-27T11:56:15.393Z</updated>
-    <content type="html"><![CDATA[<h3 id="剑指offer4_替换空格">剑指offer4 替换空格</h3><p>问题描述：请实现一个函数，将一个字符串中的空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。</p>
-<p>解法：扫描一遍，记录空格个数。申请newSize，从后向前填充数组。</p>
-<pre><code>class Solution {
-<span class="keyword">public</span>:
-    string replaceSpace(string <span class="built_in">str</span>) {
-        <span class="keyword">if</span>(<span class="built_in">str</span>.<span class="built_in">size</span>()==<span class="number">0</span>)
-            <span class="keyword">return</span> <span class="built_in">str</span>;
-        <span class="built_in">int</span> numOfSpace=<span class="number">0</span>;
-        <span class="keyword">for</span>(<span class="built_in">int</span> i=<span class="number">0</span>;i&lt;<span class="built_in">str</span>.<span class="built_in">size</span>();++i)
-            <span class="keyword">if</span>(<span class="built_in">str</span>[i]==<span class="string">' '</span>)
-                ++numOfSpace;
-        <span class="built_in">int</span> newSize=<span class="built_in">str</span>.<span class="built_in">size</span>()+<span class="number">2</span>*numOfSpace;
-        string ans;
-        ans.resize(newSize);
-        <span class="built_in">int</span> i=<span class="built_in">str</span>.<span class="built_in">size</span>()-<span class="number">1</span>,j=newSize-<span class="number">1</span>;
-        <span class="keyword">while</span>(i&gt;=<span class="number">0</span>&amp;&amp;j&gt;=<span class="number">0</span>)   
-        {
-            <span class="keyword">if</span>(<span class="built_in">str</span>[i]==<span class="string">' '</span>)
-            {
-                ans[j--]=<span class="string">'0'</span>;
-                ans[j--]=<span class="string">'2'</span>;
-                ans[j--]=<span class="string">'%'</span>;
-                --i;
-            }
-            <span class="keyword">else</span>
-                ans[j--]=<span class="built_in">str</span>[i--];
-        }
-        <span class="keyword">return</span> ans;
-    }
-};
-</code></pre><h3 id="剑指offer54_表示数值的字符串">剑指offer54 表示数值的字符串</h3><p>问题描述：请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如，字符串”+100”,”5e2”,”-123”,”3.1416”和”-1E-16”都表示数值。 但是”12e”,”1a3.14”,”1.2.3”,”+-5”和”12e+4.3”都不是。</p>
-<p>解法：首先可以写出这个字符串的正则表达式</p>
-<pre><code>(+|-)？\<span class="keyword">d</span>+(.\<span class="keyword">d</span>+)?(<span class="keyword">e</span>|<span class="literal">E</span>(+|-)?\<span class="keyword">d</span>+)?
-</code></pre><p>对于正则表达式中的符号，<code>?</code>表示0或1，使用<code>if</code>判断，+表示1或者更多，直接扫描判断。</p>
-<p>注意点：<br>(1) 非法输入，传入str == NULL<br>(2) 结束条件的判断</p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
-<span class="keyword">public</span>:
-    bool isNumeric(<span class="keyword">char</span>* <span class="keyword">str</span>)
-    {
-        <span class="keyword">if</span>(<span class="keyword">str</span> == NULL)
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'+'</span> || *<span class="keyword">str</span> == <span class="string">'-'</span>)
-            <span class="keyword">str</span>++;
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-        scanDigits(<span class="keyword">str</span>);
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
-            <span class="keyword">return</span> <span class="keyword">true</span>;
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'.'</span>)
-        {
-            <span class="keyword">str</span>++;
-            <span class="comment">//根据题目要求是否允许"32."这样的数据</span>
-            <span class="comment">//if(*str == '\0')</span>
-            <span class="comment">//    return false;</span>
-            scanDigits(<span class="keyword">str</span>);
-        }
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
-            <span class="keyword">return</span> <span class="keyword">true</span>;
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'e'</span> || *<span class="keyword">str</span> == <span class="string">'E'</span>)
-            <span class="keyword">str</span>++;
-        <span class="keyword">else</span>
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'+'</span> || *<span class="keyword">str</span> == <span class="string">'-'</span>)
-            <span class="keyword">str</span>++;
-        scanDigits(<span class="keyword">str</span>);
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
-            <span class="keyword">return</span> <span class="keyword">true</span>;
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
-            <span class="keyword">return</span> <span class="keyword">true</span>;
-        <span class="keyword">else</span>
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-    }
-
-    <span class="keyword">void</span> scanDigits(<span class="keyword">char</span> *(&amp;<span class="keyword">str</span>))
-    {
-        <span class="keyword">while</span>(*<span class="keyword">str</span> != <span class="string">'\0'</span> &amp;&amp; *<span class="keyword">str</span> &gt;= <span class="string">'0'</span> &amp;&amp; *<span class="keyword">str</span> &lt;= <span class="string">'9'</span>)
-            <span class="keyword">str</span>++;
-    }
-};
-</code></pre><h3 id="剑指offer55_字符流中第一个不重复的字符">剑指offer55 字符流中第一个不重复的字符</h3><p>问题描述：请实现一个函数用来找出字符流中第一个只出现一次的字符。例如，当从字符流中只读出前两个字符”go”时，第一个只出现一次的字符是”g”。当从该字符流中读出前六个字符“google”时，第一个只出现一次的字符是”l”。</p>
-<p>解法：字符只有256个，所以可以使用<code>int dict[256]</code>数组来记录所有字符出现的情况。0表示未出现过，-1表示出现过大于1次，&gt;0时dict[i]表示字符i第一次出现的index</p>
-<p>注意点：<br>通过遍历dict[26]找到minIndex找到<strong>第一次出现</strong>的字符</p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>
-</span>{
-<span class="keyword">public</span>:
-      <span class="comment">//Insert one char from stringstream</span>
-    <span class="keyword">void</span> Insert(<span class="keyword">char</span> ch)
-    {
-        <span class="keyword">if</span>(dict[ch] == <span class="number">0</span>) <span class="comment">//没出现过</span>
-            dict[ch] = <span class="keyword">index</span>;
-        <span class="keyword">else</span> <span class="comment">//出现过</span>
-            dict[ch] = -<span class="number">1</span>;
-        <span class="keyword">index</span>++;
-    }
-      <span class="comment">//return the first appearence once char in current stringstream</span>
-    <span class="keyword">char</span> FirstAppearingOnce()
-    {
-        <span class="keyword">char</span> ans=<span class="string">'#'</span>;
-        <span class="keyword">int</span> minIndex = INT_MAX;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">256</span>;i++)
-        {
-            <span class="keyword">if</span>(dict[i] &gt; <span class="number">0</span> &amp;&amp; dict[i] &lt; minIndex)
-            {
-                ans = i;
-                minIndex = dict[i];
-            }
-        }
-        <span class="keyword">return</span> ans;
-    }
-
-    Solution()
-    {
-        <span class="keyword">index</span> = <span class="number">1</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">256</span>;i++)
-            dict[i] = <span class="number">0</span>;
-    }
-<span class="keyword">private</span>:
-    <span class="keyword">int</span> dict[<span class="number">256</span>];
-    <span class="keyword">int</span> <span class="keyword">index</span>=<span class="number">1</span>;
-};
-</code></pre><h3 id="剑指offer42_反转单词顺序_VS_左旋字符串">剑指offer42 反转单词顺序 VS 左旋字符串</h3><p>反转字符串函数：</p>
-<pre><code>void reverseString(<span class="built_in">string</span> &amp;str, <span class="built_in">int</span> <span class="built_in">left</span>, <span class="built_in">int</span> <span class="built_in">right</span>)
-{
-    <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
-    {
-        char temp = str[<span class="built_in">left</span>];
-        str[<span class="built_in">left</span>] = str[<span class="built_in">right</span>];
-        str[<span class="built_in">right</span>] = temp;
-        <span class="built_in">left</span>++;
-        <span class="built_in">right</span>--;
-    }
-}
-</code></pre><h4 id="反转单词顺序">反转单词顺序</h4><p>问题描述：JOBDU最近来了一个新员工Fish，每天早晨总是会拿着一本英文杂志，写些句子在本子上。同事Cat对Fish写的内容颇感兴趣，有一天他向Fish借来翻看，但却读不懂它的意思。例如，“student. a am I”。后来才意识到，这家伙原来把句子单词的顺序翻转了，正确的句子应该是“I am a student.”。Cat对一一的翻转这些单词顺序可不在行，你能帮助他么？</p>
-<p>解法：先反转每一个单词，再反转整句</p>
-<p>注意点：</p>
-<ol>
-<li>功能测试：”student. a am I”</li>
-<li>特殊测试用例”aaa “,” aaa”</li>
-</ol>
-<pre><code>class Solution {
-<span class="keyword">public</span>:
-    string ReverseSentence(string <span class="built_in">str</span>) {
-        <span class="keyword">if</span>(<span class="built_in">str</span>.<span class="built_in">size</span>() == <span class="number">0</span>) <span class="keyword">return</span> <span class="built_in">str</span>;
-        reverseString(<span class="built_in">str</span>, <span class="number">0</span>, <span class="built_in">str</span>.<span class="built_in">size</span>() - <span class="number">1</span>);
-        <span class="built_in">int</span> left = <span class="number">0</span>, right = <span class="number">0</span>;
-        <span class="keyword">while</span>(right &lt; <span class="built_in">str</span>.<span class="built_in">size</span>())
-        {
-            <span class="keyword">while</span>(<span class="built_in">str</span>[left] == <span class="string">' '</span>)
-            {
-                left++;
-                right++;
-            }
-            <span class="comment">//应对用例"aa "</span>
-            <span class="keyword">if</span>(left &gt;= <span class="built_in">str</span>.<span class="built_in">size</span>()) 
-                <span class="keyword">break</span>;
-            <span class="keyword">while</span>(<span class="built_in">str</span>[right] != <span class="string">' '</span> &amp;&amp; <span class="built_in">str</span>[right] != <span class="string">'\0'</span>)
-                right++;
-            reverseString(<span class="built_in">str</span>,left,right-<span class="number">1</span>);
-            left = right;
-        }
-        <span class="keyword">return</span> <span class="built_in">str</span>;
-    }
-
-    <span class="keyword">void</span> reverseString(string &amp;<span class="built_in">str</span>,<span class="built_in">int</span> left,<span class="built_in">int</span> right)
-    {
-        <span class="keyword">while</span>(left &lt; right)
-        {
-            <span class="built_in">char</span> temp = <span class="built_in">str</span>[left];
-            <span class="built_in">str</span>[left] = <span class="built_in">str</span>[right];
-            <span class="built_in">str</span>[right] = temp;
-            left++;
-            right--;
-        }
-    }
-};
-</code></pre><h4 id="左旋字符串">左旋字符串</h4><p>问题描述：汇编语言中有一种移位指令叫做循环左移（ROL），现在有个简单的任务，就是用字符串模拟这个指令的运算结果。对于一个给定的字符序列S，请你把其循环左移K位后的序列输出。例如，字符序列S=”abcXYZdef”,要求输出循环左移3位后的结果，即“XYZdefabc”。是不是很简单？OK，搞定它！</p>
-<p>解法：先反转3分割的两部分，再旋转这个字符串</p>
-<pre><code>class Solution {
-<span class="keyword">public</span>:
-    string LeftRotateString(string <span class="built_in">str</span>, <span class="built_in">int</span> n) {
-        <span class="keyword">if</span>(<span class="built_in">str</span>.<span class="built_in">size</span>() == <span class="number">0</span>) <span class="keyword">return</span> <span class="built_in">str</span>;
-        <span class="keyword">if</span>(n &gt;= <span class="built_in">str</span>.<span class="built_in">size</span>() || n &lt;= <span class="number">0</span>) <span class="keyword">return</span> <span class="built_in">str</span>;
-        reverseString(<span class="built_in">str</span>, <span class="number">0</span>, n - <span class="number">1</span>);
-        reverseString(<span class="built_in">str</span>, n, <span class="built_in">str</span>.<span class="built_in">size</span>() - <span class="number">1</span>);
-        reverseString(<span class="built_in">str</span>, <span class="number">0</span>, <span class="built_in">str</span>.<span class="built_in">size</span>() - <span class="number">1</span>);
-        <span class="keyword">return</span> <span class="built_in">str</span>;
-    }
-
-    <span class="keyword">void</span> reverseString(string &amp;<span class="built_in">str</span>,<span class="built_in">int</span> left,<span class="built_in">int</span> right)
-    {
-        <span class="keyword">while</span>(left &lt; right)
-        {
-            <span class="built_in">char</span> temp = <span class="built_in">str</span>[left];
-            <span class="built_in">str</span>[left] = <span class="built_in">str</span>[right];
-            <span class="built_in">str</span>[right] = temp;
-            left++;
-            right--;
-        }
-    }
-};
-</code></pre>]]></content>
-    <summary type="html">
-    <![CDATA[<h3 id="剑指offer4_替换空格">剑指offer4 替换空格</h3><p>问题描述：请实现一个函数，将一个字符串中的空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。</p>
-<p>解法：扫描一]]>
-    </summary>
     
       <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
     
@@ -1905,7 +1909,7 @@ END{
     <link href="http://rudy-zhang.me/2015/03/21/Git%E7%AC%94%E8%AE%B0/"/>
     <id>http://rudy-zhang.me/2015/03/21/Git笔记/</id>
     <published>2015-03-21T00:21:32.000Z</published>
-    <updated>2015-05-24T14:10:46.000Z</updated>
+    <updated>2015-09-28T08:51:10.079Z</updated>
     <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>实验室的项目需要用到一个版本管理系统进行管理，鉴于Git如此风靡，所以正好拿来用，顺便学习一下。一下是Git学习的笔记，大部分内容来自<a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="external">廖雪峰的Git教程</a>。</p>
 <p>为什么Git比其他版本控制系统设计得优秀，因为Git跟踪并管理的是修改，而非文件。所以一切操作几乎都是在一瞬间完成的。</p>
 <h2 id="集中式VS分布式">集中式VS分布式</h2><p>集中式版本控制系统，版本库是集中存放在中央服务器的。所有的修改都要经过中央服务器。<br>分布式版本控制系统根本没有“中央服务器”，每个人的电脑上都是一个完整的版本库。<br><strong>Git的特点就是，没有中央服务器，大家都是中央服务器</strong></p>
@@ -1999,7 +2003,7 @@ END{
     
       <category term="Git" scheme="http://rudy-zhang.me/tags/Git/"/>
     
-      <category term="工具" scheme="http://rudy-zhang.me/categories/%E5%B7%A5%E5%85%B7/"/>
+      <category term="开发工具" scheme="http://rudy-zhang.me/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
     
   </entry>
   
@@ -2185,55 +2189,66 @@ END{
   </entry>
   
   <entry>
-    <title><![CDATA[CodeIgniter笔记之数据库访问]]></title>
-    <link href="http://rudy-zhang.me/2014/10/28/CodeIgniter%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BF%E9%97%AE/"/>
-    <id>http://rudy-zhang.me/2014/10/28/CodeIgniter笔记之数据库访问/</id>
+    <title><![CDATA[CodeIgniter笔记]]></title>
+    <link href="http://rudy-zhang.me/2014/10/28/CodeIgniter%E7%AC%94%E8%AE%B0/"/>
+    <id>http://rudy-zhang.me/2014/10/28/CodeIgniter笔记/</id>
     <published>2014-10-27T16:00:00.000Z</published>
-    <updated>2015-05-24T07:33:02.000Z</updated>
-    <content type="html"><![CDATA[<h4 id="修改配置文件">修改配置文件</h4><p><code>application/config/database.php</code></p>
-<h4 id="装载">装载</h4><p>将数据库访问对象，装载到超级对象属性中 $this-&gt;load-&gt;database();</p>
-<h4 id="查询">查询</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res-&#62;$this-&#62;db-&#62;query($sql) //&#36820;&#22238;&#26597;&#35810;&#32467;&#26524;&#23545;&#35937;&#23545;&#35937;&#10;$res-&#62;result() ;// &#36820;&#22238;&#25968;&#32452;&#65292;&#25968;&#32452;&#20013;&#26159;&#19968;&#20010;&#20010;&#23545;&#35937;&#10;$res-&#62;result_array(); // &#36820;&#22238;&#20108;&#32500;&#25968;&#32452;&#65292;&#37324;&#38754;&#26159;&#20851;&#32852;&#25968;&#32452;&#10;$res-&#62;row(); // &#36820;&#22238;&#31532;&#19968;&#26465;&#25968;&#25454;</span><br></pre></td></tr></table></figure>
-<h4 id="参数绑定">参数绑定</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&#34;select * from blog_user where name=?&#34;;&#10;$this-&#62;db-&#62;query($sql,$name); // &#22914;&#26524;&#26377;&#22810;&#20010;&#21442;&#25968;&#65288;&#38382;&#21495;&#65289;&#65292;&#38656;&#35201;&#20351;&#29992;&#32034;&#24341;&#25968;&#32452;</span><br></pre></td></tr></table></figure>
-<h4 id="db的自动加载">db的自动加载</h4><p>配置自动加载db <code>application/config/autoload.php</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$autoload[&#39;libaraied&#39;] = array(&#39;database&#39;); // &#23601;&#19981;&#38656;&#35201;$this-&#62;load-&#62;database();</span><br></pre></td></tr></table></figure></p>
-<h4 id="CI的AR模型_Active_Record">CI的AR模型 Active Record</h4><h5 id="配置">配置</h5><p><code>applicaion/config/database.php</code> 设置<code>$active_record = TRUE</code></p>
-<h5 id="操作">操作</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res=$this-&#62;db-&#62;get(&#39;&#34920;&#21517;&#39;); // &#36820;&#22238;&#32467;&#26524;&#23545;&#35937;&#10;$res-&#62;result();&#10;$bool = $this-&#62;db-&#62;insert(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;);&#10;$bool=$this-&#62;db-&#62;update(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;,&#26465;&#20214;);&#10;$bool=$this-&#62;db-&#62;delete(&#39;&#34920;&#21517;&#39;,&#26465;&#20214;)</span><br></pre></td></tr></table></figure>
-<h5 id="连贯操作">连贯操作</h5><p>模拟sql语句</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res=$this-&#62;db-&#62;select(&#39;id,name&#39;)-&#62;from(&#39;user&#39;)-&#62;where(&#39;id&#62;=3&#39;);</span><br></pre></td></tr></table></figure>
-<p>使用where</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res=$this-&#62;db-&#62;where(&#39;name&#39;,&#39;mary&#39;)-&#62;get(&#39;user&#39;);</span><br></pre></td></tr></table></figure>
-<h5 id="复杂的查询使用参数绑定">复杂的查询使用参数绑定</h5><p><code>$this-&gt;db-&gt;query($sql,$data)</code></p>
-<h4 id="数据库查询结果">数据库查询结果</h4><h5 id="result()">result()</h5><p>方法执行成功返回一个对象数组，失败则返回一个空数组。<br>例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$query = $this-&#62;db-&#62;query(&#34;&#35201;&#25191;&#34892;&#30340; SQL&#34;);&#10;&#10;foreach ($query-&#62;result() as $row)&#10;&#123;&#10;   echo $row-&#62;title;&#10;   echo $row-&#62;name;&#10;   echo $row-&#62;body;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="判断结果集的条目数">判断结果集的条目数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if ($query-&#62;num_rows() &#62; 0)</span><br></pre></td></tr></table></figure>
-<h5 id="result_array()">result_array()</h5><p>该方法执行成功时将记录集作为关联数组返回。失败时返回空数组。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$query = $this-&#62;db-&#62;query(&#34;&#35201;&#25191;&#34892;&#30340; SQL&#34;);&#10;&#10;foreach ($query-&#62;result_array() as $row)&#10;&#123;&#10;   echo $row[&#39;title&#39;];&#10;   echo $row[&#39;name&#39;];&#10;   echo $row[&#39;body&#39;];&#10;&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="row()">row()</h5><p>该函数将当前请求的第一行数据作为 object 返回。</p>
-<h4 id="总结，CI中的增删改查">总结，CI中的增删改查</h4><h5 id="查">查</h5><ul>
-<li>得到一个表</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;get(&#39;&#34920;&#21517;&#39;)</span><br></pre></td></tr></table></figure>
+    <updated>2015-05-24T07:34:34.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="CodeIgniter">CodeIgniter</h3><blockquote>
+<p>CodeIgniter 是一个简单快速的PHP MVC框架。<br>CodeIgniter 是一套给 PHP 网站开发者使用的应用程序开发框架和工具包。它提供一套丰富的标准库以及简单的接口和逻辑结构，其目的是使开发人员更快速地进行项目开发。使用 CodeIgniter可以减少代码的编写量，并将你的精力投入到项目的创造性开发上。</p>
+</blockquote>
+<p>简单快速，这也是选择CI的原因。</p>
+<p>以下内容细节可以从CI<a href="http://codeigniter.org.cn/user_guide/index.html" target="_blank" rel="external">官方文档</a>寻找</p>
+<h3 id="超级对象this">超级对象this</h3><p>当前的控制器对象，this，提供了很多属性<br>加载方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;load-&#62;</span><br></pre></td></tr></table></figure>
+<p>装载器类的实例system/core/Loader.php<br>提供的方法：</p>
 <ul>
-<li>单个表条件查询</li>
+<li>view()     装载视图</li>
+<li>vars()     分配变量到视图 </li>
+<li>database() 装载数据库操作</li>
+<li>model()   装载模型对象</li>
+<li>helper() <h3 id="var_dump">var_dump</h3></li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;get_where(&#39;&#34920;&#21517;&#39;,&#39;&#20851;&#32852;&#25968;&#32452;&#26465;&#20214;&#39;)</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>单表查询多个限定条件，链式查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;select(&#39;title&#39;)-&#62;from(&#39;mytable&#39;)-&#62;where(&#39;id&#39;, $id)-&#62;limit(10, 20);&#10;$query  = $this-&#62;db-&#62;get();</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>多表查询</p>
-</li>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void var_dump ( mixed <span class="variable">$expression</span> [, mixed $... ] )</span><br></pre></td></tr></table></figure>
+<p>此函数显示关于一个或多个表达式的结构信息，包括表达式的类型与值。数组将递归展开值，通过缩进显示其结构。</p>
+<h3 id="$this-&gt;input_输入类">$this-&gt;input 输入类</h3><p>作用：默认帮助进行安全处理<br>CI_Input类 system/cor/Input.php<br><code>$this-&gt;input-&gt;server(&#39;DOCUMENT_ROOT&#39;)</code>相当于<code>$_POST[&#39;DOCUMENT_ROOT&#39;]</code><br><code>$this-&gt;input-&gt;post(&#39;表单提交的name&#39;)</code></p>
+<h3 id="URL相关函数">URL相关函数</h3><ul>
+<li>site_url<br>在form表单中提交action不能把路径写死,使用<code>site_url (controller/action)</code></li>
+<li>base_url 根目录<br>请求图片时，<code>&lt;img src=&quot;&lt;?php echo base_url()?&gt;uploads/jh.jpg&quot;&gt;</code></li>
+<li>自动加载URL函数，autoload.php<br>$autoload[‘helper’] = array(‘url’);</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this -&#62;db-&#62;query($sql,$data)&#10;$sql   = &#34;SELECT * FROM some_table WHERE id = ? AND status = ? AND author = ?&#34;;&#10;$query = $this-&#62;admin-&#62;query($sql, array($id, $status, $author));</span><br></pre></td></tr></table></figure>
-<h5 id="增">增</h5><p>可以向函数传递 数组 或一个 对象。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$bool = $this-&#62;db-&#62;insert(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;);&#10;$data = array(&#10;               &#39;title&#39; =&#62; &#39;My title&#39; ,&#10;               &#39;name&#39; =&#62; &#39;My Name&#39; ,&#10;               &#39;date&#39; =&#62; &#39;My date&#39;&#10;            );&#10;$this-&#62;db-&#62;insert(&#39;mytable&#39;, $data); &#10;// Produces: INSERT INTO mytable (title, name, date) VALUES (&#39;My title&#39;, &#39;My name&#39;, &#39;My date&#39;)</span><br></pre></td></tr></table></figure>
-<h5 id="改">改</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$bool=$this-&#62;db-&#62;update(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;,&#26465;&#20214;);&#10;&#10;$data = array(&#10;               &#39;title&#39; =&#62; $title,&#10;               &#39;name&#39; =&#62; $name,&#10;               &#39;date&#39; =&#62; $date&#10;            );&#10;&#10;$this-&#62;db-&#62;where(&#39;id&#39;, $id);&#10;$this-&#62;db-&#62;update(&#39;mytable&#39;, $data);</span><br></pre></td></tr></table></figure>
-<p>或</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;update(&#39;mytable&#39;, $data, array(&#39;id&#39; =&#62; $id));</span><br></pre></td></tr></table></figure>
-<h5 id="删">删</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$bool =$this-&#62;db-&#62;delete(&#39;&#34920;&#21517;&#39;,&#26465;&#20214;)</span><br></pre></td></tr></table></figure>
+<h3 id="路由">路由</h3><p><code>config/routes.php</code><br>默认的控制器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$route[&#39;default_controller&#39;]=</span><br></pre></td></tr></table></figure>
+<p>伪静态页面,不再显示<code>xxx.php</code>,在路由中写一个正则表达式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$route[&#39;show/([\d]+)\.html&#39;]=&#39;article/show/&#39;</span><br></pre></td></tr></table></figure>
+<h3 id="分页">分页</h3><p>使用分页类<code>pagination</code></p>
+<h4 id="加载类文件">加载类文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;load-&#62;library(&#39;pagnination&#39;);</span><br></pre></td></tr></table></figure>
+<h4 id="配置">配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$config[&#39;per_page&#39;]=10;//&#27599;&#39029;&#26174;&#31034;10&#26465;&#25968;&#25454;</span><br></pre></td></tr></table></figure>
+<p>其他配置见<a href="http://codeigniter.org.cn/user_guide/libraries/pagination.html" target="_blank" rel="external">文档</a></p>
+<h4 id="初始化">初始化</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;pagination-&#62;initialize($config)</span><br></pre></td></tr></table></figure>
+<h4 id="创建链接">创建链接</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;pagination-&#62;create_links($config)</span><br></pre></td></tr></table></figure>
+<h4 id="跳过多少条">跳过多少条</h4><p> sql语句 <code>select from limit+跳过的条数</code></p>
+<h4 id="定制分页器">定制分页器</h4><p>$config[‘first_link’]=”首页”<br> 其他配置见<a href="http://codeigniter.org.cn/user_guide/libraries/pagination.html" target="_blank" rel="external">文档</a></p>
+<h3 id="文件上传">文件上传</h3><p>表单<br><code>&lt;form enctype=&quot;multipart/form-data&quot;&gt;&lt;/form&gt;</code></p>
+<h4 id="使用文件上传类">使用文件上传类</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;load-&#62;library(&#39;&#39;)</span><br></pre></td></tr></table></figure>
+<h4 id="配置-1">配置</h4><p>见<a href="http://codeigniter.org.cn/user_guide/libraries/pagination.html" target="_blank" rel="external">文档</a></p>
+<h4 id="上传">上传</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;upload-&#62;do_upload(&#39;pic&#39;)</span><br></pre></td></tr></table></figure>
+<h4 id="返回信息">返回信息</h4><p>文件上传的一些数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$his-&#62;upload-&#62;data()</span><br></pre></td></tr></table></figure>
+<h3 id="session">session</h3><p>CI中的session 默认不使用php的原生session，<strong>放在cookie中</strong>（限制大小4k），不太好使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;session-&#62;set_userdata(&#39;user&#39;,$user) ; //&#20351;&#29992;&#38190;&#20540;&#23545;&#26469;&#23384;&#20648;&#25968;&#25454;</span><br></pre></td></tr></table></figure>
+<p><strong>因为是存储在cookie中的，所以不能在当前的函数中获取到session中的数据，需要跳转的别的页面后才可以获取的到</strong></p>
+<h4 id="加密">加密</h4><p>生成随机不重复的字符串作为加密用的key，保存到config.php</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$[&#39;encryption_key&#39;]=&#34;key&#30340;&#20540;&#34;</span><br></pre></td></tr></table></figure>
+<p>或者不使用CI的session，囧。。。</p>
+<h3 id="表单验证">表单验证</h3><h4 id="使用表单验证类">使用表单验证类</h4><p>$this-&gt;load-&gt;library(‘form_validation’);</p>
+<h4 id="验证">验证</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;form_validation-&#62;set_rules(&#39;&#39;,&#39;&#39;,&#39;&#39;);&#10;$bool=$this-&#62;form_validation-&#62;run();</span><br></pre></td></tr></table></figure>
+<p>前台验证使用js，后台验证使用表单验证类</p>
+<h4 id="输出错误">输出错误</h4><p><code>form_error(&#39;name&#39;,&#39;&lt;span&gt;&#39;,&#39;&lt;/span&gt;&#39;)</code><br><code>echo validation_error()</code>直接输出所有结果（推荐使用）</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<h4 id="修改配置文件">修改配置文件</h4><p><code>application/config/database.php</code></p>
-<h4 id="装载">装载</h4><p>将数据库访问对象，装载到超级对象属性中 $this-&gt;load-&gt;]]>
+    <![CDATA[<h3 id="CodeIgniter">CodeIgniter</h3><blockquote>
+<p>CodeIgniter 是一个简单快速的PHP MVC框架。<br>CodeIgniter 是一套给 PHP 网站开发者使用的应用程序开发框架和工具包。它提供一套丰富的标准库]]>
     </summary>
     
       <category term="CodeIgniter" scheme="http://rudy-zhang.me/tags/CodeIgniter/"/>
