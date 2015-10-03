@@ -1,0 +1,1310 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+
+
+
+
+  <meta name="keywords" content="两个指针,数组," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?Rudy-Zhang";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  <title> 数组专题-两个指针 // Rudy's Blog </title>
+</head>
+
+<body>
+<!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">Rudy's Blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+
+  <ul id="menu" class="menu">
+     
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-categories">
+        <a href="/categories">
+          <i class="menu-item-icon icon-categories"></i> <br />
+          分类
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              数组专题-两个指针
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-10-02
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/找工作总结/">找工作总结</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/10/03/找工作总结-数组专题-两个指针/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/03/找工作总结-数组专题-两个指针/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <h1 id="通用解题思路">通用解题思路</h1><ul>
+<li>使用快排中的partition函数</li>
+<li>贪心,left++,right-直到相遇</li>
+<li>二分查找，mid = (left + right) / 2</li>
+</ul>
+<h2 id="k-sum问题">k-sum问题</h2><p>k-sum问题解题思路:<br>先对数组进行排序(nlogn)。退化成2-sum问题，使用left,right指针向中间查找。最终把复杂度优化到O(n^(k-1))</p>
+<h3 id="剑指offer41_和为S的两个数字_VS_和为S的连续正数序列">剑指offer41 和为S的两个数字 VS 和为S的连续正数序列</h3><h4 id="问题描述">问题描述</h4><p>输入一个递增排序的数组和一个数字S，在数组中查找两个数，使得他们的和正好是S，如果有多对数字的和等于S，输出两个数的乘积最小的。 </p>
+<h4 id="解法">解法</h4><p>2-sum问题，乘积最小的两个数字就是left和right第一次满足条件的两个数字。</p>
+<h4 id="代码">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    vector&lt;<span class="built_in">int</span> &gt; FindNumbersWithSum(vector&lt;<span class="built_in">int</span>&gt; <span class="built_in">array</span>,<span class="built_in">int</span> sum) {
+        vector&lt;<span class="built_in">int</span>&gt; vec;
+        <span class="keyword">if</span>(<span class="built_in">array</span>.size() == <span class="number">0</span>) return vec;
+        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = <span class="built_in">array</span>.size() - <span class="number">1</span>;
+        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+        {
+            <span class="keyword">if</span>(<span class="built_in">array</span>[<span class="built_in">left</span>] + <span class="built_in">array</span>[<span class="built_in">right</span>] &lt; sum)
+                <span class="built_in">left</span>++;
+            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">array</span>[<span class="built_in">left</span>] + <span class="built_in">array</span>[<span class="built_in">right</span>] &gt; sum)
+                <span class="built_in">right</span>--;
+            <span class="keyword">else</span>
+            {
+                vec.push_back(<span class="built_in">array</span>[<span class="built_in">left</span>]);
+                vec.push_back(<span class="built_in">array</span>[<span class="built_in">right</span>]);
+                return vec;
+            }
+        }
+        return vec;
+    }
+};
+</code></pre><h4 id="问题描述-1">问题描述</h4><p>小明很喜欢数学,有一天他在做数学作业时,要求计算出9~16的和,他马上就写出了正确答案是100。但是他并不满足于此,他在想究竟有多少种连续的正数序列的和为100(至少包括两个数)。没多久,他就得到另一组连续正数和为100的序列:18,19,20,21,22。现在把问题交给你,你能不能也很快的找出所有和为S的连续正数序列? Good Luck! </p>
+<h4 id="解法-1">解法</h4><p>同上，不过比较条件变成。(left+right)(right-left+1)/2</p>
+<h4 id="代码-1">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; FindContinuousSequence(<span class="keyword">int</span> sum) {
+        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; <span class="built_in">list</span>;
+        <span class="keyword">if</span>(sum &lt;= <span class="number">2</span>) <span class="keyword">return</span> <span class="built_in">list</span>;
+        <span class="keyword">int</span> left = <span class="number">1</span>,right = <span class="number">2</span>;
+        <span class="keyword">while</span>(right &lt;= (sum + <span class="number">1</span>) / <span class="number">2</span>)
+        {
+            <span class="keyword">int</span> temp = (left + right) * (right - left + <span class="number">1</span>) / <span class="number">2</span>;
+            <span class="keyword">if</span>(temp &lt; sum)
+                right++;
+            <span class="keyword">else</span> <span class="keyword">if</span>(temp &gt; sum)
+                left++;
+            <span class="keyword">else</span>
+            {
+                <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vec;
+                <span class="keyword">for</span>(<span class="keyword">int</span> i = left; i &lt;= right; i++)
+                    vec.push_back(i);
+                <span class="built_in">list</span>.push_back(vec);
+                right++;
+            }
+        }
+        <span class="keyword">return</span> <span class="built_in">list</span>;
+    }
+};
+</code></pre><h3 id="leetcode18_4Sum">leetcode18 4Sum</h3><h4 id="问题描述-2">问题描述</h4><p>Given an array S of n integers, are there elements a, b, c, and d in S such that a + b + c + d = target? Find all unique quadruplets in the array which gives the sum of target.</p>
+<ul>
+<li>Elements in a quadruplet (a,b,c,d) must be in non-descending order. (ie, a ≤ b ≤ c ≤ d)</li>
+<li><p>The solution set must not contain duplicate quadruplets.</p>
+<pre><code>For example, given<span class="instruction"> array </span>S = {1 0 -1 0 -2 2},<span class="instruction"> and </span>target = 0.
+
+A solution set is:
+(-1,  0, 0, 1<span class="function">)</span>
+(-2, -1, 1, 2<span class="function">)</span>
+(-2,  0, 0, 2<span class="function">)</span>
+</code></pre></li>
+</ul>
+<h4 id="解法-2">解法</h4><p>先排序，退化到2-sum问题。</p>
+<h4 id="注意点">注意点</h4><p>题目要求找出所有满足条件的数组，需要避免重复。</p>
+<h4 id="代码-2">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+public:
+<span class="comment">//思路：K-Sum问题，复杂度降到O(n^(k-1))</span>
+<span class="comment">//注意，不能重复，num个数不够4</span>
+<span class="comment">//去重，left，right去重，i层循环去重，j层循环去重</span>
+    vector&lt;vector&lt;<span class="built_in">int</span>&gt; &gt; fourSum(vector&lt;<span class="built_in">int</span>&gt; &amp;<span class="built_in">num</span>, <span class="built_in">int</span> target) {
+        sort(<span class="built_in">num</span>.begin(), <span class="built_in">num</span>.end());
+        vector&lt;vector&lt;<span class="built_in">int</span>&gt;&gt; list;
+        <span class="keyword">if</span>(<span class="built_in">num</span>.size() &lt; <span class="number">4</span>) 
+            <span class="keyword">return</span> list;
+        <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">num</span>.size()-<span class="number">3</span>; i++)
+        {
+            <span class="keyword">for</span>(<span class="built_in">int</span> j = i + <span class="number">1</span>; j &lt; <span class="built_in">num</span>.size()- <span class="number">2</span>; j++)
+            {
+                <span class="built_in">int</span> left = j + <span class="number">1</span>, right = <span class="built_in">num</span>.size() - <span class="number">1</span>;
+                <span class="keyword">while</span>(left &lt; right)
+                {
+                    <span class="built_in">int</span> sum = <span class="built_in">num</span>[i]+<span class="built_in">num</span>[j]+<span class="built_in">num</span>[left]+<span class="built_in">num</span>[right];
+                    <span class="keyword">if</span>(sum &lt; target)
+                        left++;
+                    <span class="keyword">else</span> <span class="keyword">if</span>(sum &gt; target)
+                        right--;
+                    <span class="keyword">else</span>
+                    {
+                        vector&lt;<span class="built_in">int</span>&gt; vec;
+                        vec.push_back(<span class="built_in">num</span>[i]);
+                        vec.push_back(<span class="built_in">num</span>[j]);
+                        vec.push_back(<span class="built_in">num</span>[left]);
+                        vec.push_back(<span class="built_in">num</span>[right]);
+                        list.push_back(vec);
+                        left++;
+                        right--; 
+                        <span class="keyword">while</span>(left &lt; right &amp;&amp; <span class="built_in">num</span>[left] == <span class="built_in">num</span>[left - <span class="number">1</span>]) 
+                            left++;
+                        <span class="keyword">while</span>(left &lt; right &amp;&amp; <span class="built_in">num</span>[right] == <span class="built_in">num</span>[right + <span class="number">1</span>]) 
+                            right--;
+                    }
+                }
+                <span class="keyword">while</span>(j + <span class="number">1</span> &lt; <span class="built_in">num</span>.size() - <span class="number">2</span> &amp;&amp; <span class="built_in">num</span>[j] == <span class="built_in">num</span>[j + <span class="number">1</span>]) 
+                    j++;
+            }
+            <span class="keyword">while</span>(i + <span class="number">1</span> &lt; <span class="built_in">num</span>.size() - <span class="number">3</span> &amp;&amp; <span class="built_in">num</span>[i] == <span class="built_in">num</span>[i+<span class="number">1</span>]) 
+                i++;
+        }
+        <span class="keyword">return</span> list;
+    }
+};
+</code></pre><h2 id="二分查找问题">二分查找问题</h2><p>二分查找通用解题思路，left=头指针，right=尾指针，mid=(left+right)/2，通过条件判断，移动left和right最终使得left和right相遇得到最终结果。</p>
+<h3 id="普通二分查找">普通二分查找</h3><h4 id="问题描述-3">问题描述</h4><p>给定一个<strong>有序数组，可能含有重复元素</strong>。给定target，寻找target出现的下标，不存在返回-1.</p>
+<h4 id="代码-3">代码</h4><pre><code><span class="built_in">int</span> search(<span class="built_in">int</span> a[], <span class="built_in">int</span> N, <span class="built_in">int</span> target)
+{
+    <span class="keyword">if</span>(N &lt; <span class="number">1</span>)
+        return -<span class="number">1</span>;
+    <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = N - <span class="number">1</span>;
+    <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+    {
+        <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
+        <span class="keyword">if</span>(a[<span class="built_in">mid</span>] == target)
+            return <span class="built_in">mid</span>;
+        <span class="keyword">else</span> <span class="keyword">if</span>(a[<span class="built_in">mid</span>] &lt; target)
+            <span class="built_in">left</span> = <span class="built_in">mid</span> + <span class="number">1</span>;
+        <span class="keyword">else</span>
+            <span class="built_in">right</span> = <span class="built_in">mid</span> - <span class="number">1</span>;
+    }
+    return -<span class="number">1</span>;
+}
+</code></pre><h3 id="等于target的第一个元素">等于target的第一个元素</h3><h4 id="问题描述-4">问题描述</h4><p>给定有序数组a,含有重复元素，求最小(或者求最大)的使得a[i]等于target的下标。不存在返回-1.<br><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1ewnyv9bn30j20fg057q2z.jpg" alt=""></p>
+<h4 id="代码-4">代码</h4><pre><code><span class="built_in">int</span> search(<span class="built_in">int</span> a[], <span class="built_in">int</span> N, <span class="built_in">int</span> target)
+{
+    <span class="keyword">if</span>(N &lt; <span class="number">1</span>)
+        return -<span class="number">1</span>;
+    <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = N - <span class="number">1</span>;
+    <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+    {
+        <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
+        <span class="keyword">if</span>(a[<span class="built_in">mid</span>] &lt; target)
+            <span class="built_in">left</span> = <span class="built_in">mid</span> + <span class="number">1</span>;
+        <span class="keyword">else</span>
+            <span class="built_in">right</span> = <span class="built_in">mid</span>;
+    }
+    <span class="keyword">if</span>(a[<span class="built_in">left</span>] == target)
+        return <span class="built_in">left</span>
+    <span class="keyword">else</span>
+        return -<span class="number">1</span>;
+}
+</code></pre><h3 id="小于target的第一个元素">小于target的第一个元素</h3><h4 id="问题描述-5">问题描述</h4><p>给定有序数组a,含有重复元素，求最大的i使得a[i]小于target。不存在返回-1<br><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1ewnyykveyaj20bt04edfv.jpg" alt=""></p>
+<h4 id="代码-5">代码</h4><pre><code><span class="built_in">int</span> search(<span class="built_in">int</span> a[], <span class="built_in">int</span> N, <span class="built_in">int</span> target)
+{
+    <span class="keyword">if</span>(N &lt; <span class="number">1</span>)
+        return -<span class="number">1</span>;
+    <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = N - <span class="number">1</span>;
+    <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+    {
+        <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
+        <span class="keyword">if</span>(a[<span class="built_in">mid</span>] &gt;= target)
+            <span class="built_in">right</span> = <span class="built_in">mid</span> - <span class="number">1</span>;
+        <span class="keyword">else</span>
+            <span class="built_in">left</span> = <span class="built_in">mid</span>;
+    }
+    <span class="keyword">if</span>(a[<span class="built_in">left</span>] &lt; target)
+        return <span class="built_in">left</span>
+    <span class="keyword">else</span>
+        return -<span class="number">1</span>;
+}
+</code></pre><h3 id="求target在数组中的出现次数">求target在数组中的出现次数</h3><h4 id="解法-3">解法</h4><p>出现次数 = 最后一次出现位置 - 第一次出现位置 + 1<br><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1ewnz2xlz25j20ep05ewek.jpg" alt=""></p>
+<h4 id="代码-6">代码</h4><pre><code><span class="function"><span class="keyword">int</span> <span class="title">count</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> N, <span class="keyword">int</span> <span class="keyword">target</span>)</span>
+</span>{
+    <span class="keyword">int</span> first = searchFisrt(a, N, <span class="keyword">target</span>);
+    <span class="keyword">if</span>(first == -<span class="number">1</span>)
+        <span class="keyword">return</span> <span class="number">0</span>;
+    <span class="keyword">int</span> last = searchLast(a, N, <span class="keyword">target</span>);
+    <span class="keyword">return</span> (last - first + <span class="number">1</span>);
+}
+</code></pre><h3 id="插入的位置（小于等于target的第一个元素）">插入的位置（小于等于target的第一个元素）</h3><h4 id="问题描述-6">问题描述</h4><p>给定有序数组a,含有重复元素，若target在数组中出现，返回位置，如果不存在，返回应该插入的位置。</p>
+<h4 id="解法-4">解法</h4><p>&lt;=target是可能的位置<br><img src="http://ww3.sinaimg.cn/mw690/4c2edcb7jw1ewo0ah8apsj20cf03lgln.jpg" alt=""></p>
+<h4 id="代码-7">代码</h4><pre><code><span class="built_in">int</span> search(<span class="built_in">int</span> a[], <span class="built_in">int</span> N, <span class="built_in">int</span> target)
+{
+    <span class="keyword">if</span>(N &lt; <span class="number">1</span>)
+        return -<span class="number">1</span>;
+    <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = N - <span class="number">1</span>;
+    <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+    {
+        <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
+        <span class="keyword">if</span>(a[<span class="built_in">mid</span>] &lt;= target)
+            <span class="built_in">left</span> = <span class="built_in">mid</span>;
+        <span class="keyword">else</span>
+            <span class="built_in">right</span> = <span class="built_in">mid</span> - <span class="number">1</span>; 
+    }
+    return <span class="built_in">left</span>;
+}
+</code></pre><h2 id="旋转数组的二分查找">旋转数组的二分查找</h2><h3 id="leetcode_33_Search_in_Rotated_Sorted_Array">leetcode 33 Search in Rotated Sorted Array</h3><h4 id="问题描述-7">问题描述</h4><p>给定有序数组，在某一个位置发生旋转，求target在数组中出现的位置。<strong>无重复元素</strong>，找到返回下标，找不到返回-1.</p>
+<h4 id="解法-5">解法</h4><p>先判断mid落在了旋转数组的哪一部分，然后判断和target的关系<br><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1ewo177qwiyj20c507cq32.jpg" alt=""></p>
+<h4 id="代码-8">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+public:
+    int search(vector&lt;int&gt;&amp; nums, int target) {
+        int <span class="keyword">left</span> = <span class="number">0</span>,<span class="keyword">right</span> = nums.size()-<span class="number">1</span>;
+        <span class="keyword">while</span>(<span class="keyword">left</span> &lt; <span class="keyword">right</span>)
+        {
+            int mid = (<span class="keyword">left</span> + <span class="keyword">right</span>)/<span class="number">2</span>;
+            <span class="keyword">if</span>(nums[mid] == target)
+                <span class="keyword">return</span> mid;
+            <span class="keyword">if</span>(nums[mid] &gt;= nums[<span class="keyword">left</span>])<span class="comment">//left-mid升序</span>
+            {
+                <span class="keyword">if</span>(nums[<span class="keyword">left</span>] &lt;= target &amp;&amp; target &lt; nums[mid])
+                    <span class="keyword">right</span> = mid-<span class="number">1</span> ;
+                <span class="keyword">else</span>
+                    <span class="keyword">left</span> = mid+<span class="number">1</span>;
+            }
+            <span class="keyword">else</span><span class="comment">//mid-right升序</span>
+            {
+                <span class="keyword">if</span>(nums[mid] &lt; target &amp;&amp; target &lt;= nums[<span class="keyword">right</span>])
+                    <span class="keyword">left</span> = mid +<span class="number">1</span>;
+                <span class="keyword">else</span>
+                {
+                    <span class="keyword">right</span> = mid-<span class="number">1</span>;
+                }
+            }
+        }
+        <span class="keyword">if</span>(nums[<span class="keyword">left</span>] == target)
+            <span class="keyword">return</span> <span class="keyword">left</span>;
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> -<span class="number">1</span>;
+    }
+};
+</code></pre><h3 id="Search_in_Rotated_Sorted_Array_II">Search in Rotated Sorted Array II</h3><h4 id="问题描述-8">问题描述</h4><p>其他条件相同，但允许数组中存在重复元素。判断target是否出现在数组中。</p>
+<h4 id="解法-6">解法</h4><p>增加判断条件，当a[left] = a[mid] = a[right]，直接遍历去寻找，不能使用二分查找</p>
+<h4 id="代码-9">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    bool search(vector&lt;<span class="built_in">int</span>&gt;&amp; nums, <span class="built_in">int</span> target) {
+        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>,<span class="built_in">right</span> = nums.size() - <span class="number">1</span>;
+        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+        {
+            <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>) / <span class="number">2</span>;
+            <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] == target)
+                return <span class="literal">true</span>;
+            <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] == nums[<span class="built_in">left</span>] &amp;&amp; nums[<span class="built_in">mid</span>] == nums[<span class="built_in">right</span>])
+            {
+                <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="built_in">left</span>; i &lt;= <span class="built_in">right</span>; i++)
+                {
+                    <span class="keyword">if</span>(nums[i] == target)
+                        return <span class="literal">true</span>;
+                }
+                return <span class="literal">false</span>;
+            }
+            <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] &gt;= nums[<span class="built_in">left</span>])
+            {
+                <span class="keyword">if</span>(target &gt;= nums[<span class="built_in">left</span>] &amp;&amp; target &lt; nums[<span class="built_in">mid</span>])
+                    <span class="built_in">right</span> = <span class="built_in">mid</span> -<span class="number">1</span>;
+                <span class="keyword">else</span>
+                    <span class="built_in">left</span> = <span class="built_in">mid</span> +<span class="number">1</span>;
+            }
+            <span class="keyword">else</span>
+            {
+                <span class="keyword">if</span>(target &gt; nums[<span class="built_in">mid</span>] &amp;&amp; target &lt;= nums[<span class="built_in">right</span>])
+                    <span class="built_in">left</span> = <span class="built_in">mid</span> +<span class="number">1</span>;
+                <span class="keyword">else</span>
+                    <span class="built_in">right</span> = <span class="built_in">mid</span> -<span class="number">1</span>;
+            }
+        }
+        <span class="keyword">if</span>(nums[<span class="built_in">left</span>] == target)
+            return <span class="literal">true</span>;
+        <span class="keyword">else</span>
+            return <span class="literal">false</span>;
+    }
+};
+</code></pre><h3 id="leetcode_153_Find_Minimum_in_Rotated_Sorted_Array">leetcode 153    Find Minimum in Rotated Sorted Array</h3><h4 id="问题描述-9">问题描述</h4><p>给定有序数组，<strong>无重复元素</strong>，在某一位置发生旋转，求数组中的最小元素</p>
+<h4 id="解法-7">解法</h4><p>同上<br><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1ewo7wvjpz5j20as05ugln.jpg" alt=""></p>
+<h4 id="注意点-1">注意点</h4><ul>
+<li>对于数组旋转个数为0的考虑<br>如果使用a[mid] &gt;= a[left]判断，需要考虑数组是否并没有旋转(a[left] &lt; a[right])</li>
+<li>也可以使用这样的条件进行判断 a[mid] &gt; a[right]</li>
+</ul>
+<h4 id="代码-10">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="built_in">int</span> findMin(vector&lt;<span class="built_in">int</span>&gt;&amp; nums) {
+        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = nums.size()-<span class="number">1</span>;
+        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+        {
+            <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
+            <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] &gt; nums[<span class="built_in">right</span>])
+                <span class="built_in">left</span> = <span class="built_in">mid</span> + <span class="number">1</span>;
+            <span class="keyword">else</span>
+                <span class="built_in">right</span> = <span class="built_in">mid</span>;
+        }
+        return nums[<span class="built_in">left</span>];
+    }
+};
+</code></pre><h3 id="leetcode_Find_Minimum_in_Rotated_Sorted_Array_II">leetcode Find Minimum in Rotated Sorted Array II</h3><h4 id="问题描述-10">问题描述</h4><p>同上，不过允许数组中存在重复元素</p>
+<h4 id="解法-8">解法</h4><p>对a[mid] = a[right]时，right—。因为a[left] &lt;= a[right] == a[mid],为了使得a[mid]最小，需要对使得left和right逐渐接近，需要遍历才能找到，所以对right进行减一操作。</p>
+<h4 id="代码-11">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="built_in">int</span> findMin(vector&lt;<span class="built_in">int</span>&gt;&amp; nums) {
+        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = nums.size()-<span class="number">1</span>;
+        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+        {
+            <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
+            <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] &gt; nums[<span class="built_in">right</span>])
+                <span class="built_in">left</span> = <span class="built_in">mid</span> + <span class="number">1</span>;
+            <span class="keyword">else</span> <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] &lt; nums[<span class="built_in">right</span>])
+                <span class="built_in">right</span> = <span class="built_in">mid</span>;
+            <span class="keyword">else</span>
+                <span class="built_in">right</span>--;
+        }
+        return nums[<span class="built_in">left</span>];
+    }
+};
+</code></pre><h3 id="剑指offer14_调整数组顺序使奇数位于偶数之前">剑指offer14 调整数组顺序使奇数位于偶数之前</h3><h4 id="问题描述-11">问题描述</h4><p>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
+<h4 id="解法-9">解法</h4><ul>
+<li>使用插入排序的思想，复杂度O(n^2)</li>
+<li>使用额外的O(n)存储，遍历原数组，计数从前往后放，偶数从后往前放。时间复杂度O(n)</li>
+<li>补充，如果不需要保证相对位置，可以使用快排的partition函数做一次扫描。</li>
+</ul>
+<h4 id="方法2的代码">方法2的代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    void reOrderArray(vector&lt;<span class="built_in">int</span>&gt;&amp; <span class="built_in">array</span>) {
+        vector&lt;<span class="built_in">int</span>&gt; vec(<span class="built_in">array</span>.size());
+        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = <span class="built_in">array</span>.size() - <span class="number">1</span>;
+        <span class="built_in">int</span> leftIndex = <span class="number">0</span>, rightIndex = <span class="built_in">array</span>.size() - <span class="number">1</span>;
+        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">array</span>.size())
+        {
+            <span class="keyword">while</span>((<span class="built_in">array</span>[<span class="built_in">left</span>]&amp;<span class="number">0x01</span>) == <span class="number">0</span>)
+                <span class="built_in">left</span>++;
+            <span class="keyword">if</span>(<span class="built_in">left</span> &lt; <span class="built_in">array</span>.size())
+                vec[leftIndex++] = <span class="built_in">array</span>[<span class="built_in">left</span>++];
+        }
+        <span class="keyword">while</span>(<span class="built_in">right</span> &gt;= <span class="number">0</span>)
+        {
+            <span class="keyword">while</span>((<span class="built_in">array</span>[<span class="built_in">right</span>]&amp;<span class="number">0x01</span>) == <span class="number">1</span>)
+                <span class="built_in">right</span>--;
+            <span class="keyword">if</span>(<span class="built_in">right</span> &gt;= <span class="number">0</span>)
+                vec[rightIndex--] = <span class="built_in">array</span>[<span class="built_in">right</span>--];
+        }
+        <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">array</span>.size(); i++)
+            <span class="built_in">array</span>[i] = vec[i];
+    }  
+};
+</code></pre><h4 id="方法3的代码">方法3的代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    void reOrderArray(vector&lt;<span class="built_in">int</span>&gt; &amp;<span class="built_in">array</span>) {
+        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = <span class="built_in">array</span>.size() - <span class="number">1</span>;
+        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+        {
+            <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span> &amp;&amp; (<span class="built_in">array</span>[<span class="built_in">right</span>]&amp;<span class="number">0x01</span>) == <span class="number">0</span>)
+                <span class="built_in">right</span>--;
+            <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span> &amp;&amp; (<span class="built_in">array</span>[<span class="built_in">left</span>]&amp;<span class="number">0x01</span>) == <span class="number">1</span>)
+                <span class="built_in">left</span>++;
+            <span class="keyword">if</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+            {
+                <span class="built_in">int</span> temp = <span class="built_in">array</span>[<span class="built_in">left</span>];
+                <span class="built_in">array</span>[<span class="built_in">left</span>] = <span class="built_in">array</span>[<span class="built_in">right</span>];
+                <span class="built_in">array</span>[<span class="built_in">right</span>] = temp;
+            }
+        }
+    }
+};
+</code></pre><h3 id="剑指offer36_数组中的逆序对">剑指offer36 数组中的逆序对</h3><h4 id="问题描述-12">问题描述</h4><p>在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组，求出这个数组中的逆序对的总数。</p>
+<h4 id="解法-10">解法</h4><p>使用归并排序的merge过程，统计逆序对的个数。merge过程需要merge,left~mid和mid~right。假如vec[lpos] &gt; vec[rpos],逆序对的个数需要增加<strong>mid-lpos+1</strong>个，因为vec中所有lpos之后的元素和rpos对应的元素都形成了逆序对。</p>
+<h4 id="代码-12">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="built_in">int</span> InversePairs(vector&lt;<span class="built_in">int</span>&gt; <span class="type">data</span>) {
+        <span class="keyword">if</span>(<span class="type">data</span>.<span class="built_in">size</span>() == <span class="number">0</span> || <span class="type">data</span>.<span class="built_in">size</span>() == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;
+        vector&lt;<span class="built_in">int</span>&gt; temp(<span class="type">data</span>.<span class="built_in">size</span>());
+        <span class="built_in">int</span> <span class="built_in">count</span> = <span class="number">0</span>;
+        mergeSort(<span class="type">data</span>, temp, <span class="number">0</span>, <span class="type">data</span>.<span class="built_in">size</span>()-<span class="number">1</span>, <span class="built_in">count</span>);
+        <span class="keyword">return</span> <span class="built_in">count</span>;
+    }
+
+    void mergeSort(vector&lt;<span class="built_in">int</span>&gt;&amp; <span class="type">data</span>, vector&lt;<span class="built_in">int</span>&gt;&amp; temp, <span class="built_in">int</span> left, <span class="built_in">int</span> right, <span class="built_in">int</span>&amp; <span class="built_in">count</span>)
+    {
+        <span class="keyword">if</span>(left &lt; right)
+        {
+            <span class="built_in">int</span> mid = (left + right) / <span class="number">2</span>;
+            mergeSort(<span class="type">data</span>, temp, left, mid, <span class="built_in">count</span>);
+            mergeSort(<span class="type">data</span>, temp, mid + <span class="number">1</span>, right, <span class="built_in">count</span>);
+            <span class="built_in">merge</span>(<span class="type">data</span>, temp, left, mid, right, <span class="built_in">count</span>);
+        }
+    }
+
+    void <span class="built_in">merge</span>(vector&lt;<span class="built_in">int</span>&gt;&amp; <span class="type">data</span>, vector&lt;<span class="built_in">int</span>&gt;&amp; temp, <span class="built_in">int</span> left, <span class="built_in">int</span> mid, <span class="built_in">int</span> right, <span class="built_in">int</span>&amp; <span class="built_in">count</span>)
+    {
+        <span class="built_in">int</span> lend = mid, rend = right;
+        <span class="built_in">int</span> lpos = left, rpos = mid + <span class="number">1</span>, tpos = left;
+        <span class="keyword">while</span>(lpos &lt;= lend &amp;&amp; rpos &lt;= rend)
+        {
+            <span class="keyword">if</span>(<span class="type">data</span>[lpos] &lt;= <span class="type">data</span>[rpos])
+                temp[tpos++] = <span class="type">data</span>[lpos++];
+            <span class="keyword">else</span>
+            {
+                <span class="built_in">count</span> += mid-lpos+<span class="number">1</span>;
+                temp[tpos++] = <span class="type">data</span>[rpos++];
+            }
+        }
+        <span class="keyword">while</span>(lpos &lt;= lend)
+            temp[tpos++]=<span class="type">data</span>[lpos++];
+        <span class="keyword">while</span>(rpos &lt;= rend)
+            temp[tpos++] = <span class="type">data</span>[rpos++];
+        for(<span class="built_in">int</span> i = left; i &lt;= right; i++)
+            <span class="type">data</span>[i] = temp[i];
+    }
+};
+</code></pre>
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/两个指针/"> #两个指针 </a>
+          
+            <a href="/tags/数组/"> #数组 </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/09/27/找工作总结-数组专题-出现次数/">数组专题-数组中出现的次数</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2015/10/03/找工作总结-数组专题-两个指针/"
+               data-title="数组专题-两个指针" data-url="http://rudy-zhang.me/2015/10/03/找工作总结-数组专题-两个指针/">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="https://avatars0.githubusercontent.com/u/9674774" alt="Rudy Zhang" />
+          <p class="site-author-name">Rudy Zhang</p>
+        </div>
+        <p class="site-description motion-element"></p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">33</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://github.com/Rudy-Zhang" target="_blank">github</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://www.zhihu.com/people/rudy-zhang-93" target="_blank">zhihu</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#通用解题思路"><span class="nav-number">1.</span> <span class="nav-text">通用解题思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#k-sum问题"><span class="nav-number">1.1.</span> <span class="nav-text">k-sum问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#剑指offer41_和为S的两个数字_VS_和为S的连续正数序列"><span class="nav-number">1.1.1.</span> <span class="nav-text">剑指offer41 和为S的两个数字 VS 和为S的连续正数序列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解法"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述-1"><span class="nav-number">1.1.1.4.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解法-1"><span class="nav-number">1.1.1.5.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码-1"><span class="nav-number">1.1.1.6.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#leetcode18_4Sum"><span class="nav-number">1.1.2.</span> <span class="nav-text">leetcode18 4Sum</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述-2"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解法-2"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意点"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">注意点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码-2"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二分查找问题"><span class="nav-number">1.2.</span> <span class="nav-text">二分查找问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#普通二分查找"><span class="nav-number">1.2.1.</span> <span class="nav-text">普通二分查找</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述-3"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码-3"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#等于target的第一个元素"><span class="nav-number">1.2.2.</span> <span class="nav-text">等于target的第一个元素</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述-4"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码-4"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小于target的第一个元素"><span class="nav-number">1.2.3.</span> <span class="nav-text">小于target的第一个元素</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述-5"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码-5"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#求target在数组中的出现次数"><span class="nav-number">1.2.4.</span> <span class="nav-text">求target在数组中的出现次数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#解法-3"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码-6"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插入的位置（小于等于target的第一个元素）"><span class="nav-number">1.2.5.</span> <span class="nav-text">插入的位置（小于等于target的第一个元素）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述-6"><span class="nav-number">1.2.5.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解法-4"><span class="nav-number">1.2.5.2.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码-7"><span class="nav-number">1.2.5.3.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#旋转数组的二分查找"><span class="nav-number">1.3.</span> <span class="nav-text">旋转数组的二分查找</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#leetcode_33_Search_in_Rotated_Sorted_Array"><span class="nav-number">1.3.1.</span> <span class="nav-text">leetcode 33 Search in Rotated Sorted Array</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述-7"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解法-5"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码-8"><span class="nav-number">1.3.1.3.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Search_in_Rotated_Sorted_Array_II"><span class="nav-number">1.3.2.</span> <span class="nav-text">Search in Rotated Sorted Array II</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述-8"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解法-6"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码-9"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#leetcode_153_Find_Minimum_in_Rotated_Sorted_Array"><span class="nav-number">1.3.3.</span> <span class="nav-text">leetcode 153    Find Minimum in Rotated Sorted Array</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述-9"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解法-7"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意点-1"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">注意点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码-10"><span class="nav-number">1.3.3.4.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#leetcode_Find_Minimum_in_Rotated_Sorted_Array_II"><span class="nav-number">1.3.4.</span> <span class="nav-text">leetcode Find Minimum in Rotated Sorted Array II</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述-10"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解法-8"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码-11"><span class="nav-number">1.3.4.3.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#剑指offer14_调整数组顺序使奇数位于偶数之前"><span class="nav-number">1.3.5.</span> <span class="nav-text">剑指offer14 调整数组顺序使奇数位于偶数之前</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述-11"><span class="nav-number">1.3.5.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解法-9"><span class="nav-number">1.3.5.2.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法2的代码"><span class="nav-number">1.3.5.3.</span> <span class="nav-text">方法2的代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法3的代码"><span class="nav-number">1.3.5.4.</span> <span class="nav-text">方法3的代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#剑指offer36_数组中的逆序对"><span class="nav-number">1.3.6.</span> <span class="nav-text">剑指offer36 数组中的逆序对</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述-12"><span class="nav-number">1.3.6.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解法-10"><span class="nav-number">1.3.6.2.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码-12"><span class="nav-number">1.3.6.3.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">Rudy Zhang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.content img').each(function () {
+        var $image = $(this);
+        var $imageWrapLink = $image.parent('a');
+
+        if ($imageWrapLink.size() < 1) {
+          $imageWrapLink = $image.wrap('<a href="' + this.getAttribute('src') + '"></a>').parent('a');
+        }
+        $imageWrapLink.addClass('fancybox');
+      });
+    });
+    $('.fancybox').fancybox({
+      helpers: {
+        overlay: {
+          locked: false
+        }
+      }
+    });
+  </script>
+
+
+  <script type="text/javascript">
+  function hasMobileUA () {
+    var nav = window.navigator;
+    var ua = nav.userAgent;
+    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
+
+    return pa.test(ua);
+  }
+
+  function isDesktop () {
+    return screen.width > 991 && !hasMobileUA();
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767 && hasMobileUA();
+  }
+
+  function isMobile () {
+    return screen.width < 767 && hasMobileUA();
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+
+  function displaySidebar () {
+    setTimeout(function () {
+      $('.sidebar-toggle').trigger('click');
+    }, 800);
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    LogoAndMenuMotion();
+    sidebarToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.isShowing', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.isHiding', function () {});
+
+    function LogoAndMenuMotion() {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        
+        { e: $('.logo-line-before i'), p: { translateX: "100%" }, o: { duration: 500, sequenceQueue: false } },
+        { e: $('.logo-line-after i'), p: { translateX: "-100%" }, o: { duration: 500, sequenceQueue: false } },
+        
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200 } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    }
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, {
+        display: 'block',
+        duration: SIDEBAR_DISPLAY_DURATION,
+        complete: function () {
+          sidebar.addClass('sidebar-active');
+          sidebar.trigger('sidebar.didShow');
+        }
+      });
+      sidebar.trigger('sidebar.isShowing');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.removeClass('sidebar-active');
+      sidebar.trigger('sidebar.isHiding');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      var postMotionOptions = window.postMotionOptions || {stagger: 300, drag: true};
+      $('.post').velocity('transition.slideDownIn', postMotionOptions);
+    }
+
+    function sidebarToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      if (isDesktop() && HEXO_SIDEBAR_CONFIGURATION === 'post') {
+        displaySidebar();
+      }
+    });
+  </script>
+
+
+
+
+  <script type="text/javascript">
+    var HEXO_SIDEBAR_CONFIGURATION = 'always';
+    $(document).ready(function () {
+      if (HEXO_SIDEBAR_CONFIGURATION === 'always') {
+        displaySidebar();
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"rudy-zhang"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  
+</body>
+</html>
