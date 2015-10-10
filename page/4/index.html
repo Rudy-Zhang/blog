@@ -123,6 +123,323 @@
           
           
             
+              <a class="post-title-link" href="/2014/10/10/ASP.NET MVC之ViewBag/">
+                ASP.NET MVC之ViewBag
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-10-09
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/NET/">.NET</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/10/10/ASP.NET MVC之ViewBag/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/10/ASP.NET MVC之ViewBag/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="解释">解释</h2><p>ViewBag是一个动态对象，可以将属性添加到 ViewBag对象。<br>ViewBag是一个动态对象，这意味着可以随便提取这个属性 。<br>ViewBag是一个动态对象，提供方便的后期绑定方式将信息传递给视图。</p>
+<h2 id="什么时候使用">什么时候使用</h2><p>ASP.NET MVC 还提供将强类型数据或对象传递到视图模板的能力。便于检查类型错误。<br>使用方法：</p>
+<ul>
+<li>简单独立的数据使用ViewBag</li>
+<li>向前端传递一个大的对象，使用试图模板，便于检查错误<h2 id="ViewBag_VS_ViewData_VS_TempData">ViewBag VS ViewData VS TempData</h2></li>
+<li>viewbag是动态的viewdata,是一种更受欢迎的语法</li>
+<li>ViewBag其实本质就是ViewData,只是多了层Dynamic控制。使用何种方式完全取决于个人的爱好。</li>
+<li>ViewBag和ViewData仅针对当前Action中有效，生命周期和View相同。</li>
+<li>TempData 只是一个容器（类似于ViewBag），区别在于，重定向后（下一个页面）仍然可用</li>
+</ul>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-MVC/"> #ASP MVC </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/10/10/ASP.NET MVC之URL映射/">
+                ASP.NET MVC之URL映射
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-10-09
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/NET/">.NET</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/10/10/ASP.NET MVC之URL映射/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/10/ASP.NET MVC之URL映射/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="通常">通常</h2><p>web 服务器通常会将进入的 URL 请求直接映射到服务器上的磁盘文件。例如：某个 URL 请求（比如 “<a href="http://www.w3school.com.cn/index.asp&quot;）将映射到服务器根目录上的文件" target="_blank" rel="external">http://www.w3school.com.cn/index.asp&quot;）将映射到服务器根目录上的文件</a> “index.asp”。</p>
+<h2 id="MVC的URL映射">MVC的URL映射</h2><p>MVC 框架的映射方式有所不同。MVC 将 URL 映射到方法。这些方法在类中被称为“控制器”。控制器负责处理进入的请求、处理输入、保存数据、并把响应发送回客户端。</p>
+<p>ASP.NET MVC 所使用的默认 URL的路径映射为方法的调用：/[Controller]/[ActionName]/[Parameters]</p>
+<h2 id="例子">例子</h2><p>传参数  <code>/HelloWorld/Welcome?name=Scott&amp;numtimes=4</code></p>
+<p>```<br>public string Welcome(string name, int numTimes = 1) {<br>     return HttpUtility.HtmlEncode(“Hello “ + name + “, NumTimes is: “ + numTimes);}</p>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-MVC/"> #ASP MVC </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/03/27/从Lambda表达式到Linq查询/">
+                从Lambda表达式到Linq查询
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-03-27
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/NET/">.NET</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/27/从Lambda表达式到Linq查询/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/27/从Lambda表达式到Linq查询/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="Lambda表达式">Lambda表达式</h2><p>lamda表达式是一种匿名函数（没有函数名），使用方式</p>
+<blockquote>
+<p>输入参数=&gt;表达式或语句块</p>
+</blockquote>
+<p>仅当 lambda 只有一个输入参数时，括号才是可选的；否则括号是必需的。例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(x, y) =&#62; x == y</span><br></pre></td></tr></table></figure>
+<p>显示指定类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(int x, string s) =&#62; s.Length &#62; x</span><br></pre></td></tr></table></figure>
+<p>异步lamda：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">button1.Click += async (sender, e) =&#62;&#10;&#123;&#10;    textBox1.Text += &#34;\r\nControl returned to Click event handler.\r\n&#34;;&#10;&#125;;</span><br></pre></td></tr></table></figure>
+<p>Lamda中的<strong>类型推理</strong>：<br>通过推断来确定lamda表达式的输入参数的类型和返回值<br>Lambda 的一般规则如下：</p>
+<ul>
+<li>Lambda 包含的参数数量必须与委托类型包含的参数数量相同。</li>
+<li>Lambda 中的每个输入参数必须都能够隐式转换为其对应的委托参数。</li>
+<li>Lambda 的返回值（如果有）必须能够隐式转换为委托的返回类型。</li>
+</ul>
+<p>举例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">customers.Where(c =&#62; c.City == &#34;London&#34;);</span><br></pre></td></tr></table></figure>
+<p>通过c.City == “London”来推断出最终c的类型。</p>
+<h2 id="Linq">Linq</h2><p>Linq是<strong>使用C#语法进行的强类型查询语言</strong>，目的是提供统一对称的方式，在广义的数据上得到数据和操作数据.</p>
+<p>好处：可以进行多种数据形式的查询，如SQL，XML<br>Linq应用场景：</p>
+<ul>
+<li>Linq to object 针对数组和集合</li>
+<li>Linq to XML 操纵查询XML文档</li>
+<li>Linq to DataSet 针对ADO.Net的DataSet对象</li>
+<li>Linq to Entities：针对ADO.Net Entity Framework API使用LINQ查询</li>
+</ul>
+<p>举例：Linq to object</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> string[] strs = &#123; &#34;Morrroewed&#34;, &#34;djfuajre 2&#34; , &#34;dfa ad f 3&#34;, &#34;ad adf 4&#34; &#125;;&#10;IEnumerable&#60;string &#62; subset = from str in strs&#10;    where str.Contains(&#34; &#34; )&#10;    orderby str&#10;    select str;&#10;    foreach (string s in subset)&#10;        Console.WriteLine(&#34;item:&#123;0&#125;&#34; , s);</span><br></pre></td></tr></table></figure>
+<p>结果集由实现了IEnumberable<t>的对象表示，在这个例子中T为string<br>实际上查询的函数都是由IEnumberable<t>中的函数（被子类重载后）来帮助我们实现的</t></t></p>
+<p>简便方法：<strong>使用隐式类型</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var subset = from str in strs</span><br></pre></td></tr></table></figure>
+<p>Linq的操作只有在迭代查询结果的时候才执行，这种功能叫做<strong>延迟执行</strong><br>Linq中关键词的作用：</p>
+<ul>
+<li>from in指定查询数据容器,</li>
+<li>where 查询条件</li>
+<li>select 从容其中选择一个序列</li>
+<li>join、on、equals、into基于指定键进行关联操作</li>
+<li>order by、ascending、descending 排序</li>
+<li>group by 对数据分组</li>
+</ul>
+<p>转换结果集：</p>
+<ul>
+<li>Reverse&lt;&gt;()</li>
+<li>RoArray&lt;&gt;()</li>
+<li>ToList&lt;&gt;()</li>
+</ul>
+<p>from item in container,select item<br>item是从container中查找的元素，可以起任意的名字，select是最终选择的内容</p>
+<h2 id="使用Enumerable类型和Lamda表达式建立查询">使用Enumerable类型和Lamda表达式建立查询</h2><h3 id="原理">原理</h3><p>Linq to object中的一些功能可以使用Enumerable对象（可以理解为数据容器）的扩展方法来访问。<br>如调用Enumerable.Where()方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public static IEnumerable&#60;Tsource&#62; Where &#60;Tsource&#62;(this IEnumerable&#60;Tsource&#62; source,System.Func&#60;Tsource,int,bool&#62; predicate)</span><br></pre></td></tr></table></figure>
+<p>其中Func&lt;&gt;是一个<strong>泛型委托</strong>，接受一定的参数，通过把写好的<strong>匿名函数</strong>（Lamda表达式）作为参数传入，就可以执行查询逻辑了</p>
+<h3 id="目的">目的</h3><p>使得查询语句写法更加简便</p>
+<h3 id="举例">举例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var subset = strs.Where(str =&#62; str.Contains( &#34; &#34;));</span><br></pre></td></tr></table></figure>
+<p>str相当于from str in strs<br> str.Contains( “ “))相当于执行where的条件判断</p>
+<h3 id="更复杂的版本">更复杂的版本</h3><p>var subset = strs.Where(str =&gt; str.Contains( “ “)).OrderBy(str=&gt;str).Select(str=&gt;str);</p>
+<h3 id="后记">后记</h3><p>这种方法不过是LINQ查询语句的简记版本而已</p>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/"> #C# </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/03/25/如何阅读一篇论文/">
                 如何阅读一篇论文
               </a>
@@ -721,7 +1038,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">35</span>
+              <span class="site-state-item-count">38</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -735,7 +1052,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-count">18</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

@@ -329,6 +329,774 @@
   </entry>
   
   <entry>
+    <title><![CDATA[找工作总结-二叉树专题-一般题目]]></title>
+    <link href="http://rudy-zhang.me/2015/10/10/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B8%93%E9%A2%98-%E4%B8%80%E8%88%AC%E9%A2%98%E7%9B%AE/"/>
+    <id>http://rudy-zhang.me/2015/10/10/找工作总结-二叉树专题-一般题目/</id>
+    <published>2015-10-10T08:15:28.000Z</published>
+    <updated>2015-10-10T09:48:16.108Z</updated>
+    <content type="html"><![CDATA[<h3 id="求二叉树镜像">求二叉树镜像</h3><pre><code><span class="type">TreeNode</span> *getMirror(<span class="type">TreeNode</span> *root)
+{
+    <span class="keyword">if</span>(root == <span class="type">NULL</span>)
+        <span class="keyword">return</span> root;
+    <span class="type">TreeNode</span> *<span class="keyword">left</span> = getMirror(root-&gt;<span class="keyword">left</span>);
+    <span class="type">TreeNode</span> *<span class="keyword">right</span> = getMirror(root-&gt;<span class="keyword">right</span>);
+    root-&gt;<span class="keyword">left</span> = <span class="keyword">right</span>;
+    root-&gt;<span class="keyword">right</span> = <span class="keyword">left</span>;
+    <span class="keyword">return</span> root;
+}
+</code></pre><h3 id="判断一棵二叉树是不是另一棵二叉树的子结构">判断一棵二叉树是不是另一棵二叉树的子结构</h3><pre><code>bool judge(TreeNode <span class="subst">*</span>node1, TreeNode <span class="subst">*</span>node2)
+{
+    <span class="keyword">if</span>(node1 <span class="subst">==</span> <span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> node2 <span class="subst">==</span> <span class="built_in">NULL</span>)
+        <span class="keyword">return</span> <span class="literal">true</span>;
+    <span class="keyword">if</span>(node1 <span class="subst">!=</span> <span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> node2 <span class="subst">==</span> <span class="built_in">NULL</span>)
+        <span class="keyword">return</span> <span class="literal">true</span>;
+    <span class="keyword">if</span>(node1 <span class="subst">==</span> <span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> node2 <span class="subst">!=</span> <span class="built_in">NULL</span>)
+        <span class="keyword">return</span> <span class="literal">false</span>;
+    <span class="keyword">if</span>(node1<span class="subst">-&gt;</span>val <span class="subst">==</span> node2<span class="subst">-&gt;</span>val)
+        <span class="keyword">return</span> judge(node1<span class="subst">-&gt;</span>left, node2<span class="subst">-&gt;</span>left) <span class="subst">&amp;&amp;</span>
+            judge(node2<span class="subst">-&gt;</span>right, node2<span class="subst">-&gt;</span>right);
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="literal">false</span>;
+}
+bool hasSubTree(TreeNode <span class="subst">*</span>node1, TreeNode <span class="subst">*</span>node2)
+{
+    <span class="keyword">if</span>(node1 <span class="subst">==</span> <span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> node2 <span class="subst">==</span> <span class="built_in">NULL</span>)
+        <span class="keyword">return</span> <span class="literal">true</span>;
+    <span class="keyword">if</span>(node1 <span class="subst">!=</span> <span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> node2 <span class="subst">==</span> <span class="built_in">NULL</span>)
+        <span class="keyword">return</span> <span class="literal">true</span>;
+    <span class="keyword">if</span>(node1 <span class="subst">==</span> <span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> node2 <span class="subst">!=</span> <span class="built_in">NULL</span>)
+        <span class="keyword">return</span> <span class="literal">false</span>;
+    <span class="keyword">if</span>(node1<span class="subst">-&gt;</span>val <span class="subst">==</span> node2<span class="subst">-&gt;</span>val <span class="subst">&amp;&amp;</span> judge(node1, node2))
+            <span class="keyword">return</span> <span class="literal">true</span>;
+    <span class="keyword">return</span> hasSubTree(node1<span class="subst">-&gt;</span>left, node2) <span class="subst">||</span>
+            hasSubTree(node1<span class="subst">-&gt;</span>right, node2);
+}
+</code></pre><h3 id="求二叉树中两个节点的最低公共祖先节点">求二叉树中两个节点的最低公共祖先节点</h3><h4 id="如果是二叉查找树">如果是二叉查找树</h4><pre><code><span class="keyword">class</span> <span class="type">Solution</span> {
+public:
+    <span class="type">TreeNode</span>* lowestCommonAncestor(<span class="type">TreeNode</span>* root, <span class="type">TreeNode</span>* p, <span class="type">TreeNode</span>* q) {
+        <span class="keyword">if</span>(root-&gt;<span class="keyword">val</span> &lt; p-&gt;<span class="keyword">val</span> &amp;&amp; root-&gt;<span class="keyword">val</span> &lt; q-&gt;<span class="keyword">val</span>)
+            return lowestCommonAncestor(root-&gt;right, p, q);
+        <span class="keyword">else</span> <span class="keyword">if</span>(root-&gt;<span class="keyword">val</span> &gt; p-&gt;<span class="keyword">val</span> &amp;&amp; root-&gt;<span class="keyword">val</span> &gt; q-&gt;<span class="keyword">val</span>)
+            return lowestCommonAncestor(root-&gt;left, p, q);
+        <span class="keyword">else</span>
+            return root;
+    }
+};
+</code></pre><ul>
+<li>考虑是否需要判断这棵树是不是二叉查找树</li>
+<li>考虑这两个节点是否在树中</li>
+</ul>
+<h4 id="如果是一棵普通的树">如果是一棵普通的树</h4><pre><code><span class="keyword">class</span> <span class="type">Solution</span> {
+public:
+    <span class="type">TreeNode</span>* lowestCommonAncestor(<span class="type">TreeNode</span>* root, <span class="type">TreeNode</span>* p, <span class="type">TreeNode</span>* q) {
+        <span class="keyword">if</span>(root-&gt;<span class="keyword">val</span> &lt; p-&gt;<span class="keyword">val</span> &amp;&amp; root-&gt;<span class="keyword">val</span> &lt; q-&gt;<span class="keyword">val</span>)
+            return lowestCommonAncestor(root-&gt;right, p, q);
+        <span class="keyword">else</span> <span class="keyword">if</span>(root-&gt;<span class="keyword">val</span> &gt; p-&gt;<span class="keyword">val</span> &amp;&amp; root-&gt;<span class="keyword">val</span> &gt; q-&gt;<span class="keyword">val</span>)
+            return lowestCommonAncestor(root-&gt;left, p, q);
+        <span class="keyword">else</span>
+            return root;
+    }
+};
+</code></pre><h3 id="求二叉树中节点最大距离">求二叉树中节点最大距离</h3><p><a href="http://blog.csdn.net/lalor/article/details/7626678" target="_blank" rel="external">问题描述</a></p>
+<h4 id="解法">解法</h4><ul>
+<li>二叉树为空，最大距离是0</li>
+<li>二叉树不为空，最大距离=max:<ul>
+<li>左子树中最大距离</li>
+<li>右子树中最大距离</li>
+<li>左子树到跟的最大距离+1+右子树到根的最大距离</li>
+</ul>
+</li>
+</ul>
+<h4 id="代码">代码</h4><pre><code>int GetMaxDistance(BinaryTreeNode * pRoot, int &amp; <span class="keyword">max</span>Left, int &amp; <span class="keyword">max</span>Right)
+{
+    // <span class="keyword">max</span>Left, 左子树中的节点距离根节点的最远距离
+    // <span class="keyword">max</span>Right, 右子树中的节点距离根节点的最远距离
+    if(pRoot == NULL)
+    {
+        <span class="keyword">max</span>Left = <span class="number">0</span>;
+        <span class="keyword">max</span>Right = <span class="number">0</span>;
+        return <span class="number">0</span>;
+    }
+    int <span class="keyword">max</span>LL, <span class="keyword">max</span>LR, <span class="keyword">max</span>RL, <span class="keyword">max</span>RR; //<span class="keyword">max</span>LL 代表左子树中节点距离左子树根节点最大距离
+    int <span class="keyword">max</span>DistLeft, <span class="keyword">max</span>DistRight; //左右子树中的最大距离
+    if(pRoot-&gt;m_pLeft != NULL)
+    {
+        <span class="keyword">max</span>DistLeft = GetMaxDistance(pRoot-&gt;m_pLeft, <span class="keyword">max</span>LL, <span class="keyword">max</span>LR);
+        <span class="keyword">max</span>Left = <span class="keyword">max</span>(<span class="keyword">max</span>LL, <span class="keyword">max</span>LR) + <span class="number">1</span>;
+    }
+    else
+    {
+        <span class="keyword">max</span>DistLeft = <span class="number">0</span>;
+        <span class="keyword">max</span>Left = <span class="number">0</span>;
+    }
+    if(pRoot-&gt;m_pRight != NULL)
+    {
+        <span class="keyword">max</span>DistRight = GetMaxDistance(pRoot-&gt;m_pRight, <span class="keyword">max</span>RL, <span class="keyword">max</span>RR);
+        <span class="keyword">max</span>Right = <span class="keyword">max</span>(<span class="keyword">max</span>RL, <span class="keyword">max</span>RR) + <span class="number">1</span>;
+    }
+    else
+    {
+        <span class="keyword">max</span>DistRight = <span class="number">0</span>;
+        <span class="keyword">max</span>Right = <span class="number">0</span>;
+    }
+    return <span class="keyword">max</span>(<span class="keyword">max</span>(<span class="keyword">max</span>DistLeft, <span class="keyword">max</span>DistRight), <span class="keyword">max</span>Left+<span class="keyword">max</span>Right);
+}
+</code></pre><h3 id="剑指offer25_二叉树中某一路径和为target">剑指offer25 二叉树中某一路径和为target</h3><h4 id="问题描述">问题描述</h4><p>输入一颗二叉树和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。</p>
+<h4 id="解法-1">解法</h4><p>先序递归遍历，使用vector存储路径</p>
+<h3 id="#">#</h3><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; FindPath(TreeNode* root,<span class="keyword">int</span> expectNumber) {
+        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; <span class="built_in">list</span>;
+        <span class="keyword">if</span>(root == NULL) <span class="keyword">return</span> <span class="built_in">list</span>;
+        <span class="built_in">vector</span>&lt;TreeNode *&gt; path;
+        Find(root, expectNumber, <span class="number">0</span>, path, <span class="built_in">list</span>);
+        <span class="keyword">return</span> <span class="built_in">list</span>;
+    }
+
+    <span class="function"><span class="keyword">void</span> <span class="title">Find</span><span class="params">(TreeNode *node, <span class="keyword">int</span> expectNumber, <span class="keyword">int</span> currentSum, <span class="built_in">vector</span>&lt;TreeNode *&gt; &amp;path, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; &amp;<span class="built_in">list</span>)</span>
+    </span>{
+        <span class="keyword">if</span>(node == NULL)
+            <span class="keyword">return</span>;
+        currentSum += node-&gt;val;
+        path.push_back(node);
+        <span class="keyword">if</span>(node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; currentSum == expectNumber)
+        {
+            <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vec;
+            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; path.size(); i++)
+            {
+                vec.push_back(path[i]-&gt;val);
+            }
+            <span class="built_in">list</span>.push_back(vec);
+        }
+        Find(node-&gt;left,expectNumber,currentSum,path,<span class="built_in">list</span>);
+        Find(node-&gt;right,expectNumber,currentSum,path,<span class="built_in">list</span>);
+        path.pop_back();
+    }
+};
+</code></pre><h3 id="剑指offer_58_二叉树的下一个节点">剑指offer 58 二叉树的下一个节点</h3><h4 id="问题描述-1">问题描述</h4><p> 给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。</p>
+<h4 id="解法-2">解法</h4><p>中序遍历的顺序使左中右，假设当前节点为node，讨论下面两种情况：</p>
+<ul>
+<li>node存在右子树，下一个节点是右节点一直向左遍历的最后一个节点</li>
+<li>不存在右子树，node == node-&gt;father-&gt;right,想左回溯，直到node == node-&gt;father-&gt;left </li>
+</ul>
+<h4 id="代码-1">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+    TreeLinkNode* GetNext(TreeLinkNode* pNode)
+    {
+        <span class="keyword">if</span>(pNode == <span class="keyword">NULL</span>)
+            <span class="keyword">return</span> <span class="keyword">NULL</span>;
+        <span class="keyword">if</span>(pNode-&gt;right != <span class="keyword">NULL</span>)
+        {
+            TreeLinkNode* right = pNode-&gt;right;
+            TreeLinkNode* node = right;
+            <span class="keyword">while</span>(node-&gt;left)
+                node = node-&gt;left;
+            <span class="keyword">return</span> node;
+        }
+        <span class="keyword">else</span> <span class="keyword">if</span>(pNode-&gt;next == <span class="keyword">NULL</span>)
+            <span class="keyword">return</span> <span class="keyword">NULL</span>;
+        <span class="keyword">else</span>
+        {
+            TreeLinkNode* node = pNode;
+            <span class="keyword">while</span>(node-&gt;next &amp;&amp; node-&gt;next-&gt;right == node)
+                node = node-&gt;next;
+            <span class="keyword">if</span>(node-&gt;next == <span class="keyword">NULL</span>)
+                <span class="keyword">return</span> <span class="keyword">NULL</span>;
+            <span class="keyword">else</span>
+                <span class="keyword">return</span> node-&gt;next;
+        }
+    }
+};
+</code></pre><h3 id="剑指offer_62_序列化二叉树">剑指offer 62 序列化二叉树</h3><h4 id="问题描述-2">问题描述</h4><p>请实现两个函数，分别用来序列化和反序列化二叉树</p>
+<h4 id="解法-3">解法</h4><p>可以使用任意一种遍历方法</p>
+<h4 id="注意点">注意点</h4><ul>
+<li>对NULL的处理</li>
+<li>使用sprintf函数，把node-&gt;val把整数赋值到字符串上</li>
+</ul>
+<h4 id="代码-2">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+    <span class="keyword">char</span>* Serialize(TreeNode *root) {   
+        <span class="keyword">if</span>(root == NULL)
+            <span class="keyword">return</span> NULL;
+        string <span class="keyword">str</span>;
+        serializeR(root, <span class="keyword">str</span>);
+        <span class="keyword">char</span> *p = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="keyword">str</span>.size()+<span class="number">1</span>];
+        strcpy(p, <span class="keyword">str</span>.data());
+        <span class="keyword">return</span> p;
+    }
+
+    <span class="keyword">void</span> serializeR(TreeNode* node, string&amp; <span class="keyword">str</span>)
+    {
+        <span class="keyword">if</span>(node == NULL)
+        {   
+            <span class="keyword">str</span> += <span class="string">"#,"</span>;
+            <span class="keyword">return</span> ;
+        }  
+        <span class="keyword">char</span> numStr[<span class="number">15</span>];
+        sprintf(numStr, <span class="string">"%d"</span>, node-&gt;val);
+        <span class="keyword">str</span> += numStr;
+        <span class="keyword">str</span> += <span class="string">','</span>;
+        serializeR(node-&gt;left, <span class="keyword">str</span>);
+        serializeR(node-&gt;right, <span class="keyword">str</span>);
+    }
+
+    TreeNode* Deserialize(<span class="keyword">char</span> *<span class="keyword">str</span>) {
+        <span class="keyword">if</span>(<span class="keyword">str</span> == NULL || *<span class="keyword">str</span> == <span class="string">'\0'</span> || *<span class="keyword">str</span> == <span class="string">'#'</span>)
+            <span class="keyword">return</span> NULL;
+        <span class="keyword">int</span> num = <span class="number">0</span>;
+        <span class="keyword">return</span> deserialR(<span class="keyword">str</span>, num);
+    }
+
+    TreeNode* deserialR(<span class="keyword">char</span>* <span class="keyword">str</span>, <span class="keyword">int</span>&amp; num)
+    {
+        <span class="keyword">if</span>(<span class="keyword">str</span>[num] == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> NULL;
+        <span class="keyword">if</span>(<span class="keyword">str</span>[num] == <span class="string">'#'</span>)
+        {
+            num += <span class="number">2</span>;
+            <span class="keyword">return</span> NULL;
+        }
+        <span class="keyword">int</span> val = <span class="number">0</span>;
+        <span class="keyword">while</span>(<span class="keyword">str</span>[num] != <span class="string">','</span> &amp;&amp; <span class="keyword">str</span>[num] != <span class="string">'\0'</span>)
+        {
+            val = val*<span class="number">10</span> + (<span class="keyword">str</span>[num] - <span class="string">'0'</span>);
+            num++;
+        }
+        num++;
+        TreeNode* node = <span class="keyword">new</span> TreeNode(val);
+        node-&gt;left = deserialR(<span class="keyword">str</span>, num);
+        node-&gt;right = deserialR(<span class="keyword">str</span>, num);
+        <span class="keyword">return</span> node;
+    }
+};
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<h3 id="求二叉树镜像">求二叉树镜像</h3><pre><code><span class="type">TreeNode</span> *getMirror(<span class="type">TreeNode</span> *root)
+{
+    <span cl]]>
+    </summary>
+    
+      <category term="二叉树" scheme="http://rudy-zhang.me/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
+    
+      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[找工作总结-二叉树专题-二叉查找树]]></title>
+    <link href="http://rudy-zhang.me/2015/10/10/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B8%93%E9%A2%98-%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91/"/>
+    <id>http://rudy-zhang.me/2015/10/10/找工作总结-二叉树专题-二叉查找树/</id>
+    <published>2015-10-10T07:36:37.000Z</published>
+    <updated>2015-10-10T08:14:21.428Z</updated>
+    <content type="html"><![CDATA[<h2 id="主要思路">主要思路</h2><blockquote>
+<p>二叉排序树（Binary Sort Tree）又称二叉查找树（Binary Search Tree），亦称二叉搜索树。<br>二叉排序树或者是一棵空树，或者是具有下列性质的二叉树：<br>（1）若左子树不空，则左子树上所有结点的值均小于它的根结点的值；<br>（2）若右子树不空，则右子树上所有结点的值均大于它的根结点的值；<br>（3）左、右子树也分别为二叉排序树；<br>（4）没有键值相等的节点。</p>
+</blockquote>
+<p>常用思路：二叉查找树的中序遍历是一个有序序列</p>
+<h2 id="题目">题目</h2><h3 id="验证一个二叉查找树是否合法">验证一个二叉查找树是否合法</h3><p>中序遍历是有序的<br>使用额外存储：</p>
+<pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="function"><span class="keyword">bool</span> <span class="title">isValidBST</span><span class="params">(TreeNode *root)</span> </span>{
+        <span class="keyword">if</span>(root == NULL) <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vec;
+        inorder(root, vec);
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;vec.size()-<span class="number">1</span>;i++)
+        {
+            <span class="keyword">if</span>(vec[i]&gt;=vec[i+<span class="number">1</span>])
+                <span class="keyword">return</span> <span class="keyword">false</span>;
+        }
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    }
+
+    <span class="function"><span class="keyword">void</span> <span class="title">inorder</span><span class="params">(TreeNode *node,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;vec)</span>
+    </span>{
+        <span class="keyword">if</span>(node == NULL)
+            <span class="keyword">return</span>;
+        inorder(node-&gt;left, vec);
+        vec.push_back(node-&gt;val);
+        inorder(node-&gt;right, vec);
+    }
+};
+</code></pre><p>直接在中序遍历的过程中判断：</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+    TreeNode *prev=<span class="keyword">NULL</span>;
+    bool isValidBST(TreeNode* root) {
+        <span class="keyword">if</span>(root == <span class="keyword">NULL</span>)
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">if</span>(!isValidBST(root-&gt;left))
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">if</span>(prev &amp;&amp; prev-&gt;val &gt;= root-&gt;val)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        prev = root;
+        <span class="keyword">return</span> isValidBST(root-&gt;right);
+    }
+};
+</code></pre><h3 id="判断一个序列是不是二叉查找树的后序遍历">判断一个序列是不是二叉查找树的后序遍历</h3><pre><code>bool isValidR(vector&lt;<span class="keyword">int</span>&gt; &amp;seq, <span class="keyword">int</span> start, <span class="keyword">int</span> end)
+{
+    <span class="keyword">if</span>(start &gt;= end)
+        <span class="keyword">return</span> true;
+    <span class="keyword">int</span> ls,le,rs,re,i;
+    ls = start;
+    <span class="keyword">for</span>(i=start;i&lt;end &amp;&amp; se<span class="string">q[i]</span>&lt;se<span class="string">q[end]</span>;i++){}
+    le = i-<span class="number">1</span>;
+    rs = i;
+    <span class="keyword">for</span>(;i&lt;end;i++)
+    {
+        <span class="keyword">if</span>(se<span class="string">q[i]</span>&lt;=se<span class="string">q[end]</span>)
+            <span class="keyword">return</span> false;
+    }
+    re=end-<span class="number">1</span>;
+    <span class="keyword">return</span> isValidR(seq, ls, le) &amp;&amp; isValidR(seq, rs, re);
+}
+bool isValidPostOrderSequence(vector&lt;<span class="keyword">int</span>&gt; seq)
+{
+    <span class="keyword">if</span>(seq.size() == <span class="number">0</span>)
+        <span class="keyword">return</span> false;
+    <span class="keyword">if</span>(seq.size() == <span class="number">1</span>)
+        <span class="keyword">return</span> true;
+    <span class="keyword">return</span> isValidR(seq, <span class="number">0</span>, seq.size()-<span class="number">1</span>);
+}
+</code></pre><h3 id="剑指offer_63_二叉查找树的第K个节点">剑指offer 63 二叉查找树的第K个节点</h3><h4 id="问题描述">问题描述</h4><p>给定一颗二叉搜索树，请找出其中的第k大的结点。例如， 5 / \ 3 7 /\ /\ 2 4 6 8 中，按结点数值大小顺序第三个结点的值为4。</p>
+<h4 id="解法">解法</h4><p>找到中序遍历的第k个元素即可，使用k的引用传递当做全局变量使用</p>
+<h4 id="代码">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+    TreeNode* KthNode(TreeNode* pRoot, unsigned int k)
+    {
+        <span class="keyword">if</span>(pRoot == <span class="keyword">NULL</span> || k &lt;= <span class="number">0</span>)
+            <span class="keyword">return</span> <span class="keyword">NULL</span>;
+        <span class="keyword">return</span> KthNodeR(pRoot, k);
+    }
+
+    TreeNode* KthNodeR(TreeNode* node, unsigned int&amp; k)
+    {
+        <span class="keyword">if</span>(node == <span class="keyword">NULL</span>)
+            <span class="keyword">return</span> <span class="keyword">NULL</span>;
+        TreeNode* temp = KthNodeR(node-&gt;left, k);
+        <span class="keyword">if</span>(temp)
+            <span class="keyword">return</span> temp;
+        k--;
+        <span class="keyword">if</span>(k == <span class="number">0</span>)
+            <span class="keyword">return</span> node;
+        temp = KthNodeR(node-&gt;right, k);
+        <span class="keyword">if</span>(temp)
+            <span class="keyword">return</span> temp;
+    }
+};
+</code></pre><h3 id="剑指offer_27_二叉搜索树与双向链表">剑指offer 27 二叉搜索树与双向链表</h3><h4 id="问题描述-1">问题描述</h4><p>输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。</p>
+<h4 id="解法-1">解法</h4><p>中序遍历，使用lastInList的引用传递，提供已经中序遍历链表的最后一个节点。</p>
+<h4 id="代码-1">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+    TreeNode* Convert(TreeNode* pRootOfTree)
+    {
+        <span class="keyword">if</span>(pRootOfTree == <span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
+        TreeNode* lastInList=<span class="keyword">NULL</span>;
+        convertCore(pRootOfTree, lastInList);
+        TreeNode *head = pRootOfTree;
+        <span class="keyword">while</span>(head-&gt;left)
+            head=head-&gt;left;
+        <span class="keyword">return</span> head;
+    }
+
+    void convertCore(TreeNode *root, TreeNode *(&amp;lastInList))
+    {
+        <span class="keyword">if</span>(root == <span class="keyword">NULL</span>) <span class="keyword">return</span>;
+        <span class="keyword">if</span>(root-&gt;left)
+            convertCore(root-&gt;left, lastInList);
+        root-&gt;left = lastInList;
+        <span class="keyword">if</span>(lastInList)
+            lastInList-&gt;right=root;
+        lastInList = root;
+        <span class="keyword">if</span>(root-&gt;right)
+            convertCore(root-&gt;right, lastInList);
+    }
+};
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="主要思路">主要思路</h2><blockquote>
+<p>二叉排序树（Binary Sort Tree）又称二叉查找树（Binary Search Tree），亦称二叉搜索树。<br>二叉排序树或者是一棵空树，或者是具有下列性质的二叉树：<br>（1）若左子树]]>
+    </summary>
+    
+      <category term="二叉树" scheme="http://rudy-zhang.me/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
+    
+      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[找工作总结-二叉树专题-基础]]></title>
+    <link href="http://rudy-zhang.me/2015/10/10/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B8%93%E9%A2%98-%E5%9F%BA%E7%A1%80/"/>
+    <id>http://rudy-zhang.me/2015/10/10/找工作总结-二叉树专题-基础/</id>
+    <published>2015-10-10T01:59:47.000Z</published>
+    <updated>2015-10-10T07:30:23.296Z</updated>
+    <content type="html"><![CDATA[<h2 id="节点声明">节点声明</h2><pre><code>struct TreeNode
+{
+    <span class="built_in">int</span> val;
+    TreeNode* <span class="built_in">left</span>;
+    TreeNode* <span class="built_in">right</span>;
+    TreeNode(<span class="built_in">int</span> x):val(x), <span class="built_in">left</span>(<span class="literal">NULL</span>), <span class="built_in">right</span>(<span class="literal">NULL</span>){}
+};
+</code></pre><h2 id="遍历">遍历</h2><h3 id="递归遍历">递归遍历</h3><pre><code><span class="literal">void</span> preTranverse(TreeNode<span class="subst">*</span> node)
+{
+    <span class="keyword">if</span>(node <span class="subst">==</span> <span class="built_in">NULL</span>)
+        <span class="keyword">return</span>;
+    visit(node);
+    preTranverse(node<span class="subst">-&gt;</span>left);
+    preTranverse(node<span class="subst">-&gt;</span>right);
+}
+</code></pre><p>以上为先序递归遍历，中序后序只需要修改<code>visit(node)</code>函数的位置即可。</p>
+<h3 id="非递归遍历">非递归遍历</h3><p>核心思想是使用栈模拟递归，二叉树可以看成是对多有两个分支的有向图，递归遍历实际上是一种深度优先遍历。实际上是使用栈模拟深度优先遍历。</p>
+<h4 id="先序">先序</h4><pre><code>void preOrder(<span class="constant">Tree</span>Node *<span class="literal">root</span>)
+<span class="keyword">{</span>
+    <span class="keyword">if</span>(<span class="literal">root</span> == <span class="constant">N</span>ULL)
+        return ;
+    stack&lt;<span class="constant">Tree</span>Node*&gt; s;
+    <span class="constant">Tree</span>Node* <span class="keyword">node</span> = <span class="literal">root</span>;
+    while(<span class="keyword">node</span> || !s.empty())
+    <span class="keyword">{</span>
+        while(<span class="keyword">node</span>)
+        <span class="keyword">{</span>
+            //visit <span class="keyword">node</span>
+            cout&lt;&lt;<span class="keyword">node</span>-&gt;val&lt;&lt;<span class="string">" "</span>;
+            s.push(<span class="keyword">node</span>);
+            <span class="keyword">node</span> = <span class="keyword">node</span>-&gt;left;
+        <span class="keyword">}</span>
+        <span class="keyword">if</span>(!s.empty())
+        <span class="keyword">{</span>
+            <span class="keyword">node</span> = s.top();
+            s.pop();
+            <span class="keyword">node</span> = <span class="keyword">node</span>-&gt;right;
+        <span class="keyword">}</span>
+    <span class="keyword">}</span>
+<span class="keyword">}</span>
+</code></pre><h4 id="中序">中序</h4><pre><code>void inOrder(<span class="constant">Tree</span>Node *<span class="literal">root</span>)
+<span class="keyword">{</span>
+    <span class="keyword">if</span>(<span class="literal">root</span> == <span class="constant">N</span>ULL)
+        return ;
+    stack&lt;<span class="constant">Tree</span>Node*&gt; s;
+    <span class="constant">Tree</span>Node* <span class="keyword">node</span> = <span class="literal">root</span>;
+    while(<span class="keyword">node</span> || !s.empty())
+    <span class="keyword">{</span>
+        while(<span class="keyword">node</span>)
+        <span class="keyword">{</span>
+            s.push(<span class="keyword">node</span>);
+            <span class="keyword">node</span> = <span class="keyword">node</span>-&gt;left;
+        <span class="keyword">}</span>
+        <span class="keyword">if</span>(!s.empty())
+        <span class="keyword">{</span>
+            <span class="keyword">node</span> = s.top();
+            //visit <span class="keyword">node</span>
+            cout&lt;&lt;<span class="keyword">node</span>-&gt;val&lt;&lt;<span class="string">" "</span>;
+            s.pop();
+            <span class="keyword">node</span> = <span class="keyword">node</span>-&gt;right;
+        <span class="keyword">}</span>
+    <span class="keyword">}</span>
+<span class="keyword">}</span>
+</code></pre><h4 id="后序">后序</h4><pre><code>struct MyNode
+{
+    TreeNode <span class="subst">*</span>n;
+    bool isFirst;
+};
+<span class="literal">void</span> postOrder(TreeNode <span class="subst">*</span>root)
+{
+    <span class="keyword">if</span>(root <span class="subst">==</span> <span class="built_in">NULL</span>)
+        <span class="keyword">return</span> ;
+    <span class="built_in">stack</span><span class="subst">&lt;</span>MyNode<span class="subst">*&gt;</span> s;
+    TreeNode<span class="subst">*</span> node <span class="subst">=</span> root;
+    <span class="keyword">while</span>(node <span class="subst">||</span> <span class="subst">!</span>s<span class="built_in">.</span>empty())
+    {
+        <span class="keyword">while</span>(node)
+        {
+            MyNode <span class="subst">*</span>myNode <span class="subst">=</span> <span class="literal">new</span> MyNode();
+            myNode<span class="subst">-&gt;</span>n <span class="subst">=</span> node;
+            myNode<span class="subst">-&gt;</span>isFirst <span class="subst">=</span> <span class="literal">true</span>;
+            s<span class="built_in">.</span>push(myNode);
+            node <span class="subst">=</span> node<span class="subst">-&gt;</span>left;
+        }
+        <span class="keyword">if</span>(<span class="subst">!</span>s<span class="built_in">.</span>empty())
+        {
+            MyNode <span class="subst">*</span>myNode <span class="subst">=</span> s<span class="built_in">.</span>top();
+            s<span class="built_in">.</span>pop();
+            <span class="keyword">if</span>(myNode<span class="subst">-&gt;</span>isFirst)
+            {
+                myNode<span class="subst">-&gt;</span>isFirst <span class="subst">=</span> <span class="literal">false</span>;
+                s<span class="built_in">.</span>push(myNode);
+                node <span class="subst">=</span> myNode<span class="subst">-&gt;</span>n<span class="subst">-&gt;</span>right;
+            }
+            <span class="keyword">else</span>
+            {
+                <span class="comment">//visit node</span>
+                cout<span class="subst">&lt;&lt;</span>myNode<span class="subst">-&gt;</span>n<span class="subst">-&gt;</span>val<span class="subst">&lt;&lt;</span><span class="string">" "</span>;
+            }
+        }
+    }
+}
+</code></pre><h3 id="层序遍历">层序遍历</h3><p>使用队列模拟广度优先遍历。</p>
+<pre><code>void levelOrder<span class="params">(TreeNode *root)</span>
+{
+    <span class="keyword">if</span><span class="params">(root == NULL)</span>
+        return;
+    queue&lt;TreeNode <span class="built_in">*</span>&gt; q;
+    TreeNode <span class="built_in">*</span>node = root;
+    q.push<span class="params">(node)</span>;
+    while<span class="params">(!q.empty<span class="params">()</span>)</span>
+    {
+        node = q.front<span class="params">()</span>;
+        q.pop<span class="params">()</span>;
+        cout&lt;&lt;node-&gt;val&lt;&lt;<span class="string">" "</span>;
+        <span class="keyword">if</span><span class="params">(node-&gt;left)</span>
+            q.push<span class="params">(node-&gt;left)</span>;
+        <span class="keyword">if</span><span class="params">(node-&gt;right)</span>
+            q.push<span class="params">(node-&gt;right)</span>;
+    }
+}
+</code></pre><h3 id="层序遍历引申题目">层序遍历引申题目</h3><h4 id="剑指offer_60_把二叉树打印成多行">剑指offer 60 把二叉树打印成多行</h4><p><strong>问题描述</strong><br>从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行。</p>
+<p><strong>解法</strong><br>遍历每一层的时候记录本行和下一行的节点个数，当本行个数变为0，开始下一行。</p>
+<p><strong>代码</strong></p>
+<pre><code>class <span class="type">Solution</span> {
+public:
+        vector&lt;vector&lt;<span class="type">int</span>&gt; &gt; <span class="type">Print</span>(<span class="type">TreeNode</span>* pRoot) {
+            vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="literal">result</span>;
+            <span class="keyword">if</span>(pRoot == <span class="type">NULL</span>)
+                <span class="keyword">return</span> <span class="literal">result</span>;
+            vector&lt;<span class="type">int</span>&gt; line;
+            queue&lt;<span class="type">TreeNode</span>*&gt; q;
+            q.push(pRoot);
+            <span class="type">int</span> thisLine = <span class="number">1</span>;
+            <span class="type">int</span> nextLine = <span class="number">0</span>;
+            <span class="keyword">while</span>(!q.empty())
+            {
+                <span class="type">TreeNode</span>* node = q.front();
+                line.push_back(node-&gt;val);
+                q.pop();
+                thisLine--;
+                <span class="keyword">if</span>(node-&gt;left)
+                {
+                    q.push(node-&gt;left);
+                    nextLine++;
+                }
+                <span class="keyword">if</span>(node-&gt;right)
+                {
+                    q.push(node-&gt;right);
+                    nextLine++;
+                }
+                <span class="keyword">if</span>(thisLine == <span class="number">0</span>)
+                {
+                    <span class="literal">result</span>.push_back(line);
+                    line.clear();
+                    thisLine = nextLine;
+                    nextLine = <span class="number">0</span>;
+                }
+            }
+            <span class="keyword">return</span> <span class="literal">result</span>;
+        }
+};
+</code></pre><h4 id="剑指offer_61_按之字形打印二叉树">剑指offer 61 按之字形打印二叉树</h4><p><strong>问题描述</strong><br>请实现一个函数按照之字形打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，其他行以此类推。</p>
+<p><strong>解法</strong><br>使用两个栈stack[2]，从0行开始，对于偶数行，从左向右打印，对于奇数行，从右向左打印。</p>
+<p><strong>代码</strong></p>
+<pre><code>class <span class="type">Solution</span> {
+public:
+    vector&lt;vector&lt;<span class="type">int</span>&gt; &gt; <span class="type">Print</span>(<span class="type">TreeNode</span>* pRoot) {
+        vector&lt;vector&lt;<span class="type">int</span>&gt; &gt; <span class="literal">result</span>;
+        <span class="keyword">if</span>(pRoot == <span class="type">NULL</span>)
+            <span class="keyword">return</span> <span class="literal">result</span>;
+        <span class="type">int</span> line = <span class="number">0</span>;
+        vector&lt;<span class="type">int</span>&gt; vec;
+        stack&lt;<span class="type">TreeNode</span>* &gt; stacks[<span class="number">2</span>];
+        stacks[<span class="number">0</span>].push(pRoot);
+        <span class="keyword">while</span>(!stacks[<span class="number">0</span>].empty() || !stacks[<span class="number">1</span>].empty())
+        {
+            <span class="type">TreeNode</span>* node = stacks[line%<span class="number">2</span>].top();
+            stacks[line%<span class="number">2</span>].pop();
+            vec.push_back(node-&gt;val);
+            <span class="keyword">if</span>(line%<span class="number">2</span> == <span class="number">0</span>){
+                <span class="keyword">if</span>(node-&gt;left)
+                    stacks[(line+<span class="number">1</span>)%<span class="number">2</span>].push(node-&gt;left);          
+                <span class="keyword">if</span>(node-&gt;right)
+                    stacks[(line+<span class="number">1</span>)%<span class="number">2</span>].push(node-&gt;right);
+            }
+            <span class="keyword">else</span>
+            {
+                <span class="keyword">if</span>(node-&gt;right)
+                    stacks[(line+<span class="number">1</span>)%<span class="number">2</span>].push(node-&gt;right);          
+                <span class="keyword">if</span>(node-&gt;left)
+                    stacks[(line+<span class="number">1</span>)%<span class="number">2</span>].push(node-&gt;left);
+            }
+            <span class="keyword">if</span>(stacks[line%<span class="number">2</span>].empty())
+            {
+                <span class="literal">result</span>.push_back(vec);
+                vec.clear();
+                line++;
+            }
+        }
+        <span class="keyword">return</span> <span class="literal">result</span>;
+    }
+};
+</code></pre><h2 id="二叉树节点个数">二叉树节点个数</h2><h3 id="二叉树中节点个数">二叉树中节点个数</h3><pre><code><span class="built_in">int</span> getNodeNum(TreeNode *root)
+{
+    <span class="keyword">if</span>(root == <span class="literal">NULL</span>)
+        return <span class="number">0</span>;
+    <span class="built_in">int</span> <span class="built_in">left</span>=getNodeNum(root-&gt;<span class="built_in">left</span>);
+    <span class="built_in">int</span> <span class="built_in">right</span>=getNodeNum(root-&gt;<span class="built_in">right</span>);
+    return (<span class="number">1</span>+<span class="built_in">left</span>+<span class="built_in">right</span>);
+}
+</code></pre><h3 id="二叉树中叶子节点个数">二叉树中叶子节点个数</h3><pre><code><span class="built_in">int</span> getLeafNodeNum(TreeNode *root)
+{
+    <span class="keyword">if</span>(root==<span class="literal">NULL</span>)
+        return <span class="number">0</span>;
+    <span class="keyword">if</span>(root-&gt;<span class="built_in">left</span>==<span class="literal">NULL</span> &amp;&amp; root-&gt;<span class="built_in">right</span>==<span class="literal">NULL</span>)
+        return <span class="number">1</span>;
+    <span class="built_in">int</span> <span class="built_in">left</span>=getLeafNodeNum(root-&gt;<span class="built_in">left</span>);
+    <span class="built_in">int</span> <span class="built_in">right</span>=getLeafNodeNum(root-&gt;<span class="built_in">right</span>);
+    return (<span class="built_in">left</span>+<span class="built_in">right</span>);
+}
+</code></pre><h3 id="二叉树第k层节点个数">二叉树第k层节点个数</h3><pre><code><span class="built_in">int</span> getNumOfKLevel(TreeNode *root, <span class="built_in">int</span> k)
+{
+    <span class="keyword">if</span>(root == <span class="literal">NULL</span> || k &lt; <span class="number">1</span>)
+        return <span class="number">0</span>;
+    <span class="keyword">if</span>(k==<span class="number">1</span>)
+        return <span class="number">1</span>;
+    <span class="built_in">int</span> <span class="built_in">left</span> = getNumOfKLevel(root-&gt;<span class="built_in">left</span>,k-<span class="number">1</span>);
+    <span class="built_in">int</span> <span class="built_in">right</span> = getNumOfKLevel(root-&gt;<span class="built_in">right</span>,k-<span class="number">1</span>);
+    return (<span class="built_in">left</span> + <span class="built_in">right</span>);
+}
+</code></pre><h2 id="二叉树深度">二叉树深度</h2><h3 id="最大深度">最大深度</h3><pre><code><span class="built_in">int</span> getDepth(TreeNode* root)
+{
+    <span class="keyword">if</span>(root == <span class="literal">NULL</span>)
+        return <span class="number">0</span>;
+    <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">1</span> + getDepth(root-&gt;<span class="built_in">left</span>);
+    <span class="built_in">int</span> <span class="built_in">right</span> = <span class="number">1</span> + getDepth(root-&gt;<span class="built_in">right</span>);
+    return <span class="built_in">left</span> &gt;= <span class="built_in">right</span> ? <span class="built_in">left</span> : <span class="built_in">right</span>;
+}
+</code></pre><h3 id="多次使用深度，使用map记录二叉树深度，防止重复递归遍历">多次使用深度，使用map记录二叉树深度，防止重复递归遍历</h3><pre><code>int getDepth(<span class="type">TreeNode</span>* node, <span class="built_in">map</span>&lt;<span class="type">TreeNode</span>*, int&gt; &amp;dict)
+{
+    <span class="keyword">if</span>(node == <span class="type">NULL</span>)
+        <span class="keyword">return</span> <span class="number">0</span>;
+    <span class="keyword">if</span>(dict.<span class="built_in">count</span>(node) != <span class="number">0</span>)
+        <span class="keyword">return</span> dict[node];
+    int <span class="keyword">left</span> = <span class="number">1</span> + getDepth(node-&gt;<span class="keyword">left</span>, dict);
+    int <span class="keyword">right</span> = <span class="number">1</span> + getDepth(node-&gt;<span class="keyword">right</span>, dict);
+    dict[node] = (<span class="keyword">left</span> &gt;= <span class="keyword">right</span> ? <span class="keyword">left</span> : <span class="keyword">right</span>);
+    <span class="keyword">return</span> dict[node];
+}
+</code></pre><h3 id="最小深度">最小深度</h3><pre><code><span class="built_in">int</span> getMinDepth(TreeNode* root)
+{
+    <span class="keyword">if</span>(root == <span class="literal">NULL</span>)
+        return <span class="number">0</span>;
+    <span class="keyword">if</span>(root-&gt;<span class="built_in">left</span> == <span class="literal">NULL</span> &amp;&amp; root-&gt;<span class="built_in">right</span> == <span class="literal">NULL</span>)
+        return <span class="number">1</span>;
+    <span class="keyword">if</span>(root-&gt;<span class="built_in">left</span> == <span class="literal">NULL</span> &amp;&amp; root-&gt;<span class="built_in">right</span> != <span class="literal">NULL</span>)
+        return <span class="number">1</span> + getMinDepth(root-&gt;<span class="built_in">right</span>);
+    <span class="keyword">if</span>(root-&gt;<span class="built_in">left</span> != <span class="literal">NULL</span> &amp;&amp; root-&gt;<span class="built_in">right</span> == <span class="literal">NULL</span>)
+        return <span class="number">1</span> + getMinDepth(root-&gt;<span class="built_in">left</span>);
+    <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">1</span> + getMinDepth(root-&gt;<span class="built_in">left</span>);
+    <span class="built_in">int</span> <span class="built_in">right</span> = <span class="number">1</span> + getMinDepth(root-&gt;<span class="built_in">right</span>);
+    return <span class="built_in">left</span> &lt;= <span class="built_in">right</span> ? <span class="built_in">left</span> : <span class="built_in">right</span>;
+}
+</code></pre><h2 id="判断">判断</h2><h3 id="判断一棵二叉树是不是平衡二叉树">判断一棵二叉树是不是平衡二叉树</h3><p>平衡二叉树：左右子树的高度差不超过1并且左右子树都是平衡二叉树</p>
+<pre><code><span class="function"><span class="keyword">bool</span> <span class="title">isBalancedCore</span><span class="params">(TreeNode* node, <span class="built_in">map</span>&lt;TreeNode*, <span class="keyword">int</span>&gt;&amp; dict)</span>
+</span>{
+    <span class="keyword">if</span>(node == NULL)
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="keyword">int</span> left = getDepth(node-&gt;left, dict);
+    <span class="keyword">int</span> right = getDepth(node-&gt;right, dict);
+    <span class="keyword">return</span> (<span class="built_in">abs</span>(left - right) &lt;= <span class="number">1</span> &amp;&amp; 
+        isBalancedCore(node-&gt;left, dict) &amp;&amp; 
+        isBalancedCore(node-&gt;right, dict));
+}
+
+<span class="function"><span class="keyword">bool</span> <span class="title">isBalanced</span><span class="params">(TreeNode* root)</span>
+</span>{
+    <span class="built_in">map</span>&lt;TreeNode*, <span class="keyword">int</span>&gt; dict;
+    <span class="keyword">return</span> isBalancedCore(root, dict);
+}
+</code></pre><h3 id="判断一棵二叉树是不是完全二叉树">判断一棵二叉树是不是完全二叉树</h3><p>层次遍历，使用队列，若遇到一个节点子树为空，则后面的都为空。</p>
+<pre><code>bool isCompleteTree(TreeNode <span class="subst">*</span>root)
+{
+    <span class="keyword">if</span>(root <span class="subst">==</span> <span class="built_in">NULL</span>)
+        <span class="keyword">return</span> <span class="literal">true</span>;
+    TreeNode <span class="subst">*</span>node <span class="subst">=</span> root;
+    <span class="built_in">queue</span><span class="subst">&lt;</span>TreeNode <span class="subst">*&gt;</span> q;
+    q<span class="built_in">.</span>push(node);
+    bool isNULL <span class="subst">=</span> <span class="literal">false</span>;
+    <span class="keyword">while</span>(<span class="subst">!</span>q<span class="built_in">.</span>empty())
+    {
+        node <span class="subst">=</span> q<span class="built_in">.</span>front();
+        q<span class="built_in">.</span>pop();
+        <span class="keyword">if</span>(isNULL <span class="subst">==</span> <span class="literal">false</span>){
+            <span class="keyword">if</span>(node<span class="subst">-&gt;</span>left <span class="subst">&amp;&amp;</span> node<span class="subst">-&gt;</span>right)
+            {
+                q<span class="built_in">.</span>push(node<span class="subst">-&gt;</span>left);
+                q<span class="built_in">.</span>push(node<span class="subst">-&gt;</span>right);
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(node<span class="subst">-&gt;</span>left <span class="subst">==</span> <span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> node<span class="subst">-&gt;</span>right <span class="subst">!=</span> <span class="built_in">NULL</span>)
+                <span class="keyword">return</span> <span class="literal">false</span>;
+            <span class="keyword">else</span> <span class="keyword">if</span>(node<span class="subst">-&gt;</span>left <span class="subst">==</span> <span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> node<span class="subst">-&gt;</span>right <span class="subst">==</span> <span class="built_in">NULL</span>)
+                isNULL <span class="subst">=</span> <span class="literal">true</span>;
+            <span class="keyword">else</span> <span class="keyword">if</span>(node<span class="subst">-&gt;</span>left <span class="subst">!=</span> <span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> node<span class="subst">-&gt;</span>right <span class="subst">==</span> <span class="built_in">NULL</span>)
+            {
+                isNULL <span class="subst">=</span> <span class="literal">true</span>;
+                q<span class="built_in">.</span>push(node<span class="subst">-&gt;</span>left);
+            }
+        }
+        <span class="keyword">else</span>
+        {
+            <span class="keyword">if</span>(node<span class="subst">-&gt;</span>left <span class="subst">!=</span> <span class="built_in">NULL</span> <span class="subst">||</span> node<span class="subst">-&gt;</span>right <span class="subst">!=</span> <span class="built_in">NULL</span>)
+                <span class="keyword">return</span> <span class="literal">false</span>;
+        }
+    }
+    <span class="keyword">return</span> <span class="literal">true</span>;
+}
+</code></pre><h3 id="判断两颗二叉树是不是同一棵树">判断两颗二叉树是不是同一棵树</h3><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        <span class="keyword">if</span>( p == <span class="keyword">NULL</span> &amp;&amp; q == <span class="keyword">NULL</span>)
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">else</span> <span class="keyword">if</span>(p != <span class="keyword">NULL</span> &amp;&amp; q == <span class="keyword">NULL</span>)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">else</span> <span class="keyword">if</span>(p == <span class="keyword">NULL</span> &amp;&amp; q != <span class="keyword">NULL</span>)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">return</span> (p-&gt;val == q-&gt;val) &amp;&amp;
+                isSameTree(p-&gt;left, q-&gt;left) &amp;&amp;
+                isSameTree(p-&gt;right, q-&gt;right);
+    }
+};
+</code></pre><h3 id="判断一棵二叉树是不是对称的">判断一棵二叉树是不是对称的</h3><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    bool isSymmetric(TreeNode* root) {
+        <span class="keyword">if</span>(root == <span class="literal">NULL</span>)
+            return <span class="literal">true</span>;
+        <span class="keyword">else</span>
+            return sym(root-&gt;<span class="built_in">left</span>, root-&gt;<span class="built_in">right</span>);
+    }
+
+    bool sym(TreeNode *<span class="built_in">left</span>, TreeNode *<span class="built_in">right</span>)
+    {
+        <span class="keyword">if</span>(<span class="built_in">left</span> == <span class="literal">NULL</span> &amp;&amp; <span class="built_in">right</span> == <span class="literal">NULL</span>)
+            return <span class="literal">true</span>;
+        <span class="keyword">if</span>(<span class="built_in">left</span> != <span class="literal">NULL</span> &amp;&amp; <span class="built_in">right</span> == <span class="literal">NULL</span>)
+            return <span class="literal">false</span>;
+        <span class="keyword">if</span>(<span class="built_in">left</span> == <span class="literal">NULL</span> &amp;&amp; <span class="built_in">right</span> != <span class="literal">NULL</span>)
+            return <span class="literal">false</span>;
+        return <span class="built_in">left</span>-&gt;val == <span class="built_in">right</span>-&gt;val &amp;&amp;
+            sym(<span class="built_in">left</span>-&gt;<span class="built_in">left</span>, <span class="built_in">right</span>-&gt;<span class="built_in">right</span>) &amp;&amp;
+            sym(<span class="built_in">left</span>-&gt;<span class="built_in">right</span>, <span class="built_in">right</span>-&gt;<span class="built_in">left</span>);
+    }
+};
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="节点声明">节点声明</h2><pre><code>struct TreeNode
+{
+    <span class="built_in">int</span> val;
+    TreeNode* <span class="built_in">left</sp]]>
+    </summary>
+    
+      <category term="二叉树" scheme="http://rudy-zhang.me/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
+    
+      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[栈和队列专题]]></title>
     <link href="http://rudy-zhang.me/2015/10/09/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97%E4%B8%93%E9%A2%98/"/>
     <id>http://rudy-zhang.me/2015/10/09/找工作总结-栈和队列专题/</id>
@@ -1420,10 +2188,10 @@ private:
   
   <entry>
     <title><![CDATA[字符串专题]]></title>
-    <link href="http://rudy-zhang.me/2015/09/27/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%93%E9%A2%98-%E4%B8%80%E8%88%AC%E9%A2%98%E7%9B%AE/"/>
-    <id>http://rudy-zhang.me/2015/09/27/找工作总结-字符串专题-一般题目/</id>
-    <published>2015-09-27T13:56:00.000Z</published>
-    <updated>2015-09-28T10:42:22.861Z</updated>
+    <link href="http://rudy-zhang.me/2015/09/25/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%93%E9%A2%98-%E4%B8%80%E8%88%AC%E9%A2%98%E7%9B%AE/"/>
+    <id>http://rudy-zhang.me/2015/09/25/找工作总结-字符串专题-一般题目/</id>
+    <published>2015-09-25T13:56:00.000Z</published>
+    <updated>2015-10-10T09:50:10.607Z</updated>
     <content type="html"><![CDATA[<h3 id="剑指offer4_替换空格">剑指offer4 替换空格</h3><p>问题描述：请实现一个函数，将一个字符串中的空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。</p>
 <p>解法：扫描一遍，记录空格个数。申请newSize，从后向前填充数组。</p>
 <pre><code>class Solution {
@@ -1640,10 +2408,10 @@ private:
   
   <entry>
     <title><![CDATA[排序算法总结]]></title>
-    <link href="http://rudy-zhang.me/2015/09/27/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/"/>
-    <id>http://rudy-zhang.me/2015/09/27/排序算法总结/</id>
-    <published>2015-09-27T13:56:00.000Z</published>
-    <updated>2015-09-27T08:15:56.891Z</updated>
+    <link href="http://rudy-zhang.me/2015/09/24/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/"/>
+    <id>http://rudy-zhang.me/2015/09/24/排序算法总结/</id>
+    <published>2015-09-24T13:56:00.000Z</published>
+    <updated>2015-10-10T09:49:44.656Z</updated>
     <content type="html"><![CDATA[<h2 id="插入排序">插入排序</h2><h3 id="直接插入排序">直接插入排序</h3><p>原理：将数组分为无序区和有序区两个区，然后不断将无序区的第一个元素按大小顺序插入到有序区中去，最终将所有无序区元素都移动到有序区完成排序。</p>
 <pre><code>void insertSort(int a[], int N)
 <span class="comment">{
@@ -3026,217 +3794,6 @@ END{
     </summary>
     
       <category term="web开发" scheme="http://rudy-zhang.me/categories/web%E5%BC%80%E5%8F%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Windows上搭建Git服务器]]></title>
-    <link href="http://rudy-zhang.me/2015/03/28/Windows%E4%B8%8A%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
-    <id>http://rudy-zhang.me/2015/03/28/Windows上搭建Git服务器/</id>
-    <published>2015-03-28T08:25:35.000Z</published>
-    <updated>2015-05-24T14:09:50.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="需要的软件">需要的软件</h2><ul>
-<li><a href="http://msysgit.github.io/" target="_blank" rel="external"><strong>msysgit</strong></a> (服务器和客户端)</li>
-</ul>
-<p>首先你要有一个git环境。git 是分布式版本管理软件，大家都是服务器，大家都是客户端，所以客户端和服务器的安装文件是一样的。</p>
-<ul>
-<li><a href="https://www.itefix.net/copssh" target="_blank" rel="external"><strong>CopSSH</strong></a>  (服务器) </li>
-</ul>
-<p>Git支持ssh和http，所以我们要想在git服务器和客户端之间通信通过ssh，就需要再windows server下面安装一个ssh服务器，能够处理ssh请求。COPSSH是一个windows下的SSH服务器,可以远程管理电脑系统。</p>
-<ul>
-<li><a href="http://download.tortoisegit.org/" target="_blank" rel="external"><strong>TortoiseGit </strong></a>(客户端) </li>
-</ul>
-<p>TortoiseGit 是git的图形化管理工具。如果对git命令行比较熟悉，可以不用安装。<br><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eqlipxsfhij20lc07waaj.jpg" alt="enter image description here"></p>
-<h2 id="在Server上安装msygit">在Server上安装msygit</h2><p>下一步，下一步，下一步</p>
-<h2 id="在Server上安装ssh服务器">在Server上安装ssh服务器</h2><h3 id="安装CopSSH软件">安装CopSSH软件</h3><p>下一步，下一步，下一步</p>
-<h3 id="配置用户">配置用户</h3><p>添加系统的administrator用户到SSH服务器当中，之后git需要通过这个用户才能访问。<br><img src="http://ww3.sinaimg.cn/mw690/4c2edcb7jw1eqlipy48axj20fn0cadgk.jpg" alt="enter image description here"></p>
-<p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eqlipydgvfj20jm0dg75j.jpg" alt="enter image description here"></p>
-<p>设置了密码验证，公钥验证</p>
-<p><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eqlipympf3j20ji0ddt9z.jpg" alt="enter image description here"></p>
-<p>在使用github连接远程仓库的时候我们需要用到命令：<br><code>git remote add origin git@github.com:michaelliao/learngit.git</code><br><code>git@github.com</code>是远程地址，我们连接自建的server要改成<code>administrator@ipaddress</code>这样就能够识别远程仓库地址和我们要使用的用户，后面<code>:path</code>要改成我们git仓库的地址，稍后有例子。</p>
-<h3 id="配置COPSSH的安装目录">配置COPSSH的安装目录</h3><p>COPSSH获得了ssh请求，如何才能调用git命令呢，需要：</p>
-<ol>
-<li>将Git安装目录<code>yourpath\Git\libexec\git-core</code>文件夹下的<code>git-upload-pack.exe</code>、<code>git.exe</code>、<code>git-receive-pack.exe</code>和<code>git-upload-archive.exe</code>这4个文件复制到SSH的安装路径1yourpath\ICW\bin1下。</li>
-<li><p>将Git安装目录<code>yourapth\Git\bin\libiconv-2.dll</code>复制到<code>yourpath\ICW\bin</code>下。<br>这样COPSSH就可以帮我们调用git命令了<br><img src="http://ww4.sinaimg.cn/mw690/4c2edcb7jw1eqlipzeknej20s20a4abj.jpg" alt="enter image description here"></p>
-<p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eqlipznquwj20ir0713z8.jpg" alt="enter image description here"></p>
-<h3 id="测试连接">测试连接</h3><p>本地打开gitbash，ssh连接服务器:<code>ssh administrator@192.168.199.171</code><br>输入administrator的密码后就通过ssh远程连接到了服务器上，在这上面可以通过git命令做操作。</p>
-</li>
-</ol>
-<h2 id="建库操作">建库操作</h2><p>使用通过ssh远程登录的账户调用git命令建库</p>
-<p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eqlipzviylj20hw05p3z2.jpg" alt="enter image description here"></p>
-<h3 id="关于裸库">关于裸库</h3><p>用<code>git init</code>初始化的版本库用户也可以在该目录下执行所有git方面的操作。但别的用户在将更新push上来的时候容易出现冲突。<br>使用<code>git init –bare</code>方法创建一个所谓的裸仓库，之所以叫裸仓库是因为这个仓库只保存git历史提交的版本信息，而不允许用户在上面进行各种git操作，如果你硬要操作的话，只会得到下面的错误（”This operation must be run in a work tree”）<br>这个就是最好把远端仓库初始化成bare仓库的原因。<br>在裸仓库中只能切换分支，不能合并分支</p>
-<h2 id="远程clone，push，pull">远程clone，push，pull</h2><h3 id="clone">clone</h3><p>在本地打开gitbash，输入<br><code>git clone administrator@192.168.199.171:yourpath/testrepo</code></p>
-<h3 id="认证身份">认证身份</h3><p>服务器怎么知道clone，push的人的身份呢，COPSSH使用了系统用户的密码，在我们clone的时候，需要输入administrator的密码，这样就完成了身份验证，并不需要把我们本地的公钥加入的COPSSH用户的公钥当中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone administrator@192.168.199.171:yourpath/testrepo&#10;Cloning into &#39;testrepo&#39;...&#10;administrator@192.168.199.171&#39;s password:&#10;warning: You appear to have cloned an empty repository.&#10;Checking connectivity... done.</span><br></pre></td></tr></table></figure>
-<p>克隆的过程是，克隆过来整个版本库，包括远程的各个分支，在本地创建master分支，把远程的master分支内容克隆到本地的master分支上。<br>所以我们克隆过来的是master分支，如果我们想获远程取别的分支上的内容，如dev：<br><code>git branch -a</code>获取所有分支内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git branch -a&#10;* (detached from origin/dev)&#10;  master&#10;  remotes/origin/HEAD -&#62; origin/master&#10;  remotes/origin/dev&#10;  remotes/origin/master</span><br></pre></td></tr></table></figure></p>
-<p><code>git checkout -b dev remotes/origin/dev</code>新建dev分支，内容来自<code>remotes/origin/dev</code></p>
-<h3 id="push">push</h3><p><code>git push origin dev</code><br>推送当前的分支到远程的dev分支</p>
-<h3 id="pull">pull</h3><p><code>git pull origin dev</code><br>含义是获取远程dev分支上的内容到本地工作的分支。<br>所以也可以通过</p>
-<ol>
-<li>在本地创建dev分支<br><code>git checkout -b dev</code></li>
-<li>拉取远程dev分支的内容<br><code>git pull origin dev</code><br>来获取远程dev分支的内容到本地dev分支<h2 id="TortoiseGit">TortoiseGit</h2>客户端软件，图形化界面，下一步即可。</li>
-</ol>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="需要的软件">需要的软件</h2><ul>
-<li><a href="http://msysgit.github.io/" target="_blank" rel="external"><strong>msysgit</strong></a> (服务器和客户端)<]]>
-    </summary>
-    
-      <category term="Git" scheme="http://rudy-zhang.me/tags/Git/"/>
-    
-      <category term="开发工具" scheme="http://rudy-zhang.me/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[使用bootstrap进行布局]]></title>
-    <link href="http://rudy-zhang.me/2015/03/21/%E4%BD%BF%E7%94%A8bootstrap%E8%BF%9B%E8%A1%8C%E5%B8%83%E5%B1%80/"/>
-    <id>http://rudy-zhang.me/2015/03/21/使用bootstrap进行布局/</id>
-    <published>2015-03-21T02:49:20.000Z</published>
-    <updated>2015-05-24T07:27:44.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>bootstrap来自twitter，是最受欢迎的前端框架。Bootstrap提供了优雅的HTML和CSS规范，它即是由动态CSS语言Less写成。</p>
-<blockquote>
-<p>LESS 包含一套自定义的语法及一个解析器，用户根据这些语法定义自己的样式规则，这些规则最终会通过解析器，编译生成对应的 CSS 文件。</p>
-</blockquote>
-<p><a href="http://v3.bootcss.com/components/" target="_blank" rel="external">使用boostrap的组件</a><br><a href="https://bootswatch.com/" target="_blank" rel="external">寻找漂亮的的bootstrap主题</a><br>本文主要讨论bootstrap的布局</p>
-<h2 id="栅格化布局">栅格化布局</h2><blockquote>
-<p>Bootstrap 提供了一套<strong>响应式</strong>、<strong>移动设备优先</strong>的流式栅格系统，随着屏幕或视口（viewport）尺寸的增加，系统会自动分为最多12列。</p>
-</blockquote>
-<h2 id="内边距，外边距">内边距，外边距</h2><p>首先需要理解，html内边距（padding），外边距（margin）</p>
-<p>CSS中的边距指的是当前元素border与周围其它元素border的距离（或者称为空间）。</p>
-<p><strong>Box Model</strong>: 任意一个块级元素均由</p>
-<ul>
-<li>content(内容),</li>
-<li>padding</li>
-<li>background(包括背景颜色和图片),</li>
-<li>border(边框)</li>
-<li>margin<br>五个部分组成<br><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eqd4plmz36j20dk0crmyn.jpg" alt="enter image description here"></li>
-</ul>
-<h2 id="栅格系统之布局容器-container">栅格系统之布局容器.container</h2><p>Bootstrap 需要为页面内容和栅格系统包裹一个 .container 容器。我们提供了两个作此用处的类。</p>
-<ul>
-<li>.container 类用于固定宽度并支持响应式布局的容器。</li>
-<li>.container-fluid 类用于 100% 宽度，占据全部视口（viewport）的容器。</li>
-</ul>
-<p>作用：</p>
-<ul>
-<li>在响应式宽度上提供<strong>宽度约束</strong>。响应式尺寸的改变其实改变的是 container ，行 (rows) 和列 (columns) 都是基于1 、在响应式宽度上提供宽度约束。响应式尺寸的改变其实改变的是 container ，行 (rows) 和列 (columns) 都是基于百分比的所以它们不需要做任何改变；</li>
-<li>提供 padding 以至于不内容不直为紧贴于浏览器边缘，两边都是 15px ，下图中粉色的就是了，稍后解释更多；<br><img src="http://ww4.sinaimg.cn/mw690/4c2edcb7jw1eqd4plxjvkj20go08kaad.jpg" alt="enter image description here"><br><strong>在一个container中永远不需要再嵌一个container，记住永远不要。</strong></li>
-</ul>
-<h2 id="栅格系统之row">栅格系统之row</h2><p>row 为 col 提供了空间，理想上一行上分了 12 col<br>Rows  的两侧都拥有独特的负 15px margin 值<br><strong>永远不要在 container 外用 row, row 在 container 外面使用是无效的</strong><br><img src="http://ww4.sinaimg.cn/mw690/4c2edcb7jw1eqd4pm6ym6j20go08jmxm.jpg" alt="enter image description here"></p>
-<h2 id="栅格系统之column">栅格系统之column</h2><p>列(col)现在有15px的padding了，如下图中黄颜色部分。Container的正padding值造成了15px的留空，row用负margin值反的延伸回去，<br><strong>所以现在col的padding值与container的padding重叠了</strong><br><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eqd4pmjifqj20go08kjrz.jpg" alt="enter image description here"><br><strong>永远不要在row外使用col,在row外使用col是无效的</strong><br>然后col就是一个.container了，你可以在里面继续使用row了<br><strong>container/row/column整这么些事儿最终要达到的结果就体现在这里了，就是为了col的补白</strong></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="前言">前言</h2><p>bootstrap来自twitter，是最受欢迎的前端框架。Bootstrap提供了优雅的HTML和CSS规范，它即是由动态CSS语言Less写成。</p>
-<blockquote>
-<p>LESS 包含一套自定义的语法及一个解析器，用]]>
-    </summary>
-    
-      <category term="bootstrap" scheme="http://rudy-zhang.me/tags/bootstrap/"/>
-    
-      <category term="web开发" scheme="http://rudy-zhang.me/categories/web%E5%BC%80%E5%8F%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Git笔记]]></title>
-    <link href="http://rudy-zhang.me/2015/03/21/Git%E7%AC%94%E8%AE%B0/"/>
-    <id>http://rudy-zhang.me/2015/03/21/Git笔记/</id>
-    <published>2015-03-21T00:21:32.000Z</published>
-    <updated>2015-09-28T08:51:10.079Z</updated>
-    <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>实验室的项目需要用到一个版本管理系统进行管理，鉴于Git如此风靡，所以正好拿来用，顺便学习一下。一下是Git学习的笔记，大部分内容来自<a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="external">廖雪峰的Git教程</a>。</p>
-<p>为什么Git比其他版本控制系统设计得优秀，因为Git跟踪并管理的是修改，而非文件。所以一切操作几乎都是在一瞬间完成的。</p>
-<h2 id="集中式VS分布式">集中式VS分布式</h2><p>集中式版本控制系统，版本库是集中存放在中央服务器的。所有的修改都要经过中央服务器。<br>分布式版本控制系统根本没有“中央服务器”，每个人的电脑上都是一个完整的版本库。<br><strong>Git的特点就是，没有中央服务器，大家都是中央服务器</strong></p>
-<h2 id="创建版本库">创建版本库</h2><p>初始化一个Git仓库，使用<code>git init</code>命令。</p>
-<p>添加文件到Git仓库，分两步：</p>
-<ol>
-<li><p>第一步，使用命令<code>git add &lt;file&gt;</code>，可反复多次使用，添加多个文件；</p>
-</li>
-<li><p>第二步，使用命令<code>git commit</code>，完成。</p>
-</li>
-</ol>
-<h2 id="查看状态">查看状态</h2><p>要随时掌握工作区的状态，使用<code>git status</code>命令。<br> 如果<code>git status</code>告诉你有文件被修改过，用<code>git diff</code>可以查看修改内容。</p>
-<h2 id="版本回退">版本回退</h2><p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eqd05t0do1j206j04imx4.jpg" alt=""><br>HEAD指向的版本就是当前版本(HEAD指向当前的分支)</p>
-<p> 因此，Git允许我们在版本的历史之间穿梭，使用命令<code>git reset --hard commit_id</code>。</p>
-<p>返回过去，用<code>git log</code>可以查看提交历史，以便确定要回退到哪个版本。</p>
-<p>要重返未来，用<code>git reflog</code>查看命令历史，以便确定要回到未来的哪个版本。</p>
-<h2 id="工作区VS版本库VS暂存区">工作区VS版本库VS暂存区</h2><ul>
-<li>工作区（Working Directory）：就是你在电脑里能看到的目录</li>
-<li>版本库（Repository）：工作区有一个隐藏目录.git，这个不算工作区，而是Git的版本库。</li>
-<li>暂存区(stage) : 版本库里存了很多东西，其中最重要的就是称为<strong>stage</strong>（或者叫index）的暂存区，还有Git为我们自动创建的第一个分支master，以及指向master的一个指针叫HEAD。<br><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eqd05ta69vj20cq06imxh.jpg" alt="enter image description here"></li>
-</ul>
-<p><code>git add</code>命令实际上就是把要提交的所有修改放到暂存区（Stage）<br>执行<code>git commit</code>就可以一次性把暂存区的所有修改提交到分支。<br><strong>Git跟踪的是修改，每次修改，如果不add到暂存区，那就不会加入到commit中。</strong></p>
-<h2 id="撤销修改">撤销修改</h2><ul>
-<li>还没有<code>git add</code>到暂存区的代码<br><code>git checkout</code> 从暂存区或者版本库签出（取消工作区代码）,例：<code>git checkout -- readme.txt</code></li>
-</ul>
-<ol>
-<li>暂存区有代码，签出暂存区代码</li>
-<li>暂存区没代码，签出版本库代码</li>
-</ol>
-<ul>
-<li><p>已经添加到暂存区的代码,<code>git reset HEAD readme.txt</code><br>再用<code>checkout</code>命令</p>
-</li>
-<li><p>已经commit的代码<br>在推送到远程版本库之前切换版本,<code>git reset --hard</code> 版本号</p>
-</li>
-<li><p>删除文件(删除也是一个修改操作)<br><code>git rm</code>用于删除一个文件（类似于git add将更改放到暂存区）<br><code>git commit</code> 提交</p>
-</li>
-</ul>
-<h2 id="github远程仓库">github远程仓库</h2><p>提供Git仓库托管服务的，所以，只要注册一个GitHub账号，就可以免费获得Git远程仓库</p>
-<h3 id="生成ssh密钥">生成ssh密钥</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &#34;youremail@example.com&#34;</span><br></pre></td></tr></table></figure>
-<p>生成ssh 公钥和私钥</p>
-<h3 id="关联远程库">关联远程库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin git@server-name:path/repo-name.git</span><br></pre></td></tr></table></figure>
-<h3 id="推送">推送</h3><p>使用命令<code>git push -u origin master</code>第一次推送master分支的所有内容，每次本地提交后，只要有必要，就可以使用命令<code>git push origin master</code>推送最新修改；</p>
-<h3 id="克隆">克隆</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:michaelliao/gitskills.git</span><br></pre></td></tr></table></figure>
-<h2 id="分支管理">分支管理</h2><p>Git用master（主分支）指向最新的提交，再用HEAD指向当前分支<br>查看分支：<code>git branch</code><br>创建分支：<code>git branch &lt;name&gt;</code><br>切换分支：<code>git checkout &lt;name&gt;</code><br>创建+切换分支：<code>git checkout -b &lt;name&gt;</code><br>合并某分支到当前分支：<code>git merge &lt;name&gt;</code><br>删除分支：<code>git branch -d &lt;name&gt;</code></p>
-<h3 id="解决冲突">解决冲突</h3><p><code>Rudy@RUDY ~/learngit (master|MERGING)</code><br>相当于另外创建了一个分支，保存冲突，提交时以这个分支为准</p>
-<h3 id="分支策略">分支策略</h3><p>首先，master分支应该是非常稳定的，也就是仅用来发布新版本，平时不能在上面干活；</p>
-<p>那在哪干活呢？干活都在dev分支上，也就是说，dev分支是不稳定的，到某个时候，比如1.0版本发布时，再把dev分支合并到master上，在master分支发布1.0版本；</p>
-<p>小伙伴们每个人都在dev分支上干活，每个人都有自己的分支，时不时地往dev分支上合并就可以<br><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eqd05tptzoj20du03h3yy.jpg" alt="enter image description here"></p>
-<h3 id="修复bug，保存现场状态">修复bug，保存现场状态</h3><p>修复bug时，我们会通过创建新的bug分支进行修复，然后合并，最后删除；</p>
-<p>当手头工作没有完成时，先把工作现场<code>git stash</code>一下，然后去修复bug，修复后，再<code>git stash pop</code>，回到工作现场。</p>
-<blockquote>
-<p>git stash: 备份当前的工作区的内容，从最近的一次提交中读取相关内容，让工作区保证和上次提交的内容一致。同时，将当前的工作区内容保存到Git栈中。</p>
-<h3 id="新的feature分支">新的feature分支</h3><p>开发一个新feature，最好新建一个分支；</p>
-</blockquote>
-<p>如果要丢弃一个没有被合并过的分支，可以通过<code>git branch -D &lt;name&gt;</code>强行删除。</p>
-<h2 id="多人协作工作">多人协作工作</h2><p>实际上Git自动把本地的master分支和远程的master分支对应起来了，并且，远程仓库的默认名称是<code>origin</code>。</p>
-<p>试图推送：可以试图用<code>git push origin branch-name</code>推送自己的修改；</p>
-<p>如果推送失败，则因为远程分支比你的本地更新，需要先用<code>git pull</code>试图合并；如果合并有冲突，则解决冲突，并在本地提交；</p>
-<p>没有冲突或者解决掉冲突后，再用<code>git push origin branch-name</code>推送就能成功！</p>
-<p>如果git pull提示<code>no tracking information</code><br>     说明本地分支和远程分支的链接关系没有创建，用命令<code>git branch --set-upstream branch-name origin/branch-name</code>。</p>
-<h2 id="标签管理">标签管理</h2><p><strong>发布一个版本时</strong>，我们通常先在版本库中打一个标签。标签也是<strong>版本库的一个快照</strong>。</p>
-<p>Git的标签虽然是版本库的快照，但其实<strong>它就是指向某个commit的指针</strong>（跟分支很像对不对？但是分支可以移动，标签不能移动），所以，创建和删除标签都是瞬间完成的。</p>
-<p>查看所有标签<code>git tag</code></p>
-<p>新建标签<code>git tag &lt;name&gt;</code>，默认为HEAD，也可以指定一个commit id；</p>
-<p>指定标签信息,<code>git tag -a &lt;tagname&gt; -m &quot;blablabla...&quot;</code></p>
-<p>用PGP签名标签,<code>git tag -s &lt;tagname&gt; -m &quot;blablabla...&quot;</code>可以用PGP签名标签；</p>
-<p>推送一个本地标签<code>git push origin &lt;tagname&gt;</code></p>
-<p>推送全部未推送过的本地标签<code>git push origin --tags</code></p>
-<p>删除一个本地标签<code>git tag -d &lt;tagname&gt;</code></p>
-<p>删除一个远程标签<code>git push origin :refs/tags/&lt;tagname&gt;</code></p>
-<h2 id="忽略特殊文件">忽略特殊文件</h2><h3 id="问题">问题</h3><p>有些时候，必须把某些文件放到Git工作目录中，但又不能提交它们，比如保存了数据库密码的配置文件,每次git status都会显示“Untracked files …”</p>
-<h3 id="解决办法">解决办法</h3><p>在Git工作区的根目录下创建一个特殊的.gitignore文件，然后把要忽略的文件名填进去，Git就会自动忽略这些文件。</p>
-<p>忽略文件的原则是：</p>
-<blockquote>
-<ul>
-<li>忽略操作系统自动生成的文件，比如缩略图等；</li>
-<li>忽略编译生成的中间文件、可执行文件等，也就是如果一个文件是通过另一个文件自动生成的，那自动生成的文件就没必要放进版本库，比如Java编译产生的.class文件；</li>
-<li>忽略你自己的带有敏感信息的配置文件，比如存放口令的配置文件。</li>
-</ul>
-</blockquote>
-<h2 id="配置别名">配置别名</h2><p><code>git config --global alias.st status</code>设置st为status的别名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global alias.lg &#34;log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&#60;%an&#62;%Creset&#39; --abbrev-commit&#34;</span><br></pre></td></tr></table></figure>
-<p><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eqd05u3pp8j20ca08agnx.jpg" alt="enter image description here"></p>
-<h2 id="在windows下复制版本库">在windows下复制版本库</h2><p>注意路径<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone administrator@192.168.1.13:c:/GitProject/testrepo</span><br></pre></td></tr></table></figure></p>
-<h2 id="git_init_VS_git_init_–bare">git init VS git init –bare</h2><p>用<code>git init</code>初始化的版本库用户也可以在该目录下执行所有git方面的操作。但别的用户在将更新push上来的时候容易出现冲突。<br>使用<code>git init –bare</code>方法创建一个所谓的裸仓库，之所以叫裸仓库是因为这个仓库只保存git历史提交的版本信息，而<strong>不允许用户在上面进行各种git操作</strong>，如果你硬要操作的话，只会得到下面的错误（”This operation must be run in a work tree”）<br>这个就是<strong>最好把远端仓库初始化成bare仓库的原因</strong>。</p>
-<p>在裸仓库中只能切换分支，不能合并分支</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="前言">前言</h2><p>实验室的项目需要用到一个版本管理系统进行管理，鉴于Git如此风靡，所以正好拿来用，顺便学习一下。一下是Git学习的笔记，大部分内容来自<a href="http://www.liaoxuefeng.com/wiki/0013739516]]>
-    </summary>
-    
-      <category term="Git" scheme="http://rudy-zhang.me/tags/Git/"/>
-    
-      <category term="开发工具" scheme="http://rudy-zhang.me/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
     
   </entry>
   
