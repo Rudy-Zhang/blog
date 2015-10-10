@@ -4,7 +4,7 @@
   <subtitle><![CDATA[seize the day]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://rudy-zhang.me/"/>
-  <updated>2015-10-03T13:01:20.810Z</updated>
+  <updated>2015-10-10T01:53:55.040Z</updated>
   <id>http://rudy-zhang.me/</id>
   
   <author>
@@ -15,11 +15,493 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[链表专题]]></title>
+    <link href="http://rudy-zhang.me/2015/10/10/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E9%93%BE%E8%A1%A8%E4%B8%93%E9%A2%98/"/>
+    <id>http://rudy-zhang.me/2015/10/10/找工作总结-链表专题/</id>
+    <published>2015-10-10T13:56:00.000Z</published>
+    <updated>2015-10-10T01:53:55.040Z</updated>
+    <content type="html"><![CDATA[<h2 id="基础">基础</h2><h3 id="链表声明">链表声明</h3><pre><code>struct ListNode
+{
+    <span class="keyword">int</span> val;
+    ListNode* <span class="keyword">next</span>;
+    ListNode(<span class="keyword">int</span> x):val(x),<span class="keyword">next</span>(<span class="keyword">NULL</span>){}
+};
+</code></pre><h3 id="求链表中节点个数">求链表中节点个数</h3><pre><code><span class="keyword">int</span> getLength(ListNode* head)
+{
+    <span class="keyword">int</span> <span class="keyword">count</span> = <span class="number">0</span>;
+    <span class="keyword">while</span>(head)
+    {
+        head = head-&gt;<span class="keyword">next</span>;
+        <span class="keyword">count</span>++;
+    }
+    <span class="keyword">return</span> <span class="keyword">count</span>;
+}
+</code></pre><h3 id="单链表翻转">单链表翻转</h3><pre><code><span class="constant">ListNode*</span> reverseList(<span class="constant">ListNode*</span> head)
+{
+    <span class="constant">ListNode*</span> newHead = <span class="constant">NULL;</span>
+    <span class="constant">ListNode*</span> node = head;
+    <span class="keyword">while</span>(node)
+    {
+        <span class="constant">ListNode*</span> temp = node-&gt;<span class="keyword">next</span>;
+        node-&gt;<span class="keyword">next</span> = newHead;
+        newHead = node;
+        node = temp-&gt;<span class="keyword">next</span>;
+    }
+    <span class="keyword">return</span> newHead;
+}
+</code></pre><h3 id="查找链表中倒数第k个节点">查找链表中倒数第k个节点</h3><pre><code>ListNode* getLastK(ListNode* head, <span class="built_in">int</span> k)
+{
+    ListNode* fisrt = head;
+    ListNode* <span class="built_in">second</span> = head;
+    <span class="keyword">while</span>(k--)
+    {
+        <span class="keyword">if</span>(first)
+            first = first-&gt;<span class="keyword">next</span>;
+        <span class="keyword">else</span>
+            return <span class="literal">NULL</span>;
+    }
+    <span class="keyword">while</span>(first)
+    {
+        fisrt = first-&gt;<span class="keyword">next</span>;
+        <span class="built_in">second</span> = <span class="built_in">second</span>-&gt;<span class="keyword">next</span>;
+    }
+    return <span class="built_in">second</span>;
+}
+</code></pre><h3 id="删除链表中第k个节点">删除链表中第k个节点</h3><pre><code>ListNode* deleteK(ListNode* head, <span class="keyword">int</span> k)
+{
+    <span class="keyword">if</span>(k &lt;= <span class="number">0</span>)
+        <span class="keyword">return</span> head;
+    ListNode* toBeDelete;
+    ListNode* newHead;
+    <span class="keyword">if</span>(k == <span class="number">1</span>)
+    {
+        toBeDelete = head;
+        newHead = head-&gt;<span class="keyword">next</span>;
+        <span class="keyword">delete</span> toBeDelete;
+        <span class="keyword">return</span> newHead;
+    }
+    newHead = head;
+    ListNode* node = head;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; k - <span class="number">2</span>; i++)
+    {
+        <span class="keyword">if</span>(node)
+            node = node-&gt;<span class="keyword">next</span>;
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> newHead;
+    }
+    <span class="keyword">if</span>(node == <span class="keyword">NULL</span> || node-&gt;<span class="keyword">next</span> == <span class="keyword">NULL</span>)
+        <span class="keyword">return</span> newHead;
+    toBeDelete = node-&gt;<span class="keyword">next</span>;
+    node-&gt;<span class="keyword">next</span> = node-&gt;<span class="keyword">next</span>-&gt;<span class="keyword">next</span>;
+    <span class="keyword">delete</span> toBeDelete;
+    <span class="keyword">return</span> newHead;
+}
+</code></pre><h3 id="查找链表中间节点">查找链表中间节点</h3><pre><code><span class="constant">ListNode*</span> findMiddle(<span class="constant">ListNode*</span> head)
+{
+    <span class="constant">ListNode*</span> first = head;
+    <span class="constant">ListNode*</span> second = head;
+    <span class="keyword">while</span>(first &amp;&amp; first-&gt;<span class="keyword">next</span>)
+    {
+        first = fisrt-&gt;<span class="keyword">next</span>-&gt;<span class="keyword">next</span>;
+        if(first)
+            second = second-&gt;<span class="keyword">next</span>;
+    }
+    <span class="keyword">return</span> second;
+}
+</code></pre><h3 id="从尾到头打印链表">从尾到头打印链表</h3><pre><code>void reversePrint(<span class="type">ListNode</span>* head)
+{
+    <span class="type">ListNode</span>* node = head;
+    stack&lt;<span class="type">ListNode</span>*&gt; s;
+    <span class="keyword">while</span>(node)
+    {
+        s.push(node);
+        node = node-&gt;next;
+    }
+    <span class="keyword">while</span>(!s.empty<span class="literal">()</span>)
+    {
+        cout&lt;&lt;s.top<span class="literal">()</span>-&gt;<span class="keyword">val</span>&lt;&lt;<span class="string">" "</span>;
+        s.pop<span class="literal">()</span>;
+    }
+}
+</code></pre><h3 id="单链表排序，选择排序">单链表排序，选择排序</h3><pre><code>void sortList(<span class="type">ListNode</span>* head)
+{
+    <span class="keyword">for</span>(<span class="type">ListNode</span>* p = head; p != <span class="type">NULL</span>; p = p-&gt;next)
+    {
+        <span class="type">ListNode</span>* min = p;
+        <span class="keyword">for</span>(<span class="type">ListNode</span>* q = p-&gt;next; q != <span class="type">NULL</span>; q = q-&gt;next)
+        {
+            <span class="keyword">if</span>(q-&gt;<span class="keyword">val</span> &lt; min-&gt;<span class="keyword">val</span>)
+                min = q;
+        }
+        <span class="built_in">int</span> temp = p-&gt;<span class="keyword">val</span>;
+        p-&gt;<span class="keyword">val</span> = min-&gt;<span class="keyword">val</span>;
+        min-&gt;<span class="keyword">val</span> = temp;
+    }
+}
+</code></pre><h3 id="合并两个有序链表">合并两个有序链表</h3><pre><code>ListNode<span class="subst">*</span> mergeList(ListNode<span class="subst">*</span> list1, ListNode<span class="subst">*</span> list2)
+{
+    <span class="keyword">if</span>(list1 <span class="subst">==</span> <span class="built_in">NULL</span>)
+        <span class="keyword">return</span> list2;
+    <span class="keyword">if</span>(list2 <span class="subst">==</span> <span class="built_in">NULL</span>)
+        <span class="keyword">return</span> list1;
+    ListNode<span class="subst">*</span> head <span class="subst">=</span> <span class="built_in">NULL</span>;
+    ListNode <span class="subst">*</span>node1 <span class="subst">=</span> list1, <span class="subst">*</span>node2 <span class="subst">=</span> list2;
+    ListNode <span class="subst">*</span>tnode <span class="subst">=</span> <span class="built_in">NULL</span>;
+    <span class="keyword">if</span>(node1<span class="subst">-&gt;</span>val <span class="subst">&lt;=</span> node2<span class="subst">-&gt;</span>val)
+    {
+        head <span class="subst">=</span> node1;
+        node1 <span class="subst">=</span> node1<span class="subst">-&gt;</span>next;
+    }
+    <span class="keyword">else</span>
+    {
+        head <span class="subst">=</span> node2;
+        node2 <span class="subst">=</span> node2<span class="subst">-&gt;</span>next;
+    }
+    tnode <span class="subst">=</span> head;
+    tnode<span class="subst">-&gt;</span>next <span class="subst">=</span> <span class="built_in">NULL</span>;
+    <span class="keyword">while</span>(node1 <span class="subst">&amp;&amp;</span> node2)
+    {
+        <span class="keyword">if</span>(node1<span class="subst">-&gt;</span>val <span class="subst">&lt;=</span> node2<span class="subst">-&gt;</span>val)
+        {
+            tnode<span class="subst">-&gt;</span>next <span class="subst">=</span> node1;
+            node1 <span class="subst">=</span> node1<span class="subst">-&gt;</span>next;
+            tnode <span class="subst">=</span> tnode<span class="subst">-&gt;</span>next;
+            tnode<span class="subst">-&gt;</span>next <span class="subst">=</span> <span class="built_in">NULL</span>;
+        }
+        <span class="keyword">else</span>
+        {
+            tnode<span class="subst">-&gt;</span>next <span class="subst">=</span> node2;
+            node2 <span class="subst">=</span> node2<span class="subst">-&gt;</span>next;
+            tnode <span class="subst">=</span> tnode<span class="subst">-&gt;</span>next;
+            tnode<span class="subst">-&gt;</span>next <span class="subst">=</span> <span class="built_in">NULL</span>;
+        }
+    }
+    <span class="keyword">if</span>(node1)
+        tnode<span class="subst">-&gt;</span>next <span class="subst">=</span> node1;
+    <span class="keyword">if</span>(node2)
+        tnode<span class="subst">-&gt;</span>next <span class="subst">=</span> node2;
+    <span class="keyword">return</span> head;
+}
+</code></pre><h3 id="判断一个链表是否有环">判断一个链表是否有环</h3><pre><code>bool hasCircle(<span class="constant">ListNode*</span> head)
+{
+    <span class="constant">ListNode </span>*first = head, *second = head;
+    <span class="keyword">while</span>(first &amp;&amp; first-&gt;<span class="keyword">next</span>)
+    {
+        first = first-&gt;<span class="keyword">next</span>-&gt;<span class="keyword">next</span>;
+        second = second-&gt;<span class="keyword">next</span>;
+        if(first == second)
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+    }
+    <span class="keyword">return</span> <span class="keyword">false</span>;
+}
+</code></pre><h3 id="判断两个链表是否相交">判断两个链表是否相交</h3><pre><code>bool isJoin(<span class="constant">ListNode </span>*list1, <span class="constant">ListNode </span>*list2)
+{
+    if(list1 == <span class="constant">NULL </span>|| list2 == <span class="constant">NULL)</span>
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    <span class="constant">ListNode </span>*n1 = list1, *n2 = list2;
+    <span class="keyword">while</span>(n1-&gt;<span class="keyword">next</span>)
+        n1 = n1-&gt;<span class="keyword">next</span>;
+    <span class="keyword">while</span>(n2-&gt;<span class="keyword">next</span>)
+        n2 = n2-&gt;<span class="keyword">next</span>;
+    <span class="keyword">return</span> (n1 == n2);
+}
+</code></pre><h3 id="判断两个链表相交的第一个节点">判断两个链表相交的第一个节点</h3><ol>
+<li>判断两个链表是否相交，得到两个链表长度len1,len2</li>
+<li>假设len1 &gt; len2，n1先走(len1-len2)步</li>
+<li>n1,n2一起走，直到n1 == n2</li>
+</ol>
+<h3 id="如果一个链表有环，求进入环中的第一个节点">如果一个链表有环，求进入环中的第一个节点</h3><ol>
+<li>使用上面的方法判断是否有环</li>
+<li>在环中走一圈得到环的长度len</li>
+<li>前后两个节点一个先走len步（走一个环的长度），两个一起走相遇在环的入口</li>
+</ol>
+<h3 id="在O(1)的时间内删除节点">在O(1)的时间内删除节点</h3><pre><code><span class="literal">void</span> deleteInO1(ListNode<span class="subst">*</span> <span class="built_in">list</span>, ListNode<span class="subst">*</span> toBeDelete)
+{
+    <span class="keyword">if</span>(<span class="built_in">list</span> <span class="subst">==</span> <span class="built_in">NULL</span> <span class="subst">||</span> toBeDelete <span class="subst">==</span> <span class="built_in">NULL</span>)
+        <span class="keyword">return</span> ;
+    <span class="keyword">if</span>(toBeDelete <span class="subst">==</span> <span class="built_in">list</span>)
+    {
+        <span class="built_in">list</span> <span class="subst">=</span> <span class="built_in">list</span><span class="subst">-&gt;</span>next;
+        delete toBeDelete;
+        <span class="keyword">return</span> ;
+    }
+    <span class="keyword">if</span>(toBeDelete<span class="subst">-&gt;</span>next <span class="subst">==</span> <span class="built_in">NULL</span>)
+    {
+        ListNode<span class="subst">*</span> node <span class="subst">=</span> <span class="built_in">list</span>;
+        <span class="keyword">while</span>(node <span class="subst">&amp;&amp;</span> node<span class="subst">-&gt;</span>next <span class="subst">!=</span> toBeDelete)
+            node <span class="subst">=</span> node<span class="subst">-&gt;</span>next;
+        node<span class="subst">-&gt;</span>next <span class="subst">=</span> <span class="built_in">NULL</span>;
+        delete toBeDelete;
+        <span class="keyword">return</span> ;
+    }
+    ListNode<span class="subst">*</span> temp <span class="subst">=</span> toBeDelete<span class="subst">-&gt;</span>next;
+    toBeDelete<span class="subst">-&gt;</span>val <span class="subst">=</span> temp<span class="subst">-&gt;</span>val;
+    toBeDelete<span class="subst">-&gt;</span>next <span class="subst">=</span> temp<span class="subst">-&gt;</span>next;
+    delete temp;
+    <span class="keyword">return</span> ;
+}
+</code></pre><h2 id="特殊题目">特殊题目</h2><h3 id="剑指offer57_删除链表中的重复节点">剑指offer57 删除链表中的重复节点</h3><h4 id="问题描述">问题描述</h4><p>在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点，重复的结点不保留，返回链表头指针。 例如，链表1-&gt;2-&gt;3-&gt;3-&gt;4-&gt;4-&gt;5 处理后为 1-&gt;2-&gt;5</p>
+<h4 id="解法">解法</h4><p>使用preNode和node指向最后一个未删除的节点和第一个可能删除的节点</p>
+<ul>
+<li>如果保留重复元素的第一个<br>只需要使用node扫描一次，判断和preNode-&gt;val是否相等，分两种情况处理即可</li>
+<li>如果不保留重复元素<br>需要确定新的头元素newHead,需要判断是否重复，因为需要全部删除。</li>
+</ul>
+<h4 id="类型1的代码">类型1的代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+    ListNode *deleteDuplicates(ListNode *head) {
+        <span class="keyword">if</span>(<span class="keyword">NULL</span> == head || <span class="keyword">NULL</span>==head-&gt;next)
+            <span class="keyword">return</span> head;
+        ListNode *preNode = head;
+        ListNode *node = preNode-&gt;next;
+        <span class="keyword">while</span>(node)
+        {
+            <span class="keyword">if</span>(node-&gt;val == preNode-&gt;val)
+            {
+                ListNode* temp = node;
+                node = node-&gt;next;
+                preNode-&gt;next = node;
+                delete temp;
+            }
+            <span class="keyword">else</span>
+            {
+                node = node-&gt;next;
+                preNode = preNode-&gt;next;
+            }
+        }
+        <span class="keyword">return</span> head;
+    }
+};
+</code></pre><h4 id="类型2的代码">类型2的代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+    ListNode* deleteDuplicates(ListNode* head) {
+        <span class="keyword">if</span>(head == <span class="keyword">NULL</span> || head-&gt;next == <span class="keyword">NULL</span>)
+            <span class="keyword">return</span> head;
+        ListNode *node = head;
+        ListNode *newHead = <span class="keyword">NULL</span>;
+        ListNode *preNode = <span class="keyword">NULL</span>;
+        <span class="keyword">while</span>(node)
+        {
+            bool isDuplicated = <span class="keyword">false</span>;
+            <span class="keyword">if</span>(node-&gt;next &amp;&amp; node-&gt;val == node-&gt;next-&gt;val)
+                isDuplicated = <span class="keyword">true</span>;
+            <span class="keyword">if</span>(isDuplicated)
+            {
+                int val = node-&gt;val;
+                <span class="keyword">while</span>(node!= <span class="keyword">NULL</span> &amp;&amp; node-&gt;val == val)
+                {
+                    ListNode *temp = node;
+                    node = node-&gt;next;
+                    delete temp;
+                }
+            }
+            <span class="keyword">else</span>
+            {
+                <span class="keyword">if</span>(!newHead)
+                {
+                    newHead = node;
+                    preNode = node;
+                }
+                <span class="keyword">else</span>
+                {
+                    preNode-&gt;next = node;
+                    preNode = preNode-&gt;next;
+                }
+                node = node-&gt;next;
+            }
+        }
+        <span class="keyword">if</span>(preNode)
+            preNode-&gt;next = <span class="keyword">NULL</span>;
+        <span class="keyword">return</span> newHead;
+    }
+};
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="基础">基础</h2><h3 id="链表声明">链表声明</h3><pre><code>struct ListNode
+{
+    <span class="keyword">int</span> val;
+    ListNode* <span class="]]>
+    </summary>
+    
+      <category term="链表" scheme="http://rudy-zhang.me/tags/%E9%93%BE%E8%A1%A8/"/>
+    
+      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[栈和队列专题]]></title>
+    <link href="http://rudy-zhang.me/2015/10/09/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97%E4%B8%93%E9%A2%98/"/>
+    <id>http://rudy-zhang.me/2015/10/09/找工作总结-栈和队列专题/</id>
+    <published>2015-10-09T13:56:00.000Z</published>
+    <updated>2015-10-09T03:05:08.507Z</updated>
+    <content type="html"><![CDATA[<h3 id="剑指offer_7_两个栈实现队列_VS_两个队列实现栈">剑指offer 7 两个栈实现队列 VS 两个队列实现栈</h3><h4 id="问题描述">问题描述</h4><p>用两个栈来实现一个队列，完成队列的Push和Pop操作。 队列中的元素为int类型。</p>
+<h4 id="解法">解法</h4><p>两个栈stack1,stack2。完成push和pop函数即可。</p>
+<ul>
+<li>push的时候向stack1压栈。</li>
+<li>pop的时候<br>(1)stack2不为空，弹出stack2.top<br>(2)stack1不为空，把stack1中的元素全部弹出到stack2，然后弹出stack2.top<br>(3)如果stack1和stack2都是空，那么抛出异常<h4 id="注意点">注意点</h4></li>
+<li>模板的写法</li>
+</ul>
+<h4 id="代码">代码</h4><pre><code><span class="keyword">template</span>&lt;typename T&gt;
+class <span class="type">MyQueue</span>
+{
+public:
+    <span class="type">void</span> push(<span class="keyword">const</span> T&amp; item);
+    T pop();
+private:
+    stack&lt;T&gt; stack1;
+    stack&lt;T&gt; stack2;
+};
+
+<span class="keyword">template</span>&lt;typename T&gt;
+<span class="type">void</span> <span class="type">MyQueue</span>::push(<span class="keyword">const</span> T&amp; item)
+{
+    stack1.push(item);
+}
+
+<span class="keyword">template</span>&lt;typename T&gt;
+T <span class="type">MyQueue</span>::pop()
+{
+    <span class="keyword">if</span>(!stack2.empty())
+    {
+        T temp = stack2.top();//?是否需要引用
+        stack2.pop();
+        <span class="keyword">return</span> temp;
+    }
+    <span class="keyword">else</span> <span class="keyword">if</span>(!stack1.empty())
+    {
+        <span class="keyword">while</span>(!stack1.empty())
+        {
+            stack2.push(stack1.top());
+            stack1.pop();
+        }
+        stack2.pop();
+    }
+    <span class="keyword">else</span>
+        throw exception(<span class="string">"MyQueue is empty!"</span>);
+}
+</code></pre><h4 id="扩展问题，使用两个队列实现栈">扩展问题，使用两个队列实现栈</h4><p>有queue1，queue2两个队列，完成push,pop。</p>
+<ul>
+<li>push<br>如果queue1.empty &amp;&amp; queue.empty 向queue1中push<br>如果有一个不为空，向不为空的队列里push</li>
+<li>pop<br>如果queue1.empty &amp;&amp; queue.empty 抛出异常<br>把不为空的队列出队到空队列，直到剩下一个元素，弹出这个元素</li>
+</ul>
+<h3 id="剑指offer21_包含min函数的栈">剑指offer21 包含min函数的栈</h3><h4 id="问题描述-1">问题描述</h4><p>定义栈的数据结构，请在该类型中实现一个能够得到栈最小元素的min函数。</p>
+<h4 id="解法-1">解法</h4><p>使用stack1,stack2两个栈，stack1压入原本的元素，stack2只压最小元素</p>
+<h4 id="代码-1">代码</h4><pre><code><span class="keyword">class</span> <span class="title">Solution</span> {
+<span class="keyword">public</span>:
+    <span class="function"><span class="keyword">void</span> <span class="title">push</span>(<span class="params"><span class="keyword">int</span> <span class="keyword">value</span></span>) </span>{
+        <span class="keyword">int</span> tempMin;
+        <span class="keyword">if</span>(s1.size() == <span class="number">0</span>)
+            tempMin = <span class="keyword">value</span>;
+        <span class="keyword">else</span>
+        {
+            tempMin = s2.top();
+            <span class="keyword">if</span>(<span class="keyword">value</span> &lt; tempMin)
+                tempMin = <span class="keyword">value</span>;
+        }
+        s1.push(<span class="keyword">value</span>);
+        s2.push(tempMin);
+    }
+
+    <span class="function"><span class="keyword">void</span> <span class="title">pop</span>(<span class="params"></span>) </span>{
+        <span class="keyword">if</span>(s1.size() == <span class="number">0</span>)
+            <span class="keyword">return</span>;
+        s1.pop();
+        s2.pop();
+    }
+    <span class="function"><span class="keyword">int</span> <span class="title">top</span>(<span class="params"></span>) </span>{
+        <span class="keyword">if</span>(s1.size() == <span class="number">0</span>)
+            <span class="keyword">return</span> INT_MIN;
+        <span class="keyword">return</span> s1.top();
+    }
+    <span class="function"><span class="keyword">int</span> <span class="title">min</span>(<span class="params"></span>) </span>{
+        <span class="keyword">if</span>(s1.size() == <span class="number">0</span>)
+            <span class="keyword">return</span> INT_MIN;
+        <span class="keyword">return</span> s2.top();
+    }
+<span class="keyword">private</span>:
+    stack&lt;<span class="keyword">int</span>&gt; s1;
+    stack&lt;<span class="keyword">int</span>&gt; s2;
+};
+</code></pre><h3 id="剑指offer22_栈的压入弹出序列">剑指offer22 栈的压入弹出序列</h3><h4 id="问题描述-2">问题描述</h4><p>输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4，5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。</p>
+<h4 id="解法-2">解法</h4><p>使用一个栈stack进行模拟，遍历数组元素：</p>
+<ul>
+<li>如果<code>vec[i] != stack.top</code>，压入</li>
+<li>如果<code>vec[i] == stack.top</code>，弹出</li>
+<li><code>i == vec.size</code>时，判断栈是否为空</li>
+</ul>
+<h4 id="代码-2">代码</h4><pre><code>class Solution {
+public:
+    bool IsPopOrder<span class="params">(vector&lt;int&gt; pushV, vector&lt;int&gt; popV)</span> {
+        <span class="keyword">if</span><span class="params">(pushV.size<span class="params">()</span> != popV.size<span class="params">()</span>)</span>
+            return <span class="literal">false</span>;
+        stack&lt;int&gt; s;
+        int i=<span class="number">0</span>,j=<span class="number">0</span>;
+        <span class="keyword">for</span><span class="params">(;j &lt; popV.size<span class="params">()</span>; j++)</span>
+        {
+            while<span class="params">(s.empty<span class="params">()</span> || <span class="params">(i &lt; pushV.size<span class="params">()</span> &amp;&amp; s.top<span class="params">()</span> != popV[j])</span>)</span>
+                s.push<span class="params">(pushV[i++])</span>;
+            <span class="keyword">if</span><span class="params">(s.top<span class="params">()</span> == popV[j])</span>
+                s.pop<span class="params">()</span>;
+            <span class="keyword">else</span> <span class="keyword">if</span><span class="params">(i == pushV.size<span class="params">()</span>)</span>
+                break;
+        }
+        <span class="keyword">if</span><span class="params">(i == pushV.size<span class="params">()</span> &amp;&amp; j == popV.size<span class="params">()</span> &amp;&amp; s.empty<span class="params">()</span>)</span>
+            return <span class="literal">true</span>;
+        <span class="keyword">else</span>
+            return <span class="literal">false</span>;
+    }
+};
+</code></pre><h3 id="剑指offer65_滑动窗口最大值">剑指offer65 滑动窗口最大值</h3><h4 id="问题描述-3">问题描述</h4><p>给定一个数组和滑动窗口的大小，找出所有滑动窗口里数值的最大值。例如，如果输入数组{2,3,4,2,6,2,5,1}及滑动窗口的大小3，那么一共存在6个滑动窗口，他们的最大值分别为{4,4,6,6,6,5}； 针对数组{2,3,4,2,6,2,5,1}的滑动窗口有以下6个： {[2,3,4],2,6,2,5,1}， {2,[3,4,2],6,2,5,1}， {2,3,[4,2,6],2,5,1}， {2,3,4,[2,6,2],5,1}， {2,3,4,2,[6,2,5],1}， {2,3,4,2,6,[2,5,1]}。</p>
+<h4 id="解法-3">解法</h4><p>使用双端队列(dequeue)记录当前窗口最大值<strong>下标</strong>序列，每插入一个元素就向前删除。通过比较dequeue的第一个元素是当前窗口的最大元素<strong>下标</strong>，比较首元素下标和i-size判断删除队列头部元素。</p>
+<h4 id="注意点-1">注意点</h4><ul>
+<li>从后向前删除</li>
+<li>最后一个窗口</li>
+</ul>
+<h4 id="代码-3">代码</h4><pre><code>class <span class="type">Solution</span> {
+public:
+    vector&lt;<span class="type">int</span>&gt; maxInWindows(<span class="keyword">const</span> vector&lt;<span class="type">int</span>&gt;&amp; num, unsigned <span class="type">int</span> size)
+    {
+        vector&lt;<span class="type">int</span>&gt; <span class="literal">result</span>;
+        <span class="keyword">if</span>(num.size() &lt; size || size &lt; <span class="number">1</span>)
+            <span class="keyword">return</span> <span class="literal">result</span>;
+        deque&lt;<span class="type">int</span>&gt; indexes;
+        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; size; i++)
+        {
+            <span class="keyword">while</span>(!indexes.empty() &amp;&amp; num[i] &gt;= num[indexes.back()])
+                indexes.pop_back();
+            indexes.push_back(i);
+        }
+
+        <span class="keyword">for</span>(<span class="type">int</span> i = size;i &lt; num.size(); i++)
+        {
+            <span class="literal">result</span>.push_back(num[indexes.front()]);
+            <span class="keyword">while</span>(!indexes.empty() &amp;&amp; num[i] &gt;= num[indexes.back()])
+                indexes.pop_back();
+            <span class="keyword">while</span>(!indexes.empty() &amp;&amp; indexes.front() &lt;= (i-size))
+                indexes.pop_front();
+            indexes.push_back(i);
+        }
+        <span class="literal">result</span>.push_back(num[indexes.front()]);
+        <span class="keyword">return</span> <span class="literal">result</span>;
+    }
+};
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<h3 id="剑指offer_7_两个栈实现队列_VS_两个队列实现栈">剑指offer 7 两个栈实现队列 VS 两个队列实现栈</h3><h4 id="问题描述">问题描述</h4><p>用两个栈来实现一个队列，完成队列的Push和Pop操作。 队列中的元素为int类型。<]]>
+    </summary>
+    
+      <category term="栈和队列" scheme="http://rudy-zhang.me/tags/%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/"/>
+    
+      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[数组专题-两个指针]]></title>
     <link href="http://rudy-zhang.me/2015/10/03/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E6%95%B0%E7%BB%84%E4%B8%93%E9%A2%98-%E4%B8%A4%E4%B8%AA%E6%8C%87%E9%92%88/"/>
     <id>http://rudy-zhang.me/2015/10/03/找工作总结-数组专题-两个指针/</id>
     <published>2015-10-02T16:00:00.000Z</published>
-    <updated>2015-10-03T13:01:20.810Z</updated>
+    <updated>2015-10-03T13:22:56.058Z</updated>
     <content type="html"><![CDATA[<h1 id="通用解题思路">通用解题思路</h1><ul>
 <li>使用快排中的partition函数</li>
 <li>贪心,left++,right-直到相遇</li>
@@ -336,7 +818,7 @@ public:
         return nums[<span class="built_in">left</span>];
     }
 };
-</code></pre><h3 id="剑指offer14_调整数组顺序使奇数位于偶数之前">剑指offer14 调整数组顺序使奇数位于偶数之前</h3><h4 id="问题描述-11">问题描述</h4><p>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
+</code></pre><h2 id="一般题目">一般题目</h2><h3 id="剑指offer14_调整数组顺序使奇数位于偶数之前">剑指offer14 调整数组顺序使奇数位于偶数之前</h3><h4 id="问题描述-11">问题描述</h4><p>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
 <h4 id="解法-9">解法</h4><ul>
 <li>使用插入排序的思想，复杂度O(n^2)</li>
 <li>使用额外的O(n)存储，遍历原数组，计数从前往后放，偶数从后往前放。时间复杂度O(n)</li>
@@ -2755,104 +3237,6 @@ END{
       <category term="Git" scheme="http://rudy-zhang.me/tags/Git/"/>
     
       <category term="开发工具" scheme="http://rudy-zhang.me/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[ASP.NET MVC之本地化多语言]]></title>
-    <link href="http://rudy-zhang.me/2015/03/20/ASP.NET%20MVC%E4%B9%8B%E6%9C%AC%E5%9C%B0%E5%8C%96%E5%A4%9A%E8%AF%AD%E8%A8%80/"/>
-    <id>http://rudy-zhang.me/2015/03/20/ASP.NET MVC之本地化多语言/</id>
-    <published>2015-03-20T11:56:58.000Z</published>
-    <updated>2015-05-24T14:05:06.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>使用ASP MVC的本地化多语言解决方案可以方便地让我们把程序中的字符串映射到一个资源文件中，这样便于统一修改，同时只要指定使用不同的语言，就可以瞬间切换资源文件，从而达到灵活修改网站的目的。</p>
-<h2 id="新建资源文件">新建资源文件</h2><p>如图在项目中新建了三个资源文件，一个默认Global.resx,一个是英文Global.en.resx，一个是备份的Global.ar.resx<br><img src="http://ww3.sinaimg.cn/mw690/4c2edcb7jw1eqcfrko5gaj209u07rdg5.jpg" alt="enter image description here"></p>
-<h2 id="修改key-value">修改key-value</h2><p><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eqcfrkznssj20k70cidhq.jpg" alt="enter image description here"></p>
-<h2 id="什么时候使用">什么时候使用</h2><p>ASP.NET MVC 还提供将强类型数据或对象传递到视图模板的能力。便于检查类型错误。<br>使用方法：</p>
-<ul>
-<li>简单独立的数据使用ViewBag</li>
-<li>向前端传递一个大的对象，使用试图模板，便于检查错误</li>
-</ul>
-<h2 id="如何把Key放入到程序当中">如何把Key放入到程序当中</h2><h3 id="在Model中">在Model中</h3><p>对应Display属性使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Display(Name = &#34;UserName&#34;,ResourceType=typeof(Resources.Global))]</span><br></pre></td></tr></table></figure>
-<p>对于ErrorMessage</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Required(ErrorMessageResourceName = &#34;PasswordRequiredMessage&#34;, ErrorMessageResourceType = typeof(Resources.Global))]</span><br></pre></td></tr></table></figure>
-<h3 id="在Controller中">在Controller中</h3><p>一般来说在Controller不出现汉字的字符串，如果使用，可以通过如下方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string myString=HospitalProject.Resources.Global.DoctorName;</span><br></pre></td></tr></table></figure>
-<h3 id="在前端">在前端</h3><p>使用razor表达式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Html.ActionLink(@HospitalProject.Resources.Global.NetworkDiagnosisHome, &#34;Index&#34;, &#34;Home&#34;, routeValues: null, htmlAttributes: new &#123; @class = &#34;navbar-brand&#34; &#125;)</span><br></pre></td></tr></table></figure></p>
-<h2 id="如何指定资源文件">如何指定资源文件</h2><p>在<code>ViewStart.cshtml</code>中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XXXProject.Extensions.CultureHelper.SetCulture(&#34;ar&#34;);</span><br></pre></td></tr></table></figure>
-<h2 id="后记">后记</h2><p>通过本方法可以方便进行网站资源文件的切换，如果需要实现网站同时支持多种语言，使用cookie或者URL route需要进行其他配置。参考：<br><a href="http://jingyan.baidu.com/article/3052f5a1d4410797f31f86f8.html" target="_blank" rel="external">参考1</a><br><a href="http://www.cnblogs.com/xyfy/articles/1970424.html" target="_blank" rel="external">参考2</a><br><a href="http://afana.me/post/aspnet-mvc-internationalization.aspx" target="_blank" rel="external">参考3</a></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="前言">前言</h2><p>使用ASP MVC的本地化多语言解决方案可以方便地让我们把程序中的字符串映射到一个资源文件中，这样便于统一修改，同时只要指定使用不同的语言，就可以瞬间切换资源文件，从而达到灵活修改网站的目的。</p>
-<h2 id="新建资源文件">新]]>
-    </summary>
-    
-      <category term="ASP MVC" scheme="http://rudy-zhang.me/tags/ASP-MVC/"/>
-    
-      <category term=".NET" scheme="http://rudy-zhang.me/categories/NET/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[ASP.NET MVC之Entity Framewrok]]></title>
-    <link href="http://rudy-zhang.me/2015/03/20/ASP.NET%20MVC%E4%B9%8BEntity%20Framewrok/"/>
-    <id>http://rudy-zhang.me/2015/03/20/ASP.NET MVC之Entity Framewrok/</id>
-    <published>2015-03-20T08:55:10.000Z</published>
-    <updated>2015-05-24T02:27:14.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="解释">解释</h2><p>Entity Framework 是微软以 ADO.NET 为基础所发展出来的对象关系对应 (O/R Mapping) 解决方案。</p>
-<blockquote>
-<p>对象关系映射（Object Relational Mapping，简称ORM）是一种为了解决面向对象与关系数据库存在的互不匹配的现象的技术。</p>
-</blockquote>
-<h2 id="三种方式">三种方式</h2><ul>
-<li>Database-first（数据库先行）：从一个数据库开始，然后实体框架生成相应代码。</li>
-<li>Model-first（模型先行）：先从一个可视化模型开始，然后实体框架生成数据库和代码。</li>
-<li>Code-first（代码先行）：先从代码开始，然后实体框架生成数据库</li>
-</ul>
-<p>CodeFirst 用中文说是代码优先，此技术可以让我们先写代码，然后由Entity Framework根据我们的代码建立数据库。</p>
-<p>CodeFirst和ModelFirst的数据库连接方式不一样，但都可以现在VS中测试连接</p>
-<h2 id="why_codefirst？">why codefirst？</h2><p>代码优先的开发支持更加优美的开发流程，它允许你：</p>
-<blockquote>
-<ul>
-<li>在不使用设计器或者定义一个 XML 映射文件的情况下进行开发。</li>
-<li>允许编写简单的模型对象POCO (plain old classes)，而不需要基类。</li>
-<li>通过”约定优于配置”，使得数据库持久层不需要任何的配置</li>
-<li>也可以覆盖”约定优于配置”，通过流畅的 API 来完全定制持层的映射。</li>
-</ul>
-</blockquote>
-<p>Code First是基于Entity Framework的新的开发模式，原先只有Database First和Model First两种。Code First顾名思义，就是先用C#/VB.NET的类定义好你的领域模型，然后用这些类映射到现有的数据库或者产生新的数据库结构。<strong>写好代码就行，数据库几乎不需要操作</strong>。</p>
-<h2 id="使用codefirst建立数据库">使用codefirst建立数据库</h2><h3 id="建立实体类">建立实体类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class Student&#10;&#123;&#10;    public int StudentID &#123; get; set; &#125;&#10;    public string LastName &#123; get; set; &#125;&#10;    public string FirstNidName &#123; get; set; &#125;&#10;    public DateTime EnrollmentDate &#123; get; set; &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="DAL数据库连接层，创建实体集">DAL数据库连接层，创建实体集</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class SchoolContext : DbContext&#10;&#123;&#10;    public DbSet &#60;Student&#62; Students &#123; get; set ; &#125;&#10;    public DbSet &#60;Enrollment&#62; Enrollments &#123; get; set ; &#125;&#10;    public DbSet &#60;Course&#62; Courses &#123; get; set ; &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>继承自System.Data.Entity下的DbContext，它将我们的数据模型映射到数据库中，将代码中的数据持久化。<br><strong>这里相当于做了代码和数据库的表映射。</strong></p>
-<h3 id="向web-config中添加数据库连接">向web.config中添加数据库连接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;add name=&#34; SchoolContext&#34; connectionString=&#34; Data Source=(LocalDb)\v11.0;Initial Catalog=ContosoUniversity;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|\ContosoUniversity.mdf&#34; providerName=&#34; System.Data.SqlClient&#34; /&#62;</span><br></pre></td></tr></table></figure>
-<h3 id="总结">总结</h3><p>当系统开始运行，会自动检查SchoolContext 对应的数据库是否建立，如果没有建立就通过已经做好的实体类和表映射关系在数据库中映射出需要的数据库表。</p>
-<h2 id="基于标注的前后端验证">基于标注的前后端验证</h2><p>在建立网站的时候，都需要进行数据验证。前后端都要验证，前端js，后台使用后台的代码。实际的项目中一般前后端程序员约定好，然后分别写代码进行验证，很麻烦。ASP MVC为我们建立了一套非常简单的方法，只需要为属性添加标注，即可在前后端使用同一套验证逻辑。</p>
-<h3 id="添加标注">添加标注</h3><p>在已经建好的实体类中，可以为属性添加Data Annotations（标注）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class Movie &#123;&#10;    public int ID &#123; get; set; &#125;&#10;&#10;    [Required]&#10;    public string Title &#123; get; set; &#125;&#10;&#10;    [DataType(DataType.Date)]&#10;    public DateTime ReleaseDate &#123; get; set; &#125;&#10;&#10;    [Required]&#10;    public string Genre &#123; get; set; &#125;&#10;&#10;    [Range(1, 100)]&#10;    [DataType(DataType.Currency)]&#10;    public decimal Price &#123; get; set; &#125;&#10;&#10;    [StringLength(5)]&#10;    public string Rating &#123; get; set; &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="后端验证">后端验证</h3><p>使用<code>ModelState.IsValid</code> 即可实现</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[HttpPost]&#10;public ActionResult Index(Party party)&#10;&#123;&#10;    if(ModelState.IsValid)&#10;    &#123;&#10;        // TO DO: save the party to database&#10;        return View(&#34;Thanks&#34;);&#10;    &#125;&#10;    return View();&#10;&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="前端验证">前端验证</h3><p>打开配置文件<code>web.config</code>，配置前端验证开启</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;appSettings&#62;&#10;    &#60;add key=&#34;ClientValidationEnabled&#34; value=&#34;true&#34; /&#62;&#10;    &#60;add key=&#34;UnobtrusiveJavaScriptEnabled&#34; value=&#34;true&#34;/&#62;&#10;&#60;/appSettings&#62;</span><br></pre></td></tr></table></figure>
-<p>包含JQuery验证库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;script src=&#34;@Url.Content(&#34;~/Scripts/jquery-1.5.1.min.js&#34;)&#34; type=&#34;text/javascript&#34;&#62;&#60;/script&#62;&#10;&#60;script src=&#34;@Url.Content(&#34;~/Scripts/jquery.validate.min.js&#34;)&#34; type=&#34;text/javascript&#34;&#62;&#60;/script&#62;&#10;&#60;script src=&#34;@Url.Content(&#34;~/Scripts/jquery.validate.unobtrusive.min.js&#34;)&#34; type=&#34;text/javascript&#34;&#62;&#60;/script&#62;</span><br></pre></td></tr></table></figure>
-<p>在前端输出验证信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Html.ValidationMessageFor()</span><br></pre></td></tr></table></figure>
-<p>ASP MVC为我们提供了可以满足大部分需求的验证逻辑。但是如果想定制验证逻辑，也是可以的。参考<a href="http://prideparrot.com/blog/archive/2012/4/model_validation_in_asp_net_mvc" target="_blank" rel="external">自定义验证</a></p>
-<h2 id="codefirst更新数据库">codefirst更新数据库</h2><h3 id="启用迁移">启用迁移</h3><p>打开VS，工具&gt;库程序包管理器&gt;程序包管理器控制台。使用命令<br><code>Enable-Migrations</code></p>
-<h3 id="生成和运行迁移">生成和运行迁移</h3><ul>
-<li><code>Add-Migration</code>      对比当前数据库和模型的差异，生成相应的代码，使数据库和模型匹配的。</li>
-<li><code>Update-Database</code>  将任何挂起的迁移到数据库。</li>
-</ul>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="解释">解释</h2><p>Entity Framework 是微软以 ADO.NET 为基础所发展出来的对象关系对应 (O/R Mapping) 解决方案。</p>
-<blockquote>
-<p>对象关系映射（Object Relational Mapping]]>
-    </summary>
-    
-      <category term="ASP MVC" scheme="http://rudy-zhang.me/tags/ASP-MVC/"/>
-    
-      <category term=".NET" scheme="http://rudy-zhang.me/categories/NET/"/>
     
   </entry>
   
