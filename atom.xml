@@ -4,7 +4,7 @@
   <subtitle><![CDATA[seize the day]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://rudy-zhang.me/"/>
-  <updated>2015-10-10T10:50:18.341Z</updated>
+  <updated>2015-10-11T08:35:23.128Z</updated>
   <id>http://rudy-zhang.me/</id>
   
   <author>
@@ -13,6 +13,810 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[动态规划]]></title>
+    <link href="http://rudy-zhang.me/2015/10/11/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E4%B8%93%E9%A2%98/"/>
+    <id>http://rudy-zhang.me/2015/10/11/找工作总结-动态规划专题/</id>
+    <published>2015-10-11T04:00:00.000Z</published>
+    <updated>2015-10-11T08:35:23.128Z</updated>
+    <content type="html"><![CDATA[<p>动态规划的关键是写出状态转移方程</p>
+<h3 id="青蛙跳台阶_VS_斐波那契数列">青蛙跳台阶 VS 斐波那契数列</h3><h4 id="问题描述">问题描述</h4><p>一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法。</p>
+<h4 id="解法">解法</h4><p>状态转移方程：</p>
+<pre><code><span class="tag">a</span>[n] = <span class="tag">a</span>[n-<span class="number">1</span>] + <span class="tag">a</span>[n-<span class="number">2</span>]
+</code></pre><h4 id="代码">代码</h4><p>递归，使用vector存储每一步的结果，防止重复计算</p>
+<pre><code><span class="keyword">class</span> Solution {
+public:
+    int jumpFloor(int number) {
+        <span class="keyword">if</span>(number &lt;= 0) <span class="keyword">return</span> 0;
+        vector&lt;int&gt; <span class="literal">vec</span>(number + 1, 0);
+        <span class="keyword">count</span>(number, <span class="keyword">vec</span>);
+        <span class="keyword">return</span> <span class="keyword">vec</span>[number];
+    }
+    int <span class="keyword">count</span>(int <span class="keyword">n</span>, vector&lt;int&gt;&amp; <span class="keyword">vec</span>)
+    {
+        <span class="keyword">if</span>(<span class="keyword">n</span> == 0 || <span class="keyword">n</span> == 1 || <span class="keyword">n</span> == 2)
+            <span class="keyword">vec</span>[<span class="keyword">n</span>] = <span class="keyword">n</span>;
+        <span class="keyword">if</span>(<span class="keyword">vec</span>[<span class="keyword">n</span>] != 0)
+            <span class="keyword">return</span> <span class="keyword">vec</span>[<span class="keyword">n</span>];
+        <span class="keyword">else</span>
+        {
+            <span class="keyword">vec</span>[<span class="keyword">n</span>] = <span class="keyword">count</span>(<span class="keyword">n</span> - 1, <span class="keyword">vec</span>) + <span class="keyword">count</span>(<span class="keyword">n</span> - 2, <span class="keyword">vec</span>);
+            <span class="keyword">return</span> <span class="keyword">vec</span>[<span class="keyword">n</span>];
+        }
+    }
+};
+</code></pre><p>非递归：</p>
+<pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="built_in">int</span> jumpFloor(<span class="built_in">int</span> <span class="keyword">number</span>) {
+        <span class="keyword">if</span>(<span class="keyword">number</span> &lt;= <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
+        <span class="keyword">if</span>(<span class="keyword">number</span> == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;
+        <span class="keyword">if</span>(<span class="keyword">number</span> == <span class="number">2</span>) <span class="keyword">return</span> <span class="number">2</span>;
+        <span class="built_in">int</span> temp1 = <span class="number">1</span>, temp2 = <span class="number">2</span>, ans = <span class="number">0</span>;
+        for(<span class="built_in">int</span> i = <span class="number">3</span>; i &lt;= <span class="keyword">number</span>; i++)
+        {
+            ans = temp1 + temp2;
+            temp1 = temp2;
+            temp2 = ans;
+        }
+        <span class="keyword">return</span> ans;
+    }
+};
+</code></pre><h3 id="House_Robber">House Robber</h3><h4 id="问题描述-1">问题描述</h4><p>强盗偷东西，不能连续抢两家，求最多可以打劫到的金钱数。</p>
+<h4 id="解法-1">解法</h4><p>状态转移方程：</p>
+<pre><code>dp[i] = max<span class="comment">(dp[i-1], dp[i-2]+num[i])</span>
+</code></pre><p>表示当前位置最大的金钱数，等于i位置不打劫和i位置打劫的更大值。</p>
+<h4 id="代码-1">代码</h4><p>递归解法：</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+public:
+<span class="comment">//动态规划，状态转移方程：S(n)=max{S(n-1),S(n-2)+a[n]}</span>
+<span class="comment">//直接使用递归超时，需要额外存储换时间</span>
+    <span class="built_in">int</span> rob(vector&lt;<span class="built_in">int</span>&gt; &amp;<span class="built_in">num</span>) {
+        <span class="keyword">if</span>(<span class="built_in">num</span>.size() == <span class="number">0</span>)
+            <span class="keyword">return</span> <span class="number">0</span>;
+        vector&lt;<span class="built_in">int</span>&gt; res(<span class="built_in">num</span>.size(), -<span class="number">1</span>);
+        <span class="keyword">return</span> S(<span class="built_in">num</span>.size() - <span class="number">1</span>, <span class="built_in">num</span>, res) ;
+    }
+
+    <span class="built_in">int</span> S(<span class="built_in">int</span> i, vector&lt;<span class="built_in">int</span>&gt;&amp; <span class="built_in">num</span>, vector&lt;<span class="built_in">int</span>&gt;&amp; res)
+    {
+        <span class="keyword">if</span>(i == <span class="number">0</span>)
+            res[i] = <span class="built_in">num</span>[i];
+        <span class="keyword">else</span> <span class="keyword">if</span>(i == <span class="number">1</span>)
+            res[i] = max(<span class="built_in">num</span>[<span class="number">0</span>], <span class="built_in">num</span>[<span class="number">1</span>]);
+        <span class="keyword">else</span> <span class="keyword">if</span>(res[i] != -<span class="number">1</span>) 
+            <span class="keyword">return</span> res[i];
+        <span class="keyword">else</span>
+        {
+            <span class="built_in">int</span> S1=S(i-<span class="number">1</span>, <span class="built_in">num</span>, res);
+            <span class="built_in">int</span> S2=S(i-<span class="number">2</span>, <span class="built_in">num</span>, res) + <span class="built_in">num</span>[i];
+            res[i] = S1 &gt;= S2 ? S1 : S2;
+        }
+        <span class="keyword">return</span> res[i];
+    }
+};
+</code></pre><p>非递归解法：</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+public:
+    <span class="built_in">int</span> rob(vector&lt;<span class="built_in">int</span>&gt; &amp;<span class="built_in">num</span>) {
+        <span class="built_in">int</span> n = <span class="built_in">num</span>.size();
+        <span class="keyword">if</span>(n == <span class="number">0</span>)
+            <span class="keyword">return</span> <span class="number">0</span>;
+        <span class="keyword">else</span> <span class="keyword">if</span>(n == <span class="number">1</span>)
+            <span class="keyword">return</span> <span class="built_in">num</span>[<span class="number">0</span>];
+        <span class="keyword">else</span>
+        {
+            vector&lt;<span class="built_in">int</span>&gt; maxV(n, <span class="number">0</span>);
+            maxV[<span class="number">0</span>] = <span class="built_in">num</span>[<span class="number">0</span>];
+            maxV[<span class="number">1</span>] = max(<span class="built_in">num</span>[<span class="number">0</span>], <span class="built_in">num</span>[<span class="number">1</span>]);
+            <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">2</span>; i &lt; n; i ++)
+                maxV[i] = max(maxV[i - <span class="number">2</span>] + <span class="built_in">num</span>[i], maxV[i - <span class="number">1</span>]);
+            <span class="keyword">return</span> maxV[n - <span class="number">1</span>];
+        }
+    }
+};
+</code></pre><h3 id="House_Robber_II">House Robber II</h3><h4 id="题目描述">题目描述</h4><p>街道变成环，其他条件不变</p>
+<h4 id="解法-2">解法</h4><p>res = max（抢第一家到倒数第二家， 抢第二家到最后一家）</p>
+<h4 id="代码-2">代码</h4><pre><code>class Solution {
+public:
+    <span class="keyword">int</span> rob(<span class="keyword">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums) {
+        <span class="keyword">if</span>(nums.<span class="keyword">size</span>() == <span class="number">0</span>)
+            <span class="keyword">return</span> <span class="number">0</span>;
+        <span class="keyword">if</span>(nums.<span class="keyword">size</span>() == <span class="number">1</span>)
+            <span class="keyword">return</span> nums[<span class="number">0</span>];
+        <span class="keyword">return</span> <span class="keyword">max</span>(robber(nums, <span class="number">0</span>, nums.<span class="keyword">size</span>()-<span class="number">2</span>), robber(nums, <span class="number">1</span>, nums.<span class="keyword">size</span>()-<span class="number">1</span>));
+    }
+
+    <span class="keyword">int</span> robber(<span class="keyword">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums, <span class="keyword">int</span> left, <span class="keyword">int</span> right)
+    {
+        <span class="keyword">int</span> temp1 = <span class="number">0</span>, temp2 = <span class="number">0</span>,res = <span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=left;i&lt;=right;i++)
+        {
+            res = <span class="keyword">max</span>(temp1 + nums[i], temp2);
+            temp1 = temp2;
+            temp2 = res;
+        }
+        <span class="keyword">return</span> res;
+    }
+};
+</code></pre><h3 id="最大连续子序列">最大连续子序列</h3><h4 id="最大连续子序列和">最大连续子序列和</h4><p>遍历如果currentSum&lt;0 丢弃前面的数，否则currentSum+=num[i]。记录max</p>
+<pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="function"><span class="keyword">int</span> <span class="title">FindGreatestSumOfSubArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="built_in">array</span>)</span> </span>{
+        <span class="keyword">if</span>(<span class="built_in">array</span>.size() == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
+        <span class="keyword">int</span> greatest = <span class="built_in">array</span>[<span class="number">0</span>];
+        <span class="keyword">int</span> currentSum = <span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">array</span>.size(); i++)
+        {
+            <span class="keyword">if</span>(currentSum &lt;= <span class="number">0</span>)
+                currentSum = <span class="built_in">array</span>[i];
+            <span class="keyword">else</span>
+                currentSum += <span class="built_in">array</span>[i];
+
+            <span class="keyword">if</span>(currentSum &gt; greatest)
+                greatest = currentSum;
+        }
+        <span class="keyword">return</span> greatest;
+    }
+};
+</code></pre><h4 id="最大连续子序列乘积">最大连续子序列乘积</h4><pre><code><span class="keyword">class</span> Solution {
+//思路：动态规划，计算字数组和的时候sub[i+<span class="number">1</span>]=<span class="built_in">max</span>(sub[i]+A[i+<span class="number">1</span>],A[i+<span class="number">1</span>]),在计算子数组乘积的时候，
+/*
+<span class="built_in">max</span>[i]=<span class="built_in">max</span>(<span class="built_in">max</span>[i-<span class="number">1</span>]*nums[i], <span class="built_in">min</span>[i-<span class="number">1</span>]*nums[i],nums[i])
+<span class="built_in">min</span>[i]=<span class="built_in">min</span>(<span class="built_in">max</span>[i-<span class="number">1</span>]*nums[i], <span class="built_in">min</span>[i-<span class="number">1</span>]*nums[i],nums[i])
+*/
+<span class="keyword">public</span>:
+    <span class="built_in">int</span> maxProduct(vector&lt;<span class="built_in">int</span>&gt;&amp; nums) {
+        <span class="keyword">if</span>(nums.<span class="built_in">size</span>()==<span class="number">0</span>)
+            <span class="keyword">return</span> <span class="number">0</span>;
+        <span class="built_in">int</span> maxcur,mincur;
+        <span class="built_in">int</span> <span class="built_in">maxval</span> = nums[<span class="number">0</span>];
+        <span class="built_in">int</span> minpre = nums[<span class="number">0</span>];
+        <span class="built_in">int</span> maxpre = nums[<span class="number">0</span>];
+        for(<span class="built_in">int</span> i=<span class="number">1</span>;i&lt;nums.<span class="built_in">size</span>();i++)
+        {
+            maxcur = <span class="built_in">max</span>(<span class="built_in">max</span>(maxpre*nums[i],minpre*nums[i]),nums[i]);
+            mincur = <span class="built_in">min</span>(<span class="built_in">min</span>(maxpre*nums[i],minpre*nums[i]),nums[i]);
+            <span class="built_in">maxval</span> = <span class="built_in">max</span>(<span class="built_in">maxval</span>, maxcur);
+            minpre = mincur;
+            maxpre = maxcur;
+        }
+        <span class="keyword">return</span> <span class="built_in">maxval</span>;
+    }
+};
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<p>动态规划的关键是写出状态转移方程</p>
+<h3 id="青蛙跳台阶_VS_斐波那契数列">青蛙跳台阶 VS 斐波那契数列</h3><h4 id="问题描述">问题描述</h4><p>一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法。]]>
+    </summary>
+    
+      <category term="递归" scheme="http://rudy-zhang.me/tags/%E9%80%92%E5%BD%92/"/>
+    
+      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[图，回溯，遍历]]></title>
+    <link href="http://rudy-zhang.me/2015/10/11/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E5%9B%BE%E9%81%8D%E5%8E%86/"/>
+    <id>http://rudy-zhang.me/2015/10/11/找工作总结-图遍历/</id>
+    <published>2015-10-11T03:00:00.000Z</published>
+    <updated>2015-10-11T12:07:31.505Z</updated>
+    <content type="html"><![CDATA[<p>递归的本质是图的深度优先遍历</p>
+<h3 id="剑指offer_66_矩阵中的路径">剑指offer 66 矩阵中的路径</h3><h4 id="问题描述">问题描述</h4><p>请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。路径可以从矩阵中的任意一个格子开始，每一步可以在矩阵中向左，向右，向上，向下移动一个格子。如果一条路径经过了矩阵中的某一个格子，则该路径不能再进入该格子。 例如 a b c e s f c s a d e e 矩阵中包含一条字符串”bccced”的路径，但是矩阵中不包含”abcb”路径，因为字符串的第一个字符b占据了矩阵中的第一行第二个格子之后，路径不能再次进入该格子。</p>
+<h4 id="解法">解法</h4><p>使用<code>vector&lt;vector&lt;bool&gt;&gt; visited</code>记录位置是否被访问过。每个节点指向周围四个点，从而形成一个有向图。然后使用递归进行有向图的深度优先遍历。</p>
+<h4 id="代码">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="function"><span class="keyword">bool</span> <span class="title">hasPath</span><span class="params">(<span class="keyword">char</span>* matrix, <span class="keyword">int</span> rows, <span class="keyword">int</span> cols, <span class="keyword">char</span>* str)</span>
+    </span>{
+        <span class="keyword">if</span>(matrix == NULL || rows &lt; <span class="number">1</span> || cols &lt; <span class="number">1</span> || str == NULL)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt;&gt; visited;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; rows; i++)
+        {
+            <span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt; vec(cols, <span class="keyword">false</span>);
+            visited.push_back(vec);
+        }
+        <span class="keyword">int</span> step = <span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; rows; i++)
+        {
+            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; cols; j++)
+            {
+                <span class="keyword">if</span>(hasPathCore(matrix, rows, cols, i, j, str, step, visited))
+                    <span class="keyword">return</span> <span class="keyword">true</span>;
+            }
+        }
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+
+    <span class="function"><span class="keyword">bool</span> <span class="title">hasPathCore</span><span class="params">(<span class="keyword">char</span>* matrix, <span class="keyword">int</span> rows, <span class="keyword">int</span> cols, <span class="keyword">int</span> i, <span class="keyword">int</span> j,
+                     <span class="keyword">char</span>* str, <span class="keyword">int</span> &amp;step, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt; &gt; &amp;visited)</span>
+    </span>{
+        <span class="keyword">if</span>(str[step] == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">bool</span> hasPath = <span class="keyword">false</span>;
+        <span class="keyword">if</span>(i &gt;=<span class="number">0</span> &amp;&amp; i&lt; rows &amp;&amp; j &gt;= <span class="number">0</span> &amp;&amp; j &lt; cols &amp;&amp;
+          matrix[i*cols + j] == str[step] &amp;&amp; !visited[i][j])
+        {
+            step++;
+            visited[i][j] = <span class="keyword">true</span>;
+            hasPath = hasPathCore(matrix, rows, cols, i-<span class="number">1</span>, j, str, step, visited) ||
+                hasPathCore(matrix, rows, cols, i+<span class="number">1</span>, j, str, step, visited) ||
+                hasPathCore(matrix, rows, cols, i, j-<span class="number">1</span>, str, step, visited) ||
+                hasPathCore(matrix, rows, cols, i, j+<span class="number">1</span>, str, step, visited);
+            <span class="keyword">if</span>(!hasPath)
+            {
+                step--;
+                visited[i][j] = <span class="keyword">false</span>;
+            }
+        }
+        <span class="keyword">return</span> hasPath;          
+    }
+};
+</code></pre><h3 id="剑指offer_67_机器人的运动范围">剑指offer 67 机器人的运动范围</h3><h4 id="问题描述-1">问题描述</h4><p>地上有一个m行和n列的方格。一个机器人从坐标0,0的格子开始移动，每一次只能向左，右，上，下四个方向移动一格，但是不能进入行坐标和列坐标的数位之和大于k的格子。 例如，当k为18时，机器人能够进入方格（35,37），因为3+5+3+7 = 18。但是，它不能进入方格（35,38），因为3+5+3+8 = 19。请问该机器人能够达到多少个格子？</p>
+<h4 id="解法-1">解法</h4><p>模拟，进行图的深度优先遍历，每走一步是否满足条件。</p>
+<h4 id="代码-1">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="function"><span class="keyword">int</span> <span class="title">movingCount</span><span class="params">(<span class="keyword">int</span> threshold, <span class="keyword">int</span> rows, <span class="keyword">int</span> cols)</span>
+    </span>{
+        <span class="keyword">bool</span> *visited = <span class="keyword">new</span> <span class="keyword">bool</span>[rows*cols];
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;rows*cols;i++)
+            visited[i] = <span class="keyword">false</span>;
+        <span class="keyword">int</span> count = movingCountCore(threshold, rows, cols, <span class="number">0</span>, <span class="number">0</span>, visited);
+        <span class="keyword">delete</span> [] visited;
+        <span class="keyword">return</span> count;
+    }
+
+    <span class="function"><span class="keyword">int</span> <span class="title">movingCountCore</span><span class="params">(<span class="keyword">int</span> threshold, <span class="keyword">int</span> rows, <span class="keyword">int</span> cols, <span class="keyword">int</span> i, <span class="keyword">int</span> j, <span class="keyword">bool</span>* visited)</span>
+    </span>{
+        <span class="keyword">int</span> count = <span class="number">0</span>;
+        <span class="keyword">if</span>(check(threshold, rows, cols, i, j, visited))
+        {
+            visited[i * cols + j] = <span class="keyword">true</span>;
+            count = <span class="number">1</span> + movingCountCore(threshold, rows, cols, i-<span class="number">1</span>, j, visited)
+                + movingCountCore(threshold, rows, cols, i+<span class="number">1</span>, j, visited)
+                + movingCountCore(threshold, rows, cols, i, j-<span class="number">1</span>, visited)
+                + movingCountCore(threshold, rows, cols, i, j+<span class="number">1</span>, visited);
+        }
+        <span class="keyword">return</span> count;
+    }
+
+    <span class="function"><span class="keyword">bool</span> <span class="title">check</span><span class="params">(<span class="keyword">int</span> threshold, <span class="keyword">int</span> rows, <span class="keyword">int</span> cols, <span class="keyword">int</span> i, <span class="keyword">int</span> j, <span class="keyword">bool</span>* visited)</span>
+    </span>{
+        <span class="keyword">if</span>(i &gt;= <span class="number">0</span> &amp;&amp; i &lt; rows &amp;&amp; j &gt;= <span class="number">0</span> &amp;&amp; j &lt; cols &amp;&amp; !visited[i*cols + j]
+          &amp;&amp; getDigitSum(i)+getDigitSum(j) &lt;= threshold
+          )  
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+
+    <span class="function"><span class="keyword">int</span> <span class="title">getDigitSum</span><span class="params">(<span class="keyword">int</span> number)</span>
+    </span>{
+        <span class="keyword">int</span> sum = <span class="number">0</span>;
+        <span class="keyword">while</span>(number)
+        {
+            sum += number%<span class="number">10</span>;
+            number /= <span class="number">10</span>;
+        }
+        <span class="keyword">return</span> sum;
+    }    
+};
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<p>递归的本质是图的深度优先遍历</p>
+<h3 id="剑指offer_66_矩阵中的路径">剑指offer 66 矩阵中的路径</h3><h4 id="问题描述">问题描述</h4><p>请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。路径可以从]]>
+    </summary>
+    
+      <category term="图" scheme="http://rudy-zhang.me/tags/%E5%9B%BE/"/>
+    
+      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[递归]]></title>
+    <link href="http://rudy-zhang.me/2015/10/11/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E9%80%92%E5%BD%92%E4%B8%93%E9%A2%98/"/>
+    <id>http://rudy-zhang.me/2015/10/11/找工作总结-递归专题/</id>
+    <published>2015-10-11T02:00:00.000Z</published>
+    <updated>2015-10-11T08:53:17.416Z</updated>
+    <content type="html"><![CDATA[<p>递归的本质是图的深度优先遍历</p>
+<h3 id="剑指offer11_数值的整数次方">剑指offer11 数值的整数次方</h3><h4 id="问题描述">问题描述</h4><p>给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。</p>
+<h4 id="解法">解法</h4><p>求a的b次方</p>
+<ul>
+<li>如果b是奇数，result=a*a^(b-1)</li>
+<li>如果b是偶数，temp=a^(b/2),result=temp*temp</li>
+</ul>
+<p>避免多次乘法。</p>
+<h4 id="注意点">注意点</h4><ul>
+<li>判断输入数据是否合法，0的负数次方不合法，0的0次方返回1.0</li>
+<li>浮点数相等的判断</li>
+<li><p>负数次方转化为整数次方</p>
+<h4 id="代码">代码</h4><p>  class Solution {<br>  public:</p>
+<pre><code><span class="keyword">bool</span> invalidInput=<span class="keyword">false</span>;
+<span class="function"><span class="keyword">double</span> <span class="title">Power</span>(<span class="params"><span class="keyword">double</span> <span class="keyword">base</span>, <span class="keyword">int</span> exponent</span>) </span>{
+    <span class="keyword">if</span>(doubleEqual(<span class="keyword">base</span>, <span class="number">0.0</span>) &amp;&amp; exponent &lt; <span class="number">0</span>)
+    {
+        invalidInput = <span class="keyword">true</span>;
+        <span class="keyword">return</span> <span class="number">0.0</span>;
+    }
+    <span class="keyword">if</span>(doubleEqual(<span class="keyword">base</span>, <span class="number">0.0</span>) &amp;&amp; exponent == <span class="number">0</span>)
+        <span class="keyword">return</span> <span class="number">1.0</span>;
+    <span class="keyword">if</span>(doubleEqual(<span class="keyword">base</span>,<span class="number">0.0</span>))
+        <span class="keyword">return</span> <span class="number">0.0</span>;
+    <span class="keyword">int</span> absExponent;
+    <span class="keyword">if</span>(exponent &lt; <span class="number">0</span>)
+        absExponent =- exponent;
+    <span class="keyword">else</span>
+        absExponent = exponent;
+
+    <span class="keyword">double</span> temp = powerPositive(<span class="keyword">base</span>, absExponent);
+    <span class="keyword">if</span>(exponent &gt;= <span class="number">0</span>)
+        <span class="keyword">return</span> temp;
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="number">1.0</span> / temp;
+}
+
+<span class="function"><span class="keyword">double</span> <span class="title">powerPositive</span>(<span class="params"><span class="keyword">double</span> <span class="keyword">base</span>, <span class="keyword">int</span> exp</span>)
+</span>{
+    <span class="keyword">if</span>(exp == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;
+    <span class="keyword">if</span>(exp == <span class="number">1</span>) <span class="keyword">return</span> <span class="keyword">base</span>;
+    <span class="keyword">double</span> temp = powerPositive(<span class="keyword">base</span>, exp &gt;&gt; <span class="number">1</span>);
+    <span class="keyword">if</span>((exp&amp;<span class="number">1</span>) == <span class="number">1</span>)
+        <span class="keyword">return</span> temp * temp * <span class="keyword">base</span>;
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> temp * temp;
+
+}
+
+<span class="function"><span class="keyword">bool</span> <span class="title">doubleEqual</span>(<span class="params"><span class="keyword">double</span> a, <span class="keyword">double</span> b</span>)
+</span>{
+    <span class="keyword">if</span>(a - b &gt; -<span class="number">0.0000001</span> &amp;&amp; a - b &lt; <span class="number">0.0000001</span>)
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+}
+</code></pre><p>  };</p>
+</li>
+</ul>
+<h3 id="全排列问题（剑指offer_28_字符串的全排列）">全排列问题（剑指offer 28 字符串的全排列）</h3><h4 id="问题描述-1">问题描述</h4><p>输入一个字符串,按字典序打印出该字符串中字符的所有排列。例如输入字符串abc,则打印出由字符a,b,c所能排列出来的所有字符串abc,acb,bac,bca,cab和cba。 结果请按字母顺序输出。</p>
+<h4 id="解法-1">解法</h4><p>使用递归进行深度优先遍历，可以画出递归树，然后对这个树（图）进行深度优先遍历。递归函数表示当前位置的元素(index)和之后(包括自己)的元素进行交换。</p>
+<h4 id="注意点-1">注意点</h4><ul>
+<li>元素交换后还需要换回来</li>
+<li>排列的序列中如果有重复元素需要判断。</li>
+</ul>
+<h4 id="代码-1">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+  vector&lt;string&gt; Permutation(string <span class="keyword">str</span>) {
+    vector&lt;string&gt; vec;
+    <span class="keyword">if</span>(<span class="keyword">str</span>.size() == <span class="number">0</span>) <span class="keyword">return</span> vec;
+    PermutationR(<span class="keyword">str</span>,<span class="number">0</span>,vec);
+    sort(vec.begin(),vec.end());
+    <span class="keyword">return</span> vec;
+  }
+
+    <span class="keyword">void</span> PermutationR(string&amp; <span class="keyword">str</span>, <span class="keyword">int</span> <span class="keyword">index</span>, vector&lt;string&gt;&amp; vec)
+    {
+        <span class="keyword">if</span>(<span class="keyword">index</span> == <span class="keyword">str</span>.size() - <span class="number">1</span>)
+            vec.push_back(<span class="keyword">str</span>);
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="keyword">index</span>; i &lt; <span class="keyword">str</span>.size(); i++)
+        {
+            <span class="keyword">if</span>(i != <span class="keyword">index</span> &amp;&amp; <span class="keyword">str</span>[<span class="keyword">index</span>] == <span class="keyword">str</span>[i]) 
+                <span class="keyword">continue</span>;
+            <span class="keyword">char</span> temp = <span class="keyword">str</span>[<span class="keyword">index</span>];
+            <span class="keyword">str</span>[<span class="keyword">index</span>] = <span class="keyword">str</span>[i];
+            <span class="keyword">str</span>[i] = temp;
+            PermutationR(<span class="keyword">str</span>, <span class="keyword">index</span> + <span class="number">1</span>, vec); 
+            temp = <span class="keyword">str</span>[<span class="keyword">index</span>];
+            <span class="keyword">str</span>[<span class="keyword">index</span>] = <span class="keyword">str</span>[i];
+            <span class="keyword">str</span>[i] = temp;
+        }
+    }
+};
+</code></pre><h3 id="剑指offer_53_正则表达式匹配">剑指offer 53 正则表达式匹配</h3><h4 id="问题描述-2">问题描述</h4><p>请实现一个函数用来匹配包括’.’和<code>&#39;*&#39;</code>的正则表达式。模式中的字符’.’表示任意一个字符，而<code>&#39;*&#39;</code>表示它前面的字符可以出现任意次（包含0次）。 在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串”aaa”与模式”a.a”和<code>&quot;ab*ac*a&quot;</code>匹配，但是与”aa.a”和<code>&quot;ab*a&quot;</code>均不匹配</p>
+<h4 id="解法-2">解法</h4><p>考虑<code>bool match(char* str, char* pattern)</code><br>因为str中可能出现_*这种形式，所以每次需要扫描pattern的后一个元素。讨论以下几种情况：</p>
+<ul>
+<li><p><code>_*</code></p>
+<ul>
+<li><p>如果能匹配上 <code>*p == *str</code>或者 <code>*p == &#39;.&#39;</code></p>
+<ul>
+<li>next state -&gt; str+1, p+2</li>
+<li>current state -&gt; str+1, p</li>
+<li>ignore this -&gt; str p+2</li>
+</ul>
+</li>
+<li><p>如果匹配不上 ignore this -&gt; str, p+2</p>
+</li>
+</ul>
+</li>
+<li><code>*str == *p</code> -&gt; str+1, p+1</li>
+<li><code>*p == &#39;.&#39;</code> -&gt; str+1, p+1</li>
+</ul>
+<h4 id="代码-2">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+    bool match(<span class="keyword">char</span>* <span class="keyword">str</span>, <span class="keyword">char</span>* pattern)
+    {
+        <span class="keyword">if</span>(<span class="keyword">str</span> == NULL || pattern == NULL)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">return</span> matchCore(<span class="keyword">str</span>, pattern);
+    }
+    bool matchCore(<span class="keyword">char</span> *<span class="keyword">str</span>, <span class="keyword">char</span> *p)
+    {
+        <span class="keyword">if</span>(*<span class="keyword">str</span>  == <span class="string">'\0'</span> &amp;&amp; *p == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">if</span>(*<span class="keyword">str</span> != <span class="string">'\0'</span> &amp;&amp; *p == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">if</span>(*(p+<span class="number">1</span>) == <span class="string">'*'</span>)
+        {
+            <span class="keyword">if</span>(*p == *<span class="keyword">str</span> || (*p == <span class="string">'.'</span> &amp;&amp; *<span class="keyword">str</span> != <span class="string">'\0'</span>))
+                <span class="keyword">return</span> matchCore(<span class="keyword">str</span>+<span class="number">1</span>, p+<span class="number">2</span>) || matchCore(<span class="keyword">str</span>+<span class="number">1</span>, p) || matchCore(<span class="keyword">str</span>, p+<span class="number">2</span>);
+            <span class="keyword">else</span>
+                <span class="keyword">return</span> matchCore(<span class="keyword">str</span>, p+<span class="number">2</span>);
+        }
+        <span class="keyword">if</span>(*p == *<span class="keyword">str</span> || (*p == <span class="string">'.'</span> &amp;&amp; *<span class="keyword">str</span> != <span class="string">'\0'</span>))
+            <span class="keyword">return</span> matchCore(<span class="keyword">str</span>+<span class="number">1</span>, p+<span class="number">1</span>);
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+};
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<p>递归的本质是图的深度优先遍历</p>
+<h3 id="剑指offer11_数值的整数次方">剑指offer11 数值的整数次方</h3><h4 id="问题描述">问题描述</h4><p>给定一个double类型的浮点数base和int类型的整数exponent。求base]]>
+    </summary>
+    
+      <category term="递归" scheme="http://rudy-zhang.me/tags/%E9%80%92%E5%BD%92/"/>
+    
+      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[常用函数]]></title>
+    <link href="http://rudy-zhang.me/2015/10/11/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0%E4%B8%93%E9%A2%98/"/>
+    <id>http://rudy-zhang.me/2015/10/11/找工作总结-常用函数专题/</id>
+    <published>2015-10-11T00:00:00.000Z</published>
+    <updated>2015-10-11T01:32:54.032Z</updated>
+    <content type="html"><![CDATA[<h2 id="C语言常用库函数">C语言常用库函数</h2><p>需要引用断言函数库</p>
+<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;assert.h&gt;</span>
+</code></pre><h3 id="注意点">注意点</h3><ul>
+<li>需要声明断言</li>
+<li>字符串操作结尾需要’\0’</li>
+<li>不改变的内容需要声明const</li>
+<li>对于<code>void*</code>类型，使用<code>(char*)dst</code>按字节赋值</li>
+</ul>
+<h3 id="strlen">strlen</h3><pre><code>size_t strlen(<span class="keyword">const</span> <span class="built_in">char</span>* <span class="built_in">str</span>)
+{
+    <span class="keyword">assert</span>(<span class="built_in">str</span> != NULL);
+    size_t len = <span class="number">0</span>;
+    <span class="keyword">while</span>(*<span class="built_in">str</span> != <span class="string">'\0'</span>)
+    {
+        <span class="built_in">str</span>++;
+        len++;
+    }
+    <span class="keyword">return</span> len;
+}
+</code></pre><h3 id="strcpy">strcpy</h3><pre><code><span class="keyword">char</span>* strcpy(<span class="keyword">char</span>* dst, <span class="keyword">const</span> <span class="keyword">char</span>* src)
+{
+    <span class="keyword">assert</span>(dst != NULL);
+    <span class="keyword">assert</span>(src != NULL);
+    <span class="keyword">char</span>* <span class="keyword">ret</span> = dst;
+    <span class="keyword">while</span>(*src != '\0')
+    {
+<span class="comment">        *dst = *src;</span>
+        dst++;
+        src++;
+    }
+<span class="comment">    *dst = '\0';</span>
+    <span class="keyword">return</span> <span class="keyword">ret</span>;
+}
+</code></pre><h3 id="memcpy">memcpy</h3><pre><code><span class="keyword">void</span>* memcpy(<span class="keyword">void</span>* dst, <span class="keyword">const</span> <span class="keyword">void</span>* src, size_t <span class="built_in">size</span>)
+{
+    <span class="keyword">assert</span>(dst != NULL);
+    <span class="keyword">assert</span>(src != NULL);
+    <span class="keyword">void</span>* ret = dst;
+    <span class="keyword">while</span>(<span class="built_in">size</span>--)
+    {
+        *(<span class="built_in">char</span>*)dst = *(<span class="built_in">char</span>*)src;
+        dst = (<span class="built_in">char</span>*)dst + <span class="number">1</span>;
+        src = (<span class="built_in">char</span>*)src + <span class="number">1</span>;
+    }
+    <span class="keyword">return</span> ret;
+}
+</code></pre><h3 id="memset">memset</h3><pre><code><span class="keyword">void</span>* memset(<span class="keyword">void</span>* dst, <span class="keyword">int</span> val, size_t <span class="keyword">size</span>)
+{
+    assert(dst != <span class="keyword">NULL</span>);
+    <span class="keyword">void</span>* ret = dst;
+    <span class="keyword">while</span>(<span class="keyword">size</span>--)
+    {
+        *(<span class="keyword">char</span>*)dst = val;
+        dst = (<span class="keyword">char</span>*)dst + <span class="number">1</span>;
+    }
+    <span class="keyword">return</span> ret;
+}
+</code></pre><h3 id="strcmp">strcmp</h3><pre><code><span class="label">int</span> <span class="keyword">strcmp(const </span>char* <span class="keyword">str1, </span>const char* <span class="keyword">str2)
+</span>{
+    <span class="preprocessor">assert</span>(<span class="keyword">str1 </span>!= NULL)<span class="comment">;</span>
+    <span class="preprocessor">assert</span>(<span class="keyword">str2 </span>!= NULL)<span class="comment">;</span>
+    <span class="preprocessor">while</span>(*<span class="keyword">str1 </span>!= <span class="string">'\0'</span> &amp;&amp; *<span class="keyword">str2 </span>!= <span class="string">'\0'</span>)
+    {
+        <span class="preprocessor">if</span>(*<span class="keyword">str1 </span>&gt; *<span class="keyword">str2)
+</span>            return <span class="number">1</span><span class="comment">;</span>
+        <span class="preprocessor">else</span> <span class="preprocessor">if</span>(*<span class="keyword">str1 </span>&lt; <span class="keyword">str2)
+</span>            return -<span class="number">1</span><span class="comment">;</span>
+        <span class="keyword">str1++;
+</span>        <span class="keyword">str2++;
+</span>    }
+    <span class="preprocessor">if</span>(*<span class="keyword">str1 </span>!= <span class="string">'\0'</span>)
+        return <span class="number">1</span><span class="comment">;</span>
+    <span class="preprocessor">else</span> <span class="preprocessor">if</span>(*<span class="keyword">str2 </span>!= <span class="string">'\0'</span>)
+        return -<span class="number">1</span><span class="comment">;</span>
+    <span class="preprocessor">else</span>
+        return <span class="number">0</span><span class="comment">;</span>
+}
+</code></pre><h3 id="strcat">strcat</h3><pre><code><span class="label">char</span>* <span class="keyword">strcat(char* </span><span class="keyword">str1, </span>const char* <span class="keyword">str2)
+</span>{
+    <span class="preprocessor">assert</span>(<span class="keyword">str1 </span>!= NULL)<span class="comment">;</span>
+    char* ret = <span class="keyword">str1;
+</span>    <span class="preprocessor">while</span>(*<span class="keyword">str1 </span>!= <span class="string">'\0'</span>)
+        <span class="keyword">str1++;
+</span>    <span class="preprocessor">while</span>(*<span class="keyword">str2 </span>!= <span class="string">'\0'</span>)
+    {
+        *<span class="keyword">str1 </span>= *<span class="keyword">str2;
+</span>        <span class="keyword">str1++;
+</span>        <span class="keyword">str2++;
+</span>    }
+    *<span class="keyword">str1 </span>= <span class="string">'\0'</span><span class="comment">;</span>
+    return ret<span class="comment">;</span>
+}
+</code></pre><h2 id="atoi和itoa">atoi和itoa</h2><h3 id="atoi">atoi</h3><p>把字符串(<code>char*</code>或者<code>string</code>)转化为整数</p>
+<h4 id="注意点-1">注意点</h4><ul>
+<li>删除字符串前面的空值</li>
+<li>考虑字符传中可能出现的+,-</li>
+<li>考虑溢出的情况</li>
+</ul>
+<h4 id="代码">代码</h4><pre><code><span class="built_in">int</span> atoi(<span class="keyword">const</span> <span class="built_in">char</span>* <span class="built_in">str</span>)
+{
+    <span class="keyword">assert</span>(<span class="built_in">str</span> != NULL);
+    <span class="keyword">while</span>(*<span class="built_in">str</span> == <span class="string">' '</span>)
+        <span class="built_in">str</span>++;
+    bool isNeg = <span class="keyword">false</span>;
+    <span class="keyword">if</span>(*<span class="built_in">str</span> == <span class="string">'-'</span>)
+    {
+        isNeg = <span class="keyword">true</span>;
+        <span class="built_in">str</span>++;
+    }
+    <span class="keyword">else</span> <span class="keyword">if</span>(*<span class="built_in">str</span> == <span class="string">'+'</span>)
+        <span class="built_in">str</span>++;
+    <span class="keyword">long</span> <span class="keyword">long</span> num = <span class="number">0</span>;
+    <span class="keyword">while</span>(*<span class="built_in">str</span> !=<span class="string">'\0'</span> &amp;&amp; *<span class="built_in">str</span> &gt;= <span class="string">'0'</span> &amp;&amp; *<span class="built_in">str</span> &lt;= <span class="string">'9'</span>)
+    {
+        num = num * <span class="number">10</span> + (*<span class="built_in">str</span> - <span class="string">'0'</span>);
+        <span class="keyword">if</span>(isNeg &amp;&amp; -num &lt; INT_MIN)
+            <span class="keyword">return</span> <span class="number">0</span>;
+        <span class="keyword">if</span>(!isNeg &amp;&amp; num &gt; INT_MAX)
+            <span class="keyword">return</span> <span class="number">0</span>;
+        <span class="built_in">str</span>++;
+    }
+    <span class="keyword">if</span>(isNeg)
+        <span class="keyword">return</span> -num;
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> num;
+}
+</code></pre><h3 id="itoa">itoa</h3><h4 id="注意点-2">注意点</h4><ul>
+<li>正负数</li>
+<li>反转字符串</li>
+<li>最后的’\0’</li>
+</ul>
+<h4 id="代码-1">代码</h4><pre><code><span class="keyword">char</span>* itoa(<span class="keyword">int</span> num, <span class="keyword">char</span>* <span class="keyword">str</span>)
+{
+    <span class="keyword">bool</span> isNeg = <span class="keyword">false</span>;
+    <span class="keyword">if</span>(num &lt; <span class="number">0</span>)
+    {
+        isNeg = <span class="keyword">true</span>;
+        num = -num;
+    }
+    <span class="keyword">int</span> i = <span class="number">0</span>;
+    <span class="keyword">while</span>(num)
+    {
+        <span class="keyword">str</span>[i] = num % <span class="number">10</span>;
+        num /= <span class="number">10</span>;
+        i++;
+    }
+    <span class="keyword">if</span>(isNeg)
+        <span class="keyword">str</span>[i++] = <span class="string">'-'</span>;
+    <span class="keyword">for</span>(j = <span class="number">0</span>, k = i-<span class="number">1</span>; j &lt; k; j++, k--)
+    {
+        <span class="keyword">char</span> ch = <span class="keyword">str</span>[j];
+        <span class="keyword">str</span>[j] = <span class="keyword">str</span>[k];
+        <span class="keyword">str</span>[k] = ch;
+    }
+    <span class="keyword">str</span>[i] = <span class="string">'\0'</span>;
+    <span class="keyword">return</span> <span class="keyword">str</span>;
+}
+</code></pre><h2 id="自己实现一个String">自己实现一个String</h2><h3 id="注意点-3">注意点</h3><ul>
+<li>参数不修改使用const</li>
+<li>构造函数<ul>
+<li>为m_data申请空间，包括字符串结束符’\0’</li>
+<li><code>const char* str</code>,判断传入<code>char* str</code>参数是否为空</li>
+</ul>
+</li>
+<li>拷贝构造函数<ul>
+<li>复制一个对象，一定需要申请新的空间</li>
+<li><code>strlen(other.m_data)</code>在类中获取m_data指针</li>
+<li>使用字符串函数strcpy</li>
+</ul>
+</li>
+<li>析构函数<ul>
+<li><code>delete [] m_data;</code></li>
+</ul>
+</li>
+<li>赋值函数<ul>
+<li>判断this == &amp;rhs</li>
+<li>先申请空间，再释放原空间，再赋值(避免申请失败造成不了后果)</li>
+</ul>
+</li>
+<li>重载操作符<ul>
+<li>考虑返回引用(operator=)or值(operator+)</li>
+<li>一般单目运算符使用成员函数重载，双目运算符使用友元</li>
+<li>MyString&amp; other参数是否和this相等</li>
+<li>重载operator+,判断源字符串为空</li>
+<li>重载operator==，使用strcmp</li>
+</ul>
+</li>
+</ul>
+<h3 id="代码-2">代码</h3><pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+
+<span class="keyword">class</span> MyString
+{
+<span class="keyword">public</span>:
+    MyString();
+    MyString(<span class="keyword">const</span> <span class="keyword">char</span>* str);
+    MyString(<span class="keyword">const</span> MyString&amp; other);
+    ~MyString();
+    MyString&amp; <span class="keyword">operator</span> = (<span class="keyword">const</span> MyString&amp; rhs);
+    MyString <span class="keyword">operator</span> + (<span class="keyword">const</span> MyString&amp; rhs);
+    <span class="keyword">char</span> <span class="keyword">operator</span>[](<span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> index);
+    <span class="keyword">bool</span> <span class="keyword">operator</span> == (<span class="keyword">const</span> MyString&amp; rhs);
+    <span class="keyword">friend</span> ostream&amp; <span class="keyword">operator</span> &lt;&lt; (ostream&amp; output, <span class="keyword">const</span> MyString&amp; rhs);
+<span class="keyword">private</span>:
+    <span class="keyword">char</span>* m_data;
+};
+
+MyString::MyString()
+{
+    m_data = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">1</span>];
+    *m_data = <span class="string">'\0'</span>;
+}
+
+MyString::MyString(<span class="keyword">const</span> <span class="keyword">char</span>* str)
+{
+    <span class="keyword">if</span>(str == NULL)
+    {
+        m_data = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">1</span>];
+        *m_data = <span class="string">'\0'</span>;
+    }
+    <span class="keyword">else</span>
+    {
+        <span class="keyword">int</span> len = <span class="built_in">strlen</span>(str);
+        m_data = <span class="keyword">new</span> <span class="keyword">char</span>[len + <span class="number">1</span>];
+        <span class="built_in">strcpy</span>(m_data, str);
+    }
+}
+
+MyString::MyString(<span class="keyword">const</span> MyString&amp; other)
+{
+    <span class="keyword">int</span> len = <span class="built_in">strlen</span>(other.m_data);
+    m_data = <span class="keyword">new</span> <span class="keyword">char</span>[len + <span class="number">1</span>];
+    <span class="built_in">strcpy</span>(m_data, other.m_data);
+}
+
+MyString::~MyString()
+{
+    <span class="keyword">delete</span> [] m_data;
+}
+
+MyString&amp; MyString::<span class="keyword">operator</span> = (<span class="keyword">const</span> MyString&amp; rhs)
+{
+    <span class="keyword">if</span>(<span class="keyword">this</span> != &amp;rhs)
+    {
+        <span class="keyword">char</span>* temp = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="built_in">strlen</span>(rhs.m_data) + <span class="number">1</span>];
+        <span class="built_in">strcpy</span>(temp, rhs.m_data);
+        <span class="keyword">delete</span> [] m_data;
+        m_data = NULL;
+        m_data = temp;
+    }
+    <span class="keyword">return</span> *<span class="keyword">this</span>;
+}
+
+MyString MyString::<span class="keyword">operator</span> + (<span class="keyword">const</span> MyString&amp; rhs)
+{
+    MyString newStr;
+    <span class="keyword">if</span>(rhs.m_data == NULL)
+        newStr = *<span class="keyword">this</span>;
+    <span class="keyword">else</span> <span class="keyword">if</span>(m_data == NULL)
+        newStr = rhs;
+    <span class="keyword">else</span>
+    {
+        newStr.m_data = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="built_in">strlen</span>(m_data) + <span class="built_in">strlen</span>(rhs.m_data) + <span class="number">1</span>];
+        <span class="built_in">strcpy</span>(newStr.m_data, m_data);
+        <span class="built_in">strcat</span>(newStr.m_data, rhs.m_data);
+    }
+    <span class="keyword">return</span> newStr;
+}
+
+<span class="keyword">char</span> MyString::<span class="keyword">operator</span>[](<span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> index)
+{
+    <span class="keyword">return</span> m_data[index];
+}
+
+<span class="keyword">bool</span> MyString::<span class="keyword">operator</span> == (<span class="keyword">const</span> MyString&amp; rhs)
+{
+    <span class="keyword">int</span> result = <span class="built_in">strcmp</span>(m_data, rhs.m_data);
+    <span class="keyword">return</span> (<span class="number">0</span> == result);
+}
+
+ostream&amp; <span class="keyword">operator</span> &lt;&lt; (ostream&amp; output, <span class="keyword">const</span> MyString&amp; rhs)
+{
+    output &lt;&lt; rhs.m_data;
+    <span class="keyword">return</span> output;
+}
+</code></pre><h2 id="Singleton">Singleton</h2><h3 id="简单写法">简单写法</h3><pre><code>class Singleton
+{<span class="keyword">
+public</span>:
+   <span class="keyword"> static</span> Singleton*<span class="function"> getInstance(</span><span class="function">)</span>;
+    virtual<span class="function"> ~Singleton(</span><span class="function">)</span>;<span class="keyword">
+private</span>:
+   <span class="function"> Singleton(</span><span class="function">)</span>;
+   <span class="keyword"> static</span> Singleton *instance;
+};
+
+Singleton* Singleton::instance = NU<span class="class">LL;</span>//如果允许在这里直接new出来可以避免多线程的影响
+Singleton::Singleton(<span class="function">)</span>{}
+Singleton::~Singleton(<span class="function">)</span>
+{
+    delete instance;
+   <span class="instruction"> instance </span>= NU<span class="class">LL;</span>
+}
+
+Singleton*<span class="function"> Singleton::getInstance(</span><span class="function">)</span>
+{
+   <span class="function"> if(</span>instance == NULL<span class="function">)</span>
+    {
+       <span class="instruction"> instance </span>=<span class="instruction"> new </span>Singleton(<span class="function">)</span>;
+    }
+   <span class="instruction"> return </span>instance;
+}
+</code></pre><h3 id="模板+资源管理+线程安全">模板+资源管理+线程安全</h3><pre><code><span class="keyword">template</span>&lt;typename T&gt;
+class <span class="type">Singleton</span>
+{
+private:
+    <span class="type">Singleton</span>(){};
+    <span class="keyword">static</span> auto_ptr&lt;T&gt; <span class="keyword">ptr</span>;
+public:
+    <span class="keyword">static</span> auto_ptr&lt;T&gt; getInstance()
+    {
+        <span class="type">Mutex</span> mutex;
+        mutex.lock();
+        <span class="keyword">if</span>(! <span class="keyword">ptr</span>.get())
+        {
+            auto_ptr&lt;T&gt; temp(new T);
+            <span class="keyword">ptr</span> = temp;
+        }
+        <span class="keyword">return</span> <span class="keyword">ptr</span>;
+    }
+}
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="C语言常用库函数">C语言常用库函数</h2><p>需要引用断言函数库</p>
+<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;assert.h&gt;]]>
+    </summary>
+    
+      <category term="常用函数" scheme="http://rudy-zhang.me/tags/%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/"/>
+    
+      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[二叉树专题-一般题目]]></title>
@@ -1265,140 +2069,6 @@ public:
   </entry>
   
   <entry>
-    <title><![CDATA[数组专题-数组中出现的次数]]></title>
-    <link href="http://rudy-zhang.me/2015/09/27/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E6%95%B0%E7%BB%84%E4%B8%93%E9%A2%98-%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0/"/>
-    <id>http://rudy-zhang.me/2015/09/27/找工作总结-数组专题-出现次数/</id>
-    <published>2015-09-27T13:56:00.000Z</published>
-    <updated>2015-10-03T02:00:01.358Z</updated>
-    <content type="html"><![CDATA[<h2 id="通用的几种解题思路">通用的几种解题思路</h2><ul>
-<li>使用map记录出现的次数，要求额外增加空间复杂度</li>
-<li>所有数字异或可以消灭掉数组中出现偶数次的数字</li>
-</ul>
-<h3 id="剑指offer51_数组中重复的数字">剑指offer51 数组中重复的数字</h3><h4 id="问题描述">问题描述</h4><p>在一个长度为n的数组里的所有数字都在0到n-1的范围内。 数组中某些数字是重复的，但不知道有几个数字是重复的。也不知道每个数字重复几次。请找出数组中任意一个重复的数字。 例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出是重复的数字2或者3。</p>
-<h4 id="解法">解法</h4><ul>
-<li>排序后扫描，时间复杂度nlogn，空间复杂度O(1)</li>
-<li>使用map记录，时间复杂度O(n)，空间复杂度O(n)</li>
-</ul>
-<h4 id="注意点">注意点</h4><ul>
-<li>map的遍历<br><code>map&lt;int, int&gt;::iterator iter;</code><br><code>iter-&gt;first</code> <code>iter-&gt;second</code></li>
-</ul>
-<h4 id="代码">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="function"><span class="keyword">bool</span> <span class="title">duplicate</span><span class="params">(<span class="keyword">int</span> numbers[], <span class="keyword">int</span> length, <span class="keyword">int</span>* duplication)</span> </span>{
-        <span class="keyword">if</span>(length &lt;= <span class="number">1</span>)
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; dict;
-        <span class="keyword">bool</span> ans = <span class="keyword">false</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++)
-        {
-            <span class="keyword">if</span>(dict.count(numbers[i]) == <span class="number">0</span>)
-                dict[numbers[i]] = <span class="number">1</span>;
-            <span class="keyword">else</span>{
-                dict[numbers[i]] += <span class="number">1</span>;
-                ans = <span class="keyword">true</span>;
-            }
-        }
-        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;::iterator iter;
-        <span class="keyword">for</span>(iter = dict.begin();iter != dict.end();iter++)
-        {
-            <span class="keyword">if</span>(iter-&gt;second &gt; <span class="number">1</span>)
-            {
-                *duplication = iter-&gt;first;
-                duplication++;
-            }
-        }
-        <span class="keyword">return</span> ans;
-    }
-};
-</code></pre><h3 id="剑指offer29_数组中出现次数超过一半的数字">剑指offer29 数组中出现次数超过一半的数字</h3><h4 id="问题描述-1">问题描述</h4><p>数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。由于数字2在数组中出现了5次，超过数组长度的一半，因此输出2。</p>
-<h4 id="解法-1">解法</h4><ul>
-<li>使用快排partition函数，扫描一遍数组中间元素就是出现超过一半的数字</li>
-<li>使用time记录数字出现的次数，cur记录当前数字</li>
-</ul>
-<h4 id="注意点-1">注意点</h4><ul>
-<li>使用解法2需要判断最后的次数是否真的大于一半，如果不是，返回特定值</li>
-</ul>
-<h4 id="代码-1">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="keyword">int</span> MoreThanHalfNum_Solution(vector&lt;<span class="keyword">int</span>&gt; numbers) {
-        <span class="keyword">if</span>(numbers.<span class="keyword">size</span>() == <span class="number">0</span>) 
-            <span class="keyword">return</span> <span class="number">0</span>;
-        <span class="keyword">int</span> time = <span class="number">1</span>;
-        <span class="keyword">int</span> cur = numbers[<span class="number">0</span>];
-        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; numbers.<span class="keyword">size</span>(); i++)
-        {
-            <span class="keyword">if</span>(time == <span class="number">0</span>)
-            {
-                cur = numbers[i];
-                time = <span class="number">1</span>;
-            }
-            <span class="keyword">else</span> <span class="keyword">if</span>(numbers[i] == cur)
-                time++;
-            <span class="keyword">else</span>
-                time--;
-        }
-        <span class="keyword">int</span> <span class="keyword">count</span> = <span class="number">0</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;numbers.<span class="keyword">size</span>(); i++)
-        {
-            <span class="keyword">if</span>(numbers[i] == cur)
-                <span class="keyword">count</span>++;
-        }
-        <span class="keyword">if</span>(<span class="keyword">count</span> * <span class="number">2</span> &gt; numbers.<span class="keyword">size</span>())
-            <span class="keyword">return</span> cur;
-        <span class="keyword">else</span>
-            <span class="keyword">return</span> <span class="number">0</span>;
-    }
-};
-</code></pre><h3 id="剑指offer40_数组中只出现一次的数字">剑指offer40 数组中只出现一次的数字</h3><h4 id="问题描述-2">问题描述</h4><p>一个整型数组里除了两个数字之外，其他的数字都出现了两次。请写程序找出这两个只出现一次的数字。</p>
-<h4 id="解法-2">解法</h4><ul>
-<li>对于只有一个数字出现一次，对所有数字做异或操作</li>
-<li>有两个数字a,b出现了一次，其它出现偶数次。所有数字异或得temp = a^b，使用result做spliter，每一个数字和temp做与操作，把数组分成两组</li>
-</ul>
-<h4 id="注意点-2">注意点</h4><ul>
-<li>与或非的操作符优先级</li>
-</ul>
-<h4 id="代码-2">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    void FindNumsAppearOnce(vector&lt;<span class="built_in">int</span>&gt; <span class="type">data</span>,<span class="built_in">int</span>* num1,<span class="built_in">int</span> *num2) {
-        <span class="keyword">if</span>(<span class="type">data</span>.<span class="built_in">size</span>() &lt;= <span class="number">1</span>)
-        {
-            *num1 = <span class="number">0</span>;
-            *num2 = <span class="number">0</span>;
-            <span class="keyword">return</span> ;
-        }
-        <span class="built_in">int</span> temp = <span class="number">0</span>;
-        for(<span class="built_in">int</span> i = <span class="number">0</span>;i &lt;<span class="type">data</span>.<span class="built_in">size</span>(); i++)
-            temp ^= <span class="type">data</span>[i];
-
-        <span class="built_in">int</span> a = <span class="number">0</span>, b = <span class="number">0</span>;
-        for(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="type">data</span>.<span class="built_in">size</span>(); i++)
-        {
-            <span class="keyword">if</span>((<span class="type">data</span>[i] &amp; temp) == <span class="number">0</span>)
-                a ^= <span class="type">data</span>[i];
-            <span class="keyword">else</span>
-                b ^= <span class="type">data</span>[i];
-
-        }
-        *num1 = a;
-        *num2 = b;
-    }
-};
-</code></pre>]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="通用的几种解题思路">通用的几种解题思路</h2><ul>
-<li>使用map记录出现的次数，要求额外增加空间复杂度</li>
-<li>所有数字异或可以消灭掉数组中出现偶数次的数字</li>
-</ul>
-<h3 id="剑指offer51_数组中重复的数字">剑指]]>
-    </summary>
-    
-      <category term="数组" scheme="http://rudy-zhang.me/tags/%E6%95%B0%E7%BB%84/"/>
-    
-      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[数组专题-两个指针]]></title>
     <link href="http://rudy-zhang.me/2015/09/27/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E6%95%B0%E7%BB%84%E4%B8%93%E9%A2%98-%E4%B8%A4%E4%B8%AA%E6%8C%87%E9%92%88/"/>
     <id>http://rudy-zhang.me/2015/09/27/找工作总结-数组专题-两个指针/</id>
@@ -2178,6 +2848,140 @@ private:
 </code></pre>]]></content>
     <summary type="html">
     <![CDATA[<h3 id="剑指offer3_二维数组查找">剑指offer3 二维数组查找</h3><h4 id="问题描述">问题描述</h4><p>在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数]]>
+    </summary>
+    
+      <category term="数组" scheme="http://rudy-zhang.me/tags/%E6%95%B0%E7%BB%84/"/>
+    
+      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[数组专题-数组中出现的次数]]></title>
+    <link href="http://rudy-zhang.me/2015/09/27/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E6%95%B0%E7%BB%84%E4%B8%93%E9%A2%98-%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0/"/>
+    <id>http://rudy-zhang.me/2015/09/27/找工作总结-数组专题-出现次数/</id>
+    <published>2015-09-27T13:56:00.000Z</published>
+    <updated>2015-10-03T02:00:01.358Z</updated>
+    <content type="html"><![CDATA[<h2 id="通用的几种解题思路">通用的几种解题思路</h2><ul>
+<li>使用map记录出现的次数，要求额外增加空间复杂度</li>
+<li>所有数字异或可以消灭掉数组中出现偶数次的数字</li>
+</ul>
+<h3 id="剑指offer51_数组中重复的数字">剑指offer51 数组中重复的数字</h3><h4 id="问题描述">问题描述</h4><p>在一个长度为n的数组里的所有数字都在0到n-1的范围内。 数组中某些数字是重复的，但不知道有几个数字是重复的。也不知道每个数字重复几次。请找出数组中任意一个重复的数字。 例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出是重复的数字2或者3。</p>
+<h4 id="解法">解法</h4><ul>
+<li>排序后扫描，时间复杂度nlogn，空间复杂度O(1)</li>
+<li>使用map记录，时间复杂度O(n)，空间复杂度O(n)</li>
+</ul>
+<h4 id="注意点">注意点</h4><ul>
+<li>map的遍历<br><code>map&lt;int, int&gt;::iterator iter;</code><br><code>iter-&gt;first</code> <code>iter-&gt;second</code></li>
+</ul>
+<h4 id="代码">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="function"><span class="keyword">bool</span> <span class="title">duplicate</span><span class="params">(<span class="keyword">int</span> numbers[], <span class="keyword">int</span> length, <span class="keyword">int</span>* duplication)</span> </span>{
+        <span class="keyword">if</span>(length &lt;= <span class="number">1</span>)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; dict;
+        <span class="keyword">bool</span> ans = <span class="keyword">false</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++)
+        {
+            <span class="keyword">if</span>(dict.count(numbers[i]) == <span class="number">0</span>)
+                dict[numbers[i]] = <span class="number">1</span>;
+            <span class="keyword">else</span>{
+                dict[numbers[i]] += <span class="number">1</span>;
+                ans = <span class="keyword">true</span>;
+            }
+        }
+        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;::iterator iter;
+        <span class="keyword">for</span>(iter = dict.begin();iter != dict.end();iter++)
+        {
+            <span class="keyword">if</span>(iter-&gt;second &gt; <span class="number">1</span>)
+            {
+                *duplication = iter-&gt;first;
+                duplication++;
+            }
+        }
+        <span class="keyword">return</span> ans;
+    }
+};
+</code></pre><h3 id="剑指offer29_数组中出现次数超过一半的数字">剑指offer29 数组中出现次数超过一半的数字</h3><h4 id="问题描述-1">问题描述</h4><p>数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。由于数字2在数组中出现了5次，超过数组长度的一半，因此输出2。</p>
+<h4 id="解法-1">解法</h4><ul>
+<li>使用快排partition函数，扫描一遍数组中间元素就是出现超过一半的数字</li>
+<li>使用time记录数字出现的次数，cur记录当前数字</li>
+</ul>
+<h4 id="注意点-1">注意点</h4><ul>
+<li>使用解法2需要判断最后的次数是否真的大于一半，如果不是，返回特定值</li>
+</ul>
+<h4 id="代码-1">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="keyword">int</span> MoreThanHalfNum_Solution(vector&lt;<span class="keyword">int</span>&gt; numbers) {
+        <span class="keyword">if</span>(numbers.<span class="keyword">size</span>() == <span class="number">0</span>) 
+            <span class="keyword">return</span> <span class="number">0</span>;
+        <span class="keyword">int</span> time = <span class="number">1</span>;
+        <span class="keyword">int</span> cur = numbers[<span class="number">0</span>];
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; numbers.<span class="keyword">size</span>(); i++)
+        {
+            <span class="keyword">if</span>(time == <span class="number">0</span>)
+            {
+                cur = numbers[i];
+                time = <span class="number">1</span>;
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(numbers[i] == cur)
+                time++;
+            <span class="keyword">else</span>
+                time--;
+        }
+        <span class="keyword">int</span> <span class="keyword">count</span> = <span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;numbers.<span class="keyword">size</span>(); i++)
+        {
+            <span class="keyword">if</span>(numbers[i] == cur)
+                <span class="keyword">count</span>++;
+        }
+        <span class="keyword">if</span>(<span class="keyword">count</span> * <span class="number">2</span> &gt; numbers.<span class="keyword">size</span>())
+            <span class="keyword">return</span> cur;
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> <span class="number">0</span>;
+    }
+};
+</code></pre><h3 id="剑指offer40_数组中只出现一次的数字">剑指offer40 数组中只出现一次的数字</h3><h4 id="问题描述-2">问题描述</h4><p>一个整型数组里除了两个数字之外，其他的数字都出现了两次。请写程序找出这两个只出现一次的数字。</p>
+<h4 id="解法-2">解法</h4><ul>
+<li>对于只有一个数字出现一次，对所有数字做异或操作</li>
+<li>有两个数字a,b出现了一次，其它出现偶数次。所有数字异或得temp = a^b，使用result做spliter，每一个数字和temp做与操作，把数组分成两组</li>
+</ul>
+<h4 id="注意点-2">注意点</h4><ul>
+<li>与或非的操作符优先级</li>
+</ul>
+<h4 id="代码-2">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    void FindNumsAppearOnce(vector&lt;<span class="built_in">int</span>&gt; <span class="type">data</span>,<span class="built_in">int</span>* num1,<span class="built_in">int</span> *num2) {
+        <span class="keyword">if</span>(<span class="type">data</span>.<span class="built_in">size</span>() &lt;= <span class="number">1</span>)
+        {
+            *num1 = <span class="number">0</span>;
+            *num2 = <span class="number">0</span>;
+            <span class="keyword">return</span> ;
+        }
+        <span class="built_in">int</span> temp = <span class="number">0</span>;
+        for(<span class="built_in">int</span> i = <span class="number">0</span>;i &lt;<span class="type">data</span>.<span class="built_in">size</span>(); i++)
+            temp ^= <span class="type">data</span>[i];
+
+        <span class="built_in">int</span> a = <span class="number">0</span>, b = <span class="number">0</span>;
+        for(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="type">data</span>.<span class="built_in">size</span>(); i++)
+        {
+            <span class="keyword">if</span>((<span class="type">data</span>[i] &amp; temp) == <span class="number">0</span>)
+                a ^= <span class="type">data</span>[i];
+            <span class="keyword">else</span>
+                b ^= <span class="type">data</span>[i];
+
+        }
+        *num1 = a;
+        *num2 = b;
+    }
+};
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="通用的几种解题思路">通用的几种解题思路</h2><ul>
+<li>使用map记录出现的次数，要求额外增加空间复杂度</li>
+<li>所有数字异或可以消灭掉数组中出现偶数次的数字</li>
+</ul>
+<h3 id="剑指offer51_数组中重复的数字">剑指]]>
     </summary>
     
       <category term="数组" scheme="http://rudy-zhang.me/tags/%E6%95%B0%E7%BB%84/"/>
@@ -3581,219 +4385,6 @@ END{
       <category term="Hadoop" scheme="http://rudy-zhang.me/tags/Hadoop/"/>
     
       <category term="Hadoop" scheme="http://rudy-zhang.me/categories/Hadoop/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[一步一步写一个PHP框架（二）]]></title>
-    <link href="http://rudy-zhang.me/2015/04/22/%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E5%86%99%E4%B8%80%E4%B8%AAPHP%E6%A1%86%E6%9E%B62/"/>
-    <id>http://rudy-zhang.me/2015/04/22/一步一步写一个PHP框架2/</id>
-    <published>2015-04-22T07:31:44.000Z</published>
-    <updated>2015-05-24T08:58:56.000Z</updated>
-    <content type="html"><![CDATA[<p>在写第一个PHP框架的时候参考<a href="!http://www.yuansir-web.com/2012/01/10/%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%86%99php-mvc%E6%A1%86%E6%9E%B6%E4%B8%80/">这位大哥</a>,的内容和Codeigniter框架的源码。</p>
-<h2 id="程序框架的搭建">程序框架的搭建</h2><p>前提：已经搭建好了一个apache+PHP的开发环境，我使用的是Apache+mod_php5的方式。</p>
-<p>在根目录<code>simplemvc</code>下新建以下文件夹</p>
-<ul>
-<li><code>config</code> 用来存放配置文件</li>
-<li><code>controller</code>用来存放控制器</li>
-<li><code>lib</code>用来存放引入的库文件</li>
-<li><code>model</code>用来存放模型</li>
-<li><code>system</code>用来存放系统文件<ul>
-<li><code>core</code>核心文件，包括核心controller控制器等，所有的controller都要继承于他</li>
-<li><code>lib</code>存放核心的库文件，包括route等</li>
-<li><code>app.php</code>应用程序驱动类</li>
-</ul>
-</li>
-<li><code>view</code>用来存放视图</li>
-<li><code>index.php</code>项目的入口文件，程序是从这里开始执行的。</li>
-</ul>
-<h2 id="定义系统路径">定义系统路径</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//&#39044;&#23450;&#20041;&#10;define(&#39;SYSTEM_PATH&#39;, dirname(__FILE__).&#39;/system&#39;);&#10;define(&#39;ROOT_PATH&#39;,  substr(SYSTEM_PATH, 0,-7));&#10;define(&#39;SYS_LIB_PATH&#39;, SYSTEM_PATH.&#39;/lib&#39;);&#10;define(&#39;APP_LIB_PATH&#39;, ROOT_PATH.&#39;/lib&#39;);&#10;define(&#39;SYS_CORE_PATH&#39;, SYSTEM_PATH.&#39;/core&#39;);&#10;define(&#39;CONTROLLER_PATH&#39;, ROOT_PATH.&#39;/controller&#39;);&#10;define(&#39;MODEL_PATH&#39;, ROOT_PATH.&#39;/model&#39;);&#10;define(&#39;VIEW_PATH&#39;, ROOT_PATH.&#39;/view&#39;);</span><br></pre></td></tr></table></figure>
-<p>预定义一些常量，在之后的程序中我们会使用这些路径。</p>
-<h2 id="加载配置文件，和应用程序驱动类">加载配置文件，和应用程序驱动类</h2><h3 id="配置文件">配置文件</h3><p>在config文件夹下的<code>config.php</code><br>··<br>$CONFIG[‘system’][‘db’]</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>在写第一个PHP框架的时候参考<a href="!http://www.yuansir-web.com/2012/01/10/%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%86%99php-mvc%E6%A1%86%E6%9E%B6%E4%]]>
-    </summary>
-    
-      <category term="PHP" scheme="http://rudy-zhang.me/tags/PHP/"/>
-    
-      <category term="PHP框架" scheme="http://rudy-zhang.me/tags/PHP%E6%A1%86%E6%9E%B6/"/>
-    
-      <category term="web开发" scheme="http://rudy-zhang.me/categories/web%E5%BC%80%E5%8F%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[一步一步写一个PHP框架（一）]]></title>
-    <link href="http://rudy-zhang.me/2015/04/20/%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E5%86%99%E4%B8%80%E4%B8%AAPHP%E6%A1%86%E6%9E%B61/"/>
-    <id>http://rudy-zhang.me/2015/04/20/一步一步写一个PHP框架1/</id>
-    <published>2015-04-20T07:31:44.000Z</published>
-    <updated>2015-05-24T08:59:00.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>完成了一个小项目，使用Apache+MySql+PHP。PHP中使用的框架是CodeIgniter，这是一个轻量易扩展的PHP MVC框架，适用于轻量级的网站搭建。CodeIgniter手册清晰丰富，覆盖了一般网站的所有需求。</p>
-<p>为了更好地理解PHP里面框架的设计，目标是自己写一个简单的PHP MVC框架，一方面可以更深入地学习PHP，一方面也能够更深入地理解框架设计里面的思想。</p>
-<h2 id="Apache的工作流程">Apache的工作流程</h2><p>Apache是一个Web服务器，也可以叫做http服务器，因为Apache只能处理http请求。常见的web服务器还有Nginx</p>
-<p>Apache的工作流程如下：</p>
-<ol>
-<li>浏览器向服务器发出HTTP请求(Request)。</li>
-<li>服务器收到浏览器的请求数据，经过分析处理，向浏览器输出响应数据（Response）。</li>
-<li>浏览器收到服务器的响应数据，经过分析处理，将最终结果显示在浏览器中。</li>
-</ol>
-<p>Apache和Nginx都属于Web服务器，两者都实现了HTTP 1.1协议。</p>
-<p>所以如果有人问FTP协议可以在Apache上工作吗？答案是用Apache FTP Server可以，Apache web服务器不可以。</p>
-<p>Apache是用C语言写的，服务器当然要追求高效率。</p>
-<h2 id="PHP原理">PHP原理</h2><p>PHP的核心解释器是用C语言写的，相当于我们写了PHP代码，会有一个C语言写好的解释工具一边解释，一边执行。实际上在写PHP的时候就是在使用一个C语言写好的工具，我们的PHP代码就是指挥这个工具的命令。</p>
-<p>PHP包括四层体系：</p>
-<ol>
-<li>Zend引擎：Zend整体用纯C实现，是PHP的内核部分。负责翻译PHP代码，是一切的核心。</li>
-<li>Extensions：围绕Zend引擎，通过组件方式提供基础服务。常见内置函数如array是由extension实现的。</li>
-<li>Sapi通过一系列的<strong>钩子函数</strong>，使得PHP可以和外围交互数据。如Apache</li>
-<li>上层应用：平时写的PHP程序</li>
-</ol>
-<blockquote>
-<p>如果PHP是一辆车，那么车的框架就是PHP本身，Zend是车的引擎（发动机），Ext下面的各种组件就是车的轮子，Sapi可以看做是公路， 车可以跑在不同类型的公路上，而一次PHP程序的执行就是汽车跑在公路上。因此，我们需要：性能优异的引擎+合适的车轮+正确的跑道。</p>
-</blockquote>
-<p>PHP的执行的核心是翻译出来的一条一条指令，也即opcode。</p>
-<p><strong>hashtable</strong>是PHP的核心数据结构，数组就是典型的应用。Zend hash table实现了典型的hash表散列结构，同时通过附加一个双向链表（解决冲突），提供了正向、反向遍历数组的功能。</p>
-<p>更详细的内容参考<a href="!http://www.cnblogs.com/zcy_soft/archive/2013/03/14/2959396.html">这里</a></p>
-<h2 id="PHP在Apache上运行">PHP在Apache上运行</h2><h3 id="以模块加载的方式运行">以模块加载的方式运行</h3><p>这种方式使用了Apache的Hook机制。所谓Hook机制，就是在自己的程序运行的时候允许别的模块插上一腿。当我们配置Apache服务器的<code>http.config</code>文件时，写入<code>mod_php5.so/php5apache2.dll</code>就是将自定义的函数注入到Apache的请求处理循环当中。在模块化的运行方式中，PHP与Web服务器一起启动并且运行，通过Apache自身的进程线程管理来处理并发的请求。</p>
-<h3 id="以CGI，FastCGI方式运行">以CGI，FastCGI方式运行</h3><p>CGI英文叫做公共网关接口，CGI是外部应用程序（CGI程序）与Web服务器之间的接口标准，是在CGI程序和Web服务器之间传递信息的规程。Apache在Http请求的时候会将请求提交给CGI应用程序（php-cgi.exe）解释，解释之后的结果返回给Apache，然后再返回给相应的请求用户。</p>
-<p>CGI VS FastCGI</p>
-<p>FastCGI是CGI的加强版本，CGI是单进程，多线程的运行方式，程序执行完成之后就会销毁。FastCGI是常驻(long-live)型的CGI.有自身的进程管理器，不必每一次都fork一个进程（CGI解释器）去执行。常见的PHP-FPM是一个PHP FastCGI管理器。</p>
-<p>关于更多的对比可以看<a href="http://fifiole.blog.163.com/blog/static/169459225201222962651804/" target="_blank" rel="external">这里</a>。</p>
-<blockquote>
-<p>目前在HTTPServer这块基本可以看到有三种stack比较流行：</p>
-<p>（1）Apache+mod_php5</p>
-<p>（2）lighttp+spawn-fcgi</p>
-<p>（3）nginx+PHP-FPM</p>
-<p>三者后两者性能可能稍优，但是Apache由于有丰富的模块和功能，目前来说仍旧是老大。有人测试nginx+PHP-FPM在高并发情况下可能会达到Apache+mod_php5的5~10倍，现在nginx+PHP-FPM使用的人越来越多。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="前言">前言</h2><p>完成了一个小项目，使用Apache+MySql+PHP。PHP中使用的框架是CodeIgniter，这是一个轻量易扩展的PHP MVC框架，适用于轻量级的网站搭建。CodeIgniter手册清晰丰富，覆盖了一般网站的所有需求。</p>
-]]>
-    </summary>
-    
-      <category term="PHP" scheme="http://rudy-zhang.me/tags/PHP/"/>
-    
-      <category term="PHP框架" scheme="http://rudy-zhang.me/tags/PHP%E6%A1%86%E6%9E%B6/"/>
-    
-      <category term="web开发" scheme="http://rudy-zhang.me/categories/web%E5%BC%80%E5%8F%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[如何完成一个在线考试的功能]]></title>
-    <link href="http://rudy-zhang.me/2015/04/07/%E5%A6%82%E4%BD%95%E5%AE%8C%E6%88%90%E4%B8%80%E4%B8%AA%E5%9C%A8%E7%BA%BF%E8%80%83%E8%AF%95%E7%9A%84%E5%8A%9F%E8%83%BD/"/>
-    <id>http://rudy-zhang.me/2015/04/07/如何完成一个在线考试的功能/</id>
-    <published>2015-04-07T00:58:06.000Z</published>
-    <updated>2015-05-24T02:27:14.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>现在类似于在线考试的网站层出不穷，最近在做的leetcode还有各种OJ，都让我们能够在网络上实现考试的功能。最近在做一个类似的项目，就如何完成一个体验良好的在线考试系统梳理一下自己的看法</p>
-<h2 id="功能">功能</h2><h3 id="考卷生成">考卷生成</h3><p>卷子总是由试题组成的，试题包括内容，选项之类的<strong>文本</strong>，以及相关的<strong>图片</strong>。每个试题在数据库中当然只能存一份，否则就浪费了存储空间。很多的OJ题目是随机生成的，一句特定的内容随机生成考题，并且答题结果也是每人一份的，这时候很容易就想到需要中间表来存储这个内容了。</p>
-<h3 id="保存现场">保存现场</h3><p>如果使用一个大form，在用户提交考试结果的时候把所有数据提交到server，那中间如果用户不小心退出了，所有的答题内容就<strong>丢失</strong>了。所以需要在用户答题的过程中不断<strong>异步存储</strong>用户答题的结果，使得用户在任何一个时候退出，我们都能够统计出他已经答过的题并且给出分数（或者结果）的。</p>
-<h3 id="断线处理">断线处理</h3><p>当用户断线的时候，或者不小心退出了浏览器，系统需要允许用户重新登录，<strong>继续考试</strong>。</p>
-<h3 id="倒计时">倒计时</h3><p>倒计时运行在client上，你永远也无法控制client端的人会对代码做什么。在js中添加断点可以停止倒计时空间的运行，所以关于时间必须在server端进行校验，才能规避在时间上作弊的行为。</p>
-<h3 id="结算分数">结算分数</h3><p>你永远也无法控制client端的人会对代码做什么，同时开多个窗口可以多次提交结果，甚至可以操纵client端的数据以各种方式提交数据。在server端要考虑到这种行为并且做出相应的对策，对策就是分数永远只结算一次。</p>
-<h2 id="实现">实现</h2><h3 id="数据库">数据库</h3><p>根据我做的项目的系统需求，有如下几个关键概念：</p>
-<ul>
-<li>模块（module）<br>课程分为若干个模块（module），每个模块对应一次考试。每次有限定的时间。</li>
-<li>考点（test_point）<br>每个模块包括若干个考点，每次考试从考点中随机抽取题目。</li>
-<li>题目(question)<br>题目都是选择题，最多四个，单选题，题干和每个选项都可能对应图片。基于题目题型是固定的，我把这些内容都放到了一个表里，如果考题类型丰富需要更灵活的设计。</li>
-<li>考卷（report）<br>每次考试的考卷，上面会有分数。考卷和题目有着多对多的关系，需要一个中间表来存储。</li>
-</ul>
-<p>出去其他需求，考试部分的数据表简单设计如下：<br><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eqw7h465uvj20pz0ibgmo.jpg" alt="enter image description here"></p>
-<h3 id="考卷生成-1">考卷生成</h3><p>每个考试（模块）都对应三种状态：</p>
-<ol>
-<li>没有考过试的模块 ——— 对应 ——— 生成考题，去考试</li>
-<li>已经开始考试还没结束的模块 ——— 对应 ——— 使用已经生成的考题，继续考试</li>
-<li>已经结束的模块 ——— 对应 ——— 查看考试成绩</li>
-</ol>
-<p>当系统没有这个模块的report信息的时候，根据考点随机抽取题目，生成考题和report，<br>report状态变成<strong>进行中</strong>，分数还没有结算。</p>
-<p>关键函数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/**&#10;     * &#32452;&#21367;&#65292;&#23558;&#32452;&#21367;&#30340;&#20869;&#23481;&#25918;&#20837;report&#34920;&#65292;question_in_report&#34920;&#65292;&#32452;&#21367;&#23545;&#21516;&#19968;&#20010;&#32771;&#35797;&#19981;&#20250;&#32452;&#20004;&#27425;&#10;     * @param  [type] $student_id     [description]&#10;     * @param  [type] $module_id      [description]&#10;     * @param  [type] $logic_class_id [description]&#10;     * @return [type]                 [description]&#10;     */&#10;    function get_questions($student_id,$module_id,$logic_class_id)&#10;    &#123;&#10;        /*&#38656;&#35201;&#25552;&#21069;&#20570;&#30340;&#26816;&#26597;:&#10;        &#36825;&#20010;&#21516;&#23398;&#26159;&#21542;&#24050;&#32463;&#22312;&#36825;&#20010;&#36923;&#36753;&#29677;&#19979;&#32771;&#36807;&#36825;&#20010;&#27169;&#22359;&#10;        &#36825;&#20010;&#21516;&#23398;&#26159;&#21542;&#26159;&#29992;&#25143;&#33258;&#24049;&#10;        &#36825;&#20010;&#23398;&#29983;&#26159;&#21542;&#23646;&#20110;&#36825;&#20010;&#36923;&#36753;&#29677;&#10;        &#36825;&#20010;&#36923;&#36753;&#29677;&#20013;&#26159;&#21542;&#26377;&#36825;&#38376;&#35838;*/&#10;        &#10;        //&#36941;&#21382;&#25152;&#26377;&#32771;&#28857;&#65292;&#20174;&#27599;&#20010;&#32771;&#28857;&#20013;&#38543;&#26426;&#25277;&#20986;&#19968;&#36947;&#39064;&#23384;&#20837;$test_questions&#10;&#10;        //&#33719;&#21462;&#24403;&#21069;&#26102;&#38388;&#10;        $datetime=date(&#34;Y-m-d H:i:s&#34;);&#10;        &#10;        //&#23558;&#32467;&#26524;&#23384;&#20837;report&#34920;&#10;        $this-&#62;report_model-&#62;add($report_item);&#10;        &#10;        //&#23558;&#32452;&#39064;&#20449;&#24687;&#20889;&#20837;question_in_report &#10;        &#10;        return $test_questions;&#10;    &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="保存现场-1">保存现场</h3><p>使用一个简单的jquery ajax，异步提交用户每次点击的选项，都在后台存起来。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function save_choose(question_id,choose)&#10;&#123;&#10;    myUrl=&#34;&#60;?php echo site_url(&#39;student_test/ajax_save_user_choose&#39;)?&#62;/&#34;+&#60;?php echo $report_id ?&#62;+&#34;/&#34;+question_id+&#34;/&#34;+choose;&#10;    $.ajax(&#123;&#10;        type:&#34;post&#34;,&#10;        url:myUrl,&#10;        success:function(resp)&#123;&#125;&#10;    &#125;);&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>后台接受</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/**&#10; * &#24322;&#27493;ajax&#23384;&#20648;&#29992;&#25143;&#30340;&#36873;&#25321;&#10; * @param  [type] $report_id   [description]&#10; * @param  [type] $question_id [description]&#10; * @return [type]              [description]&#10; */&#10;function ajax_save_user_choose($report_id,$question_id,$choose)&#10;&#123;&#10;    //&#20808;&#21028;&#26029;&#26102;&#38388;&#26159;&#21542;&#27491;&#30830;     &#10;    $now=date(&#34;Y-m-d H:i:s&#34;);&#10;    $this-&#62;load-&#62;helper(&#39;compare_time&#39;);&#10;    $time_past=compare_time_of_minute($report[&#39;datetime&#39;],$now);&#10;    &#10;    if($time_past&#60;=($module[&#39;time_limit&#39;]))&#123;&#10;        //&#26356;&#26032;&#20449;&#24687;&#10;        );  &#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="断线处理-1">断线处理</h3><p>当用户掉线重新进入，需要通过比对<strong>report状态</strong>+<strong>时间</strong>，确定用户是否可以继续考试。</p>
-<ul>
-<li>如果report状态为结束，则不能继续考试</li>
-<li>如果report状态为进行中，时间超过截止时间，不能继续考试</li>
-<li>如果report状态为进行中，时间还有，继续考试</li>
-</ul>
-<p>继续考试通过reportid得到已经<strong>组好的试题信息</strong>，和<strong>用户的答题情况</strong>，返回数据<br>关键函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/**&#10;     * &#26597;&#25214;&#25968;&#25454;&#24211;&#20013;&#30340;&#24050;&#32463;&#32452;&#22909;&#21367;&#30340;&#20449;&#24687;&#10;     * @param  [type] $report_id [description]&#10;     * @return [type]            [description]&#10;     */&#10;    function get_exist_questions($report_id)&#10;    &#123;       &#10;        //&#23384;&#20648;&#25152;&#26377;&#32771;&#21367;&#39064;&#30446;&#30340;&#25968;&#32452;&#10;        $test_questions = array();&#10;        &#10;        //&#20174;question_in_report&#20013;&#26597;&#25214;&#25152;&#26377;&#28385;&#36275;&#26465;&#20214;&#30340;&#38382;&#39064;&#10;        &#10;        return $test_questions;&#10;    &#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="倒计时-1">倒计时</h3><p>客户端的倒计时使用js，最简单的可以使用<code>window.setInterval()</code>函数，每隔1s时间修改html的内容。结果在stackoverflow上询问倒计时解决方法的时候被“鄙视”了一下：</p>
-<blockquote>
-<p>You’re design is bad, you should base your time measurement using the date object. Each time a loop will get triggered, check the current date with new Date() and keep track of the last date.</p>
-<p>Keep in mind that even if you set an interval of 1000ms, it doesn’t mean that on the function will get called every seconds. It only means that it will never get called before 1000ms. As Javascript runs in one thread, any blocking process may delay calling methods that will remain in the event queue (setInterval in this case).</p>
-</blockquote>
-<p>大体意思是<code>setInterval</code>能保证运行的时间一定比传入的参数多，但是js是单线程的，别的操作有可能会阻塞这个方法，所以最好使用<code>Date()</code>方法来比对客户端的时间。</p>
-<p>所以我的实现是使用了<a href="https://github.com/tomgrohl/jCountdown" target="_blank" rel="external">jcountdown插件</a>，通过计算出截止日期，进行倒计时。方法很简单，只需要在<code>id</code>为<code>time</code>的div上使用插件里的函数就可以了。通过template可以指定显示时间的样式。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(&#34;#time&#34;).countdown(&#123;&#10;            minSingularText: &#39;&#20998;&#39;,&#10;            secSingularText: &#39;&#31186;&#39;,&#10;            &#34;date&#34; : d,&#10;            template: &#34;&#60;div class=&#39;time-item&#39;&#62;&#60;strong&#62;%i %s&#60;/strong&#62;&#60;/div&#62;&#34;,&#10;            onComplete : function()&#123;$(&#34;#test&#34;).submit();&#125;&#10;        &#125;);</span><br></pre></td></tr></table></figure></p>
-<p>不管倒计时做的多么炫酷，client is client，我永远无法控制它最终怎么运行，有没有被篡改。所以，每一次用户答题提交ajax请求，以及最终提交考卷的时候，都要<strong>比对时间</strong>，只保存合理的请求。这样就保证了整个考试系统在时间上的正确性。</p>
-<h3 id="结算分数-1">结算分数</h3><p>结算分数有以下几个时间点</p>
-<ol>
-<li>用户答题完成，提交所有数据</li>
-<li>用户在时间结束时由浏览器自动提交数据</li>
-<li>用户没有通过浏览器提交数据（半路关闭浏览器），下次登录时系统自动算分</li>
-</ol>
-<p>1,2类似，正常提交表单就可以，需要注意的是：</p>
-<ol>
-<li>在所有这些过程中，<strong>网络可能有延时</strong>，所以在比对用户提交的时间的时候，可以宽限一定时间。</li>
-<li>提交后修改report的状态，这个操作只有一次，拒绝之后的所有修改（form的数据，ajax请求）。</li>
-</ol>
-<p>3对应着意外退出，时间过了才重新登录的情况。这个时候的考试状态是，<code>report</code>的状态还是进行中，但是时间已经超过。这时候通过保存现场的数据计算分数即可。</p>
-<h2 id="结束语">结束语</h2><p>我通过这样的设计，完成了一个体验相对良好，逻辑上没有问题，避免了用户在时间和数据上做手脚的在线考试功能。但因为是第一次做，也许有的地方还是考虑不周全，或者有更好的设计，希望大家多多指正。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="前言">前言</h2><p>现在类似于在线考试的网站层出不穷，最近在做的leetcode还有各种OJ，都让我们能够在网络上实现考试的功能。最近在做一个类似的项目，就如何完成一个体验良好的在线考试系统梳理一下自己的看法</p>
-<h2 id="功能">功能</h2>]]>
-    </summary>
-    
-      <category term="web开发" scheme="http://rudy-zhang.me/categories/web%E5%BC%80%E5%8F%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[网站应对大数据量高并发的挑战]]></title>
-    <link href="http://rudy-zhang.me/2015/04/06/%E7%BD%91%E7%AB%99%E5%BA%94%E5%AF%B9%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%87%8F%E9%AB%98%E5%B9%B6%E5%8F%91%E7%9A%84%E6%8C%91%E6%88%98/"/>
-    <id>http://rudy-zhang.me/2015/04/06/网站应对大数据量高并发的挑战/</id>
-    <published>2015-04-06T13:12:52.000Z</published>
-    <updated>2015-05-24T13:51:36.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>本文是网站关于应对数据量和负载的压力的调研。</p>
-<p>随着网站数据量和请求的增加，系统承受的压力会越来越大。在web服务的各个阶段，都要通过各种各样的方式来进行优化，或者改变为新的架构。在数据量不同的阶段，会遇到不同的问题，需要使用不同的架构和解决方案。架构的改变和升级，往往意味着成本，所有没有最好的架构，只有最适合的架构。</p>
-<p>应对数据量和负载的压力，可以从以下几个方面入手:</p>
-<ul>
-<li>硬件性能挖掘</li>
-<li>数据库和存储</li>
-<li>应用程序架构<br>每一个方面里都有非常多的技术</li>
-</ul>
-<h2 id="硬件性能挖掘">硬件性能挖掘</h2><p>硬件性能是有上限的，超过了就必须升级硬件，所以硬件是基础。</p>
-<p>但是并不是一味的堆积硬件就可以了，要理解硬件的细节，如mysql的多线程写入机制，cpu寻址方式，顺序写和随机写的存储分布。不仅仅是购买硬件而已，但是核心是，理解硬件，理解系统级的处理机制，来做优化。</p>
-<p>这样才能最大限度地挖掘硬件本省的性能，提供更好的服务。</p>
-<h2 id="数据库和存储">数据库和存储</h2><p>大文件，或者大量的静态文件，使用静态存储，云存储</p>
-<h3 id="建立恰当的索引">建立恰当的索引</h3><h3 id="数据库连接线程池缓存">数据库连接线程池缓存</h3><h3 id="分库/分表/分区">分库/分表/分区</h3><p>MySQL数据库表一般承受数据量在百万级别，再往上增长，各项性能将会出现大幅度下降，因此，当我们预见数据量会超过这个量级的时候，建议进行分库/分表/分区等操作。<br>一个主库一个从库、到一个主库多个从库、 然后到多个主库多个从库。从库做备份，或者作为读写分离的库。<br>多个库之间使用日志同步。</p>
-<h3 id="拆分方式：水平拆分VS垂直拆分">拆分方式：水平拆分VS垂直拆分</h3><ul>
-<li>垂直拆分 ：是指按功能模块拆分，比如可以将群组相关表和照片相关表存放在不同的数据库中，这种方式多个数据库之 间的表结构不同 。（豆瓣 的 各核心业务/模块（书籍、电影、音乐）相对独立，数据的增加速度也比较平稳。适合垂直拆分）</li>
-<li>水平拆分 ：而水平拆分是将同一个表的数据进行分块保存到不同的数据库中，这些数据库中的表结构 完全相同 。</li>
-</ul>
-<h3 id="按索引_/_映射表对应">按索引 / 映射表对应</h3><p>建立一个索引表，保存每个用户的ID和数据库ID的对应关系，每次读写用户数据时先从这个表获取对应数据库。新用户注册后，在所有可用 的数据库中随机挑选一个为其建立索引。</p>
-<h3 id="读写分离">读写分离</h3><p>读写分离，主库写，从库读。</p>
-<h3 id="减少数据库写">减少数据库写</h3><p>先将修改请求生效在cache中，让外界查询显示正常，然后将这些sql修改放入到一个队列中存储起来，队列满或者每隔一段时间，合并为一个请求到数据库中更新数据库</p>
-<h2 id="应用程序架构">应用程序架构</h2><h3 id="负载均衡">负载均衡</h3><p>Web负载均衡（Load Balancing），作用在Web系统的外部网络环境，简单地说就是给我们的服务器集群分配“工作任务”，而采用恰当的分配方式。对于保护处于后端的Web服务器来说，非常重要。策略有很多</p>
-<h4 id="HTTP重定向">HTTP重定向</h4><p>Web服务器通过修改HTTP响应头中的Location标记来返回一个新的url，然后浏览器再继续请求这个新url，实际上就是页面重定向。<br>应用：重定向到距离近的镜像去下载。</p>
-<h4 id="反向代理负载均衡">反向代理负载均衡</h4><p>反向代理服务的核心工作主要是转发HTTP请求，扮演了浏览器端和后台Web服务器中转的角色。因为它工作在HTTP层（应用层），也就是网络七层结构中的第七层，因此也被称为“七层负载均衡”。把HTTP请求分配道不同的服务器上</p>
-<h4 id="IP负载均衡">IP负载均衡</h4><p>IP负载均衡服务是工作在网络层（修改IP）和传输层（修改端口，第四层），比起工作在应用层（第七层）性能要高出非常多。这种方式，也被称为“四层负载均衡”。</p>
-<h4 id="DNS负载均衡">DNS负载均衡</h4><p>DNS（Domain Name System）负责域名解析的服务，域名url实际上是服务器的别名，实际映射是一个IP地址，解析过程，就是DNS完成域名到IP的映射。</p>
-<h4 id="DNS/GSLB负载均衡">DNS/GSLB负载均衡</h4><p>我们常用的CDN（Content Delivery Network，内容分发网络）实现方式，其实就是在<strong>同一个域名映射为多IP</strong>的基础上更进一步，通过GSLB（Global Server Load Balance，全局负载均衡）按照指定规则映射域名的IP。<strong>一般情况下都是按照地理位置，将离用户近的IP返回给用户</strong>，减少网络传输中的路由节点之间的跳跃消耗。<br><strong>应用</strong>：CDN在Web系统中，一般情况下是用来解决大小较大的静态资源（html/Js/Css/图片等）的加载问题，让这些比较依赖网络下载的内容，尽可能离用户更近，提升用户体验。</p>
-<h3 id="在Web服务器和数据库之间建立缓存">在Web服务器和数据库之间建立缓存</h3><p>80%的请求只关注在20%的热点数据上。因此，我们应该建立Web服务器和数据库之间的缓存机制。用磁盘作为缓存，也可以用内存缓存的方式。通过它们，<strong>将大部分的热点数据查询，阻挡在数据库之前</strong>。 </p>
-<h4 id="页面静态化">页面静态化</h4><p>页面上的大部分内容在很长一段时间内，可能都是没有变化的。生成的静态html页面缓存到Web服务器的磁盘本地。直接将本地磁盘文件返回给用户。</p>
-<h4 id="单台/集群内存缓存">单台/集群内存缓存</h4><p>一旦Web系统规模变大，例如当我有100台的Web服务器的时候。那样这些磁盘文件，将会有100份，这个是资源浪费，也不好维护。这个时候有人会想，可以集中一台服务器存起来<br>内存缓存的选择，主要有<strong>redis/memcache</strong></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="前言">前言</h2><p>本文是网站关于应对数据量和负载的压力的调研。</p>
-<p>随着网站数据量和请求的增加，系统承受的压力会越来越大。在web服务的各个阶段，都要通过各种各样的方式来进行优化，或者改变为新的架构。在数据量不同的阶段，会遇到不同的问题，需要使]]>
-    </summary>
-    
-      <category term="web开发" scheme="http://rudy-zhang.me/categories/web%E5%BC%80%E5%8F%91/"/>
     
   </entry>
   
