@@ -20,7 +20,7 @@
 
 
 
-  <meta name="keywords" content="递归," />
+  <meta name="keywords" content="设计模式," />
 
 
 
@@ -41,7 +41,7 @@
   </script>
 
 
-  <title> 动态规划 // Rudy's Blog </title>
+  <title> 设计模式 // Rudy's Blog </title>
 </head>
 
 <body>
@@ -121,7 +121,7 @@
           
           
             
-              动态规划
+              设计模式
             
           
         </h1>
@@ -129,7 +129,7 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-10-11
+          发表于 2015-10-12
         </span>
 
         
@@ -149,8 +149,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/10/11/找工作总结-动态规划专题/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/11/找工作总结-动态规划专题/"></span>
+            <a href="/2015/10/12/找工作总结-设计模式/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/12/找工作总结-设计模式/"></span>
             </a>
           </span>
           
@@ -164,172 +164,27 @@
       
 
       
-        <p>动态规划的关键是写出状态转移方程</p>
-<h3 id="青蛙跳台阶_VS_斐波那契数列">青蛙跳台阶 VS 斐波那契数列</h3><h4 id="问题描述">问题描述</h4><p>一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法。</p>
-<h4 id="解法">解法</h4><p>状态转移方程：</p>
-<pre><code><span class="tag">a</span>[n] = <span class="tag">a</span>[n-<span class="number">1</span>] + <span class="tag">a</span>[n-<span class="number">2</span>]
-</code></pre><h4 id="代码">代码</h4><p>递归，使用vector存储每一步的结果，防止重复计算</p>
-<pre><code><span class="keyword">class</span> Solution {
-public:
-    int jumpFloor(int number) {
-        <span class="keyword">if</span>(number &lt;= 0) <span class="keyword">return</span> 0;
-        vector&lt;int&gt; <span class="literal">vec</span>(number + 1, 0);
-        <span class="keyword">count</span>(number, <span class="keyword">vec</span>);
-        <span class="keyword">return</span> <span class="keyword">vec</span>[number];
-    }
-    int <span class="keyword">count</span>(int <span class="keyword">n</span>, vector&lt;int&gt;&amp; <span class="keyword">vec</span>)
-    {
-        <span class="keyword">if</span>(<span class="keyword">n</span> == 0 || <span class="keyword">n</span> == 1 || <span class="keyword">n</span> == 2)
-            <span class="keyword">vec</span>[<span class="keyword">n</span>] = <span class="keyword">n</span>;
-        <span class="keyword">if</span>(<span class="keyword">vec</span>[<span class="keyword">n</span>] != 0)
-            <span class="keyword">return</span> <span class="keyword">vec</span>[<span class="keyword">n</span>];
-        <span class="keyword">else</span>
-        {
-            <span class="keyword">vec</span>[<span class="keyword">n</span>] = <span class="keyword">count</span>(<span class="keyword">n</span> - 1, <span class="keyword">vec</span>) + <span class="keyword">count</span>(<span class="keyword">n</span> - 2, <span class="keyword">vec</span>);
-            <span class="keyword">return</span> <span class="keyword">vec</span>[<span class="keyword">n</span>];
-        }
-    }
-};
-</code></pre><p>非递归：</p>
-<pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="built_in">int</span> jumpFloor(<span class="built_in">int</span> <span class="keyword">number</span>) {
-        <span class="keyword">if</span>(<span class="keyword">number</span> &lt;= <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
-        <span class="keyword">if</span>(<span class="keyword">number</span> == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;
-        <span class="keyword">if</span>(<span class="keyword">number</span> == <span class="number">2</span>) <span class="keyword">return</span> <span class="number">2</span>;
-        <span class="built_in">int</span> temp1 = <span class="number">1</span>, temp2 = <span class="number">2</span>, ans = <span class="number">0</span>;
-        for(<span class="built_in">int</span> i = <span class="number">3</span>; i &lt;= <span class="keyword">number</span>; i++)
-        {
-            ans = temp1 + temp2;
-            temp1 = temp2;
-            temp2 = ans;
-        }
-        <span class="keyword">return</span> ans;
-    }
-};
-</code></pre><h3 id="House_Robber">House Robber</h3><h4 id="问题描述-1">问题描述</h4><p>强盗偷东西，不能连续抢两家，求最多可以打劫到的金钱数。</p>
-<h4 id="解法-1">解法</h4><p>状态转移方程：</p>
-<pre><code>dp[i] = max<span class="comment">(dp[i-1], dp[i-2]+num[i])</span>
-</code></pre><p>表示当前位置最大的金钱数，等于i位置不打劫和i位置打劫的更大值。</p>
-<h4 id="代码-1">代码</h4><p>递归解法：</p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
-public:
-<span class="comment">//动态规划，状态转移方程：S(n)=max{S(n-1),S(n-2)+a[n]}</span>
-<span class="comment">//直接使用递归超时，需要额外存储换时间</span>
-    <span class="built_in">int</span> rob(vector&lt;<span class="built_in">int</span>&gt; &amp;<span class="built_in">num</span>) {
-        <span class="keyword">if</span>(<span class="built_in">num</span>.size() == <span class="number">0</span>)
-            <span class="keyword">return</span> <span class="number">0</span>;
-        vector&lt;<span class="built_in">int</span>&gt; res(<span class="built_in">num</span>.size(), -<span class="number">1</span>);
-        <span class="keyword">return</span> S(<span class="built_in">num</span>.size() - <span class="number">1</span>, <span class="built_in">num</span>, res) ;
-    }
+        <h2 id="UML说明">UML说明</h2><p><img src="http://ww4.sinaimg.cn/mw690/4c2edcb7jw1ewxhltbbtdj20qy0d43zm.jpg" alt=""></p>
+<h2 id="创建型模式">创建型模式</h2><h3 id="工厂模式-简单工厂">工厂模式-简单工厂</h3><p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1ewxia9uhulj20gr0emq3e.jpg" alt=""></p>
+<h3 id="工厂模式-工厂方法模式">工厂模式-工厂方法模式</h3><p><img src="http://ww2.sinaimg.cn/large/4c2edcb7jw1ewxite169fj20uo0c5q3p.jpg" alt=""></p>
+<h3 id="工厂模式-抽象工厂">工厂模式-抽象工厂</h3><p><img src="http://ww2.sinaimg.cn/large/4c2edcb7jw1ewxj6nh6fwj20v30h7dh0.jpg" alt=""></p>
+<h3 id="Builder_模式，建造者模式">Builder 模式，建造者模式</h3><p><img src="http://ww3.sinaimg.cn/large/4c2edcb7jw1ewy3ppzlfjj20uj0gbwfr.jpg" alt=""></p>
+<h3 id="单例模式">单例模式</h3><p><img src="http://ww4.sinaimg.cn/mw690/4c2edcb7jw1ewy3ssxt7gj20bi04wglo.jpg" alt=""></p>
+<h2 id="结构型模式">结构型模式</h2><h3 id="适配器模式">适配器模式</h3><p><img src="http://ww4.sinaimg.cn/large/4c2edcb7jw1ewy441hmlhj20hq0f3aar.jpg" alt=""></p>
+<h3 id="桥接模式">桥接模式</h3><p><img src="http://ww1.sinaimg.cn/large/4c2edcb7jw1ewy4lptm1aj20s00dymy3.jpg" alt=""></p>
+<h3 id="外观模式">外观模式</h3><p><img src="http://ww4.sinaimg.cn/large/4c2edcb7jw1ewy53du88tj20ls0dq751.jpg" alt=""></p>
+<h3 id="装饰者模式">装饰者模式</h3><p><img src="http://ww3.sinaimg.cn/large/4c2edcb7jw1ewy96u7diej20tn0d30tq.jpg" alt=""></p>
+<h3 id="代理模式">代理模式</h3><p><img src="http://ww4.sinaimg.cn/large/4c2edcb7jw1ewy9f8gw9sj20nz0dhmy3.jpg" alt=""></p>
+<h3 id="享元模式">享元模式</h3><p><img src="http://ww1.sinaimg.cn/large/4c2edcb7jw1ewya256t6rj20mo0bxq42.jpg" alt=""></p>
+<h2 id="行为模式">行为模式</h2><h3 id="命令模式">命令模式</h3><p><img src="http://ww2.sinaimg.cn/large/4c2edcb7jw1ewyaqv6oo7j20nz0e8dgz.jpg" alt=""></p>
+<h3 id="中介者模式">中介者模式</h3><p><img src="http://ww4.sinaimg.cn/large/4c2edcb7jw1ewybdmdrynj20nw0czt9x.jpg" alt=""></p>
+<h3 id="观察者模式">观察者模式</h3><p><img src="http://ww4.sinaimg.cn/large/4c2edcb7jw1ewyc3lzfo9j20ur0at0tp.jpg" alt=""></p>
+<h3 id="策略模式">策略模式</h3><p><img src="http://ww1.sinaimg.cn/large/4c2edcb7jw1ewyc8eguuij20ni0awmxu.jpg" alt=""></p>
+<h3 id="状态模式">状态模式</h3><p><img src="http://ww4.sinaimg.cn/large/4c2edcb7jw1ewyjbaj60kj20my0b40th.jpg" alt=""></p>
+<h3 id="责任链模式">责任链模式</h3><p><img src="http://ww2.sinaimg.cn/large/4c2edcb7jw1ewyjd2f4lhj20o50c7758.jpg" alt=""></p>
+<h3 id="模板方法模式">模板方法模式</h3><p><img src="http://ww3.sinaimg.cn/large/4c2edcb7jw1ewyk470amyj20j80daab3.jpg" alt=""></p>
+<p><a href="http://design-patterns.readthedocs.org/zh_CN/latest/creational_patterns/creational.html" target="_blank" rel="external">跟多关于设计模式的参考</a></p>
 
-    <span class="built_in">int</span> S(<span class="built_in">int</span> i, vector&lt;<span class="built_in">int</span>&gt;&amp; <span class="built_in">num</span>, vector&lt;<span class="built_in">int</span>&gt;&amp; res)
-    {
-        <span class="keyword">if</span>(i == <span class="number">0</span>)
-            res[i] = <span class="built_in">num</span>[i];
-        <span class="keyword">else</span> <span class="keyword">if</span>(i == <span class="number">1</span>)
-            res[i] = max(<span class="built_in">num</span>[<span class="number">0</span>], <span class="built_in">num</span>[<span class="number">1</span>]);
-        <span class="keyword">else</span> <span class="keyword">if</span>(res[i] != -<span class="number">1</span>) 
-            <span class="keyword">return</span> res[i];
-        <span class="keyword">else</span>
-        {
-            <span class="built_in">int</span> S1=S(i-<span class="number">1</span>, <span class="built_in">num</span>, res);
-            <span class="built_in">int</span> S2=S(i-<span class="number">2</span>, <span class="built_in">num</span>, res) + <span class="built_in">num</span>[i];
-            res[i] = S1 &gt;= S2 ? S1 : S2;
-        }
-        <span class="keyword">return</span> res[i];
-    }
-};
-</code></pre><p>非递归解法：</p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
-public:
-    <span class="built_in">int</span> rob(vector&lt;<span class="built_in">int</span>&gt; &amp;<span class="built_in">num</span>) {
-        <span class="built_in">int</span> n = <span class="built_in">num</span>.size();
-        <span class="keyword">if</span>(n == <span class="number">0</span>)
-            <span class="keyword">return</span> <span class="number">0</span>;
-        <span class="keyword">else</span> <span class="keyword">if</span>(n == <span class="number">1</span>)
-            <span class="keyword">return</span> <span class="built_in">num</span>[<span class="number">0</span>];
-        <span class="keyword">else</span>
-        {
-            vector&lt;<span class="built_in">int</span>&gt; maxV(n, <span class="number">0</span>);
-            maxV[<span class="number">0</span>] = <span class="built_in">num</span>[<span class="number">0</span>];
-            maxV[<span class="number">1</span>] = max(<span class="built_in">num</span>[<span class="number">0</span>], <span class="built_in">num</span>[<span class="number">1</span>]);
-            <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">2</span>; i &lt; n; i ++)
-                maxV[i] = max(maxV[i - <span class="number">2</span>] + <span class="built_in">num</span>[i], maxV[i - <span class="number">1</span>]);
-            <span class="keyword">return</span> maxV[n - <span class="number">1</span>];
-        }
-    }
-};
-</code></pre><h3 id="House_Robber_II">House Robber II</h3><h4 id="题目描述">题目描述</h4><p>街道变成环，其他条件不变</p>
-<h4 id="解法-2">解法</h4><p>res = max（抢第一家到倒数第二家， 抢第二家到最后一家）</p>
-<h4 id="代码-2">代码</h4><pre><code>class Solution {
-public:
-    <span class="keyword">int</span> rob(<span class="keyword">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums) {
-        <span class="keyword">if</span>(nums.<span class="keyword">size</span>() == <span class="number">0</span>)
-            <span class="keyword">return</span> <span class="number">0</span>;
-        <span class="keyword">if</span>(nums.<span class="keyword">size</span>() == <span class="number">1</span>)
-            <span class="keyword">return</span> nums[<span class="number">0</span>];
-        <span class="keyword">return</span> <span class="keyword">max</span>(robber(nums, <span class="number">0</span>, nums.<span class="keyword">size</span>()-<span class="number">2</span>), robber(nums, <span class="number">1</span>, nums.<span class="keyword">size</span>()-<span class="number">1</span>));
-    }
-
-    <span class="keyword">int</span> robber(<span class="keyword">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums, <span class="keyword">int</span> left, <span class="keyword">int</span> right)
-    {
-        <span class="keyword">int</span> temp1 = <span class="number">0</span>, temp2 = <span class="number">0</span>,res = <span class="number">0</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=left;i&lt;=right;i++)
-        {
-            res = <span class="keyword">max</span>(temp1 + nums[i], temp2);
-            temp1 = temp2;
-            temp2 = res;
-        }
-        <span class="keyword">return</span> res;
-    }
-};
-</code></pre><h3 id="最大连续子序列">最大连续子序列</h3><h4 id="最大连续子序列和">最大连续子序列和</h4><p>遍历如果currentSum&lt;0 丢弃前面的数，否则currentSum+=num[i]。记录max</p>
-<pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="function"><span class="keyword">int</span> <span class="title">FindGreatestSumOfSubArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="built_in">array</span>)</span> </span>{
-        <span class="keyword">if</span>(<span class="built_in">array</span>.size() == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
-        <span class="keyword">int</span> greatest = <span class="built_in">array</span>[<span class="number">0</span>];
-        <span class="keyword">int</span> currentSum = <span class="number">0</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">array</span>.size(); i++)
-        {
-            <span class="keyword">if</span>(currentSum &lt;= <span class="number">0</span>)
-                currentSum = <span class="built_in">array</span>[i];
-            <span class="keyword">else</span>
-                currentSum += <span class="built_in">array</span>[i];
-
-            <span class="keyword">if</span>(currentSum &gt; greatest)
-                greatest = currentSum;
-        }
-        <span class="keyword">return</span> greatest;
-    }
-};
-</code></pre><h4 id="最大连续子序列乘积">最大连续子序列乘积</h4><pre><code><span class="keyword">class</span> Solution {
-//思路：动态规划，计算字数组和的时候sub[i+<span class="number">1</span>]=<span class="built_in">max</span>(sub[i]+A[i+<span class="number">1</span>],A[i+<span class="number">1</span>]),在计算子数组乘积的时候，
-/*
-<span class="built_in">max</span>[i]=<span class="built_in">max</span>(<span class="built_in">max</span>[i-<span class="number">1</span>]*nums[i], <span class="built_in">min</span>[i-<span class="number">1</span>]*nums[i],nums[i])
-<span class="built_in">min</span>[i]=<span class="built_in">min</span>(<span class="built_in">max</span>[i-<span class="number">1</span>]*nums[i], <span class="built_in">min</span>[i-<span class="number">1</span>]*nums[i],nums[i])
-*/
-<span class="keyword">public</span>:
-    <span class="built_in">int</span> maxProduct(vector&lt;<span class="built_in">int</span>&gt;&amp; nums) {
-        <span class="keyword">if</span>(nums.<span class="built_in">size</span>()==<span class="number">0</span>)
-            <span class="keyword">return</span> <span class="number">0</span>;
-        <span class="built_in">int</span> maxcur,mincur;
-        <span class="built_in">int</span> <span class="built_in">maxval</span> = nums[<span class="number">0</span>];
-        <span class="built_in">int</span> minpre = nums[<span class="number">0</span>];
-        <span class="built_in">int</span> maxpre = nums[<span class="number">0</span>];
-        for(<span class="built_in">int</span> i=<span class="number">1</span>;i&lt;nums.<span class="built_in">size</span>();i++)
-        {
-            maxcur = <span class="built_in">max</span>(<span class="built_in">max</span>(maxpre*nums[i],minpre*nums[i]),nums[i]);
-            mincur = <span class="built_in">min</span>(<span class="built_in">min</span>(maxpre*nums[i],minpre*nums[i]),nums[i]);
-            <span class="built_in">maxval</span> = <span class="built_in">max</span>(<span class="built_in">maxval</span>, maxcur);
-            minpre = mincur;
-            maxpre = maxcur;
-        }
-        <span class="keyword">return</span> <span class="built_in">maxval</span>;
-    }
-};
-</code></pre>
       
     </div>
 
@@ -337,7 +192,7 @@ public:
       
         <div class="post-tags">
           
-            <a href="/tags/递归/"> #递归 </a>
+            <a href="/tags/设计模式/"> #设计模式 </a>
           
         </div>
       
@@ -346,13 +201,11 @@ public:
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/10/12/找工作总结-设计模式/">设计模式</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/10/11/找工作总结-图遍历/">图，回溯，遍历</a>
+              <a href="/2015/10/11/找工作总结-动态规划专题/">动态规划</a>
             
           </div>
         </div>
@@ -368,8 +221,8 @@ public:
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/10/11/找工作总结-动态规划专题/"
-               data-title="动态规划" data-url="http://rudy-zhang.me/2015/10/11/找工作总结-动态规划专题/">
+          <div class="ds-thread" data-thread-key="2015/10/12/找工作总结-设计模式/"
+               data-title="设计模式" data-url="http://rudy-zhang.me/2015/10/12/找工作总结-设计模式/">
           </div>
         
       </div>
@@ -464,7 +317,7 @@ public:
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#青蛙跳台阶_VS_斐波那契数列"><span class="nav-number">1.</span> <span class="nav-text">青蛙跳台阶 VS 斐波那契数列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述"><span class="nav-number">1.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解法"><span class="nav-number">1.2.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-number">1.3.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#House_Robber"><span class="nav-number">2.</span> <span class="nav-text">House Robber</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述-1"><span class="nav-number">2.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解法-1"><span class="nav-number">2.2.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码-1"><span class="nav-number">2.3.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#House_Robber_II"><span class="nav-number">3.</span> <span class="nav-text">House Robber II</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#题目描述"><span class="nav-number">3.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解法-2"><span class="nav-number">3.2.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码-2"><span class="nav-number">3.3.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最大连续子序列"><span class="nav-number">4.</span> <span class="nav-text">最大连续子序列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#最大连续子序列和"><span class="nav-number">4.1.</span> <span class="nav-text">最大连续子序列和</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最大连续子序列乘积"><span class="nav-number">4.2.</span> <span class="nav-text">最大连续子序列乘积</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#UML说明"><span class="nav-number">1.</span> <span class="nav-text">UML说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建型模式"><span class="nav-number">2.</span> <span class="nav-text">创建型模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#工厂模式-简单工厂"><span class="nav-number">2.1.</span> <span class="nav-text">工厂模式-简单工厂</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工厂模式-工厂方法模式"><span class="nav-number">2.2.</span> <span class="nav-text">工厂模式-工厂方法模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工厂模式-抽象工厂"><span class="nav-number">2.3.</span> <span class="nav-text">工厂模式-抽象工厂</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Builder_模式，建造者模式"><span class="nav-number">2.4.</span> <span class="nav-text">Builder 模式，建造者模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单例模式"><span class="nav-number">2.5.</span> <span class="nav-text">单例模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构型模式"><span class="nav-number">3.</span> <span class="nav-text">结构型模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#适配器模式"><span class="nav-number">3.1.</span> <span class="nav-text">适配器模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#桥接模式"><span class="nav-number">3.2.</span> <span class="nav-text">桥接模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#外观模式"><span class="nav-number">3.3.</span> <span class="nav-text">外观模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#装饰者模式"><span class="nav-number">3.4.</span> <span class="nav-text">装饰者模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代理模式"><span class="nav-number">3.5.</span> <span class="nav-text">代理模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#享元模式"><span class="nav-number">3.6.</span> <span class="nav-text">享元模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#行为模式"><span class="nav-number">4.</span> <span class="nav-text">行为模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#命令模式"><span class="nav-number">4.1.</span> <span class="nav-text">命令模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中介者模式"><span class="nav-number">4.2.</span> <span class="nav-text">中介者模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#观察者模式"><span class="nav-number">4.3.</span> <span class="nav-text">观察者模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#策略模式"><span class="nav-number">4.4.</span> <span class="nav-text">策略模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#状态模式"><span class="nav-number">4.5.</span> <span class="nav-text">状态模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#责任链模式"><span class="nav-number">4.6.</span> <span class="nav-text">责任链模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模板方法模式"><span class="nav-number">4.7.</span> <span class="nav-text">模板方法模式</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

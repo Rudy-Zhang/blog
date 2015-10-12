@@ -123,6 +123,114 @@
           
           
             
+              <a class="post-title-link" href="/2014/03/07/CSharp异步编程/">
+                C# 异步编程
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-03-07
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/NET/">.NET</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/07/CSharp异步编程/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/07/CSharp异步编程/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="为什么要使用异步编程">为什么要使用异步编程</h2><p>普通程序单线程运行，如果遇到I/O操作，大量数据库操作，使用普通方法会使得当前线程阻塞。使用异步编程就会另外开启一个线程并行 ，解决了这些问题。</p>
+<h2 id="常见异步过程">常见异步过程</h2><p>第一步：准备一个准备进行异步调用的方法，如TestMethod</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class AsyncDemo&#10;&#123;&#10;    public string TestMethod(int callDuration,out int threadId)&#10;    &#123;&#10;        Console.WriteLine(&#34;Test method begins.&#34;);&#10;        Thread.Sleep(callDuration);&#10;        threadId = AppDomain.GetCurrentThreadId();&#10;        return &#34;MyCallTime was &#34; + callDuration.ToString();  &#10;    &#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>第二步：和这个方法对应的委托</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public delegate string AsynDelegate(int callDuration,out int threadId);</span><br></pre></td></tr></table></figure>
+<p>第三步：声明委托变量，并将第一步中的方法绑定到这个变量上去</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int threadId;&#10;AsyncDemo ad = new AsyncDemo();&#10;AsynDelegate asynDelegate = new AsynDelegate(ad.TestMethod);</span><br></pre></td></tr></table></figure>
+<p>第四步：进行异步调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IAsyncResult ir = asynDelegate.BeginInvoke(3000, out threadId, null, null);</span><br></pre></td></tr></table></figure>
+<p>第五步：调用结束后，收回线程资源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string ret = asynDelegate.EndInvoke(out threadId, ir);</span><br></pre></td></tr></table></figure>
+<h2 id="线程回收方式">线程回收方式</h2><p>在C#中，用户启动的线程资源是必须收回的，因为浪费可耻。启动线程容易，但是何时收回，如何收回就比较值得考虑了，根据收回的方式，可以将异步调用，分为两种方式，一种是 <strong>主动收回</strong> （通过主线程阻塞，等待异步线程完成，然后在主线程收回线程资源），<strong>被动收回</strong>（当异步线程运行完后，触发回调函数，在回调函数中收回线程资源）。</p>
+<h3 id="阻塞主线程">阻塞主线程</h3><p>有三种方式</p>
+<ol>
+<li>使用EndInvoke直到结束</li>
+<li>使用waithandle等待调用结束</li>
+<li>轮询异步调用完成 </li>
+</ol>
+<h4 id="使用EndInvoke直到结束">使用EndInvoke直到结束</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IAsyncResult ir = asynDelegate.BeginInvoke(3000, out threadId, null, null);&#10;string ret = asynDelegate.EndInvoke(out threadId, ir);//&#36890;&#36807;out&#21487;&#20197;&#23558;&#24322;&#27493;&#35843;&#29992;&#20013;&#30340;&#21464;&#37327;&#20256;&#36882;&#20986;&#26469;&#65292;&#20026;&#20160;&#20040;&#38656;&#35201;ir&#65311;&#31243;&#24207;&#38656;&#35201;&#36890;&#36807;ir&#33719;&#24471;&#24322;&#27493;&#22996;&#25176;&#65292;&#20174;&#32780;&#36827;&#34892;&#32447;&#31243;&#36164;&#28304;&#30340;&#25910;&#22238;</span><br></pre></td></tr></table></figure>
+<p>BeginInvoke前两个参数是声明TestMethod函数的时候的参数，第三个是<strong>回调函数委托</strong> ，第四个，当使用回调函数时需要将asynDelegate作为参数传入，从而使得在异步结果（ir）中能够拿到asynDelegate变量，从而进行相关操作。<br>EndInvoke 前面是testMethod中ref和out参数，后面是异步状态变量IAsyncResult</p>
+<h4 id="使用waithandle等待调用结束">使用waithandle等待调用结束</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IAsyncResult ar = asynDelegate.BeginInvoke(3000, out threadId, null, null);    &#10;// C#&#24322;&#27493;&#35843;&#29992;&#23436;&#25104;&#26102;&#20250;&#21457;&#20986; WaitHandle &#20449;&#21495; &#65292;&#31243;&#24207;&#22312;&#27492;&#38459;&#22622;&#10;ar.AsyncWaitHandle.WaitOne();&#10;string ret = asynDelegate.EndInvoke(out threadId, ar);</span><br></pre></td></tr></table></figure>
+<h4 id="轮询异步调用完成">轮询异步调用完成</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IAsyncResult ar = asynDelegate.BeginInvoke(3000,out threadId, null, null);&#10;//&#36718;&#35810;ar.IsCompleted&#30340;&#29366;&#24577;&#10;while(ar.IsCompleted == false) &#123;  &#10;    Thread.Sleep(10);  &#10;&#125;  &#10;//&#20250;&#23548;&#33268;&#31243;&#24207;&#22312;&#27492;&#38459;&#22622;  &#10;string ret = asynDelegate.EndInvoke(out threadId, ar);</span><br></pre></td></tr></table></figure>
+<h3 id="使用回调函数收回线程资源">使用回调函数收回线程资源</h3><h4 id="声明回调函数">声明回调函数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static void CallbackMethod(IAsyncResult ar) &#123;&#10;    int threadId;&#10;    // &#36890;&#36807;&#24322;&#27493;&#32467;&#26524;&#65288;IAsyncResult&#65289;&#37325;&#26032;&#24471;&#21040;&#22996;&#25176;&#23545;&#35937;&#10;    AsynDelegate asynDelegate = (AsynDelegate)ar.AsyncState;&#10;    //&#22312;&#22238;&#35843;&#20989;&#25968;&#20013;&#35843;&#29992;EndInvoke&#65292;&#25910;&#22238;&#24322;&#27493;&#32447;&#31243;&#30340;&#36164;&#28304;&#10;    string ret = asynDelegate.EndInvoke(out threadId, ar);  &#10;    Console.WriteLine(&#34;The call executed on thread &#123;0&#125;, with return value \&#34;&#123;1&#125;\&#34;.&#34;, threadId, ret);  &#10;    &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="将回调函数作为异步调用的参数，进行异步调用">将回调函数作为异步调用的参数，进行异步调用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IAsyncResult ar = asynDelegate.BeginInvoke(3000, out threadId, new AsyncCallback(CallbackMethod), asynDelegate);</span><br></pre></td></tr></table></figure>
+<h2 id="异步操作与多线程">异步操作与多线程</h2><p>当需要执行I/O操作时，使用异步操作比使用线程+同步 I/O操作更合适。I/O操作不仅包括了直接的文件、网络的读写，还包括数据库操作、Web Service、HttpRequest以及.net Remoting等跨进程的调用。</p>
+<p>而线程的适用范围则是那种需要长时间CPU运算的场合，例如耗时较长的图形处理和算法执行。但是往 往由于使用线程编程的简单和符合习惯，所以很多朋友往往会使用线程来执行耗时较长的I/O操作。这样在只有少数几个并发操作的时候还无伤大雅，如果需要处 理大量的并发操作时就不合适了。</p>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/"> #C# </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/03/04/Csharp中的out和ref/">
                 C#中的out和ref
               </a>
@@ -329,7 +437,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">42</span>
+              <span class="site-state-item-count">43</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -343,7 +451,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-count">22</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

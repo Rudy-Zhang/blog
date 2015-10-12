@@ -123,6 +123,178 @@
           
           
             
+              <a class="post-title-link" href="/2015/05/23/Hadoop基本原理/">
+                Hadoop基本原理
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-05-23
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Hadoop/">Hadoop</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/05/23/Hadoop基本原理/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/23/Hadoop基本原理/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="了解大数据">了解大数据</h3><p>首先，搞清楚hadoop在处理大数据的定位在哪里</p>
+<h4 id="什么是大数据？为什么要处理大数据？">什么是大数据？为什么要处理大数据？</h4><p>数据量大（Volume） 数据类别复杂（Variety） 数据处理速度快（Velocity） 数据真实性高（Veracity） 合起来被称为4V。</p>
+<p>处理大数据是为了挖掘数据中的隐含价值</p>
+<h4 id="如何处理大数据？">如何处理大数据？</h4><p>集中式计算VS分布式计算</p>
+<p>集中式计算：通过不断增加处理器的个数来增强耽搁计算机的计算能力，从而提高处理的速度。需要的内存很大，计算的速度很快。</p>
+<p>分布式计算：一组通过网络连接的计算机，形成一个分散的系统。将需要处理的大量数据分散成多个部分，交由系统中的耽搁计算机分别处理，最后将这些计算结果合并得到最终结果。（MapReduce的核心思想）</p>
+<h3 id="Hadoop是怎么产生的">Hadoop是怎么产生的</h3><h4 id="技术基础">技术基础</h4><p>google三驾马车：GFS、MapReduce和BigTable。Hadoop是在google三驾马车基础上的开源实现。</p>
+<ol>
+<li>GFS（Google File System）分布式文件系统，对应Hadoop当中的HDFS。</li>
+<li>MapReduce分布式计算框架，也是Hadoop处理大数据的核心思想。</li>
+<li>BigTable是基于GFS的数据存储系统，对应Hadoop的HBase。</li>
+</ol>
+<h4 id="三大分布式计算系统">三大分布式计算系统</h4><p>Hadoop，Spark，Storm是主流的三大分布式计算系统</p>
+<p>Spark VS Hadoop</p>
+<p>Hadoop使用硬盘来存储数据，而Spark是将数据存在内存中的，因此Spark何以提供超过Hadoop 100倍的计算速度。内存断电后会丢失，所以Spark不<br>适用于需要长期保存的数据。</p>
+<p>Storm VS Hadoop</p>
+<p>Storm在Hadoop基础上提供了实时运算的特性，可以实时处理大数据流。不同于Hadoop和Spark，Storm不尽兴数据的手机和存储工作，直接通过网络接受并实时处理数据，然后直接通过网络实时传回结果。</p>
+<p>所以三者适用于的应用场景分别为：</p>
+<ol>
+<li>Hadoop常用于离线的复杂的大数据处理</li>
+<li>Spark常用于离线的快速的大数据处理</li>
+<li>Storm常用于在线实时的大数据处理</li>
+</ol>
+<h3 id="Hadoop定义">Hadoop定义</h3><h4 id="Hadoop是什么">Hadoop是什么</h4><p>Hadoop是一个能够对大量数据进行分布式处理的软件框架</p>
+<h4 id="Hadoop特点">Hadoop特点</h4><ol>
+<li>可靠。Hadoop假设计算元素和存储会失败，所以会维护多个工作数据的副本，对失败的节点会重新处理</li>
+<li>高效。通过并行方式工作，加快处理速度。</li>
+<li>可伸缩。可以处理PB级的数据。</li>
+<li>高扩展。可以方便地扩展到数以千计的节点。</li>
+<li>低成本。Hadoop是开源的，Hadoop节点可以是很便宜的机器。</li>
+</ol>
+<h4 id="应用场景">应用场景</h4><p>Hadoop适用于：海量数据，离线数据，复杂数据</p>
+<p>场景1：数据分析，如海量日志分析，商品推荐，用户行为分析</p>
+<p>场景2：离线计算，（异构计算+分布式计算）天文计算</p>
+<p>场景3：海量数据存储，如Facebook的存储集群。</p>
+<p><a href="http://cloud.zol.com.cn/441/4415033_all.html" target="_blank" rel="external">更多应用场景</a></p>
+<h3 id="Hadoop原理">Hadoop原理</h3><h4 id="HDFS">HDFS</h4><p>HDFS（Hadoop File System），是Hadoop的分布式文件存储系统</p>
+<ol>
+<li>将大文件分解为多个Block，每个Block保存多个副本。提供容错机制，副本丢失或者宕机时自动恢复。</li>
+<li>默认每个Block保存3个副本，64M为1个Block。</li>
+<li>将Block按照key-value映射到内存当中。</li>
+</ol>
+<p>HDFS架构图如下：</p>
+<p><img src="http://i.imgur.com/ZliSEXb.png" alt=""></p>
+<h5 id="NameNode">NameNode</h5><p>HDFS使用主从结构，NameNode是Master节点，是领导。所有的客户端的读写请求，都需要首先请求NameNode。</p>
+<p>NameNode存储</p>
+<ol>
+<li>fsimage：元数据镜像文件（文件系统的目录树，文件的<strong>元数据</strong>信息）。元数据信息包括文件的信息，文件对应的block信息（版本信息，类型信息，和checksum），以及每一个block所在的DataNode的信息。</li>
+<li>edits：元数据的操作日志</li>
+</ol>
+<h5 id="DataNode">DataNode</h5><p>DataNode是Slave，负责真正存储所有的block内容，以及数据块的读写操作</p>
+<p>NameNode，DataNode，rack只是一些逻辑上的概念。NameNode和DataNode可能是一台机器也可能是，相邻的一台机器，很多DataNode可能处于同一台机器。rack是逻辑上比DataNode更大的概念，可能是一台机器，一台机柜，也可能是一个机房。通过使文件的备份更广泛地分布到不同的rack，DataNode上可以保证数据的可靠性。</p>
+<h5 id="HDFS写入数据">HDFS写入数据</h5><ol>
+<li>Client拆分文件为64M一块。</li>
+<li>Client向NameNode发送写数据请求。</li>
+<li>NameNode节点，记录block信息。并返回可用的DataNode。</li>
+<li>Client向DataNode发送block1,2,3….；发送过程是以流式写入。流式写入，数据流向为DataNode1-&gt;DataNode2-&gt;DataNode3(1,2,3为通过规则选出来的可用的DataNode)</li>
+<li>发送完毕后告知NameNode</li>
+<li>NameNode告知Client发送完成</li>
+</ol>
+<p>在写数据的时候：</p>
+<ul>
+<li>写1T文件，我们需要3T的存储，3T的网络流量贷款。</li>
+<li>在执行读或写的过程中，NameNode和DataNode通过HeartBeat进行保存通信，确定DataNode活着。如果发现DataNode死掉了，就将死掉的DataNode上的数据，放到其他节点去。读取时，要读其他节点去。</li>
+<li>挂掉一个节点，没关系，还有其他节点可以备份；甚至，挂掉某一个机架，也没关系；其他机架上，也有备份。</li>
+</ul>
+<h5 id="HDFS读取数据">HDFS读取数据</h5><ol>
+<li>Client向NameNode发送读请求</li>
+<li>NameNode查看MetaData信息，返回文件的block位置</li>
+<li>根据一定规则（优先选择附近的数据），按顺序读取block</li>
+</ol>
+<p><a href="http://www.weixuehao.com/archives/596" target="_blank" rel="external">更多内容</a></p>
+<h4 id="MapReduce">MapReduce</h4><p>Map是把一组数据一对一的<strong>映射</strong>为另外的一组数据，其映射的规则由一个<strong>map函数</strong>来指定。Reduce是对一组数据进行<strong>归约</strong>，这个归约的规则由一个<strong>reduce函数</strong>指定。</p>
+<p>整个的MapReduce执行过程可以表示为：</p>
+<p><code>(input)&lt;k1, v1&gt; =&gt; map =&gt; &lt;k2, v2&gt; =&gt; combine =&gt; &lt;k2, v2’&gt; =&gt; reduce =&gt; &lt;k3, v3&gt;(output)</code></p>
+<p>也可以表示为流程图：</p>
+<p><img src="http://i.imgur.com/yRsLgoK.png" alt=""></p>
+<ol>
+<li><strong>分割</strong>：把输入数据分割成不相关的若干键/值对（key1/value1）集合，作为input</li>
+<li><strong>映射</strong>：这些键/值对会由多个map任务来<strong>并行地处理</strong>。输出一些中间键/值对key2/value2集合</li>
+<li><strong>排序</strong>：MapReduce会对map的输出（key2/value2）按照key2进行排序（便于归并）</li>
+<li><strong>conbine</strong>：属于同一个key2的所有value2组合在一起作为reduce任务的输入（相当于提前reduce，减小key2的数量，减小reduce的负担）</li>
+<li><strong>Partition</strong>：将mapper的输出分配到reducer；（Map的中间结果通常用”hash(key) mod R”这个结果作为标准）</li>
+<li><strong>规约</strong>：由reduce任务计算出最终结果并输出key3/value3。</li>
+</ol>
+<h4 id="程序员需要做的">程序员需要做的</h4><ul>
+<li>单机程序需要处理数据读取和写入、数据处理</li>
+<li>Hadoop程序需要实现map和reduce函数</li>
+<li>map和reduce之间的数据传输、排序，容错处理等由Hadoop MapReduce和HDFS自动完成。</li>
+</ul>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Hadoop/"> #Hadoop </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/04/22/一步一步写一个PHP框架2/">
                 一步一步写一个PHP框架（二）
               </a>
@@ -1202,149 +1374,6 @@
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/03/17/电脑鼠的回忆/">
-                电脑鼠的回忆
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-03-17
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/杂七杂八/">杂七杂八</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/03/17/电脑鼠的回忆/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/17/电脑鼠的回忆/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="前言">前言</h2><p>电脑鼠项目是本科的时候参加的项目了，如今拿出来回一下，复习一下原来学习的C和相关的算法，看到当年青涩的我们，也是别有一番滋味。</p>
-<h2 id="IEEE电脑鼠介绍">IEEE电脑鼠介绍</h2><p>IEEE国际电脑鼠走迷宫邀请赛，比赛要求电脑鼠自动走索迷宫并完成冲刺。首先电脑鼠在16x16的未知迷宫中探索前进的路线，到达终点之后返回起点，这一过程称为 <strong>试跑</strong>。然后以最快速度最好路线冲刺到终点，这一过程称为 <strong>冲刺</strong> 。最终成绩=试跑时间*（1/30）+冲刺时间。当然过程中碰到迷宫墙壁是有罚时的。迷宫长的就是这个样子的，这是我们参加比赛的时候现场的赛道：</p>
-<p><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eq8zwm7fvsj20t20ky400.jpg" alt="enter image description here"></p>
-<p>具体关于电脑鼠的规则可以参考这里：<a href="http://www.csuchico.edu/ieee/micromouse.html" target="_blank" rel="external">IEEE电脑鼠介绍</a></p>
-<h2 id="设计">设计</h2><h3 id="硬件部分">硬件部分</h3><p>硬件我不是很精通，好在我们有硬件大牛，邈哥，纯geek，只要是带电的，没有不懂的，他在硬件上的知识储备真是让人咋舌，为每一个硬件，每一个指标都进行追求极限的设计。</p>
-<p>硬件指标：</p>
-<blockquote>
-<ul>
-<li>中心控制器使用32位处理器STM32F103；</li>
-<li>传感器共有六对红外发射管、接收管，用于探测墙壁距离并提供迷宫墙壁信息。</li>
-<li>陀螺仪采用量程±2000°/s的数字式陀螺仪L3G4200，用来校正电脑鼠转弯时的角度误差。</li>
-<li>电机驱动电路使用两组H型全桥电路配合PWM信号控制，可以使电机正转与反转。</li>
-<li>电机选用微型直流空心杯减速电机，并配合512线编码器可获得电机转速。</li>
-<li>预留无线串口可外接蓝牙模块与PC机实现数据传输，配合按键与可编程LED实现人机交互。</li>
-</ul>
-</blockquote>
-<p>硬件架构图：</p>
-<p><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eq8zwmgi89j20h20czdgj.jpg" alt="Alt text"></p>
-<p>最后做成了这样一辆小跑车。</p>
-<p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eq8zwmt483j20wb0jigo5.jpg" alt="Alt text"></p>
-<h3 id="软件部分">软件部分</h3><p>这个时候就要靠我们学软件的人了，由于采用的是嵌入式设备，必须把写好的C程序烧到中心控制器。中心控制器相当于整个设备的大脑，所有行走的策略，控制硬件启动，接收硬件数据，发出指令都存储在STM32控制芯片当中。</p>
-<p>下面是整个软件部分的架构图：</p>
-<p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eq8zwn1gcsj20gy0l4jtj.jpg" alt="Alt text"></p>
-<p>想要达到一个良好的表现，硬件是至关重要的，就像是经济基础决定上层建筑。同时有了经济基础也需要更好的策略来指挥硬件行动。电脑鼠的策略分成两部分：</p>
-<blockquote>
-<ul>
-<li>探索时候的策略</li>
-<li>冲刺时候的策略</li>
-</ul>
-</blockquote>
-<h4 id="探索的策略">探索的策略</h4><p>由于迷宫是未知的，需要电脑鼠不断探索迷宫中的格子，每次碰到岔路的时候都要决定下一次要往哪里探索，所以这一部分是最tricky的，好的算法不一定有好的结果，但是不好的算法很可能有不好的结果。<br>常见的策略</p>
-<blockquote>
-<ul>
-<li>右手法则： 以右边为优先的前进方向，然后是直线方向、左边方向。 </li>
-<li>左手法则： 以左边为优先的前进方向，然后是直线方向、右边方向。 </li>
-<li>中左法则： 以直线为优先的前进方向，然后是左边方向、右边方向。 </li>
-<li>乱数法则： 取随机值作为前进方向。 </li>
-<li>向心法则： 由于终点设在迷宫的中心，遇有交叉时，以指向迷宫中心的方向为优先的前进方向。 </li>
-</ul>
-</blockquote>
-<p>还有一种相对这些算法更加优秀的算法，也是我们采用的算法，叫做<strong>洪水填充算法</strong>：</p>
-<blockquote>
-<p>洪水填充法，也称为贝尔曼的算法(Bellman’s algorithm)，与上述的种演算法相比是更适合的方法。该演算法使用距离和墙壁的知识去寻找到达迷宫中心的较短路径。在这个该演算法中，每一个格子存在一个代表距离的物理量，此物理量代表该格子与迷宫中心可能的最短的曼哈顿距离(为方便本文就直接称此物理量为距离)。</p>
-<p>洪水填充法被称为“广度优先”演算法，因为如果迷宫被表示成一个生成树，演算法会先搜查同一层的格子，接着才搜寻下一层的格子。洪水填充算法的主要优点是，它总能找到到达迷宫中心的最短路径。但值得注意的是，此方法实际走的路径被非最短路径。</p>
-</blockquote>
-<p>使用到的关键函数：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">initDistance</span><span class="params">()</span></span>;<span class="comment">//当朝向迷宫中心时，曼哈顿距离的初始化</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">initDistance2</span><span class="params">()</span></span>;<span class="comment">//当朝向起点时，曼哈顿距离的初始化</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">initTempMap</span><span class="params">()</span></span>;<span class="comment">//初始化临时地图</span></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="title">atGoal</span><span class="params">(<span class="keyword">struct</span> Point robot)</span></span>;<span class="comment">//返回是否到达中心</span></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="title">atStart</span><span class="params">(<span class="keyword">struct</span> Point p)</span></span>;<span class="comment">//返回是否到达终点</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">l_Maze_Set</span><span class="params">(<span class="keyword">const</span> <span class="keyword">struct</span> Maze * m)</span></span>;<span class="comment">//设置迷宫句柄</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">InitializeMaze</span><span class="params">()</span></span>;<span class="comment">//初始化迷宫数据</span></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="title">l_HandleRequest</span><span class="params">(<span class="keyword">const</span> <span class="keyword">struct</span> Robot robot, <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> NW,</span><br><span class="line">                            <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> EW, <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> SW, <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> WW)</span></span>;</span><br><span class="line"><span class="comment">// 根据当前的位置和墙壁信息，返回应该走的方向</span></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="title">canGetByDir</span><span class="params">(<span class="keyword">struct</span> Point p,<span class="keyword">char</span> dir)</span></span>;<span class="comment">//返回是否从某点走向某个方向</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">refreshDistance</span><span class="params">(<span class="keyword">struct</span> Point p)</span></span>;<span class="comment">//更新某点的曼哈顿距离</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">freshTempMap</span><span class="params">(<span class="keyword">struct</span> Robot robot)</span></span>;<span class="comment">//更新临时地图的信息</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getDisByDir</span><span class="params">(<span class="keyword">struct</span> Point p,<span class="keyword">int</span> dir)</span></span>;<span class="comment">//返回某点某个方向上的距离</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">roundMinDistance</span><span class="params">(<span class="keyword">struct</span> Point p)</span></span>;<span class="comment">//计算某点周围可以到达的点的最小距离</span></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="title">roundMinDir</span><span class="params">(<span class="keyword">struct</span> Robot r)</span></span>;<span class="comment">//返回周围最小距离点相对于当前点的方向</span></span><br></pre></td></tr></table></figure>
-<p>l_HandleRequest函数的内容：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="title">l_HandleRequest</span><span class="params">(<span class="keyword">const</span> <span class="keyword">struct</span> Robot robot, <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> NW,</span><br><span class="line">                            <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> EW, <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> SW, <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> WW)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="comment">//!根据传入的信息更新tempMap中的墙壁</span></span><br><span class="line">    maze-&gt;walkHistory[robot.position.y][robot.position.x]=<span class="number">1</span>;</span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=NW;</span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=EW;</span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=SW;</span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=WW;</span><br><span class="line">    </span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=NORTH_WALL_COVERED;</span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=EAST_WALL_COVERED;</span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=SOUTH_WALL_COVERED;</span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=WEST_WALL_COVERED;</span><br><span class="line">    freshTempMap(robot);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//!更新距离信息</span></span><br><span class="line">    refreshDistance(robot.position);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//!返回应该走的方向</span></span><br><span class="line">    <span class="keyword">return</span> roundMinDir(robot);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="冲刺的策略">冲刺的策略</h4><p>冲刺的时候，中心控制器中已经存储了探索过程的数据。需要做的是根据车子的各方面的性能，如启动速度，减速的速度，转弯的速度，等所有的因素整合起来作为变量，再加上已知的迷宫数据，计算出最好的路径，然后出发就可以了。由于迷宫已知，所以算法也是确定的，关键在于考虑到足够多的因素，输入的变量越多，越真实，计算出的结果越可靠，同时计算量也就越大，在实际操作的时候要达到一个良好的平衡。</p>
-<p>我们使用图论的思想，在搜索最短路径的过程中加入直线和拐弯的权重，使用广度优先的搜索算法找出最短路径，从而接近真实的模拟老鼠的冲刺时间。使用堆进行优化，经测试，算法的复杂度为NlogN。</p>
-<p>冲刺用到的关键函数；</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Attack_Maze_Set</span><span class="params">(<span class="keyword">const</span> <span class="keyword">struct</span> Maze * m)</span></span>;<span class="comment">//设置迷宫句柄</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Attack_Main</span><span class="params">()</span></span>;<span class="comment">//冲刺主函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Attack_Initialize</span><span class="params">()</span></span>;<span class="comment">//初始化冲刺过程</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Attack_Attack_Map_Print</span><span class="params">()</span></span>;<span class="comment">//调试，输出冲刺地图</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Attack_Heap_Print</span><span class="params">()</span></span>;<span class="comment">//调试,输出堆的内容</span></span><br></pre></td></tr></table></figure>
-<p>冲刺算法的主函数：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Attack_Main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    Attack_Map[SIZE-<span class="number">1</span>][<span class="number">0</span>].pre=NULL;</span><br><span class="line">    Attack_Map[SIZE-<span class="number">1</span>][<span class="number">0</span>].cost=<span class="number">0</span>;</span><br><span class="line">    Attack_Map[SIZE-<span class="number">1</span>][<span class="number">0</span>].Have_In_Queue=TRUE;</span><br><span class="line">    InsertToHeap(&amp;Attack_Map[SIZE-<span class="number">1</span>][<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(heapSize&gt;<span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">struct</span> AttackNode *node;</span><br><span class="line">        node=heap[<span class="number">1</span>];</span><br><span class="line">        attackhistory[node-&gt;p.y][node-&gt;p.x]=<span class="number">1</span>;</span><br><span class="line">        DeleteMin();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(atGoal(node-&gt;p))</span><br><span class="line">        &#123;</span><br><span class="line">            getch();</span><br><span class="line">            <span class="comment">//!@note需要写的函数，向策略队列里填充结点</span></span><br><span class="line">            findAttackQueue(node);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,node-&gt;cost);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(canGetByDir(node-&gt;p,NORTH)&amp;&amp;(Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x].Have_In_Queue==FALSE)</span><br><span class="line">        &amp;&amp;(attack_maze-&gt;walkHistory[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x]==<span class="number">1</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//!如果北方节点是前驱结点，则什么都不做</span></span><br><span class="line">            <span class="keyword">if</span>((node-&gt;pre!=NULL)&amp;&amp;(node-&gt;pre-&gt;p.y==(node-&gt;p.y-<span class="number">1</span>))&amp;&amp;node-&gt;pre-&gt;p.x==node-&gt;p.x)&#123;&#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                </span><br><span class="line">                Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x].pre=node;</span><br><span class="line">                Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x].bend=getBend(&amp;Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x]);</span><br><span class="line">                Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x].cost=getCost(&amp;Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x]);</span><br><span class="line">                </span><br><span class="line">                Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x].Have_In_Queue=TRUE;</span><br><span class="line">                </span><br><span class="line">                InsertToHeap(&amp;Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(canGetByDir(node-&gt;p,EAST)&amp;&amp;(Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>].Have_In_Queue==FALSE)</span><br><span class="line">        &amp;&amp;(attack_maze-&gt;walkHistory[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>]==<span class="number">1</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//!如果东方节点是前驱结点，则什么都不做</span></span><br><span class="line">            <span class="keyword">if</span>((node-&gt;pre!=NULL)&amp;&amp;(node-&gt;pre-&gt;p.y==node-&gt;p.y)&amp;&amp;node-&gt;pre-&gt;p.x==(node-&gt;p.x+<span class="number">1</span>))&#123;&#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>].pre=node;</span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>].bend=getBend(&amp;Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>]);</span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>].cost=getCost(&amp;Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>]);</span><br><span class="line">                </span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>].Have_In_Queue=TRUE;</span><br><span class="line">                InsertToHeap(&amp;Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(canGetByDir(node-&gt;p,SOUTH)&amp;&amp;(Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x].Have_In_Queue==FALSE)</span><br><span class="line">        &amp;&amp;(attack_maze-&gt;walkHistory[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x]==<span class="number">1</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//!如果南方节点是前驱结点，则什么都不做</span></span><br><span class="line">            <span class="keyword">if</span>((node-&gt;pre!=NULL)&amp;&amp;(node-&gt;pre-&gt;p.y==(node-&gt;p.y+<span class="number">1</span>))&amp;&amp;node-&gt;pre-&gt;p.x==(node-&gt;p.x))&#123;&#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x].pre=node;</span><br><span class="line">                Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x].bend=getBend(&amp;Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x]);</span><br><span class="line">                Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x].cost=getCost(&amp;Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x]);</span><br><span class="line">                </span><br><span class="line">                Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x].Have_In_Queue=TRUE;</span><br><span class="line">                InsertToHeap(&amp;Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(canGetByDir(node-&gt;p,WEST)&amp;&amp;(Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>].Have_In_Queue==FALSE)</span><br><span class="line">        &amp;&amp;(attack_maze-&gt;walkHistory[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>]==<span class="number">1</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//!如果西方节点是前驱结点，则什么都不做</span></span><br><span class="line">            <span class="keyword">if</span>((node-&gt;pre!=NULL)&amp;&amp;(node-&gt;pre-&gt;p.y==(node-&gt;p.y))&amp;&amp;node-&gt;pre-&gt;p.x==(node-&gt;p.x-<span class="number">1</span>))&#123;&#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>].pre=node;</span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>].bend=getBend(&amp;Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>]);</span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>].cost=getCost(&amp;Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>]);</span><br><span class="line">                </span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>].Have_In_Queue=TRUE;</span><br><span class="line">                InsertToHeap(&amp;Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>测试迷宫的内容：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="built_in">map</span>[<span class="number">16</span>][<span class="number">16</span>] =&#123;</span><br><span class="line">                &#123;<span class="number">11</span>,<span class="number">11</span>,<span class="number">11</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>&#125;,</span><br><span class="line">                &#123;<span class="number">10</span>,<span class="number">10</span>, <span class="number">8</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">2</span>&#125;,</span><br><span class="line">                &#123;<span class="number">12</span>, <span class="number">0</span>, <span class="number">2</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">13</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123; <span class="number">9</span>, <span class="number">6</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">10</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">6</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">2</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123; <span class="number">8</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">10</span>,<span class="number">10</span>, <span class="number">8</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">3</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">10</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123; <span class="number">8</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">10</span>,<span class="number">10</span>, <span class="number">9</span>, <span class="number">4</span>, <span class="number">7</span>,<span class="number">14</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">10</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123;<span class="number">10</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">0</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">3</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">10</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123;<span class="number">10</span>, <span class="number">8</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">14</span>, <span class="number">9</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">14</span>,<span class="number">14</span>&#125;,</span><br><span class="line">                &#123;<span class="number">10</span>,<span class="number">10</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">11</span>,<span class="number">12</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">3</span>&#125;,</span><br><span class="line">                &#123;<span class="number">10</span>,<span class="number">12</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">10</span>, <span class="number">8</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">12</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">2</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123; <span class="number">8</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">2</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123; <span class="number">8</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">10</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">2</span>&#125;,</span><br><span class="line">                &#123;<span class="number">12</span>, <span class="number">3</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123; <span class="number">9</span>, <span class="number">0</span>, <span class="number">2</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">14</span>&#125;,</span><br><span class="line">                &#123;<span class="number">10</span>,<span class="number">10</span>, <span class="number">8</span>, <span class="number">2</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>&#125;,</span><br><span class="line">                &#123;<span class="number">14</span>,<span class="number">14</span>,<span class="number">14</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>&#125;</span><br><span class="line">                &#125;;</span><br></pre></td></tr></table></figure>
-<p>策略层主函数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int main()&#10;&#123;&#10;    unsigned char NW, EW, SW, WW;&#10;&#10;    //!&#20256;&#20837;&#36855;&#23467;&#21477;&#26564;&#65292;&#21021;&#22987;&#21270;&#22320;&#22270;&#21644;&#36317;&#31163;&#10;    l_Maze_Set(&#38;myMaze);&#10;    initTempMap();&#10;    initDistance();&#10;    &#10;    //!&#21021;&#22987;&#21270;&#30005;&#33041;&#40736;&#20301;&#32622;&#26041;&#21521;&#10;    robot.position.x=0;&#10;    robot.position.y=SIZE-1;&#10;    robot.direction=NORTH;&#10;&#10;    while(!atGoal(robot.position))&#123;&#10;        //!&#36825;&#37324;&#20026;&#35835;&#21462;&#22681;&#22721;&#20449;&#24687;&#30340;&#20195;&#30721;&#65292;&#29992;&#24050;&#30693;&#36855;&#23467;&#20195;&#26367;&#10;        NW = map[robot.position.y][robot.position.x] &#38; NORTH;&#10;        EW = map[robot.position.y][robot.position.x] &#38; EAST;&#10;        SW = map[robot.position.y][robot.position.x] &#38; SOUTH;&#10;        WW = map[robot.position.y][robot.position.x] &#38; WEST;&#10;&#10;        //!&#33719;&#21462;&#19979;&#19968;&#20010;&#26041;&#21521;&#10;        nextDirection = l_HandleRequest(robot, NW, EW, SW, WW);&#10;        walk();  &#10;    &#125;&#10;&#10;    toCenter=FALSE;&#10;    initDistance2();&#10;    while(!atStart(robot.position))&#123;&#10;        //!&#36825;&#37324;&#20026;&#35835;&#21462;&#22681;&#22721;&#20449;&#24687;&#30340;&#20195;&#30721;&#65292;&#29992;&#24050;&#30693;&#36855;&#23467;&#20195;&#26367;&#10;        NW = map[robot.position.y][robot.position.x] &#38; NORTH;&#10;        EW = map[robot.position.y][robot.position.x] &#38; EAST;&#10;        SW = map[robot.position.y][robot.position.x] &#38; SOUTH;&#10;        WW = map[robot.position.y][robot.position.x] &#38; WEST;&#10;        &#10;        nextDirection = l_HandleRequest(robot, NW, EW, SW, WW);&#10;        walk();&#10;    &#125;&#10;    &#10;    Attack_Maze_Set(&#38;myMaze);&#10;    Attack_Initialize();&#10;    Attack_Main();&#10;&#10;    return 0;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>以上完成了策略层的所有内容。</p>
-<h2 id="后记">后记</h2><p>调试时间短，太专注于原创，没有经验。种种原因导致最终没有取得理想的成绩。但是整个过程让我学到了很多东西。压力下的工作，找到在团队里的角色，还有那些调了好多遍的算法，思想很简单，真的写出来一遍也能学到很多东西。</p>
-<p>这是我们的一点视频记录，很幼稚，哈哈。</p>
-<iframe height="498" width="510" src="http://player.youku.com/embed/XOTEzNjg2NTE2" frameborder="0" allowfullscreen></iframe>
-
-
-<p>最后，当然还是一起工作过的这帮朋友，我们来自五湖四海，各个专业，各个年级，如今也各奔东西。只是在那时相遇过，一起努力过，也是一种缘分吧。</p>
-<p>我们的合影,拍摄于天津工业大学，2012.4.22<br><img src="http://ww3.sinaimg.cn/mw690/4c2edcb7jw1eq8zwnp9wij20x20m8ae9.jpg" alt="Alt text"></p>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
@@ -1383,7 +1412,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">42</span>
+              <span class="site-state-item-count">43</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1397,7 +1426,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-count">22</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
