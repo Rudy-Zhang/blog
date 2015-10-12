@@ -20,7 +20,7 @@
 
 
 
-  <meta name="keywords" content="CodeIgniter,PHP," />
+  <meta name="keywords" content="数据库," />
 
 
 
@@ -41,7 +41,7 @@
   </script>
 
 
-  <title> CodeIgniter笔记之数据库访问 // Rudy's Blog </title>
+  <title> SQL语句 // Rudy's Blog </title>
 </head>
 
 <body>
@@ -121,7 +121,7 @@
           
           
             
-              CodeIgniter笔记之数据库访问
+              SQL语句
             
           
         </h1>
@@ -129,14 +129,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2014-10-27
+          发表于 2015-10-12
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/web开发/">web开发</a>
+              <a href="/categories/找工作总结/">找工作总结</a>
 
               
               
@@ -149,8 +149,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/10/28/CodeIgniter笔记之数据库访问/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/28/CodeIgniter笔记之数据库访问/"></span>
+            <a href="/2015/10/12/找工作总结-SQL语句/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/12/找工作总结-SQL语句/"></span>
             </a>
           </span>
           
@@ -164,46 +164,119 @@
       
 
       
-        <h4 id="修改配置文件">修改配置文件</h4><p><code>application/config/database.php</code></p>
-<h4 id="装载">装载</h4><p>将数据库访问对象，装载到超级对象属性中 $this-&gt;load-&gt;database();</p>
-<h4 id="查询">查询</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res-&#62;$this-&#62;db-&#62;query($sql) //&#36820;&#22238;&#26597;&#35810;&#32467;&#26524;&#23545;&#35937;&#23545;&#35937;&#10;$res-&#62;result() ;// &#36820;&#22238;&#25968;&#32452;&#65292;&#25968;&#32452;&#20013;&#26159;&#19968;&#20010;&#20010;&#23545;&#35937;&#10;$res-&#62;result_array(); // &#36820;&#22238;&#20108;&#32500;&#25968;&#32452;&#65292;&#37324;&#38754;&#26159;&#20851;&#32852;&#25968;&#32452;&#10;$res-&#62;row(); // &#36820;&#22238;&#31532;&#19968;&#26465;&#25968;&#25454;</span><br></pre></td></tr></table></figure>
-<h4 id="参数绑定">参数绑定</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&#34;select * from blog_user where name=?&#34;;&#10;$this-&#62;db-&#62;query($sql,$name); // &#22914;&#26524;&#26377;&#22810;&#20010;&#21442;&#25968;&#65288;&#38382;&#21495;&#65289;&#65292;&#38656;&#35201;&#20351;&#29992;&#32034;&#24341;&#25968;&#32452;</span><br></pre></td></tr></table></figure>
-<h4 id="db的自动加载">db的自动加载</h4><p>配置自动加载db <code>application/config/autoload.php</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$autoload[&#39;libaraied&#39;] = array(&#39;database&#39;); // &#23601;&#19981;&#38656;&#35201;$this-&#62;load-&#62;database();</span><br></pre></td></tr></table></figure></p>
-<h4 id="CI的AR模型_Active_Record">CI的AR模型 Active Record</h4><h5 id="配置">配置</h5><p><code>applicaion/config/database.php</code> 设置<code>$active_record = TRUE</code></p>
-<h5 id="操作">操作</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res=$this-&#62;db-&#62;get(&#39;&#34920;&#21517;&#39;); // &#36820;&#22238;&#32467;&#26524;&#23545;&#35937;&#10;$res-&#62;result();&#10;$bool = $this-&#62;db-&#62;insert(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;);&#10;$bool=$this-&#62;db-&#62;update(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;,&#26465;&#20214;);&#10;$bool=$this-&#62;db-&#62;delete(&#39;&#34920;&#21517;&#39;,&#26465;&#20214;)</span><br></pre></td></tr></table></figure>
-<h5 id="连贯操作">连贯操作</h5><p>模拟sql语句</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res=$this-&#62;db-&#62;select(&#39;id,name&#39;)-&#62;from(&#39;user&#39;)-&#62;where(&#39;id&#62;=3&#39;);</span><br></pre></td></tr></table></figure>
-<p>使用where</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res=$this-&#62;db-&#62;where(&#39;name&#39;,&#39;mary&#39;)-&#62;get(&#39;user&#39;);</span><br></pre></td></tr></table></figure>
-<h5 id="复杂的查询使用参数绑定">复杂的查询使用参数绑定</h5><p><code>$this-&gt;db-&gt;query($sql,$data)</code></p>
-<h4 id="数据库查询结果">数据库查询结果</h4><h5 id="result()">result()</h5><p>方法执行成功返回一个对象数组，失败则返回一个空数组。<br>例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$query = $this-&#62;db-&#62;query(&#34;&#35201;&#25191;&#34892;&#30340; SQL&#34;);&#10;&#10;foreach ($query-&#62;result() as $row)&#10;&#123;&#10;   echo $row-&#62;title;&#10;   echo $row-&#62;name;&#10;   echo $row-&#62;body;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="判断结果集的条目数">判断结果集的条目数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if ($query-&#62;num_rows() &#62; 0)</span><br></pre></td></tr></table></figure>
-<h5 id="result_array()">result_array()</h5><p>该方法执行成功时将记录集作为关联数组返回。失败时返回空数组。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$query = $this-&#62;db-&#62;query(&#34;&#35201;&#25191;&#34892;&#30340; SQL&#34;);&#10;&#10;foreach ($query-&#62;result_array() as $row)&#10;&#123;&#10;   echo $row[&#39;title&#39;];&#10;   echo $row[&#39;name&#39;];&#10;   echo $row[&#39;body&#39;];&#10;&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="row()">row()</h5><p>该函数将当前请求的第一行数据作为 object 返回。</p>
-<h4 id="总结，CI中的增删改查">总结，CI中的增删改查</h4><h5 id="查">查</h5><ul>
-<li>得到一个表</li>
+        <h2 id="表结构">表结构</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">student</th>
+<th style="text-align:left">sc</th>
+<th style="text-align:left">course</th>
+<th style="text-align:left">tesacher</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">sid</td>
+<td style="text-align:left">sid</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">-</td>
+<td>tname</td>
+</tr>
+<tr>
+<td style="text-align:left">sname</td>
+<td style="text-align:left">cid</td>
+<td style="text-align:left">cid</td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left">sage</td>
+<td style="text-align:left">score</td>
+<td style="text-align:left">cname</td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left">ssex</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">tid</td>
+<td style="text-align:left">tid</td>
+</tr>
+</tbody>
+</table>
+<h2 id="增删改操作">增删改操作</h2><h3 id="建表">建表</h3><pre><code>create <span class="tag">table</span> student(
+    sid <span class="function"><span class="title">varchar</span><span class="params">(<span class="number">20</span>)</span></span>,
+    sname <span class="function"><span class="title">varchar</span><span class="params">(<span class="number">20</span>)</span></span>,
+    sage number,
+    ssex <span class="function"><span class="title">varchar</span><span class="params">(<span class="number">20</span>)</span></span>
+)
+</code></pre><h3 id="插入">插入</h3><pre><code>insert into <span class="function"><span class="title">student</span><span class="params">(sid, sname, sage, ssex)</span></span>
+    <span class="function"><span class="title">values</span><span class="params">(<span class="string">'001'</span>, <span class="string">'kangyue'</span>, <span class="number">29</span>, <span class="string">'male'</span>)</span></span>
+</code></pre><h3 id="修改">修改</h3><pre><code><span class="keyword">update</span> <span class="keyword">sc</span>
+<span class="keyword">set</span> <span class="keyword">sc</span>.<span class="keyword">score</span> = '60'
+where <span class="keyword">sc</span>.sid = '001'
+</code></pre><h3 id="删除">删除</h3><p>删除叶平老师的sc记录</p>
+<pre><code>delete sc
+from sc, teacher as t, course as c
+where sc<span class="class">.cid</span> = c<span class="class">.cid</span> and t<span class="class">.tid</span> = c<span class="class">.tid</span> and t<span class="class">.tname</span> = <span class="string">'叶平'</span>
+</code></pre><h2 id="查询">查询</h2><h3 id="查询”001”课程比”002”课程成绩高的所有学生的学号">查询”001”课程比”002”课程成绩高的所有学生的学号</h3><pre><code>select s<span class="class">.sid</span>
+from 
+(select sid,score from sc where sc<span class="class">.cid</span> = <span class="string">'001'</span>) as <span class="tag">a</span>,
+(select sid,score from sc where sc<span class="class">.cid</span> = <span class="string">'002'</span>) as <span class="tag">b</span>
+where <span class="tag">a</span><span class="class">.sid</span> = <span class="tag">b</span><span class="class">.sid</span>  and <span class="tag">a</span><span class="class">.score</span> &gt; <span class="tag">b</span>.score
+</code></pre><h3 id="查询平均成绩大于60分的同学的学号和平均成绩">查询平均成绩大于60分的同学的学号和平均成绩</h3><pre><code>select sc<span class="class">.sid</span>, <span class="function"><span class="title">avg</span><span class="params">(sc.age)</span></span>
+from sc
+group by sc<span class="class">.sid</span> 
+having <span class="function"><span class="title">avg</span><span class="params">(sc.score)</span></span> &gt; <span class="number">60</span>
+</code></pre><h4 id="sql中的分组">sql中的分组</h4><ul>
+<li>where 对分组前的属性进行筛选</li>
+<li>having<br>对分组后的属性进行筛选<br>使用聚合函数判断<br>不是用group by默认整个表为一组</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;get(&#39;&#34920;&#21517;&#39;)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>单个表条件查询</li>
+<h3 id="查询姓李的老师的个数">查询姓李的老师的个数</h3><pre><code><span class="operator"><span class="keyword">select</span> <span class="keyword">count</span>(t.tid)
+<span class="keyword">from</span> teacher <span class="keyword">as</span> t
+<span class="keyword">where</span> t.tname <span class="keyword">like</span> <span class="string">"李%"</span></span>
+</code></pre><h4 id="sql中的通配符">sql中的通配符</h4><p>_    匹配单字符-&gt; ‘_im’ 匹配 Tim Jim<br>%    匹配一个或多个字符 -&gt; ‘李%’<br>[]    匹配单字符 -&gt; ‘[JT]im’<br>[^]    反向匹配 -&gt; ‘m[^c]%’<br>也可以使用REGEX()函数匹配正则</p>
+<h3 id="查询所有同学的学号，姓名，选课书，总成绩">查询所有同学的学号，姓名，选课书，总成绩</h3><pre><code>select s<span class="class">.sid</span>, s<span class="class">.sname</span>, <span class="function"><span class="title">count</span><span class="params">(sc.id)</span></span>, <span class="function"><span class="title">sum</span><span class="params">(sc.score)</span></span>
+from student as s, sc
+where s<span class="class">.sid</span> = sc<span class="class">.sid</span>
+group by sc.sid
+</code></pre><p>使用左连接：<br>    select s.sid, s.sname, count(sc.id), sum(sc.score)<br>    from student as s left join sc on s.sid = sc.sid<br>    group by s.sid</p>
+<h4 id="内连接，外连接，左连接，右连接">内连接，外连接，左连接，右连接</h4><ul>
+<li>内连接 inner join = join 两边有匹配才选择</li>
+<li>外连接<ul>
+<li>左连接 left join 左边都选择</li>
+<li>右连接 right join 右边都选择</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;get_where(&#39;&#34920;&#21517;&#39;,&#39;&#20851;&#32852;&#25968;&#32452;&#26465;&#20214;&#39;)</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>单表查询多个限定条件，链式查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;select(&#39;title&#39;)-&#62;from(&#39;mytable&#39;)-&#62;where(&#39;id&#39;, $id)-&#62;limit(10, 20);&#10;$query  = $this-&#62;db-&#62;get();</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>多表查询</p>
-</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this -&#62;db-&#62;query($sql,$data)&#10;$sql   = &#34;SELECT * FROM some_table WHERE id = ? AND status = ? AND author = ?&#34;;&#10;$query = $this-&#62;admin-&#62;query($sql, array($id, $status, $author));</span><br></pre></td></tr></table></figure>
-<h5 id="增">增</h5><p>可以向函数传递 数组 或一个 对象。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$bool = $this-&#62;db-&#62;insert(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;);&#10;$data = array(&#10;               &#39;title&#39; =&#62; &#39;My title&#39; ,&#10;               &#39;name&#39; =&#62; &#39;My Name&#39; ,&#10;               &#39;date&#39; =&#62; &#39;My date&#39;&#10;            );&#10;$this-&#62;db-&#62;insert(&#39;mytable&#39;, $data); &#10;// Produces: INSERT INTO mytable (title, name, date) VALUES (&#39;My title&#39;, &#39;My name&#39;, &#39;My date&#39;)</span><br></pre></td></tr></table></figure>
-<h5 id="改">改</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$bool=$this-&#62;db-&#62;update(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;,&#26465;&#20214;);&#10;&#10;$data = array(&#10;               &#39;title&#39; =&#62; $title,&#10;               &#39;name&#39; =&#62; $name,&#10;               &#39;date&#39; =&#62; $date&#10;            );&#10;&#10;$this-&#62;db-&#62;where(&#39;id&#39;, $id);&#10;$this-&#62;db-&#62;update(&#39;mytable&#39;, $data);</span><br></pre></td></tr></table></figure>
-<p>或</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;update(&#39;mytable&#39;, $data, array(&#39;id&#39; =&#62; $id));</span><br></pre></td></tr></table></figure>
-<h5 id="删">删</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$bool =$this-&#62;db-&#62;delete(&#39;&#34920;&#21517;&#39;,&#26465;&#20214;)</span><br></pre></td></tr></table></figure>
+<h3 id="查询没学过叶平老师课的学生的学生，姓名">查询没学过叶平老师课的学生的学生，姓名</h3><pre><code>select st<span class="class">.sid</span>, st<span class="class">.sname</span>
+from student as st
+where st<span class="class">.sid</span> not <span class="keyword">in</span>
+(select s<span class="class">.sid</span>
+from sc, course as c, teacher as t
+where sc<span class="class">.cid</span> = c<span class="class">.cid</span> and c<span class="class">.tid</span> = t<span class="class">.tid</span> and t<span class="class">.tname</span> = <span class="string">'叶平'</span>)
+</code></pre><p><strong>子查询，not in取反</strong></p>
+<h3 id="查询所有课程成绩小于60分的同学的学号姓名">查询所有课程成绩小于60分的同学的学号姓名</h3><pre><code>select s<span class="class">.sid</span>,s<span class="class">.sname</span>
+from student as s
+where s<span class="class">.sid</span> not <span class="keyword">in</span>
+(select sc<span class="class">.sid</span>
+from sc
+where sc<span class="class">.score</span> &gt;= <span class="number">60</span>)
+</code></pre><h3 id="查询每门课程平均成绩，结果按平均成绩升序，平均成绩相同按课程号降序">查询每门课程平均成绩，结果按平均成绩升序，平均成绩相同按课程号降序</h3><pre><code>select avg(<span class="keyword">sc</span>.sccore)
+from <span class="keyword">sc</span>
+group <span class="keyword">by</span> <span class="keyword">sc</span>.cid
+<span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">sc</span>. avg(<span class="keyword">sc</span>.<span class="keyword">score</span>) asc, <span class="keyword">sc</span>.cid <span class="keyword">desc</span>
+</code></pre><p><strong>排序，升序，降序</strong></p>
+<h3 id="查询任何一门课程成绩在70分以上的姓名，课程名，分数">查询任何一门课程成绩在70分以上的姓名，课程名，分数</h3><pre><code><span class="type">SELECT</span> <span class="keyword">distinct</span> s.sid,s.sname
+<span class="type">FROM</span> student <span class="keyword">as</span> s,sc
+where s.sid = sc.sid <span class="keyword">and</span> sc.score &gt; <span class="number">70</span>
+</code></pre><p><strong>distinct去重</strong></p>
+<h3 id="查找001课程第三高的学生学号">查找001课程第三高的学生学号</h3><pre><code>select top 1 sid
+from
+(select top 3 <span class="keyword">sc</span>.sid, <span class="keyword">sc</span>.<span class="keyword">score</span>
+from <span class="keyword">sc</span>
+where <span class="keyword">sc</span>.cid = '001'
+<span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">sc</span>.<span class="keyword">score</span> <span class="keyword">desc</span>
+)
+<span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">score</span> asc
+</code></pre><h4 id="查询第n高">查询第n高</h4><p>先降序排取前n个，后升序排取第一个。</p>
 
       
     </div>
@@ -212,9 +285,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/CodeIgniter/"> #CodeIgniter </a>
-          
-            <a href="/tags/PHP/"> #PHP </a>
+            <a href="/tags/数据库/"> #数据库 </a>
           
         </div>
       
@@ -223,13 +294,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/03/17/电脑鼠的回忆/">电脑鼠的回忆</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014/10/28/CodeIgniter笔记/">CodeIgniter笔记</a>
+              <a href="/2015/10/12/找工作总结-设计模式/">设计模式</a>
             
           </div>
         </div>
@@ -245,8 +314,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2014/10/28/CodeIgniter笔记之数据库访问/"
-               data-title="CodeIgniter笔记之数据库访问" data-url="http://rudy-zhang.me/2014/10/28/CodeIgniter笔记之数据库访问/">
+          <div class="ds-thread" data-thread-key="2015/10/12/找工作总结-SQL语句/"
+               data-title="SQL语句" data-url="http://rudy-zhang.me/2015/10/12/找工作总结-SQL语句/">
           </div>
         
       </div>
@@ -341,7 +410,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#修改配置文件"><span class="nav-number">1.</span> <span class="nav-text">修改配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#装载"><span class="nav-number">2.</span> <span class="nav-text">装载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询"><span class="nav-number">3.</span> <span class="nav-text">查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参数绑定"><span class="nav-number">4.</span> <span class="nav-text">参数绑定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#db的自动加载"><span class="nav-number">5.</span> <span class="nav-text">db的自动加载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CI的AR模型_Active_Record"><span class="nav-number">6.</span> <span class="nav-text">CI的AR模型 Active Record</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#配置"><span class="nav-number">6.1.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#操作"><span class="nav-number">6.2.</span> <span class="nav-text">操作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#连贯操作"><span class="nav-number">6.3.</span> <span class="nav-text">连贯操作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#复杂的查询使用参数绑定"><span class="nav-number">6.4.</span> <span class="nav-text">复杂的查询使用参数绑定</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据库查询结果"><span class="nav-number">7.</span> <span class="nav-text">数据库查询结果</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#result()"><span class="nav-number">7.1.</span> <span class="nav-text">result()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#判断结果集的条目数"><span class="nav-number">7.2.</span> <span class="nav-text">判断结果集的条目数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#result_array()"><span class="nav-number">7.3.</span> <span class="nav-text">result_array()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#row()"><span class="nav-number">7.4.</span> <span class="nav-text">row()</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结，CI中的增删改查"><span class="nav-number">8.</span> <span class="nav-text">总结，CI中的增删改查</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#查"><span class="nav-number">8.1.</span> <span class="nav-text">查</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#增"><span class="nav-number">8.2.</span> <span class="nav-text">增</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#改"><span class="nav-number">8.3.</span> <span class="nav-text">改</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#删"><span class="nav-number">8.4.</span> <span class="nav-text">删</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#表结构"><span class="nav-number">1.</span> <span class="nav-text">表结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#增删改操作"><span class="nav-number">2.</span> <span class="nav-text">增删改操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#建表"><span class="nav-number">2.1.</span> <span class="nav-text">建表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插入"><span class="nav-number">2.2.</span> <span class="nav-text">插入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改"><span class="nav-number">2.3.</span> <span class="nav-text">修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除"><span class="nav-number">2.4.</span> <span class="nav-text">删除</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询"><span class="nav-number">3.</span> <span class="nav-text">查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查询”001”课程比”002”课程成绩高的所有学生的学号"><span class="nav-number">3.1.</span> <span class="nav-text">查询”001”课程比”002”课程成绩高的所有学生的学号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询平均成绩大于60分的同学的学号和平均成绩"><span class="nav-number">3.2.</span> <span class="nav-text">查询平均成绩大于60分的同学的学号和平均成绩</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sql中的分组"><span class="nav-number">3.2.1.</span> <span class="nav-text">sql中的分组</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询姓李的老师的个数"><span class="nav-number">3.3.</span> <span class="nav-text">查询姓李的老师的个数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sql中的通配符"><span class="nav-number">3.3.1.</span> <span class="nav-text">sql中的通配符</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询所有同学的学号，姓名，选课书，总成绩"><span class="nav-number">3.4.</span> <span class="nav-text">查询所有同学的学号，姓名，选课书，总成绩</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#内连接，外连接，左连接，右连接"><span class="nav-number">3.4.1.</span> <span class="nav-text">内连接，外连接，左连接，右连接</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询没学过叶平老师课的学生的学生，姓名"><span class="nav-number">3.5.</span> <span class="nav-text">查询没学过叶平老师课的学生的学生，姓名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询所有课程成绩小于60分的同学的学号姓名"><span class="nav-number">3.6.</span> <span class="nav-text">查询所有课程成绩小于60分的同学的学号姓名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询每门课程平均成绩，结果按平均成绩升序，平均成绩相同按课程号降序"><span class="nav-number">3.7.</span> <span class="nav-text">查询每门课程平均成绩，结果按平均成绩升序，平均成绩相同按课程号降序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询任何一门课程成绩在70分以上的姓名，课程名，分数"><span class="nav-number">3.8.</span> <span class="nav-text">查询任何一门课程成绩在70分以上的姓名，课程名，分数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找001课程第三高的学生学号"><span class="nav-number">3.9.</span> <span class="nav-text">查找001课程第三高的学生学号</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#查询第n高"><span class="nav-number">3.9.1.</span> <span class="nav-text">查询第n高</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

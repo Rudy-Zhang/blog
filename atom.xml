@@ -4,7 +4,7 @@
   <subtitle><![CDATA[seize the day]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://rudy-zhang.me/"/>
-  <updated>2015-10-12T11:02:29.482Z</updated>
+  <updated>2015-10-12T13:34:51.444Z</updated>
   <id>http://rudy-zhang.me/</id>
   
   <author>
@@ -13,6 +13,141 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[SQL语句]]></title>
+    <link href="http://rudy-zhang.me/2015/10/12/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-SQL%E8%AF%AD%E5%8F%A5/"/>
+    <id>http://rudy-zhang.me/2015/10/12/找工作总结-SQL语句/</id>
+    <published>2015-10-12T11:00:00.000Z</published>
+    <updated>2015-10-12T13:34:51.444Z</updated>
+    <content type="html"><![CDATA[<h2 id="表结构">表结构</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">student</th>
+<th style="text-align:left">sc</th>
+<th style="text-align:left">course</th>
+<th style="text-align:left">tesacher</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">sid</td>
+<td style="text-align:left">sid</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">-</td>
+<td>tname</td>
+</tr>
+<tr>
+<td style="text-align:left">sname</td>
+<td style="text-align:left">cid</td>
+<td style="text-align:left">cid</td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left">sage</td>
+<td style="text-align:left">score</td>
+<td style="text-align:left">cname</td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left">ssex</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">tid</td>
+<td style="text-align:left">tid</td>
+</tr>
+</tbody>
+</table>
+<h2 id="增删改操作">增删改操作</h2><h3 id="建表">建表</h3><pre><code>create <span class="tag">table</span> student(
+    sid <span class="function"><span class="title">varchar</span><span class="params">(<span class="number">20</span>)</span></span>,
+    sname <span class="function"><span class="title">varchar</span><span class="params">(<span class="number">20</span>)</span></span>,
+    sage number,
+    ssex <span class="function"><span class="title">varchar</span><span class="params">(<span class="number">20</span>)</span></span>
+)
+</code></pre><h3 id="插入">插入</h3><pre><code>insert into <span class="function"><span class="title">student</span><span class="params">(sid, sname, sage, ssex)</span></span>
+    <span class="function"><span class="title">values</span><span class="params">(<span class="string">'001'</span>, <span class="string">'kangyue'</span>, <span class="number">29</span>, <span class="string">'male'</span>)</span></span>
+</code></pre><h3 id="修改">修改</h3><pre><code><span class="keyword">update</span> <span class="keyword">sc</span>
+<span class="keyword">set</span> <span class="keyword">sc</span>.<span class="keyword">score</span> = '60'
+where <span class="keyword">sc</span>.sid = '001'
+</code></pre><h3 id="删除">删除</h3><p>删除叶平老师的sc记录</p>
+<pre><code>delete sc
+from sc, teacher as t, course as c
+where sc<span class="class">.cid</span> = c<span class="class">.cid</span> and t<span class="class">.tid</span> = c<span class="class">.tid</span> and t<span class="class">.tname</span> = <span class="string">'叶平'</span>
+</code></pre><h2 id="查询">查询</h2><h3 id="查询”001”课程比”002”课程成绩高的所有学生的学号">查询”001”课程比”002”课程成绩高的所有学生的学号</h3><pre><code>select s<span class="class">.sid</span>
+from 
+(select sid,score from sc where sc<span class="class">.cid</span> = <span class="string">'001'</span>) as <span class="tag">a</span>,
+(select sid,score from sc where sc<span class="class">.cid</span> = <span class="string">'002'</span>) as <span class="tag">b</span>
+where <span class="tag">a</span><span class="class">.sid</span> = <span class="tag">b</span><span class="class">.sid</span>  and <span class="tag">a</span><span class="class">.score</span> &gt; <span class="tag">b</span>.score
+</code></pre><h3 id="查询平均成绩大于60分的同学的学号和平均成绩">查询平均成绩大于60分的同学的学号和平均成绩</h3><pre><code>select sc<span class="class">.sid</span>, <span class="function"><span class="title">avg</span><span class="params">(sc.age)</span></span>
+from sc
+group by sc<span class="class">.sid</span> 
+having <span class="function"><span class="title">avg</span><span class="params">(sc.score)</span></span> &gt; <span class="number">60</span>
+</code></pre><h4 id="sql中的分组">sql中的分组</h4><ul>
+<li>where 对分组前的属性进行筛选</li>
+<li>having<br>对分组后的属性进行筛选<br>使用聚合函数判断<br>不是用group by默认整个表为一组</li>
+</ul>
+<h3 id="查询姓李的老师的个数">查询姓李的老师的个数</h3><pre><code><span class="operator"><span class="keyword">select</span> <span class="keyword">count</span>(t.tid)
+<span class="keyword">from</span> teacher <span class="keyword">as</span> t
+<span class="keyword">where</span> t.tname <span class="keyword">like</span> <span class="string">"李%"</span></span>
+</code></pre><h4 id="sql中的通配符">sql中的通配符</h4><p>_    匹配单字符-&gt; ‘_im’ 匹配 Tim Jim<br>%    匹配一个或多个字符 -&gt; ‘李%’<br>[]    匹配单字符 -&gt; ‘[JT]im’<br>[^]    反向匹配 -&gt; ‘m[^c]%’<br>也可以使用REGEX()函数匹配正则</p>
+<h3 id="查询所有同学的学号，姓名，选课书，总成绩">查询所有同学的学号，姓名，选课书，总成绩</h3><pre><code>select s<span class="class">.sid</span>, s<span class="class">.sname</span>, <span class="function"><span class="title">count</span><span class="params">(sc.id)</span></span>, <span class="function"><span class="title">sum</span><span class="params">(sc.score)</span></span>
+from student as s, sc
+where s<span class="class">.sid</span> = sc<span class="class">.sid</span>
+group by sc.sid
+</code></pre><p>使用左连接：<br>    select s.sid, s.sname, count(sc.id), sum(sc.score)<br>    from student as s left join sc on s.sid = sc.sid<br>    group by s.sid</p>
+<h4 id="内连接，外连接，左连接，右连接">内连接，外连接，左连接，右连接</h4><ul>
+<li>内连接 inner join = join 两边有匹配才选择</li>
+<li>外连接<ul>
+<li>左连接 left join 左边都选择</li>
+<li>右连接 right join 右边都选择</li>
+</ul>
+</li>
+</ul>
+<h3 id="查询没学过叶平老师课的学生的学生，姓名">查询没学过叶平老师课的学生的学生，姓名</h3><pre><code>select st<span class="class">.sid</span>, st<span class="class">.sname</span>
+from student as st
+where st<span class="class">.sid</span> not <span class="keyword">in</span>
+(select s<span class="class">.sid</span>
+from sc, course as c, teacher as t
+where sc<span class="class">.cid</span> = c<span class="class">.cid</span> and c<span class="class">.tid</span> = t<span class="class">.tid</span> and t<span class="class">.tname</span> = <span class="string">'叶平'</span>)
+</code></pre><p><strong>子查询，not in取反</strong></p>
+<h3 id="查询所有课程成绩小于60分的同学的学号姓名">查询所有课程成绩小于60分的同学的学号姓名</h3><pre><code>select s<span class="class">.sid</span>,s<span class="class">.sname</span>
+from student as s
+where s<span class="class">.sid</span> not <span class="keyword">in</span>
+(select sc<span class="class">.sid</span>
+from sc
+where sc<span class="class">.score</span> &gt;= <span class="number">60</span>)
+</code></pre><h3 id="查询每门课程平均成绩，结果按平均成绩升序，平均成绩相同按课程号降序">查询每门课程平均成绩，结果按平均成绩升序，平均成绩相同按课程号降序</h3><pre><code>select avg(<span class="keyword">sc</span>.sccore)
+from <span class="keyword">sc</span>
+group <span class="keyword">by</span> <span class="keyword">sc</span>.cid
+<span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">sc</span>. avg(<span class="keyword">sc</span>.<span class="keyword">score</span>) asc, <span class="keyword">sc</span>.cid <span class="keyword">desc</span>
+</code></pre><p><strong>排序，升序，降序</strong></p>
+<h3 id="查询任何一门课程成绩在70分以上的姓名，课程名，分数">查询任何一门课程成绩在70分以上的姓名，课程名，分数</h3><pre><code><span class="type">SELECT</span> <span class="keyword">distinct</span> s.sid,s.sname
+<span class="type">FROM</span> student <span class="keyword">as</span> s,sc
+where s.sid = sc.sid <span class="keyword">and</span> sc.score &gt; <span class="number">70</span>
+</code></pre><p><strong>distinct去重</strong></p>
+<h3 id="查找001课程第三高的学生学号">查找001课程第三高的学生学号</h3><pre><code>select top 1 sid
+from
+(select top 3 <span class="keyword">sc</span>.sid, <span class="keyword">sc</span>.<span class="keyword">score</span>
+from <span class="keyword">sc</span>
+where <span class="keyword">sc</span>.cid = '001'
+<span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">sc</span>.<span class="keyword">score</span> <span class="keyword">desc</span>
+)
+<span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">score</span> asc
+</code></pre><h4 id="查询第n高">查询第n高</h4><p>先降序排取前n个，后升序排取第一个。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="表结构">表结构</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">student</th>
+<th style="text-align:left">sc</th>
+<th style="text-align]]>
+    </summary>
+    
+      <category term="数据库" scheme="http://rudy-zhang.me/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[设计模式]]></title>
@@ -2107,6 +2242,140 @@ public:
   </entry>
   
   <entry>
+    <title><![CDATA[数组专题-数组中出现的次数]]></title>
+    <link href="http://rudy-zhang.me/2015/09/27/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E6%95%B0%E7%BB%84%E4%B8%93%E9%A2%98-%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0/"/>
+    <id>http://rudy-zhang.me/2015/09/27/找工作总结-数组专题-出现次数/</id>
+    <published>2015-09-27T13:56:00.000Z</published>
+    <updated>2015-10-03T02:00:01.358Z</updated>
+    <content type="html"><![CDATA[<h2 id="通用的几种解题思路">通用的几种解题思路</h2><ul>
+<li>使用map记录出现的次数，要求额外增加空间复杂度</li>
+<li>所有数字异或可以消灭掉数组中出现偶数次的数字</li>
+</ul>
+<h3 id="剑指offer51_数组中重复的数字">剑指offer51 数组中重复的数字</h3><h4 id="问题描述">问题描述</h4><p>在一个长度为n的数组里的所有数字都在0到n-1的范围内。 数组中某些数字是重复的，但不知道有几个数字是重复的。也不知道每个数字重复几次。请找出数组中任意一个重复的数字。 例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出是重复的数字2或者3。</p>
+<h4 id="解法">解法</h4><ul>
+<li>排序后扫描，时间复杂度nlogn，空间复杂度O(1)</li>
+<li>使用map记录，时间复杂度O(n)，空间复杂度O(n)</li>
+</ul>
+<h4 id="注意点">注意点</h4><ul>
+<li>map的遍历<br><code>map&lt;int, int&gt;::iterator iter;</code><br><code>iter-&gt;first</code> <code>iter-&gt;second</code></li>
+</ul>
+<h4 id="代码">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="function"><span class="keyword">bool</span> <span class="title">duplicate</span><span class="params">(<span class="keyword">int</span> numbers[], <span class="keyword">int</span> length, <span class="keyword">int</span>* duplication)</span> </span>{
+        <span class="keyword">if</span>(length &lt;= <span class="number">1</span>)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; dict;
+        <span class="keyword">bool</span> ans = <span class="keyword">false</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++)
+        {
+            <span class="keyword">if</span>(dict.count(numbers[i]) == <span class="number">0</span>)
+                dict[numbers[i]] = <span class="number">1</span>;
+            <span class="keyword">else</span>{
+                dict[numbers[i]] += <span class="number">1</span>;
+                ans = <span class="keyword">true</span>;
+            }
+        }
+        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;::iterator iter;
+        <span class="keyword">for</span>(iter = dict.begin();iter != dict.end();iter++)
+        {
+            <span class="keyword">if</span>(iter-&gt;second &gt; <span class="number">1</span>)
+            {
+                *duplication = iter-&gt;first;
+                duplication++;
+            }
+        }
+        <span class="keyword">return</span> ans;
+    }
+};
+</code></pre><h3 id="剑指offer29_数组中出现次数超过一半的数字">剑指offer29 数组中出现次数超过一半的数字</h3><h4 id="问题描述-1">问题描述</h4><p>数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。由于数字2在数组中出现了5次，超过数组长度的一半，因此输出2。</p>
+<h4 id="解法-1">解法</h4><ul>
+<li>使用快排partition函数，扫描一遍数组中间元素就是出现超过一半的数字</li>
+<li>使用time记录数字出现的次数，cur记录当前数字</li>
+</ul>
+<h4 id="注意点-1">注意点</h4><ul>
+<li>使用解法2需要判断最后的次数是否真的大于一半，如果不是，返回特定值</li>
+</ul>
+<h4 id="代码-1">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="keyword">int</span> MoreThanHalfNum_Solution(vector&lt;<span class="keyword">int</span>&gt; numbers) {
+        <span class="keyword">if</span>(numbers.<span class="keyword">size</span>() == <span class="number">0</span>) 
+            <span class="keyword">return</span> <span class="number">0</span>;
+        <span class="keyword">int</span> time = <span class="number">1</span>;
+        <span class="keyword">int</span> cur = numbers[<span class="number">0</span>];
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; numbers.<span class="keyword">size</span>(); i++)
+        {
+            <span class="keyword">if</span>(time == <span class="number">0</span>)
+            {
+                cur = numbers[i];
+                time = <span class="number">1</span>;
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(numbers[i] == cur)
+                time++;
+            <span class="keyword">else</span>
+                time--;
+        }
+        <span class="keyword">int</span> <span class="keyword">count</span> = <span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;numbers.<span class="keyword">size</span>(); i++)
+        {
+            <span class="keyword">if</span>(numbers[i] == cur)
+                <span class="keyword">count</span>++;
+        }
+        <span class="keyword">if</span>(<span class="keyword">count</span> * <span class="number">2</span> &gt; numbers.<span class="keyword">size</span>())
+            <span class="keyword">return</span> cur;
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> <span class="number">0</span>;
+    }
+};
+</code></pre><h3 id="剑指offer40_数组中只出现一次的数字">剑指offer40 数组中只出现一次的数字</h3><h4 id="问题描述-2">问题描述</h4><p>一个整型数组里除了两个数字之外，其他的数字都出现了两次。请写程序找出这两个只出现一次的数字。</p>
+<h4 id="解法-2">解法</h4><ul>
+<li>对于只有一个数字出现一次，对所有数字做异或操作</li>
+<li>有两个数字a,b出现了一次，其它出现偶数次。所有数字异或得temp = a^b，使用result做spliter，每一个数字和temp做与操作，把数组分成两组</li>
+</ul>
+<h4 id="注意点-2">注意点</h4><ul>
+<li>与或非的操作符优先级</li>
+</ul>
+<h4 id="代码-2">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    void FindNumsAppearOnce(vector&lt;<span class="built_in">int</span>&gt; <span class="type">data</span>,<span class="built_in">int</span>* num1,<span class="built_in">int</span> *num2) {
+        <span class="keyword">if</span>(<span class="type">data</span>.<span class="built_in">size</span>() &lt;= <span class="number">1</span>)
+        {
+            *num1 = <span class="number">0</span>;
+            *num2 = <span class="number">0</span>;
+            <span class="keyword">return</span> ;
+        }
+        <span class="built_in">int</span> temp = <span class="number">0</span>;
+        for(<span class="built_in">int</span> i = <span class="number">0</span>;i &lt;<span class="type">data</span>.<span class="built_in">size</span>(); i++)
+            temp ^= <span class="type">data</span>[i];
+
+        <span class="built_in">int</span> a = <span class="number">0</span>, b = <span class="number">0</span>;
+        for(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="type">data</span>.<span class="built_in">size</span>(); i++)
+        {
+            <span class="keyword">if</span>((<span class="type">data</span>[i] &amp; temp) == <span class="number">0</span>)
+                a ^= <span class="type">data</span>[i];
+            <span class="keyword">else</span>
+                b ^= <span class="type">data</span>[i];
+
+        }
+        *num1 = a;
+        *num2 = b;
+    }
+};
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="通用的几种解题思路">通用的几种解题思路</h2><ul>
+<li>使用map记录出现的次数，要求额外增加空间复杂度</li>
+<li>所有数字异或可以消灭掉数组中出现偶数次的数字</li>
+</ul>
+<h3 id="剑指offer51_数组中重复的数字">剑指]]>
+    </summary>
+    
+      <category term="数组" scheme="http://rudy-zhang.me/tags/%E6%95%B0%E7%BB%84/"/>
+    
+      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[数组专题-一般题目]]></title>
     <link href="http://rudy-zhang.me/2015/09/27/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E6%95%B0%E7%BB%84%E4%B8%93%E9%A2%98-%E4%B8%80%E8%88%AC%E9%A2%98%E7%9B%AE/"/>
     <id>http://rudy-zhang.me/2015/09/27/找工作总结-数组专题-一般题目/</id>
@@ -2887,140 +3156,6 @@ public:
     </summary>
     
       <category term="两个指针" scheme="http://rudy-zhang.me/tags/%E4%B8%A4%E4%B8%AA%E6%8C%87%E9%92%88/"/>
-    
-      <category term="数组" scheme="http://rudy-zhang.me/tags/%E6%95%B0%E7%BB%84/"/>
-    
-      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[数组专题-数组中出现的次数]]></title>
-    <link href="http://rudy-zhang.me/2015/09/27/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E6%95%B0%E7%BB%84%E4%B8%93%E9%A2%98-%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0/"/>
-    <id>http://rudy-zhang.me/2015/09/27/找工作总结-数组专题-出现次数/</id>
-    <published>2015-09-27T13:56:00.000Z</published>
-    <updated>2015-10-03T02:00:01.358Z</updated>
-    <content type="html"><![CDATA[<h2 id="通用的几种解题思路">通用的几种解题思路</h2><ul>
-<li>使用map记录出现的次数，要求额外增加空间复杂度</li>
-<li>所有数字异或可以消灭掉数组中出现偶数次的数字</li>
-</ul>
-<h3 id="剑指offer51_数组中重复的数字">剑指offer51 数组中重复的数字</h3><h4 id="问题描述">问题描述</h4><p>在一个长度为n的数组里的所有数字都在0到n-1的范围内。 数组中某些数字是重复的，但不知道有几个数字是重复的。也不知道每个数字重复几次。请找出数组中任意一个重复的数字。 例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出是重复的数字2或者3。</p>
-<h4 id="解法">解法</h4><ul>
-<li>排序后扫描，时间复杂度nlogn，空间复杂度O(1)</li>
-<li>使用map记录，时间复杂度O(n)，空间复杂度O(n)</li>
-</ul>
-<h4 id="注意点">注意点</h4><ul>
-<li>map的遍历<br><code>map&lt;int, int&gt;::iterator iter;</code><br><code>iter-&gt;first</code> <code>iter-&gt;second</code></li>
-</ul>
-<h4 id="代码">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="function"><span class="keyword">bool</span> <span class="title">duplicate</span><span class="params">(<span class="keyword">int</span> numbers[], <span class="keyword">int</span> length, <span class="keyword">int</span>* duplication)</span> </span>{
-        <span class="keyword">if</span>(length &lt;= <span class="number">1</span>)
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; dict;
-        <span class="keyword">bool</span> ans = <span class="keyword">false</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++)
-        {
-            <span class="keyword">if</span>(dict.count(numbers[i]) == <span class="number">0</span>)
-                dict[numbers[i]] = <span class="number">1</span>;
-            <span class="keyword">else</span>{
-                dict[numbers[i]] += <span class="number">1</span>;
-                ans = <span class="keyword">true</span>;
-            }
-        }
-        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;::iterator iter;
-        <span class="keyword">for</span>(iter = dict.begin();iter != dict.end();iter++)
-        {
-            <span class="keyword">if</span>(iter-&gt;second &gt; <span class="number">1</span>)
-            {
-                *duplication = iter-&gt;first;
-                duplication++;
-            }
-        }
-        <span class="keyword">return</span> ans;
-    }
-};
-</code></pre><h3 id="剑指offer29_数组中出现次数超过一半的数字">剑指offer29 数组中出现次数超过一半的数字</h3><h4 id="问题描述-1">问题描述</h4><p>数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。由于数字2在数组中出现了5次，超过数组长度的一半，因此输出2。</p>
-<h4 id="解法-1">解法</h4><ul>
-<li>使用快排partition函数，扫描一遍数组中间元素就是出现超过一半的数字</li>
-<li>使用time记录数字出现的次数，cur记录当前数字</li>
-</ul>
-<h4 id="注意点-1">注意点</h4><ul>
-<li>使用解法2需要判断最后的次数是否真的大于一半，如果不是，返回特定值</li>
-</ul>
-<h4 id="代码-1">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="keyword">int</span> MoreThanHalfNum_Solution(vector&lt;<span class="keyword">int</span>&gt; numbers) {
-        <span class="keyword">if</span>(numbers.<span class="keyword">size</span>() == <span class="number">0</span>) 
-            <span class="keyword">return</span> <span class="number">0</span>;
-        <span class="keyword">int</span> time = <span class="number">1</span>;
-        <span class="keyword">int</span> cur = numbers[<span class="number">0</span>];
-        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; numbers.<span class="keyword">size</span>(); i++)
-        {
-            <span class="keyword">if</span>(time == <span class="number">0</span>)
-            {
-                cur = numbers[i];
-                time = <span class="number">1</span>;
-            }
-            <span class="keyword">else</span> <span class="keyword">if</span>(numbers[i] == cur)
-                time++;
-            <span class="keyword">else</span>
-                time--;
-        }
-        <span class="keyword">int</span> <span class="keyword">count</span> = <span class="number">0</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;numbers.<span class="keyword">size</span>(); i++)
-        {
-            <span class="keyword">if</span>(numbers[i] == cur)
-                <span class="keyword">count</span>++;
-        }
-        <span class="keyword">if</span>(<span class="keyword">count</span> * <span class="number">2</span> &gt; numbers.<span class="keyword">size</span>())
-            <span class="keyword">return</span> cur;
-        <span class="keyword">else</span>
-            <span class="keyword">return</span> <span class="number">0</span>;
-    }
-};
-</code></pre><h3 id="剑指offer40_数组中只出现一次的数字">剑指offer40 数组中只出现一次的数字</h3><h4 id="问题描述-2">问题描述</h4><p>一个整型数组里除了两个数字之外，其他的数字都出现了两次。请写程序找出这两个只出现一次的数字。</p>
-<h4 id="解法-2">解法</h4><ul>
-<li>对于只有一个数字出现一次，对所有数字做异或操作</li>
-<li>有两个数字a,b出现了一次，其它出现偶数次。所有数字异或得temp = a^b，使用result做spliter，每一个数字和temp做与操作，把数组分成两组</li>
-</ul>
-<h4 id="注意点-2">注意点</h4><ul>
-<li>与或非的操作符优先级</li>
-</ul>
-<h4 id="代码-2">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    void FindNumsAppearOnce(vector&lt;<span class="built_in">int</span>&gt; <span class="type">data</span>,<span class="built_in">int</span>* num1,<span class="built_in">int</span> *num2) {
-        <span class="keyword">if</span>(<span class="type">data</span>.<span class="built_in">size</span>() &lt;= <span class="number">1</span>)
-        {
-            *num1 = <span class="number">0</span>;
-            *num2 = <span class="number">0</span>;
-            <span class="keyword">return</span> ;
-        }
-        <span class="built_in">int</span> temp = <span class="number">0</span>;
-        for(<span class="built_in">int</span> i = <span class="number">0</span>;i &lt;<span class="type">data</span>.<span class="built_in">size</span>(); i++)
-            temp ^= <span class="type">data</span>[i];
-
-        <span class="built_in">int</span> a = <span class="number">0</span>, b = <span class="number">0</span>;
-        for(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="type">data</span>.<span class="built_in">size</span>(); i++)
-        {
-            <span class="keyword">if</span>((<span class="type">data</span>[i] &amp; temp) == <span class="number">0</span>)
-                a ^= <span class="type">data</span>[i];
-            <span class="keyword">else</span>
-                b ^= <span class="type">data</span>[i];
-
-        }
-        *num1 = a;
-        *num2 = b;
-    }
-};
-</code></pre>]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="通用的几种解题思路">通用的几种解题思路</h2><ul>
-<li>使用map记录出现的次数，要求额外增加空间复杂度</li>
-<li>所有数字异或可以消灭掉数组中出现偶数次的数字</li>
-</ul>
-<h3 id="剑指offer51_数组中重复的数字">剑指]]>
-    </summary>
     
       <category term="数组" scheme="http://rudy-zhang.me/tags/%E6%95%B0%E7%BB%84/"/>
     
@@ -4217,104 +4352,6 @@ END{
       <category term="正则表达式" scheme="http://rudy-zhang.me/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
     
       <category term="linux" scheme="http://rudy-zhang.me/categories/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Hadoop Streaming学习文档]]></title>
-    <link href="http://rudy-zhang.me/2015/05/24/HadoopStreaming/"/>
-    <id>http://rudy-zhang.me/2015/05/24/HadoopStreaming/</id>
-    <published>2015-05-24T01:30:00.000Z</published>
-    <updated>2015-05-24T08:54:56.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="Hadoop_Streaming是什么">Hadoop Streaming是什么</h2><p>Hadoop MapReduce和HDFS使用Java实现，默认是Java接口，另外提供了C++编程接口和Streaming框架。</p>
-<p>Streaming框架允许任何程序语言实现的程序（只要该程序支持标准输入输出即可），在Hadoop MapReduce中使用，方便已有程序向Hadoop平台移植。</p>
-<h2 id="Streaming原理">Streaming原理</h2><p>使用Java实现了一个包装<strong>用户程序</strong>（mapper，reducer方法）的MapReduce程序，该程序调用MapReduce的Java接口，创建一个<strong>新的进程</strong>包装用户程序，将数据通过<strong>管道</strong>传递给包装的用户程序。</p>
-<p><img src="http://i.imgur.com/dlebclb.jpg" alt=""></p>
-<h2 id="考虑的问题">考虑的问题</h2><p>在实际的开发过程中，开发人员需要考虑下面几个方面的问题，其中1,2是必须实现的：</p>
-<ol>
-<li>Mapper程序：对输入key/value数据进行处理；</li>
-<li>Reducer程序：对mapper的输出进行归并处理；</li>
-<li>Combiner：在本地对一个计算节点上的mapper输出进行归并；</li>
-<li>Partitioner：将mapper的输出分配到reducer；（Map的中间结果通常用”hash(key) mod R”这个结果作为标准）</li>
-<li>InputFormat/OutputFormat：对输入数据进行切分，保存输出数据。</li>
-</ol>
-<h2 id="执行">执行</h2><pre><code><span class="variable">$HADOOP_HOME</span>/bin/hadoop streaming \
-    -<span class="tag">input</span> /user/test/<span class="tag">input</span> -output /user/test/output \
-    -mapper “cat” \
-    -reducer “cat” \
-    -jobconf mapred<span class="class">.reduce</span><span class="class">.tasks</span>=<span class="number">1</span>\
-    -jobconf mapred<span class="class">.job</span><span class="class">.name</span>=”dist-sort”
-</code></pre><p>这是一个实现了分布式排序的程序。可以通过shell脚本，shell命令，或者其它语言的<strong>可执行程序</strong>来进行mapper和reducer程序的运行</p>
-<h2 id="常用参数的使用">常用参数的使用</h2><p>例1：</p>
-<pre><code><span class="variable">$hadoop</span> streaming \
-    -D stream<span class="class">.num</span><span class="class">.map</span><span class="class">.output</span><span class="class">.key</span><span class="class">.fields</span>=<span class="number">2</span> \
-    -D mapred<span class="class">.job</span><span class="class">.name</span>=<span class="string">"jobname"</span> \
-    -D mapred<span class="class">.job</span><span class="class">.priority</span>=VERY_HIGH \
-    -D mapred<span class="class">.job</span><span class="class">.map</span><span class="class">.capacity</span>=<span class="number">500</span> \
-    -D mapred<span class="class">.job</span><span class="class">.reduce</span><span class="class">.capacity</span>=<span class="number">300</span> \
-    -D mapred<span class="class">.map</span><span class="class">.tasks</span>=<span class="number">500</span> \
-    -D mapred<span class="class">.reduce</span><span class="class">.tasks</span>=<span class="number">300</span> \
-    -mapper <span class="string">"Python/bin/python $app/mapper.py"</span> \
-    -reducer <span class="string">"Python/bin/python $app/reducer.py"</span> \
-    -<span class="tag">input</span> <span class="variable">$input</span> \
-    -output <span class="variable">$output</span> \
-    -cacheArchive <span class="variable">$archive</span>
-</code></pre><p>-D表示配置参数，剩余项是和输入输出相关的文件和可执行程序</p>
-<p><code>-D mapred.job.name=&quot;jobname&quot; \</code>,作业名</p>
-<p><code>-D mapred.job.priority=VERY_HIGH \</code> 作业优先级</p>
-<p><code>-D mapred.job.map.capacity=500 \</code>,最多同时运行map任务数</p>
-<p><code>-D mapred.job.reduce.capacity=300 \</code>最多同时运行reduce任务数</p>
-<p><code>-D mapred.map.tasks=500 \</code>,map任务个数</p>
-<p><code>-D mapred.reduce.tasks=300 \</code>,reduce任务个数</p>
-<p>capacity是同时运行任务的个数，tasks是运行任务的总的个数，一般task更大，capacity是同时运行任务的上限</p>
-<p><code>-D stream.num.map.output.key.fields=2 \</code>,表示在第2个分隔符（默认为\t）之前作为key，之后作为value，也可以使用参数<code>-D stream.map.output.field.separator=. \</code>指定分隔符为’.’或者其它字符。</p>
-<p><code>-mapper &quot;Python/bin/python $app/mapper.py&quot; \</code>指定map任务，需要可执行，读入标准输入流，输出标准输出流</p>
-<p><code>-reducer &quot;Python/bin/python $app/reducer.py&quot; \</code>指定reducer任务</p>
-<p><code>-input $input \</code>指定输入文件</p>
-<p><code>-output $output \</code>指定输出文件</p>
-<p><code>-cacheArchive $archive</code>分发压缩包。<code>$archive</code>格式为<code>hdfs://host:port/path/to/archivefile#linkname</code>，表示hdfs上这个压缩包的路径为<code>hdfs://host:port/path/to/archivefile</code>,可以使用<code>linkname/children/path</code>访问这个压缩包的内容</p>
-<p>例2：</p>
-<pre><code><span class="variable">$hadoop</span> streaming \
-    -D stream<span class="class">.num</span><span class="class">.map</span><span class="class">.output</span><span class="class">.key</span><span class="class">.fields</span>=<span class="number">3</span> \
-    -D mapred<span class="class">.text</span><span class="class">.key</span><span class="class">.partitioner</span><span class="class">.options</span>=<span class="string">"-k1,1"</span> \
-    -D mapred<span class="class">.text</span><span class="class">.key</span><span class="class">.comparator</span><span class="class">.options</span>=<span class="string">"-k1,1 -k3,3nr"</span> \
-    -D mapred<span class="class">.job</span><span class="class">.name</span>=<span class="string">"jobname"</span> \
-    -D mapred<span class="class">.job</span><span class="class">.priority</span>=VERY_HIGH \
-    -D mapred<span class="class">.job</span><span class="class">.map</span><span class="class">.capacity</span>=<span class="number">500</span> \
-    -D mapred<span class="class">.job</span><span class="class">.reduce</span><span class="class">.capacity</span>=<span class="number">300</span> \
-    -D mapred<span class="class">.map</span><span class="class">.tasks</span>=<span class="number">500</span> \
-    -D mapred<span class="class">.reduce</span><span class="class">.tasks</span>=<span class="number">300</span> \
-    -mapper <span class="string">"cat"</span> \
-    -reducer <span class="string">"cat"</span> \
-    -<span class="tag">input</span> <span class="variable">$input</span> \
-    -output <span class="variable">$output</span> \
-    -cacheArchive <span class="variable">$archives</span>
-</code></pre><p><code>-D mapred.text.key.partitioner.options=&quot;-k1,1&quot; \</code>表示对key进行分割，分割符默认为\t，取分割后的1,1部分作为主key，剩下的作为辅key</p>
-<p><code>-D mapred.text.key.comparator.options=&quot;-k1,1 -k3,3nr&quot; \</code>指定排序依据，主key按第一部分排字母序，辅key按第三部分数字序倒序排</p>
-<p>例3：</p>
-<pre><code><span class="variable">$HADOOP_HOME</span>/bin/hadoop streaming \
-    -D stream<span class="class">.map</span><span class="class">.output</span><span class="class">.field</span><span class="class">.separator</span>=. \
-    -D stream<span class="class">.num</span><span class="class">.map</span><span class="class">.output</span><span class="class">.key</span><span class="class">.fields</span>=<span class="number">4</span> \
-    -D map<span class="class">.output</span><span class="class">.key</span><span class="class">.field</span><span class="class">.separator</span>=. \
-    -D num<span class="class">.key</span><span class="class">.fields</span><span class="class">.for</span><span class="class">.partition</span>=<span class="number">2</span> \ 
-    -<span class="tag">input</span> /user/test/<span class="tag">input</span> -output /user/test/output \
-    -mapper “mymapper.sh” -reducer “ myreducer.sh” \
-    -partitioner org<span class="class">.apache</span><span class="class">.hadoop</span><span class="class">.mapred</span><span class="class">.lib</span><span class="class">.KeyFieldBasedPartitioner</span> \
-    -file /home/work/mymapper<span class="class">.sh</span> \
-    -file /home/work/myreducer<span class="class">.sh</span> \
-    -jobconf mapred<span class="class">.job</span><span class="class">.name</span>=”jobname”
-</code></pre><p><code>-D stream.map.output.field.separator=. \</code><br><code>-D stream.num.map.output.key.fields=4 \</code><br>表示输出分隔符为’.’，并且第4个.之后为value，之前为key</p>
-<p><code>-D map.output.key.field.separator=. \</code><br><code>-D num.key.fields.for.partition=2 \</code><br>表示key内的分隔符为’.’，第2个’.’之前作为主key，之后作为辅key</p>
-<p><code>-partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner \</code>指定要使用KeyFieldBasedPartitioner，也就是key域内的partioner。这样的话会把主key的内容作为partition的依据，相同的主key分配到同一个reducer中。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="Hadoop_Streaming是什么">Hadoop Streaming是什么</h2><p>Hadoop MapReduce和HDFS使用Java实现，默认是Java接口，另外提供了C++编程接口和Streaming框架。</p>
-<p>Streaming框架]]>
-    </summary>
-    
-      <category term="Hadoop" scheme="http://rudy-zhang.me/tags/Hadoop/"/>
-    
-      <category term="Hadoop" scheme="http://rudy-zhang.me/categories/Hadoop/"/>
     
   </entry>
   
