@@ -123,6 +123,106 @@
           
           
             
+              <a class="post-title-link" href="/2015/03/20/ASP.NET MVC之本地化多语言/">
+                ASP.NET MVC之本地化多语言
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-03-20
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/NET/">.NET</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/03/20/ASP.NET MVC之本地化多语言/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/20/ASP.NET MVC之本地化多语言/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="前言">前言</h2><p>使用ASP MVC的本地化多语言解决方案可以方便地让我们把程序中的字符串映射到一个资源文件中，这样便于统一修改，同时只要指定使用不同的语言，就可以瞬间切换资源文件，从而达到灵活修改网站的目的。</p>
+<h2 id="新建资源文件">新建资源文件</h2><p>如图在项目中新建了三个资源文件，一个默认Global.resx,一个是英文Global.en.resx，一个是备份的Global.ar.resx<br><img src="http://ww3.sinaimg.cn/mw690/4c2edcb7jw1eqcfrko5gaj209u07rdg5.jpg" alt="enter image description here"></p>
+<h2 id="修改key-value">修改key-value</h2><p><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eqcfrkznssj20k70cidhq.jpg" alt="enter image description here"></p>
+<h2 id="什么时候使用">什么时候使用</h2><p>ASP.NET MVC 还提供将强类型数据或对象传递到视图模板的能力。便于检查类型错误。<br>使用方法：</p>
+<ul>
+<li>简单独立的数据使用ViewBag</li>
+<li>向前端传递一个大的对象，使用试图模板，便于检查错误</li>
+</ul>
+<h2 id="如何把Key放入到程序当中">如何把Key放入到程序当中</h2><h3 id="在Model中">在Model中</h3><p>对应Display属性使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Display(Name = &#34;UserName&#34;,ResourceType=typeof(Resources.Global))]</span><br></pre></td></tr></table></figure>
+<p>对于ErrorMessage</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Required(ErrorMessageResourceName = &#34;PasswordRequiredMessage&#34;, ErrorMessageResourceType = typeof(Resources.Global))]</span><br></pre></td></tr></table></figure>
+<h3 id="在Controller中">在Controller中</h3><p>一般来说在Controller不出现汉字的字符串，如果使用，可以通过如下方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string myString=HospitalProject.Resources.Global.DoctorName;</span><br></pre></td></tr></table></figure>
+<h3 id="在前端">在前端</h3><p>使用razor表达式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Html.ActionLink(@HospitalProject.Resources.Global.NetworkDiagnosisHome, &#34;Index&#34;, &#34;Home&#34;, routeValues: null, htmlAttributes: new &#123; @class = &#34;navbar-brand&#34; &#125;)</span><br></pre></td></tr></table></figure></p>
+<h2 id="如何指定资源文件">如何指定资源文件</h2><p>在<code>ViewStart.cshtml</code>中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XXXProject.Extensions.CultureHelper.SetCulture(&#34;ar&#34;);</span><br></pre></td></tr></table></figure>
+<h2 id="后记">后记</h2><p>通过本方法可以方便进行网站资源文件的切换，如果需要实现网站同时支持多种语言，使用cookie或者URL route需要进行其他配置。参考：<br><a href="http://jingyan.baidu.com/article/3052f5a1d4410797f31f86f8.html" target="_blank" rel="external">参考1</a><br><a href="http://www.cnblogs.com/xyfy/articles/1970424.html" target="_blank" rel="external">参考2</a><br><a href="http://afana.me/post/aspnet-mvc-internationalization.aspx" target="_blank" rel="external">参考3</a></p>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-MVC/"> #ASP MVC </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/03/20/ASP.NET MVC之Entity Framewrok/">
                 ASP.NET MVC之Entity Framewrok
               </a>
@@ -391,130 +491,6 @@
           
           
             
-              <a class="post-title-link" href="/2014/10/28/CodeIgniter笔记之数据库访问/">
-                CodeIgniter笔记之数据库访问
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-10-27
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/web开发/">web开发</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/10/28/CodeIgniter笔记之数据库访问/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/28/CodeIgniter笔记之数据库访问/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h4 id="修改配置文件">修改配置文件</h4><p><code>application/config/database.php</code></p>
-<h4 id="装载">装载</h4><p>将数据库访问对象，装载到超级对象属性中 $this-&gt;load-&gt;database();</p>
-<h4 id="查询">查询</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res-&#62;$this-&#62;db-&#62;query($sql) //&#36820;&#22238;&#26597;&#35810;&#32467;&#26524;&#23545;&#35937;&#23545;&#35937;&#10;$res-&#62;result() ;// &#36820;&#22238;&#25968;&#32452;&#65292;&#25968;&#32452;&#20013;&#26159;&#19968;&#20010;&#20010;&#23545;&#35937;&#10;$res-&#62;result_array(); // &#36820;&#22238;&#20108;&#32500;&#25968;&#32452;&#65292;&#37324;&#38754;&#26159;&#20851;&#32852;&#25968;&#32452;&#10;$res-&#62;row(); // &#36820;&#22238;&#31532;&#19968;&#26465;&#25968;&#25454;</span><br></pre></td></tr></table></figure>
-<h4 id="参数绑定">参数绑定</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&#34;select * from blog_user where name=?&#34;;&#10;$this-&#62;db-&#62;query($sql,$name); // &#22914;&#26524;&#26377;&#22810;&#20010;&#21442;&#25968;&#65288;&#38382;&#21495;&#65289;&#65292;&#38656;&#35201;&#20351;&#29992;&#32034;&#24341;&#25968;&#32452;</span><br></pre></td></tr></table></figure>
-<h4 id="db的自动加载">db的自动加载</h4><p>配置自动加载db <code>application/config/autoload.php</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$autoload[&#39;libaraied&#39;] = array(&#39;database&#39;); // &#23601;&#19981;&#38656;&#35201;$this-&#62;load-&#62;database();</span><br></pre></td></tr></table></figure></p>
-<h4 id="CI的AR模型_Active_Record">CI的AR模型 Active Record</h4><h5 id="配置">配置</h5><p><code>applicaion/config/database.php</code> 设置<code>$active_record = TRUE</code></p>
-<h5 id="操作">操作</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res=$this-&#62;db-&#62;get(&#39;&#34920;&#21517;&#39;); // &#36820;&#22238;&#32467;&#26524;&#23545;&#35937;&#10;$res-&#62;result();&#10;$bool = $this-&#62;db-&#62;insert(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;);&#10;$bool=$this-&#62;db-&#62;update(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;,&#26465;&#20214;);&#10;$bool=$this-&#62;db-&#62;delete(&#39;&#34920;&#21517;&#39;,&#26465;&#20214;)</span><br></pre></td></tr></table></figure>
-<h5 id="连贯操作">连贯操作</h5><p>模拟sql语句</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res=$this-&#62;db-&#62;select(&#39;id,name&#39;)-&#62;from(&#39;user&#39;)-&#62;where(&#39;id&#62;=3&#39;);</span><br></pre></td></tr></table></figure>
-<p>使用where</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res=$this-&#62;db-&#62;where(&#39;name&#39;,&#39;mary&#39;)-&#62;get(&#39;user&#39;);</span><br></pre></td></tr></table></figure>
-<h5 id="复杂的查询使用参数绑定">复杂的查询使用参数绑定</h5><p><code>$this-&gt;db-&gt;query($sql,$data)</code></p>
-<h4 id="数据库查询结果">数据库查询结果</h4><h5 id="result()">result()</h5><p>方法执行成功返回一个对象数组，失败则返回一个空数组。<br>例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$query = $this-&#62;db-&#62;query(&#34;&#35201;&#25191;&#34892;&#30340; SQL&#34;);&#10;&#10;foreach ($query-&#62;result() as $row)&#10;&#123;&#10;   echo $row-&#62;title;&#10;   echo $row-&#62;name;&#10;   echo $row-&#62;body;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="判断结果集的条目数">判断结果集的条目数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if ($query-&#62;num_rows() &#62; 0)</span><br></pre></td></tr></table></figure>
-<h5 id="result_array()">result_array()</h5><p>该方法执行成功时将记录集作为关联数组返回。失败时返回空数组。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$query = $this-&#62;db-&#62;query(&#34;&#35201;&#25191;&#34892;&#30340; SQL&#34;);&#10;&#10;foreach ($query-&#62;result_array() as $row)&#10;&#123;&#10;   echo $row[&#39;title&#39;];&#10;   echo $row[&#39;name&#39;];&#10;   echo $row[&#39;body&#39;];&#10;&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="row()">row()</h5><p>该函数将当前请求的第一行数据作为 object 返回。</p>
-<h4 id="总结，CI中的增删改查">总结，CI中的增删改查</h4><h5 id="查">查</h5><ul>
-<li>得到一个表</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;get(&#39;&#34920;&#21517;&#39;)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>单个表条件查询</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;get_where(&#39;&#34920;&#21517;&#39;,&#39;&#20851;&#32852;&#25968;&#32452;&#26465;&#20214;&#39;)</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>单表查询多个限定条件，链式查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;select(&#39;title&#39;)-&#62;from(&#39;mytable&#39;)-&#62;where(&#39;id&#39;, $id)-&#62;limit(10, 20);&#10;$query  = $this-&#62;db-&#62;get();</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>多表查询</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this -&#62;db-&#62;query($sql,$data)&#10;$sql   = &#34;SELECT * FROM some_table WHERE id = ? AND status = ? AND author = ?&#34;;&#10;$query = $this-&#62;admin-&#62;query($sql, array($id, $status, $author));</span><br></pre></td></tr></table></figure>
-<h5 id="增">增</h5><p>可以向函数传递 数组 或一个 对象。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$bool = $this-&#62;db-&#62;insert(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;);&#10;$data = array(&#10;               &#39;title&#39; =&#62; &#39;My title&#39; ,&#10;               &#39;name&#39; =&#62; &#39;My Name&#39; ,&#10;               &#39;date&#39; =&#62; &#39;My date&#39;&#10;            );&#10;$this-&#62;db-&#62;insert(&#39;mytable&#39;, $data); &#10;// Produces: INSERT INTO mytable (title, name, date) VALUES (&#39;My title&#39;, &#39;My name&#39;, &#39;My date&#39;)</span><br></pre></td></tr></table></figure>
-<h5 id="改">改</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$bool=$this-&#62;db-&#62;update(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;,&#26465;&#20214;);&#10;&#10;$data = array(&#10;               &#39;title&#39; =&#62; $title,&#10;               &#39;name&#39; =&#62; $name,&#10;               &#39;date&#39; =&#62; $date&#10;            );&#10;&#10;$this-&#62;db-&#62;where(&#39;id&#39;, $id);&#10;$this-&#62;db-&#62;update(&#39;mytable&#39;, $data);</span><br></pre></td></tr></table></figure>
-<p>或</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;update(&#39;mytable&#39;, $data, array(&#39;id&#39; =&#62; $id));</span><br></pre></td></tr></table></figure>
-<h5 id="删">删</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$bool =$this-&#62;db-&#62;delete(&#39;&#34920;&#21517;&#39;,&#26465;&#20214;)</span><br></pre></td></tr></table></figure>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/CodeIgniter/"> #CodeIgniter </a>
-          
-            <a href="/tags/PHP/"> #PHP </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
               <a class="post-title-link" href="/2014/10/28/CodeIgniter笔记/">
                 CodeIgniter笔记
               </a>
@@ -612,6 +588,130 @@
 <h4 id="验证">验证</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;form_validation-&#62;set_rules(&#39;&#39;,&#39;&#39;,&#39;&#39;);&#10;$bool=$this-&#62;form_validation-&#62;run();</span><br></pre></td></tr></table></figure>
 <p>前台验证使用js，后台验证使用表单验证类</p>
 <h4 id="输出错误">输出错误</h4><p><code>form_error(&#39;name&#39;,&#39;&lt;span&gt;&#39;,&#39;&lt;/span&gt;&#39;)</code><br><code>echo validation_error()</code>直接输出所有结果（推荐使用）</p>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CodeIgniter/"> #CodeIgniter </a>
+          
+            <a href="/tags/PHP/"> #PHP </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/10/28/CodeIgniter笔记之数据库访问/">
+                CodeIgniter笔记之数据库访问
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-10-27
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/web开发/">web开发</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/10/28/CodeIgniter笔记之数据库访问/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/28/CodeIgniter笔记之数据库访问/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h4 id="修改配置文件">修改配置文件</h4><p><code>application/config/database.php</code></p>
+<h4 id="装载">装载</h4><p>将数据库访问对象，装载到超级对象属性中 $this-&gt;load-&gt;database();</p>
+<h4 id="查询">查询</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res-&#62;$this-&#62;db-&#62;query($sql) //&#36820;&#22238;&#26597;&#35810;&#32467;&#26524;&#23545;&#35937;&#23545;&#35937;&#10;$res-&#62;result() ;// &#36820;&#22238;&#25968;&#32452;&#65292;&#25968;&#32452;&#20013;&#26159;&#19968;&#20010;&#20010;&#23545;&#35937;&#10;$res-&#62;result_array(); // &#36820;&#22238;&#20108;&#32500;&#25968;&#32452;&#65292;&#37324;&#38754;&#26159;&#20851;&#32852;&#25968;&#32452;&#10;$res-&#62;row(); // &#36820;&#22238;&#31532;&#19968;&#26465;&#25968;&#25454;</span><br></pre></td></tr></table></figure>
+<h4 id="参数绑定">参数绑定</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&#34;select * from blog_user where name=?&#34;;&#10;$this-&#62;db-&#62;query($sql,$name); // &#22914;&#26524;&#26377;&#22810;&#20010;&#21442;&#25968;&#65288;&#38382;&#21495;&#65289;&#65292;&#38656;&#35201;&#20351;&#29992;&#32034;&#24341;&#25968;&#32452;</span><br></pre></td></tr></table></figure>
+<h4 id="db的自动加载">db的自动加载</h4><p>配置自动加载db <code>application/config/autoload.php</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$autoload[&#39;libaraied&#39;] = array(&#39;database&#39;); // &#23601;&#19981;&#38656;&#35201;$this-&#62;load-&#62;database();</span><br></pre></td></tr></table></figure></p>
+<h4 id="CI的AR模型_Active_Record">CI的AR模型 Active Record</h4><h5 id="配置">配置</h5><p><code>applicaion/config/database.php</code> 设置<code>$active_record = TRUE</code></p>
+<h5 id="操作">操作</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res=$this-&#62;db-&#62;get(&#39;&#34920;&#21517;&#39;); // &#36820;&#22238;&#32467;&#26524;&#23545;&#35937;&#10;$res-&#62;result();&#10;$bool = $this-&#62;db-&#62;insert(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;);&#10;$bool=$this-&#62;db-&#62;update(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;,&#26465;&#20214;);&#10;$bool=$this-&#62;db-&#62;delete(&#39;&#34920;&#21517;&#39;,&#26465;&#20214;)</span><br></pre></td></tr></table></figure>
+<h5 id="连贯操作">连贯操作</h5><p>模拟sql语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res=$this-&#62;db-&#62;select(&#39;id,name&#39;)-&#62;from(&#39;user&#39;)-&#62;where(&#39;id&#62;=3&#39;);</span><br></pre></td></tr></table></figure>
+<p>使用where</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res=$this-&#62;db-&#62;where(&#39;name&#39;,&#39;mary&#39;)-&#62;get(&#39;user&#39;);</span><br></pre></td></tr></table></figure>
+<h5 id="复杂的查询使用参数绑定">复杂的查询使用参数绑定</h5><p><code>$this-&gt;db-&gt;query($sql,$data)</code></p>
+<h4 id="数据库查询结果">数据库查询结果</h4><h5 id="result()">result()</h5><p>方法执行成功返回一个对象数组，失败则返回一个空数组。<br>例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$query = $this-&#62;db-&#62;query(&#34;&#35201;&#25191;&#34892;&#30340; SQL&#34;);&#10;&#10;foreach ($query-&#62;result() as $row)&#10;&#123;&#10;   echo $row-&#62;title;&#10;   echo $row-&#62;name;&#10;   echo $row-&#62;body;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="判断结果集的条目数">判断结果集的条目数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if ($query-&#62;num_rows() &#62; 0)</span><br></pre></td></tr></table></figure>
+<h5 id="result_array()">result_array()</h5><p>该方法执行成功时将记录集作为关联数组返回。失败时返回空数组。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$query = $this-&#62;db-&#62;query(&#34;&#35201;&#25191;&#34892;&#30340; SQL&#34;);&#10;&#10;foreach ($query-&#62;result_array() as $row)&#10;&#123;&#10;   echo $row[&#39;title&#39;];&#10;   echo $row[&#39;name&#39;];&#10;   echo $row[&#39;body&#39;];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="row()">row()</h5><p>该函数将当前请求的第一行数据作为 object 返回。</p>
+<h4 id="总结，CI中的增删改查">总结，CI中的增删改查</h4><h5 id="查">查</h5><ul>
+<li>得到一个表</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;get(&#39;&#34920;&#21517;&#39;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>单个表条件查询</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;get_where(&#39;&#34920;&#21517;&#39;,&#39;&#20851;&#32852;&#25968;&#32452;&#26465;&#20214;&#39;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>单表查询多个限定条件，链式查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;select(&#39;title&#39;)-&#62;from(&#39;mytable&#39;)-&#62;where(&#39;id&#39;, $id)-&#62;limit(10, 20);&#10;$query  = $this-&#62;db-&#62;get();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>多表查询</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this -&#62;db-&#62;query($sql,$data)&#10;$sql   = &#34;SELECT * FROM some_table WHERE id = ? AND status = ? AND author = ?&#34;;&#10;$query = $this-&#62;admin-&#62;query($sql, array($id, $status, $author));</span><br></pre></td></tr></table></figure>
+<h5 id="增">增</h5><p>可以向函数传递 数组 或一个 对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$bool = $this-&#62;db-&#62;insert(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;);&#10;$data = array(&#10;               &#39;title&#39; =&#62; &#39;My title&#39; ,&#10;               &#39;name&#39; =&#62; &#39;My Name&#39; ,&#10;               &#39;date&#39; =&#62; &#39;My date&#39;&#10;            );&#10;$this-&#62;db-&#62;insert(&#39;mytable&#39;, $data); &#10;// Produces: INSERT INTO mytable (title, name, date) VALUES (&#39;My title&#39;, &#39;My name&#39;, &#39;My date&#39;)</span><br></pre></td></tr></table></figure>
+<h5 id="改">改</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$bool=$this-&#62;db-&#62;update(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;,&#26465;&#20214;);&#10;&#10;$data = array(&#10;               &#39;title&#39; =&#62; $title,&#10;               &#39;name&#39; =&#62; $name,&#10;               &#39;date&#39; =&#62; $date&#10;            );&#10;&#10;$this-&#62;db-&#62;where(&#39;id&#39;, $id);&#10;$this-&#62;db-&#62;update(&#39;mytable&#39;, $data);</span><br></pre></td></tr></table></figure>
+<p>或</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;update(&#39;mytable&#39;, $data, array(&#39;id&#39; =&#62; $id));</span><br></pre></td></tr></table></figure>
+<h5 id="删">删</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$bool =$this-&#62;db-&#62;delete(&#39;&#34920;&#21517;&#39;,&#26465;&#20214;)</span><br></pre></td></tr></table></figure>
 
         
       
@@ -1141,140 +1241,6 @@
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/25/如何阅读一篇论文/">
-                如何阅读一篇论文
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-03-25
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/杂七杂八/">杂七杂八</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/25/如何阅读一篇论文/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/25/如何阅读一篇论文/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="前言">前言</h2><p>翻译自ACM Fellow，加拿大滑铁卢大学计算机系教授Srinivasan Keshav的一个简单的三步论文阅读法：</p>
-<blockquote>
-<p>How to Read a Paper<br>August 2, 2013<br>S. Keshav<br>David R. Cheriton School of Computer Science, University of Waterloo<br>Waterloo, ON, Canada<br>keshav@uwaterloo.ca</p>
-</blockquote>
-<p>原文地址:<a href="http://www-users.cselabs.umn.edu/classes/Spring-2014/csci8211/Papers/Misc%20How%20to%20Read%20a%20Paper.pdf" target="_blank" rel="external">How to read a paper</a></p>
-<h2 id="第一遍">第一遍</h2><h3 id="目的">目的</h3><p>第一遍目的是快速浏览对文章有个整体印象，这样你可以决定是不是进行更深次的阅读。</p>
-<h3 id="时间">时间</h3><p><strong>5-10min</strong></p>
-<h3 id="步骤">步骤</h3><ol>
-<li><p>认真阅读：<strong>题目、摘要、简介</strong>(introduction)</p>
-</li>
-<li><p>读章节和子章节的<strong>标题</strong>，忽略其他部分</p>
-</li>
-<li><p>浏览<strong>数学</strong>内容，来确定基本的理论基础</p>
-</li>
-<li><p>阅读<strong>结论</strong></p>
-</li>
-<li><p>浏览<strong>引用</strong>，剔除那些已经阅读过的</p>
-</li>
-</ol>
-<h3 id="完成后">完成后</h3><p>可以回答下面5个问题：</p>
-<ol>
-<li><p><strong>类别</strong>(category):文章的类型是什么？实验测量的论文？已经存在的系统分析？一个设计原型的介绍？</p>
-</li>
-<li><p><strong>内容</strong>(context):这篇论文是和什么相关的？使用什么理论基础来分析这个问题？</p>
-</li>
-<li><p><strong>正确性</strong>(correctness):假设是合理的吗</p>
-</li>
-<li><p><strong>贡献</strong>(contribution):</p>
-</li>
-<li><p><strong>清晰度</strong>(clarity):文章写得好不好</p>
-</li>
-</ol>
-<h3 id="总结">总结</h3><p>使用这个信息，你就可以决定是否深入阅读(打印出来)。也许你对这篇文章不感兴趣，也许因为你对这个领域了解的还不够多以至于你不能看懂这篇论文，也许作者的假设不合理。<strong>第一遍足够来判定，那些看起来和你研究领域相关的论文，究竟是不是属于你的研究领域。</strong></p>
-<p>同样，当你写论文的时候，大部分的审稿人和读者只像这样读一遍你的论文。认真选择章节名称，写出简洁全面的摘要。如果审稿人一遍不能明白论文的主旨(gist)，论文就很可能被拒了。如果读者一遍不能看到论文的亮点(highlight)，很可能读者就不会读这篇论文了。</p>
-<h2 id="第二遍">第二遍</h2><h3 id="目的-1">目的</h3><p>第二遍要更认真的读，但是忽略如证明的细节。这样便于<strong>草记下关键点</strong>，或者在论文边上写下评论。Dominik Grusemann说，“记下你不懂的内容，或者想问作者的问题”。如果你作为一个论文的审稿人，当你写review的时候这些内容会帮助你，作为委员会议上review的备份。</p>
-<h3 id="时间-1">时间</h3><p>时间：有经验的论文阅读者需要花费一个小时左右。</p>
-<h3 id="步骤-1">步骤</h3><ol>
-<li><p>仔细看<strong>图</strong>，和<strong>图表</strong>，和其它论文中的插画。对于图要特别进行关注。坐标轴是否正确标注？结果的柱形图是否错误？得到的结果是否在统计学上是正确的？这样常见的错误可以区分仓促的假的工作和真的好的工作。</p>
-</li>
-<li><p>记得<strong>标注</strong>相关的但是没阅读的的<strong>引用</strong>，作为扩展阅读。</p>
-</li>
-</ol>
-<h3 id="总结-1">总结</h3><p>这遍之后需要能够抓住论文的内容。你需要<strong>能够使用论文中的依据，概括论文的主要观点，介绍给读者</strong>。如果你对一个论文感兴趣，但是这个论文不是你研究的特殊领域，达到这个级别的细节比较合适。</p>
-<p>有时，即使你读了两遍，你仍然看不懂这个文章。这也许是因为这个课题对你来说比较新，有很多不懂的术语和缩写，或者作者使用了你不懂的结论或者实验技术。也许是论文写得不好，使用了很多未证明的断言和引用。你可以选择(a)把论文放一边，也许在你的领域你不用完全理解他。(b)在读了论文的背景材料之后，再把论文拿回来读(c)继续坚持读第三遍。</p>
-<h2 id="第三遍">第三遍</h2><h3 id="目的-2">目的</h3><p>为了完全理解这个论文，特别是如果你是评审的话，需要进行第三遍阅读。</p>
-<h3 id="步骤-2">步骤</h3><p>第三边阅读的关键点是<strong>几乎重新实现</strong>这个论文：使用作者使用的假设，重新进行工作。通过比较重新实现和原来的论文，你可以很容易地鉴别，论文的创新点，甚至论文隐藏的失败和假设。</p>
-<p>这遍需要对细节强烈的关注。你应该鉴别并且挑战每一句话中的假设。此外，你应该<strong>自己提出一个特定的观点与原来论文中的观点进行比较</strong>。这个比较会使得你对于论文证明和论文结果有深刻的洞见。读这遍的过程中，你还可以<strong>草草写下自己将来工作的观点</strong>。</p>
-<h3 id="时间-2">时间</h3><p>这遍对于初学者来说会花费很长时间，对于有经验的研究者也需要<strong>一个或者两个小时以上</strong>。这遍的最后，你应该能够通过记忆重建论文全部的架构，并且能够甄别论文的优势和弱点。你也要能够指出论文中隐含的假设，缺少的相关的引用，和实验和分析技术中潜在的问题。</p>
-<h2 id="如何做一个领域的调研">如何做一个领域的调研</h2><p>论文阅读的技巧可以用来实践，进行一个文献调研。</p>
-<p>这要求你阅读很多论文，也许是一个不熟悉的领域。应该阅读哪些论文来完成调研？论文三遍阅读法隆重登场。</p>
-<ol>
-<li><p>首先使用一个文献搜索网站如谷歌学术搜索，使用适当的关键词进行搜索，去查找三到五篇这个领域内引用数很高的文章。每篇文章读一遍，对文章有个初步的认识，然后阅读这些文章相关的工作内容(引用)。你会发现一个很小的最近工作(recent work)的概括，并且如果你足够幸运你会发现本文指向了一个最近的survey(概述，调研)。如果你能找到这种survey，工作就结束了，可以开始阅读这个survey了。</p>
-</li>
-<li><p>如果没有找到survey需要进行下一步，找到这些文章共同引用的文章，或者作者的名字。这些就是这个领域的关键论文和研究者。下载这些关键的论文收好。然后去网站搜索这些研究者最近发表的论文。这能够帮助你找到这个领域内的顶级会议，因为最好的研究者通常在顶级会议发表文章。</p>
-</li>
-<li><p>第三步就是去这些顶级会议的相关网站来查找他们最近的进展。快速浏览，找到最近相关的高质量的工作。这些论文和哪些你收好的论文，就形成了你对于这个领域最初的survey。这些论文读两遍，如果都引用了之前你没找到的关键论文，寻找这个论文阅读，然后不断迭代。</p>
-</li>
-</ol>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
@@ -1313,7 +1279,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">44</span>
+              <span class="site-state-item-count">45</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

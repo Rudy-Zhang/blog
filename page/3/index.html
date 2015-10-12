@@ -123,6 +123,187 @@
           
           
             
+              <a class="post-title-link" href="/2015/05/26/linux正则表达式和grep/">
+                linux正则表达式和grep
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-05-25
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/linux/">linux</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/05/26/linux正则表达式和grep/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/26/linux正则表达式和grep/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="正则表达式">正则表达式</h2><p>正则表达式描述了一种字符串匹配的模式，常用于：</p>
+<ul>
+<li>grep:从特定的文件中或从标准输入中查找含有某个字符串的行</li>
+<li>sed :从输入中读取信息，经过编辑后输出</li>
+<li>awk: 伪装成实用程序的强大编程语言，主要用于文本处理</li>
+</ul>
+<h3 id="常用符号">常用符号</h3><h4 id="基本元字符">基本元字符</h4><p><code>^</code> 行首定位符，表示以..开始</p>
+<p><code>$</code> 行尾定位符，表示以..结束</p>
+<p><code>.</code>  匹配单个字符</p>
+<p><code>*</code> 匹配0个或任意多个字符</p>
+<p><code>[]</code> 匹配[]中出现字符范围内的一个字符</p>
+<p><code>\</code> 用来转义元字符，如{m,n},启用扩展元字符\? +</p>
+<h4 id="扩展元字符">扩展元字符</h4><p><code>?</code> 匹配0个或者1个</p>
+<p><code>+</code> 匹配1个或者多个</p>
+<p><code>|</code> 或者</p>
+<p><code>()</code>分组符号</p>
+<h4 id="特殊匹配字符">特殊匹配字符</h4><p><code>[:alnum:]</code> 字母与数字字符</p>
+<p><code>[:alpha:]</code> 字母</p>
+<p><code>[:ascii:]</code> ASCII字符</p>
+<p><code>[:blank:]</code> <strong>空格或制表符</strong></p>
+<p><code>[:cntrl:]</code> ASCII控制字符</p>
+<p><code>[:digit:]</code> 数字</p>
+<p><code>[:graph:]</code> 非控制、空格字符</p>
+<p><code>[:lower:]</code> 小写字母</p>
+<p><code>[:print:]</code> 可打印字符</p>
+<p><code>[:punct:]</code> 标点符号字符</p>
+<p><code>[:space:]</code> <strong>空白字符，包括垂直制表符</strong></p>
+<p><code>[:upper:]</code> 大写字母</p>
+<p><code>[:xdigit:]</code> 十六进制数字</p>
+<h3 id="实例">实例</h3><ul>
+<li>^ $<br><code>ls -l | grep ^d</code></li>
+</ul>
+<p>匹配以d开头的所有内容</p>
+<ul>
+<li><code>ls -l | grep d$</code></li>
+</ul>
+<p>匹配以d结束的所有内容</p>
+<ul>
+<li><code>^$</code> </li>
+</ul>
+<p>匹配空行</p>
+<ul>
+<li><code>^.$</code></li>
+</ul>
+<p>只包含一个字符的</p>
+<ul>
+<li><code>* ？ +</code></li>
+</ul>
+<p><code>compu*ter</code> 匹配u，重复0次或多次</p>
+<p><code>compu?ter</code> 匹配0个或者1个u</p>
+<p><code>compu+ter</code> 匹配1个或多个u</p>
+<p><strong>需要注意的是+和？是扩展字符，需要看具体使用正则表达式的环境<br>如果使用grep需要使用-E指定为扩展模式才能正常使用+和？</strong></p>
+<ul>
+<li><code>\</code>可以屏蔽一些特殊字符，如<code>$  .  ‘  “  *  [  ]  ^  |  (  )  \  +  ?</code></li>
+</ul>
+<p><code>\.pass</code>  匹配<code>*.pass</code></p>
+<ul>
+<li><code>[]</code></li>
+</ul>
+<p><code>[1234]</code> 匹配1,2,3,4中的一个</p>
+<p><code>[1-9]</code> 数字1-9中的一个</p>
+<p><code>[A-Za-z]</code> 所有字母</p>
+<p><code>[^0-9]</code> 一个非数字的字符</p>
+<ul>
+<li><code>\{\}</code></li>
+</ul>
+<p><code>A\{2\}B</code>   匹配AAB</p>
+<p><code>A\{4,\}B</code>   匹配A出现至少4次B</p>
+<p><code>A\{2,4\}B</code>  匹配A出现在2至4次之间</p>
+<h2 id="grep">grep</h2><p>功能：grep是文本搜索工具，使用正则表达式搜索文本并打印匹配行</p>
+<p>格式：<code>grep [options] PATTERN [Files]</code></p>
+<p>注：</p>
+<p>输入字符串<strong>作为参数，最好双引号括起</strong>  “mystr”</p>
+<p>在<strong>调用变量时，也使用双引号括起</strong>  “$MYSTR”</p>
+<p>使用<strong>正则[匹配模式]是，应使用单引号括起</strong>  ‘49[32]’</p>
+<p>常用选项：</p>
+<p><code>-c</code> 只输出匹配的行数,而不输出匹配的行</p>
+<p><code>-i</code> 不区分大小写</p>
+<p><code>-n</code> 显示匹配行及行号</p>
+<p><code>-q</code>  安静模式，不输出任何东西，如果找到了返回0</p>
+<p><code>-E</code> 启用扩展表达式，可使用扩展字符，如：+ ? | () {} , 或者直接使用egrep</p>
+<p><code>-v</code> 显示不包含匹配文本的所有行</p>
+<p>实例：</p>
+<ol>
+<li><p>在多个文件中查找<br><code>grep “sort” filea fileb</code>  在filea,fileb中查找</p>
+</li>
+<li><p>计算匹配行数<br><code>grep -c &quot;sort&quot; file</code></p>
+</li>
+<li><p>使用正则表达式查找<br><code>grep &#39;48[34]&#39; file</code></p>
+</li>
+<li><p>使用扩展元字符<br><code>grep -E &#39;aaa|bbb&#39; file</code></p>
+</li>
+<li><p>匹配空行<br><code>grep &#39;^$&#39; file</code></p>
+</li>
+<li><p>特殊匹配字符，grep 允许使用国际字符串模式匹配或匹配模式的类名<br><code>grep ‘5[[:upper:]] [[:upper:]]’</code> data  5开头，两个大写</p>
+</li>
+</ol>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux命令/"> #linux命令 </a>
+          
+            <a href="/tags/正则表达式/"> #正则表达式 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/05/24/HadoopStreaming/">
                 Hadoop Streaming学习文档
               </a>
@@ -1311,106 +1492,6 @@
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/03/20/ASP.NET MVC之本地化多语言/">
-                ASP.NET MVC之本地化多语言
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-03-20
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/NET/">.NET</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/03/20/ASP.NET MVC之本地化多语言/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/20/ASP.NET MVC之本地化多语言/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="前言">前言</h2><p>使用ASP MVC的本地化多语言解决方案可以方便地让我们把程序中的字符串映射到一个资源文件中，这样便于统一修改，同时只要指定使用不同的语言，就可以瞬间切换资源文件，从而达到灵活修改网站的目的。</p>
-<h2 id="新建资源文件">新建资源文件</h2><p>如图在项目中新建了三个资源文件，一个默认Global.resx,一个是英文Global.en.resx，一个是备份的Global.ar.resx<br><img src="http://ww3.sinaimg.cn/mw690/4c2edcb7jw1eqcfrko5gaj209u07rdg5.jpg" alt="enter image description here"></p>
-<h2 id="修改key-value">修改key-value</h2><p><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eqcfrkznssj20k70cidhq.jpg" alt="enter image description here"></p>
-<h2 id="什么时候使用">什么时候使用</h2><p>ASP.NET MVC 还提供将强类型数据或对象传递到视图模板的能力。便于检查类型错误。<br>使用方法：</p>
-<ul>
-<li>简单独立的数据使用ViewBag</li>
-<li>向前端传递一个大的对象，使用试图模板，便于检查错误</li>
-</ul>
-<h2 id="如何把Key放入到程序当中">如何把Key放入到程序当中</h2><h3 id="在Model中">在Model中</h3><p>对应Display属性使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Display(Name = &#34;UserName&#34;,ResourceType=typeof(Resources.Global))]</span><br></pre></td></tr></table></figure>
-<p>对于ErrorMessage</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Required(ErrorMessageResourceName = &#34;PasswordRequiredMessage&#34;, ErrorMessageResourceType = typeof(Resources.Global))]</span><br></pre></td></tr></table></figure>
-<h3 id="在Controller中">在Controller中</h3><p>一般来说在Controller不出现汉字的字符串，如果使用，可以通过如下方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string myString=HospitalProject.Resources.Global.DoctorName;</span><br></pre></td></tr></table></figure>
-<h3 id="在前端">在前端</h3><p>使用razor表达式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Html.ActionLink(@HospitalProject.Resources.Global.NetworkDiagnosisHome, &#34;Index&#34;, &#34;Home&#34;, routeValues: null, htmlAttributes: new &#123; @class = &#34;navbar-brand&#34; &#125;)</span><br></pre></td></tr></table></figure></p>
-<h2 id="如何指定资源文件">如何指定资源文件</h2><p>在<code>ViewStart.cshtml</code>中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XXXProject.Extensions.CultureHelper.SetCulture(&#34;ar&#34;);</span><br></pre></td></tr></table></figure>
-<h2 id="后记">后记</h2><p>通过本方法可以方便进行网站资源文件的切换，如果需要实现网站同时支持多种语言，使用cookie或者URL route需要进行其他配置。参考：<br><a href="http://jingyan.baidu.com/article/3052f5a1d4410797f31f86f8.html" target="_blank" rel="external">参考1</a><br><a href="http://www.cnblogs.com/xyfy/articles/1970424.html" target="_blank" rel="external">参考2</a><br><a href="http://afana.me/post/aspnet-mvc-internationalization.aspx" target="_blank" rel="external">参考3</a></p>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/ASP-MVC/"> #ASP MVC </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
@@ -1449,7 +1530,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">44</span>
+              <span class="site-state-item-count">45</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

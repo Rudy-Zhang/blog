@@ -4,7 +4,7 @@
   <subtitle><![CDATA[seize the day]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://rudy-zhang.me/"/>
-  <updated>2015-10-12T13:34:51.444Z</updated>
+  <updated>2015-10-12T14:46:41.199Z</updated>
   <id>http://rudy-zhang.me/</id>
   
   <author>
@@ -13,6 +13,66 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[正则表达式]]></title>
+    <link href="http://rudy-zhang.me/2015/10/12/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
+    <id>http://rudy-zhang.me/2015/10/12/找工作总结-正则表达式/</id>
+    <published>2015-10-12T13:00:00.000Z</published>
+    <updated>2015-10-12T14:46:41.199Z</updated>
+    <content type="html"><![CDATA[<h2 id="简介">简介</h2><p>描述了一种字符串匹配的模式，常用于：<br>grep:从特定的文件中或从标准输入中查找含有某个字符串的行<br>sed :从输入中读取信息，经过编辑后输出<br>awk: 伪装成实用程序的强大编程语言，主要用于文本处理<br>编程语言：如python</p>
+<h2 id="符号">符号</h2><h3 id="基本符号">基本符号</h3><p><code>^</code> 行首定位符，表示以..开始<br><code>$</code> 行尾定位符，表示以..结束<br><code>.</code> 匹配单个字符<br><code>*</code> 匹配0个或任意多个字符<br><code>[]</code> 匹配[]中出现字符范围内的一个字符<br><code>\</code> 用来转义元字符，如{m,n},启用扩展元字符\? +</p>
+<h3 id="扩展元字符">扩展元字符</h3><p>grep支持基本元字符，通过<code>egrep</code>或者<code>grep -e</code>可以启用扩展元字符。</p>
+<p><code>?</code> 匹配0个或者1个<br><code>+</code> 匹配1个或者多个<br><code>|</code> 或者<br><code>()</code>分组符号<br><code>{i}</code>表示出现了i次，{i,j}表示出现了i到j次</p>
+<p><code>\n</code> 匹配一个换行符。<br><code>\t</code> 匹配一个制表符。<br><code>\d</code> 匹配一个数字，等价于[0-9]<br><code>\D</code> 匹配一个非数字，等价于[^0-9]<br><code>\s</code> 匹配任何<strong>空白字符</strong>，包括空格、制表符、换页符等等。等价于<code>[ \f\n\r\t\v]</code>。<code>[^\s]</code>表示任何非空白字符<br><code>\S</code> 匹配任何非空白字符。等价于[^ \f\n\r\t\v]。</p>
+<p><code>\w</code> 匹配包括下划线的<strong>任何单词</strong>字符。等价于<code>“[A-Za-z0-9_]”</code>。<br><code>\W</code> 匹配任何非单词字符。等价于“[^A-Za-z0-9_]”。[^\w]<br>注意<code>\S</code>比<code>\w</code>包括<code>@#￥</code>等更多特殊字符</p>
+<h2 id="简单实例">简单实例</h2><ul>
+<li><code>^ $</code><pre><code><span class="keyword">ls</span> -<span class="keyword">l</span> | grep ^<span class="keyword">d</span> 匹配以<span class="keyword">d</span>开头的所有内容
+<span class="keyword">ls</span> -<span class="keyword">l</span> | grep <span class="keyword">d</span>$ 匹配以<span class="keyword">d</span>结束的所有内容
+^$ 匹配空行
+^.$只包含一个字符的
+</code></pre></li>
+<li><code>* ？ +</code><pre><code>compu*ter 匹配<span class="keyword">u</span>，重复0次或多次
+compu?ter 匹配0个或者1个<span class="keyword">u</span>
+compu+ter 匹配1个或多个<span class="keyword">u</span>
+</code></pre></li>
+<li><code>\</code><br>可以屏蔽一些特殊字符，如<code>$  .  ‘  “  *  [  ]  ^  |  (  )  \  +  ?</code></li>
+<li><p><code>[]</code></p>
+<pre><code><span class="attr_selector">[1234]</span> 匹配1,2,3,4中的一个
+<span class="attr_selector">[1-9]</span> 数字1<span class="tag">-9</span>中的一个
+<span class="attr_selector">[A-Za-z]</span> 所有字母
+<span class="attr_selector">[^0-9]</span> 一个非数字的字符
+</code></pre></li>
+<li><p><code>{}</code></p>
+<pre><code><span class="literal">A</span>{<span class="number">2</span>}B   匹配AAB
+<span class="literal">A</span>{<span class="number">4</span>,}B   匹配<span class="literal">A</span>出现至少<span class="number">4</span>次B
+<span class="literal">A</span>{<span class="number">2</span>,<span class="number">4</span>}B  匹配<span class="literal">A</span>出现在<span class="number">2</span>至<span class="number">4</span>次之间
+</code></pre></li>
+</ul>
+<h2 id="匹配实例">匹配实例</h2><h3 id="匹配html标签">匹配html标签</h3><pre><code><span class="variable">&lt;(\w*)&gt;</span>.<span class="keyword">*</span>?<span class="variable">&lt;\1&gt;</span>
+</code></pre><p><code>.*</code>贪婪匹配，尽可能匹配多<br><code>.*?</code>最小匹配，尽可能匹配少</p>
+<h3 id="匹配url">匹配url</h3><pre><code>(<span class="keyword">http</span>|<span class="keyword">https</span>|<span class="keyword">ftp</span>)://[\S]*
+</code></pre><h3 id="匹配邮箱">匹配邮箱</h3><pre><code><span class="command">\w</span>+(-+.<span class="command">\w</span>+)*@<span class="command">\w</span>+(-+.<span class="command">\w</span>+)*
+</code></pre><p><strong>注意邮箱中可能存在的.-+</strong></p>
+<h3 id="匹配空行,可能有\t空格等空字符">匹配空行,可能有\t空格等空字符</h3><pre><code>^\s<span class="keyword">*</span>$
+</code></pre><h3 id="匹配国内电话">匹配国内电话</h3><pre><code>\d<span class="list">{3,4}</span>-\d<span class="list">{8}</span>
+</code></pre><h3 id="匹配身份证号">匹配身份证号</h3><pre><code><span class="list">(\d<span class="collection">{<span class="number">15</span>}</span>|\d<span class="collection">{<span class="number">17</span>}</span><span class="list">(\d|x)</span>)</span>
+</code></pre><h3 id="匹配ip地址">匹配ip地址</h3><pre><code><span class="command">\d</span><span class="special">{</span>1,3<span class="special">}</span><span class="command">\.</span><span class="command">\d</span><span class="special">{</span>1,3<span class="special">}</span><span class="command">\.</span><span class="command">\d</span><span class="special">{</span>1,3<span class="special">}</span><span class="command">\.</span><span class="command">\d</span><span class="special">{</span>1,3<span class="special">}</span>
+</code></pre><h2 id="应用">应用</h2><h3 id="在vi中修改参数，foo(a,b,c)的实例改为foo(b,a,c)">在vi中修改参数，foo(a,b,c)的实例改为foo(b,a,c)</h3><pre><code>：s/<span class="function"><span class="title">foo</span><span class="params">(\([^,]*\)</span></span>,\([^,]*\),\([^,]*\))/<span class="function"><span class="title">foo</span><span class="params">(\<span class="number">2</span>,\<span class="number">1</span>,\<span class="number">3</span>)</span></span>/gc
+</code></pre><h3 id="sed中的应用">sed中的应用</h3><p>删除所有空行</p>
+<pre><code>sed <span class="string">'/^$/d'</span> <span class="built_in">test</span>
+</code></pre><h3 id="在awk中应用">在awk中应用</h3><p>打印正则匹配到的部分</p>
+<pre><code><span class="keyword">cat</span> <span class="keyword">test</span> | awk '<span class="label">$2</span>~/ee/{<span class="keyword">print</span>}'
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="简介">简介</h2><p>描述了一种字符串匹配的模式，常用于：<br>grep:从特定的文件中或从标准输入中查找含有某个字符串的行<br>sed :从输入中读取信息，经过编辑后输出<br>awk: 伪装成实用程序的强大编程语言，主要用于文本处理<br>编程语言：]]>
+    </summary>
+    
+      <category term="正则表达式" scheme="http://rudy-zhang.me/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
+    
+      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[SQL语句]]></title>
@@ -2242,6 +2302,440 @@ public:
   </entry>
   
   <entry>
+    <title><![CDATA[数组专题-两个指针]]></title>
+    <link href="http://rudy-zhang.me/2015/09/27/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E6%95%B0%E7%BB%84%E4%B8%93%E9%A2%98-%E4%B8%A4%E4%B8%AA%E6%8C%87%E9%92%88/"/>
+    <id>http://rudy-zhang.me/2015/09/27/找工作总结-数组专题-两个指针/</id>
+    <published>2015-09-27T13:56:00.000Z</published>
+    <updated>2015-10-10T10:59:36.013Z</updated>
+    <content type="html"><![CDATA[<h1 id="通用解题思路">通用解题思路</h1><ul>
+<li>使用快排中的partition函数</li>
+<li>贪心,left++,right-直到相遇</li>
+<li>二分查找，mid = (left + right) / 2</li>
+</ul>
+<h2 id="k-sum问题">k-sum问题</h2><p>k-sum问题解题思路:<br>先对数组进行排序(nlogn)。退化成2-sum问题，使用left,right指针向中间查找。最终把复杂度优化到O(n^(k-1))</p>
+<h3 id="剑指offer41_和为S的两个数字_VS_和为S的连续正数序列">剑指offer41 和为S的两个数字 VS 和为S的连续正数序列</h3><h4 id="问题描述">问题描述</h4><p>输入一个递增排序的数组和一个数字S，在数组中查找两个数，使得他们的和正好是S，如果有多对数字的和等于S，输出两个数的乘积最小的。 </p>
+<h4 id="解法">解法</h4><p>2-sum问题，乘积最小的两个数字就是left和right第一次满足条件的两个数字。</p>
+<h4 id="代码">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    vector&lt;<span class="built_in">int</span> &gt; FindNumbersWithSum(vector&lt;<span class="built_in">int</span>&gt; <span class="built_in">array</span>,<span class="built_in">int</span> sum) {
+        vector&lt;<span class="built_in">int</span>&gt; vec;
+        <span class="keyword">if</span>(<span class="built_in">array</span>.size() == <span class="number">0</span>) return vec;
+        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = <span class="built_in">array</span>.size() - <span class="number">1</span>;
+        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+        {
+            <span class="keyword">if</span>(<span class="built_in">array</span>[<span class="built_in">left</span>] + <span class="built_in">array</span>[<span class="built_in">right</span>] &lt; sum)
+                <span class="built_in">left</span>++;
+            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">array</span>[<span class="built_in">left</span>] + <span class="built_in">array</span>[<span class="built_in">right</span>] &gt; sum)
+                <span class="built_in">right</span>--;
+            <span class="keyword">else</span>
+            {
+                vec.push_back(<span class="built_in">array</span>[<span class="built_in">left</span>]);
+                vec.push_back(<span class="built_in">array</span>[<span class="built_in">right</span>]);
+                return vec;
+            }
+        }
+        return vec;
+    }
+};
+</code></pre><h4 id="问题描述-1">问题描述</h4><p>小明很喜欢数学,有一天他在做数学作业时,要求计算出9~16的和,他马上就写出了正确答案是100。但是他并不满足于此,他在想究竟有多少种连续的正数序列的和为100(至少包括两个数)。没多久,他就得到另一组连续正数和为100的序列:18,19,20,21,22。现在把问题交给你,你能不能也很快的找出所有和为S的连续正数序列? Good Luck! </p>
+<h4 id="解法-1">解法</h4><p>同上，不过比较条件变成。(left+right)(right-left+1)/2</p>
+<h4 id="代码-1">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; FindContinuousSequence(<span class="keyword">int</span> sum) {
+        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; <span class="built_in">list</span>;
+        <span class="keyword">if</span>(sum &lt;= <span class="number">2</span>) <span class="keyword">return</span> <span class="built_in">list</span>;
+        <span class="keyword">int</span> left = <span class="number">1</span>,right = <span class="number">2</span>;
+        <span class="keyword">while</span>(right &lt;= (sum + <span class="number">1</span>) / <span class="number">2</span>)
+        {
+            <span class="keyword">int</span> temp = (left + right) * (right - left + <span class="number">1</span>) / <span class="number">2</span>;
+            <span class="keyword">if</span>(temp &lt; sum)
+                right++;
+            <span class="keyword">else</span> <span class="keyword">if</span>(temp &gt; sum)
+                left++;
+            <span class="keyword">else</span>
+            {
+                <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vec;
+                <span class="keyword">for</span>(<span class="keyword">int</span> i = left; i &lt;= right; i++)
+                    vec.push_back(i);
+                <span class="built_in">list</span>.push_back(vec);
+                right++;
+            }
+        }
+        <span class="keyword">return</span> <span class="built_in">list</span>;
+    }
+};
+</code></pre><h3 id="leetcode18_4Sum">leetcode18 4Sum</h3><h4 id="问题描述-2">问题描述</h4><p>Given an array S of n integers, are there elements a, b, c, and d in S such that a + b + c + d = target? Find all unique quadruplets in the array which gives the sum of target.</p>
+<ul>
+<li>Elements in a quadruplet (a,b,c,d) must be in non-descending order. (ie, a ≤ b ≤ c ≤ d)</li>
+<li><p>The solution set must not contain duplicate quadruplets.</p>
+<pre><code>For example, given<span class="instruction"> array </span>S = {1 0 -1 0 -2 2},<span class="instruction"> and </span>target = 0.
+
+A solution set is:
+(-1,  0, 0, 1<span class="function">)</span>
+(-2, -1, 1, 2<span class="function">)</span>
+(-2,  0, 0, 2<span class="function">)</span>
+</code></pre></li>
+</ul>
+<h4 id="解法-2">解法</h4><p>先排序，退化到2-sum问题。</p>
+<h4 id="注意点">注意点</h4><p>题目要求找出所有满足条件的数组，需要避免重复。</p>
+<h4 id="代码-2">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+public:
+<span class="comment">//思路：K-Sum问题，复杂度降到O(n^(k-1))</span>
+<span class="comment">//注意，不能重复，num个数不够4</span>
+<span class="comment">//去重，left，right去重，i层循环去重，j层循环去重</span>
+    vector&lt;vector&lt;<span class="built_in">int</span>&gt; &gt; fourSum(vector&lt;<span class="built_in">int</span>&gt; &amp;<span class="built_in">num</span>, <span class="built_in">int</span> target) {
+        sort(<span class="built_in">num</span>.begin(), <span class="built_in">num</span>.end());
+        vector&lt;vector&lt;<span class="built_in">int</span>&gt;&gt; list;
+        <span class="keyword">if</span>(<span class="built_in">num</span>.size() &lt; <span class="number">4</span>) 
+            <span class="keyword">return</span> list;
+        <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">num</span>.size()-<span class="number">3</span>; i++)
+        {
+            <span class="keyword">for</span>(<span class="built_in">int</span> j = i + <span class="number">1</span>; j &lt; <span class="built_in">num</span>.size()- <span class="number">2</span>; j++)
+            {
+                <span class="built_in">int</span> left = j + <span class="number">1</span>, right = <span class="built_in">num</span>.size() - <span class="number">1</span>;
+                <span class="keyword">while</span>(left &lt; right)
+                {
+                    <span class="built_in">int</span> sum = <span class="built_in">num</span>[i]+<span class="built_in">num</span>[j]+<span class="built_in">num</span>[left]+<span class="built_in">num</span>[right];
+                    <span class="keyword">if</span>(sum &lt; target)
+                        left++;
+                    <span class="keyword">else</span> <span class="keyword">if</span>(sum &gt; target)
+                        right--;
+                    <span class="keyword">else</span>
+                    {
+                        vector&lt;<span class="built_in">int</span>&gt; vec;
+                        vec.push_back(<span class="built_in">num</span>[i]);
+                        vec.push_back(<span class="built_in">num</span>[j]);
+                        vec.push_back(<span class="built_in">num</span>[left]);
+                        vec.push_back(<span class="built_in">num</span>[right]);
+                        list.push_back(vec);
+                        left++;
+                        right--; 
+                        <span class="keyword">while</span>(left &lt; right &amp;&amp; <span class="built_in">num</span>[left] == <span class="built_in">num</span>[left - <span class="number">1</span>]) 
+                            left++;
+                        <span class="keyword">while</span>(left &lt; right &amp;&amp; <span class="built_in">num</span>[right] == <span class="built_in">num</span>[right + <span class="number">1</span>]) 
+                            right--;
+                    }
+                }
+                <span class="keyword">while</span>(j + <span class="number">1</span> &lt; <span class="built_in">num</span>.size() - <span class="number">2</span> &amp;&amp; <span class="built_in">num</span>[j] == <span class="built_in">num</span>[j + <span class="number">1</span>]) 
+                    j++;
+            }
+            <span class="keyword">while</span>(i + <span class="number">1</span> &lt; <span class="built_in">num</span>.size() - <span class="number">3</span> &amp;&amp; <span class="built_in">num</span>[i] == <span class="built_in">num</span>[i+<span class="number">1</span>]) 
+                i++;
+        }
+        <span class="keyword">return</span> list;
+    }
+};
+</code></pre><h2 id="二分查找问题">二分查找问题</h2><p>二分查找通用解题思路，left=头指针，right=尾指针，mid=(left+right)/2，通过条件判断，移动left和right最终使得left和right相遇得到最终结果。</p>
+<h3 id="普通二分查找">普通二分查找</h3><h4 id="问题描述-3">问题描述</h4><p>给定一个<strong>有序数组，可能含有重复元素</strong>。给定target，寻找target出现的下标，不存在返回-1.</p>
+<h4 id="代码-3">代码</h4><pre><code><span class="built_in">int</span> search(<span class="built_in">int</span> a[], <span class="built_in">int</span> N, <span class="built_in">int</span> target)
+{
+    <span class="keyword">if</span>(N &lt; <span class="number">1</span>)
+        return -<span class="number">1</span>;
+    <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = N - <span class="number">1</span>;
+    <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+    {
+        <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
+        <span class="keyword">if</span>(a[<span class="built_in">mid</span>] == target)
+            return <span class="built_in">mid</span>;
+        <span class="keyword">else</span> <span class="keyword">if</span>(a[<span class="built_in">mid</span>] &lt; target)
+            <span class="built_in">left</span> = <span class="built_in">mid</span> + <span class="number">1</span>;
+        <span class="keyword">else</span>
+            <span class="built_in">right</span> = <span class="built_in">mid</span> - <span class="number">1</span>;
+    }
+    return -<span class="number">1</span>;
+}
+</code></pre><h3 id="等于target的第一个元素">等于target的第一个元素</h3><h4 id="问题描述-4">问题描述</h4><p>给定有序数组a,含有重复元素，求最小(或者求最大)的使得a[i]等于target的下标。不存在返回-1.<br><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1ewnyv9bn30j20fg057q2z.jpg" alt=""></p>
+<h4 id="代码-4">代码</h4><pre><code><span class="built_in">int</span> search(<span class="built_in">int</span> a[], <span class="built_in">int</span> N, <span class="built_in">int</span> target)
+{
+    <span class="keyword">if</span>(N &lt; <span class="number">1</span>)
+        return -<span class="number">1</span>;
+    <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = N - <span class="number">1</span>;
+    <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+    {
+        <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
+        <span class="keyword">if</span>(a[<span class="built_in">mid</span>] &lt; target)
+            <span class="built_in">left</span> = <span class="built_in">mid</span> + <span class="number">1</span>;
+        <span class="keyword">else</span>
+            <span class="built_in">right</span> = <span class="built_in">mid</span>;
+    }
+    <span class="keyword">if</span>(a[<span class="built_in">left</span>] == target)
+        return <span class="built_in">left</span>
+    <span class="keyword">else</span>
+        return -<span class="number">1</span>;
+}
+</code></pre><h3 id="小于target的第一个元素">小于target的第一个元素</h3><h4 id="问题描述-5">问题描述</h4><p>给定有序数组a,含有重复元素，求最大的i使得a[i]小于target。不存在返回-1<br><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1ewnyykveyaj20bt04edfv.jpg" alt=""></p>
+<h4 id="代码-5">代码</h4><pre><code><span class="built_in">int</span> search(<span class="built_in">int</span> a[], <span class="built_in">int</span> N, <span class="built_in">int</span> target)
+{
+    <span class="keyword">if</span>(N &lt; <span class="number">1</span>)
+        return -<span class="number">1</span>;
+    <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = N - <span class="number">1</span>;
+    <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+    {
+        <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
+        <span class="keyword">if</span>(a[<span class="built_in">mid</span>] &gt;= target)
+            <span class="built_in">right</span> = <span class="built_in">mid</span> - <span class="number">1</span>;
+        <span class="keyword">else</span>
+            <span class="built_in">left</span> = <span class="built_in">mid</span>;
+    }
+    <span class="keyword">if</span>(a[<span class="built_in">left</span>] &lt; target)
+        return <span class="built_in">left</span>
+    <span class="keyword">else</span>
+        return -<span class="number">1</span>;
+}
+</code></pre><h3 id="求target在数组中的出现次数">求target在数组中的出现次数</h3><h4 id="解法-3">解法</h4><p>出现次数 = 最后一次出现位置 - 第一次出现位置 + 1<br><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1ewnz2xlz25j20ep05ewek.jpg" alt=""></p>
+<h4 id="代码-6">代码</h4><pre><code><span class="function"><span class="keyword">int</span> <span class="title">count</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> N, <span class="keyword">int</span> <span class="keyword">target</span>)</span>
+</span>{
+    <span class="keyword">int</span> first = searchFisrt(a, N, <span class="keyword">target</span>);
+    <span class="keyword">if</span>(first == -<span class="number">1</span>)
+        <span class="keyword">return</span> <span class="number">0</span>;
+    <span class="keyword">int</span> last = searchLast(a, N, <span class="keyword">target</span>);
+    <span class="keyword">return</span> (last - first + <span class="number">1</span>);
+}
+</code></pre><h3 id="插入的位置（小于等于target的第一个元素）">插入的位置（小于等于target的第一个元素）</h3><h4 id="问题描述-6">问题描述</h4><p>给定有序数组a,含有重复元素，若target在数组中出现，返回位置，如果不存在，返回应该插入的位置。</p>
+<h4 id="解法-4">解法</h4><p>&lt;=target是可能的位置<br><img src="http://ww3.sinaimg.cn/mw690/4c2edcb7jw1ewo0ah8apsj20cf03lgln.jpg" alt=""></p>
+<h4 id="代码-7">代码</h4><pre><code><span class="built_in">int</span> search(<span class="built_in">int</span> a[], <span class="built_in">int</span> N, <span class="built_in">int</span> target)
+{
+    <span class="keyword">if</span>(N &lt; <span class="number">1</span>)
+        return -<span class="number">1</span>;
+    <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = N - <span class="number">1</span>;
+    <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+    {
+        <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
+        <span class="keyword">if</span>(a[<span class="built_in">mid</span>] &lt;= target)
+            <span class="built_in">left</span> = <span class="built_in">mid</span>;
+        <span class="keyword">else</span>
+            <span class="built_in">right</span> = <span class="built_in">mid</span> - <span class="number">1</span>; 
+    }
+    return <span class="built_in">left</span>;
+}
+</code></pre><h2 id="旋转数组的二分查找">旋转数组的二分查找</h2><h3 id="leetcode_33_Search_in_Rotated_Sorted_Array">leetcode 33 Search in Rotated Sorted Array</h3><h4 id="问题描述-7">问题描述</h4><p>给定有序数组，在某一个位置发生旋转，求target在数组中出现的位置。<strong>无重复元素</strong>，找到返回下标，找不到返回-1.</p>
+<h4 id="解法-5">解法</h4><p>先判断mid落在了旋转数组的哪一部分，然后判断和target的关系<br><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1ewo177qwiyj20c507cq32.jpg" alt=""></p>
+<h4 id="代码-8">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+public:
+    int search(vector&lt;int&gt;&amp; nums, int target) {
+        int <span class="keyword">left</span> = <span class="number">0</span>,<span class="keyword">right</span> = nums.size()-<span class="number">1</span>;
+        <span class="keyword">while</span>(<span class="keyword">left</span> &lt; <span class="keyword">right</span>)
+        {
+            int mid = (<span class="keyword">left</span> + <span class="keyword">right</span>)/<span class="number">2</span>;
+            <span class="keyword">if</span>(nums[mid] == target)
+                <span class="keyword">return</span> mid;
+            <span class="keyword">if</span>(nums[mid] &gt;= nums[<span class="keyword">left</span>])<span class="comment">//left-mid升序</span>
+            {
+                <span class="keyword">if</span>(nums[<span class="keyword">left</span>] &lt;= target &amp;&amp; target &lt; nums[mid])
+                    <span class="keyword">right</span> = mid-<span class="number">1</span> ;
+                <span class="keyword">else</span>
+                    <span class="keyword">left</span> = mid+<span class="number">1</span>;
+            }
+            <span class="keyword">else</span><span class="comment">//mid-right升序</span>
+            {
+                <span class="keyword">if</span>(nums[mid] &lt; target &amp;&amp; target &lt;= nums[<span class="keyword">right</span>])
+                    <span class="keyword">left</span> = mid +<span class="number">1</span>;
+                <span class="keyword">else</span>
+                {
+                    <span class="keyword">right</span> = mid-<span class="number">1</span>;
+                }
+            }
+        }
+        <span class="keyword">if</span>(nums[<span class="keyword">left</span>] == target)
+            <span class="keyword">return</span> <span class="keyword">left</span>;
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> -<span class="number">1</span>;
+    }
+};
+</code></pre><h3 id="Search_in_Rotated_Sorted_Array_II">Search in Rotated Sorted Array II</h3><h4 id="问题描述-8">问题描述</h4><p>其他条件相同，但允许数组中存在重复元素。判断target是否出现在数组中。</p>
+<h4 id="解法-6">解法</h4><p>增加判断条件，当a[left] = a[mid] = a[right]，直接遍历去寻找，不能使用二分查找</p>
+<h4 id="代码-9">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    bool search(vector&lt;<span class="built_in">int</span>&gt;&amp; nums, <span class="built_in">int</span> target) {
+        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>,<span class="built_in">right</span> = nums.size() - <span class="number">1</span>;
+        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+        {
+            <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>) / <span class="number">2</span>;
+            <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] == target)
+                return <span class="literal">true</span>;
+            <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] == nums[<span class="built_in">left</span>] &amp;&amp; nums[<span class="built_in">mid</span>] == nums[<span class="built_in">right</span>])
+            {
+                <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="built_in">left</span>; i &lt;= <span class="built_in">right</span>; i++)
+                {
+                    <span class="keyword">if</span>(nums[i] == target)
+                        return <span class="literal">true</span>;
+                }
+                return <span class="literal">false</span>;
+            }
+            <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] &gt;= nums[<span class="built_in">left</span>])
+            {
+                <span class="keyword">if</span>(target &gt;= nums[<span class="built_in">left</span>] &amp;&amp; target &lt; nums[<span class="built_in">mid</span>])
+                    <span class="built_in">right</span> = <span class="built_in">mid</span> -<span class="number">1</span>;
+                <span class="keyword">else</span>
+                    <span class="built_in">left</span> = <span class="built_in">mid</span> +<span class="number">1</span>;
+            }
+            <span class="keyword">else</span>
+            {
+                <span class="keyword">if</span>(target &gt; nums[<span class="built_in">mid</span>] &amp;&amp; target &lt;= nums[<span class="built_in">right</span>])
+                    <span class="built_in">left</span> = <span class="built_in">mid</span> +<span class="number">1</span>;
+                <span class="keyword">else</span>
+                    <span class="built_in">right</span> = <span class="built_in">mid</span> -<span class="number">1</span>;
+            }
+        }
+        <span class="keyword">if</span>(nums[<span class="built_in">left</span>] == target)
+            return <span class="literal">true</span>;
+        <span class="keyword">else</span>
+            return <span class="literal">false</span>;
+    }
+};
+</code></pre><h3 id="leetcode_153_Find_Minimum_in_Rotated_Sorted_Array">leetcode 153    Find Minimum in Rotated Sorted Array</h3><h4 id="问题描述-9">问题描述</h4><p>给定有序数组，<strong>无重复元素</strong>，在某一位置发生旋转，求数组中的最小元素</p>
+<h4 id="解法-7">解法</h4><p>同上<br><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1ewo7wvjpz5j20as05ugln.jpg" alt=""></p>
+<h4 id="注意点-1">注意点</h4><ul>
+<li>对于数组旋转个数为0的考虑<br>如果使用a[mid] &gt;= a[left]判断，需要考虑数组是否并没有旋转(a[left] &lt; a[right])</li>
+<li>也可以使用这样的条件进行判断 a[mid] &gt; a[right]</li>
+</ul>
+<h4 id="代码-10">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="built_in">int</span> findMin(vector&lt;<span class="built_in">int</span>&gt;&amp; nums) {
+        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = nums.size()-<span class="number">1</span>;
+        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+        {
+            <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
+            <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] &gt; nums[<span class="built_in">right</span>])
+                <span class="built_in">left</span> = <span class="built_in">mid</span> + <span class="number">1</span>;
+            <span class="keyword">else</span>
+                <span class="built_in">right</span> = <span class="built_in">mid</span>;
+        }
+        return nums[<span class="built_in">left</span>];
+    }
+};
+</code></pre><h3 id="leetcode_Find_Minimum_in_Rotated_Sorted_Array_II">leetcode Find Minimum in Rotated Sorted Array II</h3><h4 id="问题描述-10">问题描述</h4><p>同上，不过允许数组中存在重复元素</p>
+<h4 id="解法-8">解法</h4><p>对a[mid] = a[right]时，right—。因为a[left] &lt;= a[right] == a[mid],为了使得a[mid]最小，需要对使得left和right逐渐接近，需要遍历才能找到，所以对right进行减一操作。</p>
+<h4 id="代码-11">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="built_in">int</span> findMin(vector&lt;<span class="built_in">int</span>&gt;&amp; nums) {
+        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = nums.size()-<span class="number">1</span>;
+        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+        {
+            <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
+            <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] &gt; nums[<span class="built_in">right</span>])
+                <span class="built_in">left</span> = <span class="built_in">mid</span> + <span class="number">1</span>;
+            <span class="keyword">else</span> <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] &lt; nums[<span class="built_in">right</span>])
+                <span class="built_in">right</span> = <span class="built_in">mid</span>;
+            <span class="keyword">else</span>
+                <span class="built_in">right</span>--;
+        }
+        return nums[<span class="built_in">left</span>];
+    }
+};
+</code></pre><h2 id="一般题目">一般题目</h2><h3 id="剑指offer14_调整数组顺序使奇数位于偶数之前">剑指offer14 调整数组顺序使奇数位于偶数之前</h3><h4 id="问题描述-11">问题描述</h4><p>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
+<h4 id="解法-9">解法</h4><ul>
+<li>使用插入排序的思想，复杂度O(n^2)</li>
+<li>使用额外的O(n)存储，遍历原数组，计数从前往后放，偶数从后往前放。时间复杂度O(n)</li>
+<li>补充，如果不需要保证相对位置，可以使用快排的partition函数做一次扫描。</li>
+</ul>
+<h4 id="方法2的代码">方法2的代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    void reOrderArray(vector&lt;<span class="built_in">int</span>&gt;&amp; <span class="built_in">array</span>) {
+        vector&lt;<span class="built_in">int</span>&gt; vec(<span class="built_in">array</span>.size());
+        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = <span class="built_in">array</span>.size() - <span class="number">1</span>;
+        <span class="built_in">int</span> leftIndex = <span class="number">0</span>, rightIndex = <span class="built_in">array</span>.size() - <span class="number">1</span>;
+        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">array</span>.size())
+        {
+            <span class="keyword">while</span>((<span class="built_in">array</span>[<span class="built_in">left</span>]&amp;<span class="number">0x01</span>) == <span class="number">0</span>)
+                <span class="built_in">left</span>++;
+            <span class="keyword">if</span>(<span class="built_in">left</span> &lt; <span class="built_in">array</span>.size())
+                vec[leftIndex++] = <span class="built_in">array</span>[<span class="built_in">left</span>++];
+        }
+        <span class="keyword">while</span>(<span class="built_in">right</span> &gt;= <span class="number">0</span>)
+        {
+            <span class="keyword">while</span>((<span class="built_in">array</span>[<span class="built_in">right</span>]&amp;<span class="number">0x01</span>) == <span class="number">1</span>)
+                <span class="built_in">right</span>--;
+            <span class="keyword">if</span>(<span class="built_in">right</span> &gt;= <span class="number">0</span>)
+                vec[rightIndex--] = <span class="built_in">array</span>[<span class="built_in">right</span>--];
+        }
+        <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">array</span>.size(); i++)
+            <span class="built_in">array</span>[i] = vec[i];
+    }  
+};
+</code></pre><h4 id="方法3的代码">方法3的代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    void reOrderArray(vector&lt;<span class="built_in">int</span>&gt; &amp;<span class="built_in">array</span>) {
+        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = <span class="built_in">array</span>.size() - <span class="number">1</span>;
+        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+        {
+            <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span> &amp;&amp; (<span class="built_in">array</span>[<span class="built_in">right</span>]&amp;<span class="number">0x01</span>) == <span class="number">0</span>)
+                <span class="built_in">right</span>--;
+            <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span> &amp;&amp; (<span class="built_in">array</span>[<span class="built_in">left</span>]&amp;<span class="number">0x01</span>) == <span class="number">1</span>)
+                <span class="built_in">left</span>++;
+            <span class="keyword">if</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+            {
+                <span class="built_in">int</span> temp = <span class="built_in">array</span>[<span class="built_in">left</span>];
+                <span class="built_in">array</span>[<span class="built_in">left</span>] = <span class="built_in">array</span>[<span class="built_in">right</span>];
+                <span class="built_in">array</span>[<span class="built_in">right</span>] = temp;
+            }
+        }
+    }
+};
+</code></pre><h3 id="剑指offer36_数组中的逆序对">剑指offer36 数组中的逆序对</h3><h4 id="问题描述-12">问题描述</h4><p>在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组，求出这个数组中的逆序对的总数。</p>
+<h4 id="解法-10">解法</h4><p>使用归并排序的merge过程，统计逆序对的个数。merge过程需要merge,left~mid和mid~right。假如vec[lpos] &gt; vec[rpos],逆序对的个数需要增加<strong>mid-lpos+1</strong>个，因为vec中所有lpos之后的元素和rpos对应的元素都形成了逆序对。</p>
+<h4 id="代码-12">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="built_in">int</span> InversePairs(vector&lt;<span class="built_in">int</span>&gt; <span class="type">data</span>) {
+        <span class="keyword">if</span>(<span class="type">data</span>.<span class="built_in">size</span>() == <span class="number">0</span> || <span class="type">data</span>.<span class="built_in">size</span>() == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;
+        vector&lt;<span class="built_in">int</span>&gt; temp(<span class="type">data</span>.<span class="built_in">size</span>());
+        <span class="built_in">int</span> <span class="built_in">count</span> = <span class="number">0</span>;
+        mergeSort(<span class="type">data</span>, temp, <span class="number">0</span>, <span class="type">data</span>.<span class="built_in">size</span>()-<span class="number">1</span>, <span class="built_in">count</span>);
+        <span class="keyword">return</span> <span class="built_in">count</span>;
+    }
+
+    void mergeSort(vector&lt;<span class="built_in">int</span>&gt;&amp; <span class="type">data</span>, vector&lt;<span class="built_in">int</span>&gt;&amp; temp, <span class="built_in">int</span> left, <span class="built_in">int</span> right, <span class="built_in">int</span>&amp; <span class="built_in">count</span>)
+    {
+        <span class="keyword">if</span>(left &lt; right)
+        {
+            <span class="built_in">int</span> mid = (left + right) / <span class="number">2</span>;
+            mergeSort(<span class="type">data</span>, temp, left, mid, <span class="built_in">count</span>);
+            mergeSort(<span class="type">data</span>, temp, mid + <span class="number">1</span>, right, <span class="built_in">count</span>);
+            <span class="built_in">merge</span>(<span class="type">data</span>, temp, left, mid, right, <span class="built_in">count</span>);
+        }
+    }
+
+    void <span class="built_in">merge</span>(vector&lt;<span class="built_in">int</span>&gt;&amp; <span class="type">data</span>, vector&lt;<span class="built_in">int</span>&gt;&amp; temp, <span class="built_in">int</span> left, <span class="built_in">int</span> mid, <span class="built_in">int</span> right, <span class="built_in">int</span>&amp; <span class="built_in">count</span>)
+    {
+        <span class="built_in">int</span> lend = mid, rend = right;
+        <span class="built_in">int</span> lpos = left, rpos = mid + <span class="number">1</span>, tpos = left;
+        <span class="keyword">while</span>(lpos &lt;= lend &amp;&amp; rpos &lt;= rend)
+        {
+            <span class="keyword">if</span>(<span class="type">data</span>[lpos] &lt;= <span class="type">data</span>[rpos])
+                temp[tpos++] = <span class="type">data</span>[lpos++];
+            <span class="keyword">else</span>
+            {
+                <span class="built_in">count</span> += mid-lpos+<span class="number">1</span>;
+                temp[tpos++] = <span class="type">data</span>[rpos++];
+            }
+        }
+        <span class="keyword">while</span>(lpos &lt;= lend)
+            temp[tpos++]=<span class="type">data</span>[lpos++];
+        <span class="keyword">while</span>(rpos &lt;= rend)
+            temp[tpos++] = <span class="type">data</span>[rpos++];
+        for(<span class="built_in">int</span> i = left; i &lt;= right; i++)
+            <span class="type">data</span>[i] = temp[i];
+    }
+};
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<h1 id="通用解题思路">通用解题思路</h1><ul>
+<li>使用快排中的partition函数</li>
+<li>贪心,left++,right-直到相遇</li>
+<li>二分查找，mid = (left + right) / 2</li>
+</ul>
+<h2 id]]>
+    </summary>
+    
+      <category term="两个指针" scheme="http://rudy-zhang.me/tags/%E4%B8%A4%E4%B8%AA%E6%8C%87%E9%92%88/"/>
+    
+      <category term="数组" scheme="http://rudy-zhang.me/tags/%E6%95%B0%E7%BB%84/"/>
+    
+      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[数组专题-数组中出现的次数]]></title>
     <link href="http://rudy-zhang.me/2015/09/27/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E6%95%B0%E7%BB%84%E4%B8%93%E9%A2%98-%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0/"/>
     <id>http://rudy-zhang.me/2015/09/27/找工作总结-数组专题-出现次数/</id>
@@ -2722,440 +3216,6 @@ private:
     <summary type="html">
     <![CDATA[<h3 id="剑指offer3_二维数组查找">剑指offer3 二维数组查找</h3><h4 id="问题描述">问题描述</h4><p>在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数]]>
     </summary>
-    
-      <category term="数组" scheme="http://rudy-zhang.me/tags/%E6%95%B0%E7%BB%84/"/>
-    
-      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[数组专题-两个指针]]></title>
-    <link href="http://rudy-zhang.me/2015/09/27/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E6%95%B0%E7%BB%84%E4%B8%93%E9%A2%98-%E4%B8%A4%E4%B8%AA%E6%8C%87%E9%92%88/"/>
-    <id>http://rudy-zhang.me/2015/09/27/找工作总结-数组专题-两个指针/</id>
-    <published>2015-09-27T13:56:00.000Z</published>
-    <updated>2015-10-10T10:59:36.013Z</updated>
-    <content type="html"><![CDATA[<h1 id="通用解题思路">通用解题思路</h1><ul>
-<li>使用快排中的partition函数</li>
-<li>贪心,left++,right-直到相遇</li>
-<li>二分查找，mid = (left + right) / 2</li>
-</ul>
-<h2 id="k-sum问题">k-sum问题</h2><p>k-sum问题解题思路:<br>先对数组进行排序(nlogn)。退化成2-sum问题，使用left,right指针向中间查找。最终把复杂度优化到O(n^(k-1))</p>
-<h3 id="剑指offer41_和为S的两个数字_VS_和为S的连续正数序列">剑指offer41 和为S的两个数字 VS 和为S的连续正数序列</h3><h4 id="问题描述">问题描述</h4><p>输入一个递增排序的数组和一个数字S，在数组中查找两个数，使得他们的和正好是S，如果有多对数字的和等于S，输出两个数的乘积最小的。 </p>
-<h4 id="解法">解法</h4><p>2-sum问题，乘积最小的两个数字就是left和right第一次满足条件的两个数字。</p>
-<h4 id="代码">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    vector&lt;<span class="built_in">int</span> &gt; FindNumbersWithSum(vector&lt;<span class="built_in">int</span>&gt; <span class="built_in">array</span>,<span class="built_in">int</span> sum) {
-        vector&lt;<span class="built_in">int</span>&gt; vec;
-        <span class="keyword">if</span>(<span class="built_in">array</span>.size() == <span class="number">0</span>) return vec;
-        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = <span class="built_in">array</span>.size() - <span class="number">1</span>;
-        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
-        {
-            <span class="keyword">if</span>(<span class="built_in">array</span>[<span class="built_in">left</span>] + <span class="built_in">array</span>[<span class="built_in">right</span>] &lt; sum)
-                <span class="built_in">left</span>++;
-            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">array</span>[<span class="built_in">left</span>] + <span class="built_in">array</span>[<span class="built_in">right</span>] &gt; sum)
-                <span class="built_in">right</span>--;
-            <span class="keyword">else</span>
-            {
-                vec.push_back(<span class="built_in">array</span>[<span class="built_in">left</span>]);
-                vec.push_back(<span class="built_in">array</span>[<span class="built_in">right</span>]);
-                return vec;
-            }
-        }
-        return vec;
-    }
-};
-</code></pre><h4 id="问题描述-1">问题描述</h4><p>小明很喜欢数学,有一天他在做数学作业时,要求计算出9~16的和,他马上就写出了正确答案是100。但是他并不满足于此,他在想究竟有多少种连续的正数序列的和为100(至少包括两个数)。没多久,他就得到另一组连续正数和为100的序列:18,19,20,21,22。现在把问题交给你,你能不能也很快的找出所有和为S的连续正数序列? Good Luck! </p>
-<h4 id="解法-1">解法</h4><p>同上，不过比较条件变成。(left+right)(right-left+1)/2</p>
-<h4 id="代码-1">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; FindContinuousSequence(<span class="keyword">int</span> sum) {
-        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; <span class="built_in">list</span>;
-        <span class="keyword">if</span>(sum &lt;= <span class="number">2</span>) <span class="keyword">return</span> <span class="built_in">list</span>;
-        <span class="keyword">int</span> left = <span class="number">1</span>,right = <span class="number">2</span>;
-        <span class="keyword">while</span>(right &lt;= (sum + <span class="number">1</span>) / <span class="number">2</span>)
-        {
-            <span class="keyword">int</span> temp = (left + right) * (right - left + <span class="number">1</span>) / <span class="number">2</span>;
-            <span class="keyword">if</span>(temp &lt; sum)
-                right++;
-            <span class="keyword">else</span> <span class="keyword">if</span>(temp &gt; sum)
-                left++;
-            <span class="keyword">else</span>
-            {
-                <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vec;
-                <span class="keyword">for</span>(<span class="keyword">int</span> i = left; i &lt;= right; i++)
-                    vec.push_back(i);
-                <span class="built_in">list</span>.push_back(vec);
-                right++;
-            }
-        }
-        <span class="keyword">return</span> <span class="built_in">list</span>;
-    }
-};
-</code></pre><h3 id="leetcode18_4Sum">leetcode18 4Sum</h3><h4 id="问题描述-2">问题描述</h4><p>Given an array S of n integers, are there elements a, b, c, and d in S such that a + b + c + d = target? Find all unique quadruplets in the array which gives the sum of target.</p>
-<ul>
-<li>Elements in a quadruplet (a,b,c,d) must be in non-descending order. (ie, a ≤ b ≤ c ≤ d)</li>
-<li><p>The solution set must not contain duplicate quadruplets.</p>
-<pre><code>For example, given<span class="instruction"> array </span>S = {1 0 -1 0 -2 2},<span class="instruction"> and </span>target = 0.
-
-A solution set is:
-(-1,  0, 0, 1<span class="function">)</span>
-(-2, -1, 1, 2<span class="function">)</span>
-(-2,  0, 0, 2<span class="function">)</span>
-</code></pre></li>
-</ul>
-<h4 id="解法-2">解法</h4><p>先排序，退化到2-sum问题。</p>
-<h4 id="注意点">注意点</h4><p>题目要求找出所有满足条件的数组，需要避免重复。</p>
-<h4 id="代码-2">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
-public:
-<span class="comment">//思路：K-Sum问题，复杂度降到O(n^(k-1))</span>
-<span class="comment">//注意，不能重复，num个数不够4</span>
-<span class="comment">//去重，left，right去重，i层循环去重，j层循环去重</span>
-    vector&lt;vector&lt;<span class="built_in">int</span>&gt; &gt; fourSum(vector&lt;<span class="built_in">int</span>&gt; &amp;<span class="built_in">num</span>, <span class="built_in">int</span> target) {
-        sort(<span class="built_in">num</span>.begin(), <span class="built_in">num</span>.end());
-        vector&lt;vector&lt;<span class="built_in">int</span>&gt;&gt; list;
-        <span class="keyword">if</span>(<span class="built_in">num</span>.size() &lt; <span class="number">4</span>) 
-            <span class="keyword">return</span> list;
-        <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">num</span>.size()-<span class="number">3</span>; i++)
-        {
-            <span class="keyword">for</span>(<span class="built_in">int</span> j = i + <span class="number">1</span>; j &lt; <span class="built_in">num</span>.size()- <span class="number">2</span>; j++)
-            {
-                <span class="built_in">int</span> left = j + <span class="number">1</span>, right = <span class="built_in">num</span>.size() - <span class="number">1</span>;
-                <span class="keyword">while</span>(left &lt; right)
-                {
-                    <span class="built_in">int</span> sum = <span class="built_in">num</span>[i]+<span class="built_in">num</span>[j]+<span class="built_in">num</span>[left]+<span class="built_in">num</span>[right];
-                    <span class="keyword">if</span>(sum &lt; target)
-                        left++;
-                    <span class="keyword">else</span> <span class="keyword">if</span>(sum &gt; target)
-                        right--;
-                    <span class="keyword">else</span>
-                    {
-                        vector&lt;<span class="built_in">int</span>&gt; vec;
-                        vec.push_back(<span class="built_in">num</span>[i]);
-                        vec.push_back(<span class="built_in">num</span>[j]);
-                        vec.push_back(<span class="built_in">num</span>[left]);
-                        vec.push_back(<span class="built_in">num</span>[right]);
-                        list.push_back(vec);
-                        left++;
-                        right--; 
-                        <span class="keyword">while</span>(left &lt; right &amp;&amp; <span class="built_in">num</span>[left] == <span class="built_in">num</span>[left - <span class="number">1</span>]) 
-                            left++;
-                        <span class="keyword">while</span>(left &lt; right &amp;&amp; <span class="built_in">num</span>[right] == <span class="built_in">num</span>[right + <span class="number">1</span>]) 
-                            right--;
-                    }
-                }
-                <span class="keyword">while</span>(j + <span class="number">1</span> &lt; <span class="built_in">num</span>.size() - <span class="number">2</span> &amp;&amp; <span class="built_in">num</span>[j] == <span class="built_in">num</span>[j + <span class="number">1</span>]) 
-                    j++;
-            }
-            <span class="keyword">while</span>(i + <span class="number">1</span> &lt; <span class="built_in">num</span>.size() - <span class="number">3</span> &amp;&amp; <span class="built_in">num</span>[i] == <span class="built_in">num</span>[i+<span class="number">1</span>]) 
-                i++;
-        }
-        <span class="keyword">return</span> list;
-    }
-};
-</code></pre><h2 id="二分查找问题">二分查找问题</h2><p>二分查找通用解题思路，left=头指针，right=尾指针，mid=(left+right)/2，通过条件判断，移动left和right最终使得left和right相遇得到最终结果。</p>
-<h3 id="普通二分查找">普通二分查找</h3><h4 id="问题描述-3">问题描述</h4><p>给定一个<strong>有序数组，可能含有重复元素</strong>。给定target，寻找target出现的下标，不存在返回-1.</p>
-<h4 id="代码-3">代码</h4><pre><code><span class="built_in">int</span> search(<span class="built_in">int</span> a[], <span class="built_in">int</span> N, <span class="built_in">int</span> target)
-{
-    <span class="keyword">if</span>(N &lt; <span class="number">1</span>)
-        return -<span class="number">1</span>;
-    <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = N - <span class="number">1</span>;
-    <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
-    {
-        <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
-        <span class="keyword">if</span>(a[<span class="built_in">mid</span>] == target)
-            return <span class="built_in">mid</span>;
-        <span class="keyword">else</span> <span class="keyword">if</span>(a[<span class="built_in">mid</span>] &lt; target)
-            <span class="built_in">left</span> = <span class="built_in">mid</span> + <span class="number">1</span>;
-        <span class="keyword">else</span>
-            <span class="built_in">right</span> = <span class="built_in">mid</span> - <span class="number">1</span>;
-    }
-    return -<span class="number">1</span>;
-}
-</code></pre><h3 id="等于target的第一个元素">等于target的第一个元素</h3><h4 id="问题描述-4">问题描述</h4><p>给定有序数组a,含有重复元素，求最小(或者求最大)的使得a[i]等于target的下标。不存在返回-1.<br><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1ewnyv9bn30j20fg057q2z.jpg" alt=""></p>
-<h4 id="代码-4">代码</h4><pre><code><span class="built_in">int</span> search(<span class="built_in">int</span> a[], <span class="built_in">int</span> N, <span class="built_in">int</span> target)
-{
-    <span class="keyword">if</span>(N &lt; <span class="number">1</span>)
-        return -<span class="number">1</span>;
-    <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = N - <span class="number">1</span>;
-    <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
-    {
-        <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
-        <span class="keyword">if</span>(a[<span class="built_in">mid</span>] &lt; target)
-            <span class="built_in">left</span> = <span class="built_in">mid</span> + <span class="number">1</span>;
-        <span class="keyword">else</span>
-            <span class="built_in">right</span> = <span class="built_in">mid</span>;
-    }
-    <span class="keyword">if</span>(a[<span class="built_in">left</span>] == target)
-        return <span class="built_in">left</span>
-    <span class="keyword">else</span>
-        return -<span class="number">1</span>;
-}
-</code></pre><h3 id="小于target的第一个元素">小于target的第一个元素</h3><h4 id="问题描述-5">问题描述</h4><p>给定有序数组a,含有重复元素，求最大的i使得a[i]小于target。不存在返回-1<br><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1ewnyykveyaj20bt04edfv.jpg" alt=""></p>
-<h4 id="代码-5">代码</h4><pre><code><span class="built_in">int</span> search(<span class="built_in">int</span> a[], <span class="built_in">int</span> N, <span class="built_in">int</span> target)
-{
-    <span class="keyword">if</span>(N &lt; <span class="number">1</span>)
-        return -<span class="number">1</span>;
-    <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = N - <span class="number">1</span>;
-    <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
-    {
-        <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
-        <span class="keyword">if</span>(a[<span class="built_in">mid</span>] &gt;= target)
-            <span class="built_in">right</span> = <span class="built_in">mid</span> - <span class="number">1</span>;
-        <span class="keyword">else</span>
-            <span class="built_in">left</span> = <span class="built_in">mid</span>;
-    }
-    <span class="keyword">if</span>(a[<span class="built_in">left</span>] &lt; target)
-        return <span class="built_in">left</span>
-    <span class="keyword">else</span>
-        return -<span class="number">1</span>;
-}
-</code></pre><h3 id="求target在数组中的出现次数">求target在数组中的出现次数</h3><h4 id="解法-3">解法</h4><p>出现次数 = 最后一次出现位置 - 第一次出现位置 + 1<br><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1ewnz2xlz25j20ep05ewek.jpg" alt=""></p>
-<h4 id="代码-6">代码</h4><pre><code><span class="function"><span class="keyword">int</span> <span class="title">count</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> N, <span class="keyword">int</span> <span class="keyword">target</span>)</span>
-</span>{
-    <span class="keyword">int</span> first = searchFisrt(a, N, <span class="keyword">target</span>);
-    <span class="keyword">if</span>(first == -<span class="number">1</span>)
-        <span class="keyword">return</span> <span class="number">0</span>;
-    <span class="keyword">int</span> last = searchLast(a, N, <span class="keyword">target</span>);
-    <span class="keyword">return</span> (last - first + <span class="number">1</span>);
-}
-</code></pre><h3 id="插入的位置（小于等于target的第一个元素）">插入的位置（小于等于target的第一个元素）</h3><h4 id="问题描述-6">问题描述</h4><p>给定有序数组a,含有重复元素，若target在数组中出现，返回位置，如果不存在，返回应该插入的位置。</p>
-<h4 id="解法-4">解法</h4><p>&lt;=target是可能的位置<br><img src="http://ww3.sinaimg.cn/mw690/4c2edcb7jw1ewo0ah8apsj20cf03lgln.jpg" alt=""></p>
-<h4 id="代码-7">代码</h4><pre><code><span class="built_in">int</span> search(<span class="built_in">int</span> a[], <span class="built_in">int</span> N, <span class="built_in">int</span> target)
-{
-    <span class="keyword">if</span>(N &lt; <span class="number">1</span>)
-        return -<span class="number">1</span>;
-    <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = N - <span class="number">1</span>;
-    <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
-    {
-        <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
-        <span class="keyword">if</span>(a[<span class="built_in">mid</span>] &lt;= target)
-            <span class="built_in">left</span> = <span class="built_in">mid</span>;
-        <span class="keyword">else</span>
-            <span class="built_in">right</span> = <span class="built_in">mid</span> - <span class="number">1</span>; 
-    }
-    return <span class="built_in">left</span>;
-}
-</code></pre><h2 id="旋转数组的二分查找">旋转数组的二分查找</h2><h3 id="leetcode_33_Search_in_Rotated_Sorted_Array">leetcode 33 Search in Rotated Sorted Array</h3><h4 id="问题描述-7">问题描述</h4><p>给定有序数组，在某一个位置发生旋转，求target在数组中出现的位置。<strong>无重复元素</strong>，找到返回下标，找不到返回-1.</p>
-<h4 id="解法-5">解法</h4><p>先判断mid落在了旋转数组的哪一部分，然后判断和target的关系<br><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1ewo177qwiyj20c507cq32.jpg" alt=""></p>
-<h4 id="代码-8">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
-public:
-    int search(vector&lt;int&gt;&amp; nums, int target) {
-        int <span class="keyword">left</span> = <span class="number">0</span>,<span class="keyword">right</span> = nums.size()-<span class="number">1</span>;
-        <span class="keyword">while</span>(<span class="keyword">left</span> &lt; <span class="keyword">right</span>)
-        {
-            int mid = (<span class="keyword">left</span> + <span class="keyword">right</span>)/<span class="number">2</span>;
-            <span class="keyword">if</span>(nums[mid] == target)
-                <span class="keyword">return</span> mid;
-            <span class="keyword">if</span>(nums[mid] &gt;= nums[<span class="keyword">left</span>])<span class="comment">//left-mid升序</span>
-            {
-                <span class="keyword">if</span>(nums[<span class="keyword">left</span>] &lt;= target &amp;&amp; target &lt; nums[mid])
-                    <span class="keyword">right</span> = mid-<span class="number">1</span> ;
-                <span class="keyword">else</span>
-                    <span class="keyword">left</span> = mid+<span class="number">1</span>;
-            }
-            <span class="keyword">else</span><span class="comment">//mid-right升序</span>
-            {
-                <span class="keyword">if</span>(nums[mid] &lt; target &amp;&amp; target &lt;= nums[<span class="keyword">right</span>])
-                    <span class="keyword">left</span> = mid +<span class="number">1</span>;
-                <span class="keyword">else</span>
-                {
-                    <span class="keyword">right</span> = mid-<span class="number">1</span>;
-                }
-            }
-        }
-        <span class="keyword">if</span>(nums[<span class="keyword">left</span>] == target)
-            <span class="keyword">return</span> <span class="keyword">left</span>;
-        <span class="keyword">else</span>
-            <span class="keyword">return</span> -<span class="number">1</span>;
-    }
-};
-</code></pre><h3 id="Search_in_Rotated_Sorted_Array_II">Search in Rotated Sorted Array II</h3><h4 id="问题描述-8">问题描述</h4><p>其他条件相同，但允许数组中存在重复元素。判断target是否出现在数组中。</p>
-<h4 id="解法-6">解法</h4><p>增加判断条件，当a[left] = a[mid] = a[right]，直接遍历去寻找，不能使用二分查找</p>
-<h4 id="代码-9">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    bool search(vector&lt;<span class="built_in">int</span>&gt;&amp; nums, <span class="built_in">int</span> target) {
-        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>,<span class="built_in">right</span> = nums.size() - <span class="number">1</span>;
-        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
-        {
-            <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>) / <span class="number">2</span>;
-            <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] == target)
-                return <span class="literal">true</span>;
-            <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] == nums[<span class="built_in">left</span>] &amp;&amp; nums[<span class="built_in">mid</span>] == nums[<span class="built_in">right</span>])
-            {
-                <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="built_in">left</span>; i &lt;= <span class="built_in">right</span>; i++)
-                {
-                    <span class="keyword">if</span>(nums[i] == target)
-                        return <span class="literal">true</span>;
-                }
-                return <span class="literal">false</span>;
-            }
-            <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] &gt;= nums[<span class="built_in">left</span>])
-            {
-                <span class="keyword">if</span>(target &gt;= nums[<span class="built_in">left</span>] &amp;&amp; target &lt; nums[<span class="built_in">mid</span>])
-                    <span class="built_in">right</span> = <span class="built_in">mid</span> -<span class="number">1</span>;
-                <span class="keyword">else</span>
-                    <span class="built_in">left</span> = <span class="built_in">mid</span> +<span class="number">1</span>;
-            }
-            <span class="keyword">else</span>
-            {
-                <span class="keyword">if</span>(target &gt; nums[<span class="built_in">mid</span>] &amp;&amp; target &lt;= nums[<span class="built_in">right</span>])
-                    <span class="built_in">left</span> = <span class="built_in">mid</span> +<span class="number">1</span>;
-                <span class="keyword">else</span>
-                    <span class="built_in">right</span> = <span class="built_in">mid</span> -<span class="number">1</span>;
-            }
-        }
-        <span class="keyword">if</span>(nums[<span class="built_in">left</span>] == target)
-            return <span class="literal">true</span>;
-        <span class="keyword">else</span>
-            return <span class="literal">false</span>;
-    }
-};
-</code></pre><h3 id="leetcode_153_Find_Minimum_in_Rotated_Sorted_Array">leetcode 153    Find Minimum in Rotated Sorted Array</h3><h4 id="问题描述-9">问题描述</h4><p>给定有序数组，<strong>无重复元素</strong>，在某一位置发生旋转，求数组中的最小元素</p>
-<h4 id="解法-7">解法</h4><p>同上<br><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1ewo7wvjpz5j20as05ugln.jpg" alt=""></p>
-<h4 id="注意点-1">注意点</h4><ul>
-<li>对于数组旋转个数为0的考虑<br>如果使用a[mid] &gt;= a[left]判断，需要考虑数组是否并没有旋转(a[left] &lt; a[right])</li>
-<li>也可以使用这样的条件进行判断 a[mid] &gt; a[right]</li>
-</ul>
-<h4 id="代码-10">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="built_in">int</span> findMin(vector&lt;<span class="built_in">int</span>&gt;&amp; nums) {
-        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = nums.size()-<span class="number">1</span>;
-        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
-        {
-            <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
-            <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] &gt; nums[<span class="built_in">right</span>])
-                <span class="built_in">left</span> = <span class="built_in">mid</span> + <span class="number">1</span>;
-            <span class="keyword">else</span>
-                <span class="built_in">right</span> = <span class="built_in">mid</span>;
-        }
-        return nums[<span class="built_in">left</span>];
-    }
-};
-</code></pre><h3 id="leetcode_Find_Minimum_in_Rotated_Sorted_Array_II">leetcode Find Minimum in Rotated Sorted Array II</h3><h4 id="问题描述-10">问题描述</h4><p>同上，不过允许数组中存在重复元素</p>
-<h4 id="解法-8">解法</h4><p>对a[mid] = a[right]时，right—。因为a[left] &lt;= a[right] == a[mid],为了使得a[mid]最小，需要对使得left和right逐渐接近，需要遍历才能找到，所以对right进行减一操作。</p>
-<h4 id="代码-11">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="built_in">int</span> findMin(vector&lt;<span class="built_in">int</span>&gt;&amp; nums) {
-        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = nums.size()-<span class="number">1</span>;
-        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
-        {
-            <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
-            <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] &gt; nums[<span class="built_in">right</span>])
-                <span class="built_in">left</span> = <span class="built_in">mid</span> + <span class="number">1</span>;
-            <span class="keyword">else</span> <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] &lt; nums[<span class="built_in">right</span>])
-                <span class="built_in">right</span> = <span class="built_in">mid</span>;
-            <span class="keyword">else</span>
-                <span class="built_in">right</span>--;
-        }
-        return nums[<span class="built_in">left</span>];
-    }
-};
-</code></pre><h2 id="一般题目">一般题目</h2><h3 id="剑指offer14_调整数组顺序使奇数位于偶数之前">剑指offer14 调整数组顺序使奇数位于偶数之前</h3><h4 id="问题描述-11">问题描述</h4><p>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
-<h4 id="解法-9">解法</h4><ul>
-<li>使用插入排序的思想，复杂度O(n^2)</li>
-<li>使用额外的O(n)存储，遍历原数组，计数从前往后放，偶数从后往前放。时间复杂度O(n)</li>
-<li>补充，如果不需要保证相对位置，可以使用快排的partition函数做一次扫描。</li>
-</ul>
-<h4 id="方法2的代码">方法2的代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    void reOrderArray(vector&lt;<span class="built_in">int</span>&gt;&amp; <span class="built_in">array</span>) {
-        vector&lt;<span class="built_in">int</span>&gt; vec(<span class="built_in">array</span>.size());
-        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = <span class="built_in">array</span>.size() - <span class="number">1</span>;
-        <span class="built_in">int</span> leftIndex = <span class="number">0</span>, rightIndex = <span class="built_in">array</span>.size() - <span class="number">1</span>;
-        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">array</span>.size())
-        {
-            <span class="keyword">while</span>((<span class="built_in">array</span>[<span class="built_in">left</span>]&amp;<span class="number">0x01</span>) == <span class="number">0</span>)
-                <span class="built_in">left</span>++;
-            <span class="keyword">if</span>(<span class="built_in">left</span> &lt; <span class="built_in">array</span>.size())
-                vec[leftIndex++] = <span class="built_in">array</span>[<span class="built_in">left</span>++];
-        }
-        <span class="keyword">while</span>(<span class="built_in">right</span> &gt;= <span class="number">0</span>)
-        {
-            <span class="keyword">while</span>((<span class="built_in">array</span>[<span class="built_in">right</span>]&amp;<span class="number">0x01</span>) == <span class="number">1</span>)
-                <span class="built_in">right</span>--;
-            <span class="keyword">if</span>(<span class="built_in">right</span> &gt;= <span class="number">0</span>)
-                vec[rightIndex--] = <span class="built_in">array</span>[<span class="built_in">right</span>--];
-        }
-        <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">array</span>.size(); i++)
-            <span class="built_in">array</span>[i] = vec[i];
-    }  
-};
-</code></pre><h4 id="方法3的代码">方法3的代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    void reOrderArray(vector&lt;<span class="built_in">int</span>&gt; &amp;<span class="built_in">array</span>) {
-        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = <span class="built_in">array</span>.size() - <span class="number">1</span>;
-        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
-        {
-            <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span> &amp;&amp; (<span class="built_in">array</span>[<span class="built_in">right</span>]&amp;<span class="number">0x01</span>) == <span class="number">0</span>)
-                <span class="built_in">right</span>--;
-            <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span> &amp;&amp; (<span class="built_in">array</span>[<span class="built_in">left</span>]&amp;<span class="number">0x01</span>) == <span class="number">1</span>)
-                <span class="built_in">left</span>++;
-            <span class="keyword">if</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
-            {
-                <span class="built_in">int</span> temp = <span class="built_in">array</span>[<span class="built_in">left</span>];
-                <span class="built_in">array</span>[<span class="built_in">left</span>] = <span class="built_in">array</span>[<span class="built_in">right</span>];
-                <span class="built_in">array</span>[<span class="built_in">right</span>] = temp;
-            }
-        }
-    }
-};
-</code></pre><h3 id="剑指offer36_数组中的逆序对">剑指offer36 数组中的逆序对</h3><h4 id="问题描述-12">问题描述</h4><p>在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组，求出这个数组中的逆序对的总数。</p>
-<h4 id="解法-10">解法</h4><p>使用归并排序的merge过程，统计逆序对的个数。merge过程需要merge,left~mid和mid~right。假如vec[lpos] &gt; vec[rpos],逆序对的个数需要增加<strong>mid-lpos+1</strong>个，因为vec中所有lpos之后的元素和rpos对应的元素都形成了逆序对。</p>
-<h4 id="代码-12">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="built_in">int</span> InversePairs(vector&lt;<span class="built_in">int</span>&gt; <span class="type">data</span>) {
-        <span class="keyword">if</span>(<span class="type">data</span>.<span class="built_in">size</span>() == <span class="number">0</span> || <span class="type">data</span>.<span class="built_in">size</span>() == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;
-        vector&lt;<span class="built_in">int</span>&gt; temp(<span class="type">data</span>.<span class="built_in">size</span>());
-        <span class="built_in">int</span> <span class="built_in">count</span> = <span class="number">0</span>;
-        mergeSort(<span class="type">data</span>, temp, <span class="number">0</span>, <span class="type">data</span>.<span class="built_in">size</span>()-<span class="number">1</span>, <span class="built_in">count</span>);
-        <span class="keyword">return</span> <span class="built_in">count</span>;
-    }
-
-    void mergeSort(vector&lt;<span class="built_in">int</span>&gt;&amp; <span class="type">data</span>, vector&lt;<span class="built_in">int</span>&gt;&amp; temp, <span class="built_in">int</span> left, <span class="built_in">int</span> right, <span class="built_in">int</span>&amp; <span class="built_in">count</span>)
-    {
-        <span class="keyword">if</span>(left &lt; right)
-        {
-            <span class="built_in">int</span> mid = (left + right) / <span class="number">2</span>;
-            mergeSort(<span class="type">data</span>, temp, left, mid, <span class="built_in">count</span>);
-            mergeSort(<span class="type">data</span>, temp, mid + <span class="number">1</span>, right, <span class="built_in">count</span>);
-            <span class="built_in">merge</span>(<span class="type">data</span>, temp, left, mid, right, <span class="built_in">count</span>);
-        }
-    }
-
-    void <span class="built_in">merge</span>(vector&lt;<span class="built_in">int</span>&gt;&amp; <span class="type">data</span>, vector&lt;<span class="built_in">int</span>&gt;&amp; temp, <span class="built_in">int</span> left, <span class="built_in">int</span> mid, <span class="built_in">int</span> right, <span class="built_in">int</span>&amp; <span class="built_in">count</span>)
-    {
-        <span class="built_in">int</span> lend = mid, rend = right;
-        <span class="built_in">int</span> lpos = left, rpos = mid + <span class="number">1</span>, tpos = left;
-        <span class="keyword">while</span>(lpos &lt;= lend &amp;&amp; rpos &lt;= rend)
-        {
-            <span class="keyword">if</span>(<span class="type">data</span>[lpos] &lt;= <span class="type">data</span>[rpos])
-                temp[tpos++] = <span class="type">data</span>[lpos++];
-            <span class="keyword">else</span>
-            {
-                <span class="built_in">count</span> += mid-lpos+<span class="number">1</span>;
-                temp[tpos++] = <span class="type">data</span>[rpos++];
-            }
-        }
-        <span class="keyword">while</span>(lpos &lt;= lend)
-            temp[tpos++]=<span class="type">data</span>[lpos++];
-        <span class="keyword">while</span>(rpos &lt;= rend)
-            temp[tpos++] = <span class="type">data</span>[rpos++];
-        for(<span class="built_in">int</span> i = left; i &lt;= right; i++)
-            <span class="type">data</span>[i] = temp[i];
-    }
-};
-</code></pre>]]></content>
-    <summary type="html">
-    <![CDATA[<h1 id="通用解题思路">通用解题思路</h1><ul>
-<li>使用快排中的partition函数</li>
-<li>贪心,left++,right-直到相遇</li>
-<li>二分查找，mid = (left + right) / 2</li>
-</ul>
-<h2 id]]>
-    </summary>
-    
-      <category term="两个指针" scheme="http://rudy-zhang.me/tags/%E4%B8%A4%E4%B8%AA%E6%8C%87%E9%92%88/"/>
     
       <category term="数组" scheme="http://rudy-zhang.me/tags/%E6%95%B0%E7%BB%84/"/>
     
@@ -4230,126 +4290,6 @@ END{
     </summary>
     
       <category term="linux命令" scheme="http://rudy-zhang.me/tags/linux%E5%91%BD%E4%BB%A4/"/>
-    
-      <category term="linux" scheme="http://rudy-zhang.me/categories/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[linux正则表达式和grep]]></title>
-    <link href="http://rudy-zhang.me/2015/05/26/linux%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%92%8Cgrep/"/>
-    <id>http://rudy-zhang.me/2015/05/26/linux正则表达式和grep/</id>
-    <published>2015-05-25T23:27:44.000Z</published>
-    <updated>2015-05-25T23:54:46.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="正则表达式">正则表达式</h2><p>正则表达式描述了一种字符串匹配的模式，常用于：</p>
-<ul>
-<li>grep:从特定的文件中或从标准输入中查找含有某个字符串的行</li>
-<li>sed :从输入中读取信息，经过编辑后输出</li>
-<li>awk: 伪装成实用程序的强大编程语言，主要用于文本处理</li>
-</ul>
-<h3 id="常用符号">常用符号</h3><h4 id="基本元字符">基本元字符</h4><p><code>^</code> 行首定位符，表示以..开始</p>
-<p><code>$</code> 行尾定位符，表示以..结束</p>
-<p><code>.</code>  匹配单个字符</p>
-<p><code>*</code> 匹配0个或任意多个字符</p>
-<p><code>[]</code> 匹配[]中出现字符范围内的一个字符</p>
-<p><code>\</code> 用来转义元字符，如{m,n},启用扩展元字符\? +</p>
-<h4 id="扩展元字符">扩展元字符</h4><p><code>?</code> 匹配0个或者1个</p>
-<p><code>+</code> 匹配1个或者多个</p>
-<p><code>|</code> 或者</p>
-<p><code>()</code>分组符号</p>
-<h4 id="特殊匹配字符">特殊匹配字符</h4><p><code>[:alnum:]</code> 字母与数字字符</p>
-<p><code>[:alpha:]</code> 字母</p>
-<p><code>[:ascii:]</code> ASCII字符</p>
-<p><code>[:blank:]</code> <strong>空格或制表符</strong></p>
-<p><code>[:cntrl:]</code> ASCII控制字符</p>
-<p><code>[:digit:]</code> 数字</p>
-<p><code>[:graph:]</code> 非控制、空格字符</p>
-<p><code>[:lower:]</code> 小写字母</p>
-<p><code>[:print:]</code> 可打印字符</p>
-<p><code>[:punct:]</code> 标点符号字符</p>
-<p><code>[:space:]</code> <strong>空白字符，包括垂直制表符</strong></p>
-<p><code>[:upper:]</code> 大写字母</p>
-<p><code>[:xdigit:]</code> 十六进制数字</p>
-<h3 id="实例">实例</h3><ul>
-<li>^ $<br><code>ls -l | grep ^d</code></li>
-</ul>
-<p>匹配以d开头的所有内容</p>
-<ul>
-<li><code>ls -l | grep d$</code></li>
-</ul>
-<p>匹配以d结束的所有内容</p>
-<ul>
-<li><code>^$</code> </li>
-</ul>
-<p>匹配空行</p>
-<ul>
-<li><code>^.$</code></li>
-</ul>
-<p>只包含一个字符的</p>
-<ul>
-<li><code>* ？ +</code></li>
-</ul>
-<p><code>compu*ter</code> 匹配u，重复0次或多次</p>
-<p><code>compu?ter</code> 匹配0个或者1个u</p>
-<p><code>compu+ter</code> 匹配1个或多个u</p>
-<p><strong>需要注意的是+和？是扩展字符，需要看具体使用正则表达式的环境<br>如果使用grep需要使用-E指定为扩展模式才能正常使用+和？</strong></p>
-<ul>
-<li><code>\</code>可以屏蔽一些特殊字符，如<code>$  .  ‘  “  *  [  ]  ^  |  (  )  \  +  ?</code></li>
-</ul>
-<p><code>\.pass</code>  匹配<code>*.pass</code></p>
-<ul>
-<li><code>[]</code></li>
-</ul>
-<p><code>[1234]</code> 匹配1,2,3,4中的一个</p>
-<p><code>[1-9]</code> 数字1-9中的一个</p>
-<p><code>[A-Za-z]</code> 所有字母</p>
-<p><code>[^0-9]</code> 一个非数字的字符</p>
-<ul>
-<li><code>\{\}</code></li>
-</ul>
-<p><code>A\{2\}B</code>   匹配AAB</p>
-<p><code>A\{4,\}B</code>   匹配A出现至少4次B</p>
-<p><code>A\{2,4\}B</code>  匹配A出现在2至4次之间</p>
-<h2 id="grep">grep</h2><p>功能：grep是文本搜索工具，使用正则表达式搜索文本并打印匹配行</p>
-<p>格式：<code>grep [options] PATTERN [Files]</code></p>
-<p>注：</p>
-<p>输入字符串<strong>作为参数，最好双引号括起</strong>  “mystr”</p>
-<p>在<strong>调用变量时，也使用双引号括起</strong>  “$MYSTR”</p>
-<p>使用<strong>正则[匹配模式]是，应使用单引号括起</strong>  ‘49[32]’</p>
-<p>常用选项：</p>
-<p><code>-c</code> 只输出匹配的行数,而不输出匹配的行</p>
-<p><code>-i</code> 不区分大小写</p>
-<p><code>-n</code> 显示匹配行及行号</p>
-<p><code>-q</code>  安静模式，不输出任何东西，如果找到了返回0</p>
-<p><code>-E</code> 启用扩展表达式，可使用扩展字符，如：+ ? | () {} , 或者直接使用egrep</p>
-<p><code>-v</code> 显示不包含匹配文本的所有行</p>
-<p>实例：</p>
-<ol>
-<li><p>在多个文件中查找<br><code>grep “sort” filea fileb</code>  在filea,fileb中查找</p>
-</li>
-<li><p>计算匹配行数<br><code>grep -c &quot;sort&quot; file</code></p>
-</li>
-<li><p>使用正则表达式查找<br><code>grep &#39;48[34]&#39; file</code></p>
-</li>
-<li><p>使用扩展元字符<br><code>grep -E &#39;aaa|bbb&#39; file</code></p>
-</li>
-<li><p>匹配空行<br><code>grep &#39;^$&#39; file</code></p>
-</li>
-<li><p>特殊匹配字符，grep 允许使用国际字符串模式匹配或匹配模式的类名<br><code>grep ‘5[[:upper:]] [[:upper:]]’</code> data  5开头，两个大写</p>
-</li>
-</ol>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="正则表达式">正则表达式</h2><p>正则表达式描述了一种字符串匹配的模式，常用于：</p>
-<ul>
-<li>grep:从特定的文件中或从标准输入中查找含有某个字符串的行</li>
-<li>sed :从输入中读取信息，经过编辑后输出</li>
-<li>awk:]]>
-    </summary>
-    
-      <category term="linux命令" scheme="http://rudy-zhang.me/tags/linux%E5%91%BD%E4%BB%A4/"/>
-    
-      <category term="正则表达式" scheme="http://rudy-zhang.me/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
     
       <category term="linux" scheme="http://rudy-zhang.me/categories/linux/"/>
     

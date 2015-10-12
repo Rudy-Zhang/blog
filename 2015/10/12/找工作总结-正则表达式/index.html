@@ -20,7 +20,7 @@
 
 
 
-  <meta name="keywords" content="Git," />
+  <meta name="keywords" content="正则表达式," />
 
 
 
@@ -41,7 +41,7 @@
   </script>
 
 
-  <title> Windows上搭建Git服务器 // Rudy's Blog </title>
+  <title> 正则表达式 // Rudy's Blog </title>
 </head>
 
 <body>
@@ -121,7 +121,7 @@
           
           
             
-              Windows上搭建Git服务器
+              正则表达式
             
           
         </h1>
@@ -129,14 +129,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-03-28
+          发表于 2015-10-12
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/开发工具/">开发工具</a>
+              <a href="/categories/找工作总结/">找工作总结</a>
 
               
               
@@ -149,8 +149,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/03/28/Windows上搭建Git服务器/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/28/Windows上搭建Git服务器/"></span>
+            <a href="/2015/10/12/找工作总结-正则表达式/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/12/找工作总结-正则表达式/"></span>
             </a>
           </span>
           
@@ -164,48 +164,50 @@
       
 
       
-        <h2 id="需要的软件">需要的软件</h2><ul>
-<li><a href="http://msysgit.github.io/" target="_blank" rel="external"><strong>msysgit</strong></a> (服务器和客户端)</li>
+        <h2 id="简介">简介</h2><p>描述了一种字符串匹配的模式，常用于：<br>grep:从特定的文件中或从标准输入中查找含有某个字符串的行<br>sed :从输入中读取信息，经过编辑后输出<br>awk: 伪装成实用程序的强大编程语言，主要用于文本处理<br>编程语言：如python</p>
+<h2 id="符号">符号</h2><h3 id="基本符号">基本符号</h3><p><code>^</code> 行首定位符，表示以..开始<br><code>$</code> 行尾定位符，表示以..结束<br><code>.</code> 匹配单个字符<br><code>*</code> 匹配0个或任意多个字符<br><code>[]</code> 匹配[]中出现字符范围内的一个字符<br><code>\</code> 用来转义元字符，如{m,n},启用扩展元字符\? +</p>
+<h3 id="扩展元字符">扩展元字符</h3><p>grep支持基本元字符，通过<code>egrep</code>或者<code>grep -e</code>可以启用扩展元字符。</p>
+<p><code>?</code> 匹配0个或者1个<br><code>+</code> 匹配1个或者多个<br><code>|</code> 或者<br><code>()</code>分组符号<br><code>{i}</code>表示出现了i次，{i,j}表示出现了i到j次</p>
+<p><code>\n</code> 匹配一个换行符。<br><code>\t</code> 匹配一个制表符。<br><code>\d</code> 匹配一个数字，等价于[0-9]<br><code>\D</code> 匹配一个非数字，等价于[^0-9]<br><code>\s</code> 匹配任何<strong>空白字符</strong>，包括空格、制表符、换页符等等。等价于<code>[ \f\n\r\t\v]</code>。<code>[^\s]</code>表示任何非空白字符<br><code>\S</code> 匹配任何非空白字符。等价于[^ \f\n\r\t\v]。</p>
+<p><code>\w</code> 匹配包括下划线的<strong>任何单词</strong>字符。等价于<code>“[A-Za-z0-9_]”</code>。<br><code>\W</code> 匹配任何非单词字符。等价于“[^A-Za-z0-9_]”。[^\w]<br>注意<code>\S</code>比<code>\w</code>包括<code>@#￥</code>等更多特殊字符</p>
+<h2 id="简单实例">简单实例</h2><ul>
+<li><code>^ $</code><pre><code><span class="keyword">ls</span> -<span class="keyword">l</span> | grep ^<span class="keyword">d</span> 匹配以<span class="keyword">d</span>开头的所有内容
+<span class="keyword">ls</span> -<span class="keyword">l</span> | grep <span class="keyword">d</span>$ 匹配以<span class="keyword">d</span>结束的所有内容
+^$ 匹配空行
+^.$只包含一个字符的
+</code></pre></li>
+<li><code>* ？ +</code><pre><code>compu*ter 匹配<span class="keyword">u</span>，重复0次或多次
+compu?ter 匹配0个或者1个<span class="keyword">u</span>
+compu+ter 匹配1个或多个<span class="keyword">u</span>
+</code></pre></li>
+<li><code>\</code><br>可以屏蔽一些特殊字符，如<code>$  .  ‘  “  *  [  ]  ^  |  (  )  \  +  ?</code></li>
+<li><p><code>[]</code></p>
+<pre><code><span class="attr_selector">[1234]</span> 匹配1,2,3,4中的一个
+<span class="attr_selector">[1-9]</span> 数字1<span class="tag">-9</span>中的一个
+<span class="attr_selector">[A-Za-z]</span> 所有字母
+<span class="attr_selector">[^0-9]</span> 一个非数字的字符
+</code></pre></li>
+<li><p><code>{}</code></p>
+<pre><code><span class="literal">A</span>{<span class="number">2</span>}B   匹配AAB
+<span class="literal">A</span>{<span class="number">4</span>,}B   匹配<span class="literal">A</span>出现至少<span class="number">4</span>次B
+<span class="literal">A</span>{<span class="number">2</span>,<span class="number">4</span>}B  匹配<span class="literal">A</span>出现在<span class="number">2</span>至<span class="number">4</span>次之间
+</code></pre></li>
 </ul>
-<p>首先你要有一个git环境。git 是分布式版本管理软件，大家都是服务器，大家都是客户端，所以客户端和服务器的安装文件是一样的。</p>
-<ul>
-<li><a href="https://www.itefix.net/copssh" target="_blank" rel="external"><strong>CopSSH</strong></a>  (服务器) </li>
-</ul>
-<p>Git支持ssh和http，所以我们要想在git服务器和客户端之间通信通过ssh，就需要再windows server下面安装一个ssh服务器，能够处理ssh请求。COPSSH是一个windows下的SSH服务器,可以远程管理电脑系统。</p>
-<ul>
-<li><a href="http://download.tortoisegit.org/" target="_blank" rel="external"><strong>TortoiseGit </strong></a>(客户端) </li>
-</ul>
-<p>TortoiseGit 是git的图形化管理工具。如果对git命令行比较熟悉，可以不用安装。<br><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eqlipxsfhij20lc07waaj.jpg" alt="enter image description here"></p>
-<h2 id="在Server上安装msygit">在Server上安装msygit</h2><p>下一步，下一步，下一步</p>
-<h2 id="在Server上安装ssh服务器">在Server上安装ssh服务器</h2><h3 id="安装CopSSH软件">安装CopSSH软件</h3><p>下一步，下一步，下一步</p>
-<h3 id="配置用户">配置用户</h3><p>添加系统的administrator用户到SSH服务器当中，之后git需要通过这个用户才能访问。<br><img src="http://ww3.sinaimg.cn/mw690/4c2edcb7jw1eqlipy48axj20fn0cadgk.jpg" alt="enter image description here"></p>
-<p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eqlipydgvfj20jm0dg75j.jpg" alt="enter image description here"></p>
-<p>设置了密码验证，公钥验证</p>
-<p><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eqlipympf3j20ji0ddt9z.jpg" alt="enter image description here"></p>
-<p>在使用github连接远程仓库的时候我们需要用到命令：<br><code>git remote add origin git@github.com:michaelliao/learngit.git</code><br><code>git@github.com</code>是远程地址，我们连接自建的server要改成<code>administrator@ipaddress</code>这样就能够识别远程仓库地址和我们要使用的用户，后面<code>:path</code>要改成我们git仓库的地址，稍后有例子。</p>
-<h3 id="配置COPSSH的安装目录">配置COPSSH的安装目录</h3><p>COPSSH获得了ssh请求，如何才能调用git命令呢，需要：</p>
-<ol>
-<li>将Git安装目录<code>yourpath\Git\libexec\git-core</code>文件夹下的<code>git-upload-pack.exe</code>、<code>git.exe</code>、<code>git-receive-pack.exe</code>和<code>git-upload-archive.exe</code>这4个文件复制到SSH的安装路径1yourpath\ICW\bin1下。</li>
-<li><p>将Git安装目录<code>yourapth\Git\bin\libiconv-2.dll</code>复制到<code>yourpath\ICW\bin</code>下。<br>这样COPSSH就可以帮我们调用git命令了<br><img src="http://ww4.sinaimg.cn/mw690/4c2edcb7jw1eqlipzeknej20s20a4abj.jpg" alt="enter image description here"></p>
-<p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eqlipznquwj20ir0713z8.jpg" alt="enter image description here"></p>
-<h3 id="测试连接">测试连接</h3><p>本地打开gitbash，ssh连接服务器:<code>ssh administrator@192.168.199.171</code><br>输入administrator的密码后就通过ssh远程连接到了服务器上，在这上面可以通过git命令做操作。</p>
-</li>
-</ol>
-<h2 id="建库操作">建库操作</h2><p>使用通过ssh远程登录的账户调用git命令建库</p>
-<p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eqlipzviylj20hw05p3z2.jpg" alt="enter image description here"></p>
-<h3 id="关于裸库">关于裸库</h3><p>用<code>git init</code>初始化的版本库用户也可以在该目录下执行所有git方面的操作。但别的用户在将更新push上来的时候容易出现冲突。<br>使用<code>git init –bare</code>方法创建一个所谓的裸仓库，之所以叫裸仓库是因为这个仓库只保存git历史提交的版本信息，而不允许用户在上面进行各种git操作，如果你硬要操作的话，只会得到下面的错误（”This operation must be run in a work tree”）<br>这个就是最好把远端仓库初始化成bare仓库的原因。<br>在裸仓库中只能切换分支，不能合并分支</p>
-<h2 id="远程clone，push，pull">远程clone，push，pull</h2><h3 id="clone">clone</h3><p>在本地打开gitbash，输入<br><code>git clone administrator@192.168.199.171:yourpath/testrepo</code></p>
-<h3 id="认证身份">认证身份</h3><p>服务器怎么知道clone，push的人的身份呢，COPSSH使用了系统用户的密码，在我们clone的时候，需要输入administrator的密码，这样就完成了身份验证，并不需要把我们本地的公钥加入的COPSSH用户的公钥当中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone administrator@192.168.199.171:yourpath/testrepo&#10;Cloning into &#39;testrepo&#39;...&#10;administrator@192.168.199.171&#39;s password:&#10;warning: You appear to have cloned an empty repository.&#10;Checking connectivity... done.</span><br></pre></td></tr></table></figure>
-<p>克隆的过程是，克隆过来整个版本库，包括远程的各个分支，在本地创建master分支，把远程的master分支内容克隆到本地的master分支上。<br>所以我们克隆过来的是master分支，如果我们想获远程取别的分支上的内容，如dev：<br><code>git branch -a</code>获取所有分支内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git branch -a&#10;* (detached from origin/dev)&#10;  master&#10;  remotes/origin/HEAD -&#62; origin/master&#10;  remotes/origin/dev&#10;  remotes/origin/master</span><br></pre></td></tr></table></figure></p>
-<p><code>git checkout -b dev remotes/origin/dev</code>新建dev分支，内容来自<code>remotes/origin/dev</code></p>
-<h3 id="push">push</h3><p><code>git push origin dev</code><br>推送当前的分支到远程的dev分支</p>
-<h3 id="pull">pull</h3><p><code>git pull origin dev</code><br>含义是获取远程dev分支上的内容到本地工作的分支。<br>所以也可以通过</p>
-<ol>
-<li>在本地创建dev分支<br><code>git checkout -b dev</code></li>
-<li>拉取远程dev分支的内容<br><code>git pull origin dev</code><br>来获取远程dev分支的内容到本地dev分支<h2 id="TortoiseGit">TortoiseGit</h2>客户端软件，图形化界面，下一步即可。</li>
-</ol>
-
+<h2 id="匹配实例">匹配实例</h2><h3 id="匹配html标签">匹配html标签</h3><pre><code><span class="variable">&lt;(\w*)&gt;</span>.<span class="keyword">*</span>?<span class="variable">&lt;\1&gt;</span>
+</code></pre><p><code>.*</code>贪婪匹配，尽可能匹配多<br><code>.*?</code>最小匹配，尽可能匹配少</p>
+<h3 id="匹配url">匹配url</h3><pre><code>(<span class="keyword">http</span>|<span class="keyword">https</span>|<span class="keyword">ftp</span>)://[\S]*
+</code></pre><h3 id="匹配邮箱">匹配邮箱</h3><pre><code><span class="command">\w</span>+(-+.<span class="command">\w</span>+)*@<span class="command">\w</span>+(-+.<span class="command">\w</span>+)*
+</code></pre><p><strong>注意邮箱中可能存在的.-+</strong></p>
+<h3 id="匹配空行,可能有\t空格等空字符">匹配空行,可能有\t空格等空字符</h3><pre><code>^\s<span class="keyword">*</span>$
+</code></pre><h3 id="匹配国内电话">匹配国内电话</h3><pre><code>\d<span class="list">{3,4}</span>-\d<span class="list">{8}</span>
+</code></pre><h3 id="匹配身份证号">匹配身份证号</h3><pre><code><span class="list">(\d<span class="collection">{<span class="number">15</span>}</span>|\d<span class="collection">{<span class="number">17</span>}</span><span class="list">(\d|x)</span>)</span>
+</code></pre><h3 id="匹配ip地址">匹配ip地址</h3><pre><code><span class="command">\d</span><span class="special">{</span>1,3<span class="special">}</span><span class="command">\.</span><span class="command">\d</span><span class="special">{</span>1,3<span class="special">}</span><span class="command">\.</span><span class="command">\d</span><span class="special">{</span>1,3<span class="special">}</span><span class="command">\.</span><span class="command">\d</span><span class="special">{</span>1,3<span class="special">}</span>
+</code></pre><h2 id="应用">应用</h2><h3 id="在vi中修改参数，foo(a,b,c)的实例改为foo(b,a,c)">在vi中修改参数，foo(a,b,c)的实例改为foo(b,a,c)</h3><pre><code>：s/<span class="function"><span class="title">foo</span><span class="params">(\([^,]*\)</span></span>,\([^,]*\),\([^,]*\))/<span class="function"><span class="title">foo</span><span class="params">(\<span class="number">2</span>,\<span class="number">1</span>,\<span class="number">3</span>)</span></span>/gc
+</code></pre><h3 id="sed中的应用">sed中的应用</h3><p>删除所有空行</p>
+<pre><code>sed <span class="string">'/^$/d'</span> <span class="built_in">test</span>
+</code></pre><h3 id="在awk中应用">在awk中应用</h3><p>打印正则匹配到的部分</p>
+<pre><code><span class="keyword">cat</span> <span class="keyword">test</span> | awk '<span class="label">$2</span>~/ee/{<span class="keyword">print</span>}'
+</code></pre>
       
     </div>
 
@@ -213,7 +215,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Git/"> #Git </a>
+            <a href="/tags/正则表达式/"> #正则表达式 </a>
           
         </div>
       
@@ -222,13 +224,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/04/06/网站应对大数据量高并发的挑战/">网站应对大数据量高并发的挑战</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/03/21/使用bootstrap进行布局/">使用bootstrap进行布局</a>
+              <a href="/2015/10/12/找工作总结-SQL语句/">SQL语句</a>
             
           </div>
         </div>
@@ -244,8 +244,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/03/28/Windows上搭建Git服务器/"
-               data-title="Windows上搭建Git服务器" data-url="http://rudy-zhang.me/2015/03/28/Windows上搭建Git服务器/">
+          <div class="ds-thread" data-thread-key="2015/10/12/找工作总结-正则表达式/"
+               data-title="正则表达式" data-url="http://rudy-zhang.me/2015/10/12/找工作总结-正则表达式/">
           </div>
         
       </div>
@@ -340,7 +340,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#需要的软件"><span class="nav-number">1.</span> <span class="nav-text">需要的软件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在Server上安装msygit"><span class="nav-number">2.</span> <span class="nav-text">在Server上安装msygit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在Server上安装ssh服务器"><span class="nav-number">3.</span> <span class="nav-text">在Server上安装ssh服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装CopSSH软件"><span class="nav-number">3.1.</span> <span class="nav-text">安装CopSSH软件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置用户"><span class="nav-number">3.2.</span> <span class="nav-text">配置用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置COPSSH的安装目录"><span class="nav-number">3.3.</span> <span class="nav-text">配置COPSSH的安装目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试连接"><span class="nav-number">3.4.</span> <span class="nav-text">测试连接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建库操作"><span class="nav-number">4.</span> <span class="nav-text">建库操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于裸库"><span class="nav-number">4.1.</span> <span class="nav-text">关于裸库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#远程clone，push，pull"><span class="nav-number">5.</span> <span class="nav-text">远程clone，push，pull</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#clone"><span class="nav-number">5.1.</span> <span class="nav-text">clone</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#认证身份"><span class="nav-number">5.2.</span> <span class="nav-text">认证身份</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#push"><span class="nav-number">5.3.</span> <span class="nav-text">push</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pull"><span class="nav-number">5.4.</span> <span class="nav-text">pull</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TortoiseGit"><span class="nav-number">6.</span> <span class="nav-text">TortoiseGit</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#符号"><span class="nav-number">2.</span> <span class="nav-text">符号</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本符号"><span class="nav-number">2.1.</span> <span class="nav-text">基本符号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展元字符"><span class="nav-number">2.2.</span> <span class="nav-text">扩展元字符</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单实例"><span class="nav-number">3.</span> <span class="nav-text">简单实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#匹配实例"><span class="nav-number">4.</span> <span class="nav-text">匹配实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#匹配html标签"><span class="nav-number">4.1.</span> <span class="nav-text">匹配html标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#匹配url"><span class="nav-number">4.2.</span> <span class="nav-text">匹配url</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#匹配邮箱"><span class="nav-number">4.3.</span> <span class="nav-text">匹配邮箱</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#匹配空行,可能有\t空格等空字符"><span class="nav-number">4.4.</span> <span class="nav-text">匹配空行,可能有\t空格等空字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#匹配国内电话"><span class="nav-number">4.5.</span> <span class="nav-text">匹配国内电话</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#匹配身份证号"><span class="nav-number">4.6.</span> <span class="nav-text">匹配身份证号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#匹配ip地址"><span class="nav-number">4.7.</span> <span class="nav-text">匹配ip地址</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用"><span class="nav-number">5.</span> <span class="nav-text">应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在vi中修改参数，foo(a,b,c)的实例改为foo(b,a,c)"><span class="nav-number">5.1.</span> <span class="nav-text">在vi中修改参数，foo(a,b,c)的实例改为foo(b,a,c)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sed中的应用"><span class="nav-number">5.2.</span> <span class="nav-text">sed中的应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在awk中应用"><span class="nav-number">5.3.</span> <span class="nav-text">在awk中应用</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

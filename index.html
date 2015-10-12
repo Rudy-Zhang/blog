@@ -123,6 +123,131 @@
           
           
             
+              <a class="post-title-link" href="/2015/10/12/找工作总结-正则表达式/">
+                正则表达式
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-10-12
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/找工作总结/">找工作总结</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/10/12/找工作总结-正则表达式/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/12/找工作总结-正则表达式/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="简介">简介</h2><p>描述了一种字符串匹配的模式，常用于：<br>grep:从特定的文件中或从标准输入中查找含有某个字符串的行<br>sed :从输入中读取信息，经过编辑后输出<br>awk: 伪装成实用程序的强大编程语言，主要用于文本处理<br>编程语言：如python</p>
+<h2 id="符号">符号</h2><h3 id="基本符号">基本符号</h3><p><code>^</code> 行首定位符，表示以..开始<br><code>$</code> 行尾定位符，表示以..结束<br><code>.</code> 匹配单个字符<br><code>*</code> 匹配0个或任意多个字符<br><code>[]</code> 匹配[]中出现字符范围内的一个字符<br><code>\</code> 用来转义元字符，如{m,n},启用扩展元字符\? +</p>
+<h3 id="扩展元字符">扩展元字符</h3><p>grep支持基本元字符，通过<code>egrep</code>或者<code>grep -e</code>可以启用扩展元字符。</p>
+<p><code>?</code> 匹配0个或者1个<br><code>+</code> 匹配1个或者多个<br><code>|</code> 或者<br><code>()</code>分组符号<br><code>{i}</code>表示出现了i次，{i,j}表示出现了i到j次</p>
+<p><code>\n</code> 匹配一个换行符。<br><code>\t</code> 匹配一个制表符。<br><code>\d</code> 匹配一个数字，等价于[0-9]<br><code>\D</code> 匹配一个非数字，等价于[^0-9]<br><code>\s</code> 匹配任何<strong>空白字符</strong>，包括空格、制表符、换页符等等。等价于<code>[ \f\n\r\t\v]</code>。<code>[^\s]</code>表示任何非空白字符<br><code>\S</code> 匹配任何非空白字符。等价于[^ \f\n\r\t\v]。</p>
+<p><code>\w</code> 匹配包括下划线的<strong>任何单词</strong>字符。等价于<code>“[A-Za-z0-9_]”</code>。<br><code>\W</code> 匹配任何非单词字符。等价于“[^A-Za-z0-9_]”。[^\w]<br>注意<code>\S</code>比<code>\w</code>包括<code>@#￥</code>等更多特殊字符</p>
+<h2 id="简单实例">简单实例</h2><ul>
+<li><code>^ $</code><pre><code><span class="keyword">ls</span> -<span class="keyword">l</span> | grep ^<span class="keyword">d</span> 匹配以<span class="keyword">d</span>开头的所有内容
+<span class="keyword">ls</span> -<span class="keyword">l</span> | grep <span class="keyword">d</span>$ 匹配以<span class="keyword">d</span>结束的所有内容
+^$ 匹配空行
+^.$只包含一个字符的
+</code></pre></li>
+<li><code>* ？ +</code><pre><code>compu*ter 匹配<span class="keyword">u</span>，重复0次或多次
+compu?ter 匹配0个或者1个<span class="keyword">u</span>
+compu+ter 匹配1个或多个<span class="keyword">u</span>
+</code></pre></li>
+<li><code>\</code><br>可以屏蔽一些特殊字符，如<code>$  .  ‘  “  *  [  ]  ^  |  (  )  \  +  ?</code></li>
+<li><p><code>[]</code></p>
+<pre><code><span class="attr_selector">[1234]</span> 匹配1,2,3,4中的一个
+<span class="attr_selector">[1-9]</span> 数字1<span class="tag">-9</span>中的一个
+<span class="attr_selector">[A-Za-z]</span> 所有字母
+<span class="attr_selector">[^0-9]</span> 一个非数字的字符
+</code></pre></li>
+<li><p><code>{}</code></p>
+<pre><code><span class="literal">A</span>{<span class="number">2</span>}B   匹配AAB
+<span class="literal">A</span>{<span class="number">4</span>,}B   匹配<span class="literal">A</span>出现至少<span class="number">4</span>次B
+<span class="literal">A</span>{<span class="number">2</span>,<span class="number">4</span>}B  匹配<span class="literal">A</span>出现在<span class="number">2</span>至<span class="number">4</span>次之间
+</code></pre></li>
+</ul>
+<h2 id="匹配实例">匹配实例</h2><h3 id="匹配html标签">匹配html标签</h3><pre><code><span class="variable">&lt;(\w*)&gt;</span>.<span class="keyword">*</span>?<span class="variable">&lt;\1&gt;</span>
+</code></pre><p><code>.*</code>贪婪匹配，尽可能匹配多<br><code>.*?</code>最小匹配，尽可能匹配少</p>
+<h3 id="匹配url">匹配url</h3><pre><code>(<span class="keyword">http</span>|<span class="keyword">https</span>|<span class="keyword">ftp</span>)://[\S]*
+</code></pre><h3 id="匹配邮箱">匹配邮箱</h3><pre><code><span class="command">\w</span>+(-+.<span class="command">\w</span>+)*@<span class="command">\w</span>+(-+.<span class="command">\w</span>+)*
+</code></pre><p><strong>注意邮箱中可能存在的.-+</strong></p>
+<h3 id="匹配空行,可能有\t空格等空字符">匹配空行,可能有\t空格等空字符</h3><pre><code>^\s<span class="keyword">*</span>$
+</code></pre><h3 id="匹配国内电话">匹配国内电话</h3><pre><code>\d<span class="list">{3,4}</span>-\d<span class="list">{8}</span>
+</code></pre><h3 id="匹配身份证号">匹配身份证号</h3><pre><code><span class="list">(\d<span class="collection">{<span class="number">15</span>}</span>|\d<span class="collection">{<span class="number">17</span>}</span><span class="list">(\d|x)</span>)</span>
+</code></pre><h3 id="匹配ip地址">匹配ip地址</h3><pre><code><span class="command">\d</span><span class="special">{</span>1,3<span class="special">}</span><span class="command">\.</span><span class="command">\d</span><span class="special">{</span>1,3<span class="special">}</span><span class="command">\.</span><span class="command">\d</span><span class="special">{</span>1,3<span class="special">}</span><span class="command">\.</span><span class="command">\d</span><span class="special">{</span>1,3<span class="special">}</span>
+</code></pre><h2 id="应用">应用</h2><h3 id="在vi中修改参数，foo(a,b,c)的实例改为foo(b,a,c)">在vi中修改参数，foo(a,b,c)的实例改为foo(b,a,c)</h3><pre><code>：s/<span class="function"><span class="title">foo</span><span class="params">(\([^,]*\)</span></span>,\([^,]*\),\([^,]*\))/<span class="function"><span class="title">foo</span><span class="params">(\<span class="number">2</span>,\<span class="number">1</span>,\<span class="number">3</span>)</span></span>/gc
+</code></pre><h3 id="sed中的应用">sed中的应用</h3><p>删除所有空行</p>
+<pre><code>sed <span class="string">'/^$/d'</span> <span class="built_in">test</span>
+</code></pre><h3 id="在awk中应用">在awk中应用</h3><p>打印正则匹配到的部分</p>
+<pre><code><span class="keyword">cat</span> <span class="keyword">test</span> | awk '<span class="label">$2</span>~/ee/{<span class="keyword">print</span>}'
+</code></pre>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/正则表达式/"> #正则表达式 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/10/12/找工作总结-SQL语句/">
                 SQL语句
               </a>
@@ -2426,382 +2551,6 @@ public:
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/10/04/找工作总结-链表专题/">
-                链表专题
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-10-04
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/找工作总结/">找工作总结</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/10/04/找工作总结-链表专题/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/04/找工作总结-链表专题/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="基础">基础</h2><h3 id="链表声明">链表声明</h3><pre><code>struct ListNode
-{
-    <span class="keyword">int</span> val;
-    ListNode* <span class="keyword">next</span>;
-    ListNode(<span class="keyword">int</span> x):val(x),<span class="keyword">next</span>(<span class="keyword">NULL</span>){}
-};
-</code></pre><h3 id="求链表中节点个数">求链表中节点个数</h3><pre><code><span class="keyword">int</span> getLength(ListNode* head)
-{
-    <span class="keyword">int</span> <span class="keyword">count</span> = <span class="number">0</span>;
-    <span class="keyword">while</span>(head)
-    {
-        head = head-&gt;<span class="keyword">next</span>;
-        <span class="keyword">count</span>++;
-    }
-    <span class="keyword">return</span> <span class="keyword">count</span>;
-}
-</code></pre><h3 id="单链表翻转">单链表翻转</h3><pre><code><span class="constant">ListNode*</span> reverseList(<span class="constant">ListNode*</span> head)
-{
-    <span class="constant">ListNode*</span> newHead = <span class="constant">NULL;</span>
-    <span class="constant">ListNode*</span> node = head;
-    <span class="keyword">while</span>(node)
-    {
-        <span class="constant">ListNode*</span> temp = node-&gt;<span class="keyword">next</span>;
-        node-&gt;<span class="keyword">next</span> = newHead;
-        newHead = node;
-        node = temp-&gt;<span class="keyword">next</span>;
-    }
-    <span class="keyword">return</span> newHead;
-}
-</code></pre><h3 id="查找链表中倒数第k个节点">查找链表中倒数第k个节点</h3><pre><code>ListNode* getLastK(ListNode* head, <span class="built_in">int</span> k)
-{
-    ListNode* fisrt = head;
-    ListNode* <span class="built_in">second</span> = head;
-    <span class="keyword">while</span>(k--)
-    {
-        <span class="keyword">if</span>(first)
-            first = first-&gt;<span class="keyword">next</span>;
-        <span class="keyword">else</span>
-            return <span class="literal">NULL</span>;
-    }
-    <span class="keyword">while</span>(first)
-    {
-        fisrt = first-&gt;<span class="keyword">next</span>;
-        <span class="built_in">second</span> = <span class="built_in">second</span>-&gt;<span class="keyword">next</span>;
-    }
-    return <span class="built_in">second</span>;
-}
-</code></pre><h3 id="删除链表中第k个节点">删除链表中第k个节点</h3><pre><code>ListNode* deleteK(ListNode* head, <span class="keyword">int</span> k)
-{
-    <span class="keyword">if</span>(k &lt;= <span class="number">0</span>)
-        <span class="keyword">return</span> head;
-    ListNode* toBeDelete;
-    ListNode* newHead;
-    <span class="keyword">if</span>(k == <span class="number">1</span>)
-    {
-        toBeDelete = head;
-        newHead = head-&gt;<span class="keyword">next</span>;
-        <span class="keyword">delete</span> toBeDelete;
-        <span class="keyword">return</span> newHead;
-    }
-    newHead = head;
-    ListNode* node = head;
-    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; k - <span class="number">2</span>; i++)
-    {
-        <span class="keyword">if</span>(node)
-            node = node-&gt;<span class="keyword">next</span>;
-        <span class="keyword">else</span>
-            <span class="keyword">return</span> newHead;
-    }
-    <span class="keyword">if</span>(node == <span class="keyword">NULL</span> || node-&gt;<span class="keyword">next</span> == <span class="keyword">NULL</span>)
-        <span class="keyword">return</span> newHead;
-    toBeDelete = node-&gt;<span class="keyword">next</span>;
-    node-&gt;<span class="keyword">next</span> = node-&gt;<span class="keyword">next</span>-&gt;<span class="keyword">next</span>;
-    <span class="keyword">delete</span> toBeDelete;
-    <span class="keyword">return</span> newHead;
-}
-</code></pre><h3 id="查找链表中间节点">查找链表中间节点</h3><pre><code><span class="constant">ListNode*</span> findMiddle(<span class="constant">ListNode*</span> head)
-{
-    <span class="constant">ListNode*</span> first = head;
-    <span class="constant">ListNode*</span> second = head;
-    <span class="keyword">while</span>(first &amp;&amp; first-&gt;<span class="keyword">next</span>)
-    {
-        first = fisrt-&gt;<span class="keyword">next</span>-&gt;<span class="keyword">next</span>;
-        if(first)
-            second = second-&gt;<span class="keyword">next</span>;
-    }
-    <span class="keyword">return</span> second;
-}
-</code></pre><h3 id="从尾到头打印链表">从尾到头打印链表</h3><pre><code>void reversePrint(<span class="type">ListNode</span>* head)
-{
-    <span class="type">ListNode</span>* node = head;
-    stack&lt;<span class="type">ListNode</span>*&gt; s;
-    <span class="keyword">while</span>(node)
-    {
-        s.push(node);
-        node = node-&gt;next;
-    }
-    <span class="keyword">while</span>(!s.empty<span class="literal">()</span>)
-    {
-        cout&lt;&lt;s.top<span class="literal">()</span>-&gt;<span class="keyword">val</span>&lt;&lt;<span class="string">" "</span>;
-        s.pop<span class="literal">()</span>;
-    }
-}
-</code></pre><h3 id="单链表排序，选择排序">单链表排序，选择排序</h3><pre><code>void sortList(<span class="type">ListNode</span>* head)
-{
-    <span class="keyword">for</span>(<span class="type">ListNode</span>* p = head; p != <span class="type">NULL</span>; p = p-&gt;next)
-    {
-        <span class="type">ListNode</span>* min = p;
-        <span class="keyword">for</span>(<span class="type">ListNode</span>* q = p-&gt;next; q != <span class="type">NULL</span>; q = q-&gt;next)
-        {
-            <span class="keyword">if</span>(q-&gt;<span class="keyword">val</span> &lt; min-&gt;<span class="keyword">val</span>)
-                min = q;
-        }
-        <span class="built_in">int</span> temp = p-&gt;<span class="keyword">val</span>;
-        p-&gt;<span class="keyword">val</span> = min-&gt;<span class="keyword">val</span>;
-        min-&gt;<span class="keyword">val</span> = temp;
-    }
-}
-</code></pre><h3 id="合并两个有序链表">合并两个有序链表</h3><pre><code>ListNode<span class="subst">*</span> mergeList(ListNode<span class="subst">*</span> list1, ListNode<span class="subst">*</span> list2)
-{
-    <span class="keyword">if</span>(list1 <span class="subst">==</span> <span class="built_in">NULL</span>)
-        <span class="keyword">return</span> list2;
-    <span class="keyword">if</span>(list2 <span class="subst">==</span> <span class="built_in">NULL</span>)
-        <span class="keyword">return</span> list1;
-    ListNode<span class="subst">*</span> head <span class="subst">=</span> <span class="built_in">NULL</span>;
-    ListNode <span class="subst">*</span>node1 <span class="subst">=</span> list1, <span class="subst">*</span>node2 <span class="subst">=</span> list2;
-    ListNode <span class="subst">*</span>tnode <span class="subst">=</span> <span class="built_in">NULL</span>;
-    <span class="keyword">if</span>(node1<span class="subst">-&gt;</span>val <span class="subst">&lt;=</span> node2<span class="subst">-&gt;</span>val)
-    {
-        head <span class="subst">=</span> node1;
-        node1 <span class="subst">=</span> node1<span class="subst">-&gt;</span>next;
-    }
-    <span class="keyword">else</span>
-    {
-        head <span class="subst">=</span> node2;
-        node2 <span class="subst">=</span> node2<span class="subst">-&gt;</span>next;
-    }
-    tnode <span class="subst">=</span> head;
-    tnode<span class="subst">-&gt;</span>next <span class="subst">=</span> <span class="built_in">NULL</span>;
-    <span class="keyword">while</span>(node1 <span class="subst">&amp;&amp;</span> node2)
-    {
-        <span class="keyword">if</span>(node1<span class="subst">-&gt;</span>val <span class="subst">&lt;=</span> node2<span class="subst">-&gt;</span>val)
-        {
-            tnode<span class="subst">-&gt;</span>next <span class="subst">=</span> node1;
-            node1 <span class="subst">=</span> node1<span class="subst">-&gt;</span>next;
-            tnode <span class="subst">=</span> tnode<span class="subst">-&gt;</span>next;
-            tnode<span class="subst">-&gt;</span>next <span class="subst">=</span> <span class="built_in">NULL</span>;
-        }
-        <span class="keyword">else</span>
-        {
-            tnode<span class="subst">-&gt;</span>next <span class="subst">=</span> node2;
-            node2 <span class="subst">=</span> node2<span class="subst">-&gt;</span>next;
-            tnode <span class="subst">=</span> tnode<span class="subst">-&gt;</span>next;
-            tnode<span class="subst">-&gt;</span>next <span class="subst">=</span> <span class="built_in">NULL</span>;
-        }
-    }
-    <span class="keyword">if</span>(node1)
-        tnode<span class="subst">-&gt;</span>next <span class="subst">=</span> node1;
-    <span class="keyword">if</span>(node2)
-        tnode<span class="subst">-&gt;</span>next <span class="subst">=</span> node2;
-    <span class="keyword">return</span> head;
-}
-</code></pre><h3 id="判断一个链表是否有环">判断一个链表是否有环</h3><pre><code>bool hasCircle(<span class="constant">ListNode*</span> head)
-{
-    <span class="constant">ListNode </span>*first = head, *second = head;
-    <span class="keyword">while</span>(first &amp;&amp; first-&gt;<span class="keyword">next</span>)
-    {
-        first = first-&gt;<span class="keyword">next</span>-&gt;<span class="keyword">next</span>;
-        second = second-&gt;<span class="keyword">next</span>;
-        if(first == second)
-            <span class="keyword">return</span> <span class="keyword">true</span>;
-    }
-    <span class="keyword">return</span> <span class="keyword">false</span>;
-}
-</code></pre><h3 id="判断两个链表是否相交">判断两个链表是否相交</h3><pre><code>bool isJoin(<span class="constant">ListNode </span>*list1, <span class="constant">ListNode </span>*list2)
-{
-    if(list1 == <span class="constant">NULL </span>|| list2 == <span class="constant">NULL)</span>
-        <span class="keyword">return</span> <span class="keyword">false</span>;
-    <span class="constant">ListNode </span>*n1 = list1, *n2 = list2;
-    <span class="keyword">while</span>(n1-&gt;<span class="keyword">next</span>)
-        n1 = n1-&gt;<span class="keyword">next</span>;
-    <span class="keyword">while</span>(n2-&gt;<span class="keyword">next</span>)
-        n2 = n2-&gt;<span class="keyword">next</span>;
-    <span class="keyword">return</span> (n1 == n2);
-}
-</code></pre><h3 id="判断两个链表相交的第一个节点">判断两个链表相交的第一个节点</h3><ol>
-<li>判断两个链表是否相交，得到两个链表长度len1,len2</li>
-<li>假设len1 &gt; len2，n1先走(len1-len2)步</li>
-<li>n1,n2一起走，直到n1 == n2</li>
-</ol>
-<h3 id="如果一个链表有环，求进入环中的第一个节点">如果一个链表有环，求进入环中的第一个节点</h3><ol>
-<li>使用上面的方法判断是否有环</li>
-<li>在环中走一圈得到环的长度len</li>
-<li>前后两个节点一个先走len步（走一个环的长度），两个一起走相遇在环的入口</li>
-</ol>
-<h3 id="在O(1)的时间内删除节点">在O(1)的时间内删除节点</h3><pre><code><span class="literal">void</span> deleteInO1(ListNode<span class="subst">*</span> <span class="built_in">list</span>, ListNode<span class="subst">*</span> toBeDelete)
-{
-    <span class="keyword">if</span>(<span class="built_in">list</span> <span class="subst">==</span> <span class="built_in">NULL</span> <span class="subst">||</span> toBeDelete <span class="subst">==</span> <span class="built_in">NULL</span>)
-        <span class="keyword">return</span> ;
-    <span class="keyword">if</span>(toBeDelete <span class="subst">==</span> <span class="built_in">list</span>)
-    {
-        <span class="built_in">list</span> <span class="subst">=</span> <span class="built_in">list</span><span class="subst">-&gt;</span>next;
-        delete toBeDelete;
-        <span class="keyword">return</span> ;
-    }
-    <span class="keyword">if</span>(toBeDelete<span class="subst">-&gt;</span>next <span class="subst">==</span> <span class="built_in">NULL</span>)
-    {
-        ListNode<span class="subst">*</span> node <span class="subst">=</span> <span class="built_in">list</span>;
-        <span class="keyword">while</span>(node <span class="subst">&amp;&amp;</span> node<span class="subst">-&gt;</span>next <span class="subst">!=</span> toBeDelete)
-            node <span class="subst">=</span> node<span class="subst">-&gt;</span>next;
-        node<span class="subst">-&gt;</span>next <span class="subst">=</span> <span class="built_in">NULL</span>;
-        delete toBeDelete;
-        <span class="keyword">return</span> ;
-    }
-    ListNode<span class="subst">*</span> temp <span class="subst">=</span> toBeDelete<span class="subst">-&gt;</span>next;
-    toBeDelete<span class="subst">-&gt;</span>val <span class="subst">=</span> temp<span class="subst">-&gt;</span>val;
-    toBeDelete<span class="subst">-&gt;</span>next <span class="subst">=</span> temp<span class="subst">-&gt;</span>next;
-    delete temp;
-    <span class="keyword">return</span> ;
-}
-</code></pre><h2 id="特殊题目">特殊题目</h2><h3 id="剑指offer57_删除链表中的重复节点">剑指offer57 删除链表中的重复节点</h3><h4 id="问题描述">问题描述</h4><p>在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点，重复的结点不保留，返回链表头指针。 例如，链表1-&gt;2-&gt;3-&gt;3-&gt;4-&gt;4-&gt;5 处理后为 1-&gt;2-&gt;5</p>
-<h4 id="解法">解法</h4><p>使用preNode和node指向最后一个未删除的节点和第一个可能删除的节点</p>
-<ul>
-<li>如果保留重复元素的第一个<br>只需要使用node扫描一次，判断和preNode-&gt;val是否相等，分两种情况处理即可</li>
-<li>如果不保留重复元素<br>需要确定新的头元素newHead,需要判断是否重复，因为需要全部删除。</li>
-</ul>
-<h4 id="类型1的代码">类型1的代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
-<span class="keyword">public</span>:
-    ListNode *deleteDuplicates(ListNode *head) {
-        <span class="keyword">if</span>(<span class="keyword">NULL</span> == head || <span class="keyword">NULL</span>==head-&gt;next)
-            <span class="keyword">return</span> head;
-        ListNode *preNode = head;
-        ListNode *node = preNode-&gt;next;
-        <span class="keyword">while</span>(node)
-        {
-            <span class="keyword">if</span>(node-&gt;val == preNode-&gt;val)
-            {
-                ListNode* temp = node;
-                node = node-&gt;next;
-                preNode-&gt;next = node;
-                delete temp;
-            }
-            <span class="keyword">else</span>
-            {
-                node = node-&gt;next;
-                preNode = preNode-&gt;next;
-            }
-        }
-        <span class="keyword">return</span> head;
-    }
-};
-</code></pre><h4 id="类型2的代码">类型2的代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
-<span class="keyword">public</span>:
-    ListNode* deleteDuplicates(ListNode* head) {
-        <span class="keyword">if</span>(head == <span class="keyword">NULL</span> || head-&gt;next == <span class="keyword">NULL</span>)
-            <span class="keyword">return</span> head;
-        ListNode *node = head;
-        ListNode *newHead = <span class="keyword">NULL</span>;
-        ListNode *preNode = <span class="keyword">NULL</span>;
-        <span class="keyword">while</span>(node)
-        {
-            bool isDuplicated = <span class="keyword">false</span>;
-            <span class="keyword">if</span>(node-&gt;next &amp;&amp; node-&gt;val == node-&gt;next-&gt;val)
-                isDuplicated = <span class="keyword">true</span>;
-            <span class="keyword">if</span>(isDuplicated)
-            {
-                int val = node-&gt;val;
-                <span class="keyword">while</span>(node!= <span class="keyword">NULL</span> &amp;&amp; node-&gt;val == val)
-                {
-                    ListNode *temp = node;
-                    node = node-&gt;next;
-                    delete temp;
-                }
-            }
-            <span class="keyword">else</span>
-            {
-                <span class="keyword">if</span>(!newHead)
-                {
-                    newHead = node;
-                    preNode = node;
-                }
-                <span class="keyword">else</span>
-                {
-                    preNode-&gt;next = node;
-                    preNode = preNode-&gt;next;
-                }
-                node = node-&gt;next;
-            }
-        }
-        <span class="keyword">if</span>(preNode)
-            preNode-&gt;next = <span class="keyword">NULL</span>;
-        <span class="keyword">return</span> newHead;
-    }
-};
-</code></pre>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/链表/"> #链表 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
@@ -2840,7 +2589,7 @@ public:
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">44</span>
+              <span class="site-state-item-count">45</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
