@@ -123,6 +123,276 @@
           
           
             
+              <a class="post-title-link" href="/2015/05/26/linux命令sed和awk/">
+                linux命令sed和awk
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-05-25
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/linux/">linux</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/05/26/linux命令sed和awk/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/26/linux命令sed和awk/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="sed">sed</h2><h3 id="主要功能">主要功能</h3><p>sed，stream editor。是一个”非交互式“字符流编辑器。输入流通过程序并输出到标准输出端。<br>sed主要用来自动编辑一个或者多个文件（替换，插入，删除，追加，更改）</p>
+<h3 id="常见应用">常见应用</h3><ol>
+<li>抽区域</li>
+<li>匹配正则表达式</li>
+<li>比较域</li>
+<li>增加，附加，替换</li>
+</ol>
+<h3 id="执行过程">执行过程</h3><p>sed一次处理一行或多行内容。处理时，把当前处理的行存储在临时缓冲区中，称为“模式空间”（pattern space），接着用sed命令处理缓冲区中的内容，处理完成后，把缓冲区的内容送往屏幕。接着处理下一行或多行，这样不断重复，直到文件末尾。文件内容并没有改变，除非你使用重定向或写入命令存储输出。</p>
+<h3 id="调用方式">调用方式</h3><ul>
+<li>命令行输入</li>
+</ul>
+<p>sed [选项] ‘sed命令’ 输入文件</p>
+<ul>
+<li>使用sed脚本<br>sed [选项] –f sed脚本文件 输入文件</li>
+</ul>
+<h3 id="常用选项">常用选项</h3><p>-n：不打印，不写编辑行到标准输出，缺省情况下打印所有行[编辑/未编辑]p命令可以打印编辑行</p>
+<p>-c：下一命令是编辑命令，使用多项编辑时加入此选项</p>
+<p>-f： 调用sed脚本 sed –f sedScriptFile targetFile</p>
+<p>-i：将修改附加到源文件上</p>
+<h3 id="使用技巧">使用技巧</h3><p>重定向sed结果输出<br>$sed ‘sed-command’ inputfile &gt; outputfile</p>
+<p>定位内容的方式</p>
+<p><code>x</code> 行x</p>
+<p><code>x,y</code> 行x到行y</p>
+<p><code>/pattern/</code> 模式</p>
+<p><code>/pattern/pattern/</code> 两个模式</p>
+<p><code>/pattern/,x</code>     模式+行【在给定行号上查询模式】</p>
+<p><code>X,y</code> /pattern/ 通过行号和模式查询匹配行</p>
+<p><code>X,y!</code> 不包含指定行号</p>
+<h3 id="基本的sed命令">基本的sed命令</h3><p>P 打印匹配行 print</p>
+<p>= 打印匹配行行号</p>
+<p>a\ 定位行号后附加新文本信息 append</p>
+<p>i\ 定位行号后插入   insert</p>
+<p>d 删除定位行   delete</p>
+<p>c\ 用新文本替换定位文本   change</p>
+<p>s 使用替换模式替换相应模式 </p>
+<p>r 从另一个文件中读文本  read</p>
+<p>w 写文本到一个文件   write</p>
+<p>q 第一个模式匹配完成后退出或立即退出</p>
+<p>{} 定位执行命令组</p>
+<p>n 从另一个文件中读文本下一行，并附加在下一行</p>
+<p>g 将模式2黏贴到/pattern n/</p>
+<p>y 传送字符</p>
+<h3 id="实例：">实例：</h3><ul>
+<li>显示文本</li>
+</ul>
+<p><code>$sed -n &#39;1,4p&#39; file</code></p>
+<p>显示1-4行</p>
+<p><code>$sed -n &#39;4,/Str/p&#39;</code></p>
+<p>显示第4行到匹配到Str的一行，/str/代表匹配到的一行</p>
+<ul>
+<li>插入修改文本</li>
+</ul>
+<p><code>$sed &#39;/str/a\ &quot;inserted line&quot;&#39; file</code></p>
+<p>在满足条件的行后，插入内容</p>
+<p><code>sed &#39;/str/i\ &quot;appended line&quot;&#39; file</code></p>
+<p>在满足条件的行前插入内容</p>
+<p><code>$sed &#39;3 c\ &quot;changed line&quot;&#39; file</code></p>
+<p>满足条件的行，整行替换掉</p>
+<ul>
+<li>删除文本</li>
+</ul>
+<p><code>$sed &#39;1,3d&#39; file</code></p>
+<p>删除1-3行</p>
+<p><code>$sed &#39;/str/d&#39; file</code></p>
+<p>删除匹配行</p>
+<p><code>$sed -n &#39;/Begin/,/End/p&#39; file | more</code></p>
+<p>删除两个匹配行之间的数据</p>
+<ul>
+<li>替换文本</li>
+</ul>
+<p>格式：<code>[address[,address]] s/pattern-find/replacement-pattern/[g,p,w,n]</code></p>
+<p>n    1到512之间的一个数字，表示对本模式中指定模式第n次出现的情况进行替换。</p>
+<p>g    对模式空间所有出现的情况进行全局更改【缺省只替换首次出现的模式 】</p>
+<p>p    打印模式空间的内容</p>
+<p>w    file</p>
+<p><code>$sed &#39;s/str/tostr/&#39; file</code> </p>
+<p>替换每一行首次出现的str为tostr</p>
+<p><code>$sed &#39;s/str/tostr/g&#39; file</code></p>
+<p>替换所有的行内，出现的所有str为tostr</p>
+<p><code>$sed &#39;s/str/tostr/w output&#39; file</code></p>
+<p>替换后重定向到output</p>
+<p>转换字符</p>
+<p><code>sed &#39;y/cp/wd/&#39; test.txt</code></p>
+<p>c转换成w，p转换成d</p>
+<ul>
+<li>Shell向sed传值</li>
+</ul>
+<p><code>echo $input | sed &#39;s/bb/&#39;$str&#39;/&#39;</code></p>
+<p><code>echo $input | sed &quot;s/bb/$str/&quot;</code></p>
+<h2 id="awk">awk</h2><h3 id="主要功能-1">主要功能</h3><p>awk是一种用于处理文本的工具，主要用于格式化报文，或从一个大文本中抽取数据。</p>
+<h3 id="执行过程-1">执行过程</h3><p>awk每次读入一行，执行’ ‘中的内容，按模式匹配来采取动作</p>
+<h3 id="格式">格式</h3><p><code>awk &#39;pattern+{action}&#39; file</code></p>
+<p>pattern用于筛选查询匹配行，决定了动作何时触发，可以使用条件语句，正则表达式</p>
+<p>action用于对筛选后的内容进行处理</p>
+<p>BEGIN可以设置计数和打印头（可选）</p>
+<p>END打印输出文本总数和结尾状态标识(可选)</p>
+<h3 id="常用参数">常用参数</h3><p>-F 指定读取一行数据的分隔符，默认为空格<br>-f 指定处理程序的脚本文件，这个文件必须符合awk语法</p>
+<h3 id="调用方式：">调用方式：</h3><p><code>awk –f awk-script-file input-files</code></p>
+<h3 id="常用内置参数">常用内置参数</h3><p><code>$0,$1,....$n</code>   <code>$0</code>代表当前行的内容，<code>$i</code>代表当前行被分割后的第i个字段的内容</p>
+<p>ARGC 命令行参数个数</p>
+<p>ARGV 命令行参数排列</p>
+<p>ENVIRON 支持队列中系统环境变量的使用</p>
+<p>FILENAME 实际操作的文件名</p>
+<p>FNR 浏览文件记录数，&lt;=NR</p>
+<p>FS <strong>设置输入域分隔符，等价于命令行-F选项</strong> ，可在BEGIN中进行设置,然后执行的时候均以设置的符号为分隔符</p>
+<p>NF <strong>浏览记录 域的个数</strong>，在记录被读取时设置【number of fields】一共有多少个域</p>
+<p>NR <strong>已读取记录数</strong>【number of rows】</p>
+<p>RS 控制记录分隔符，缺省：新行\n，Row Separator记录分隔符，可以根据具体数据需求，设置读取一条记录的区间</p>
+<p>OFS <strong>输出域的分隔符</strong>，缺省空格，输出结果 print $1,$2默认加的是空格，可以在BEGIN中设置，改为其他分隔符</p>
+<p>ORS 输出记录的分隔符，缺省：新行\n，整体记录的</p>
+<h3 id="实例">实例</h3><ul>
+<li>打印</li>
+</ul>
+<p>打印所有行</p>
+<p><code>awk &#39;{print $0}&#39; file</code></p>
+<p>打印包含头尾</p>
+<p><code>awk &#39;BEGIN{print &quot;Name Age&quot;}{print $1,$2}END{print &quot;END_OF_REPORT&quot;}&#39;</code></p>
+<ul>
+<li>使用判断语句</li>
+</ul>
+<p><code>&lt;  &lt;=  &gt;  &gt;=  ==  !=</code>  </p>
+<p>~匹配正则   !~不匹配正则</p>
+<p><code>|| &amp;&amp; !</code> 或且非</p>
+<p><code>awk &#39;{if($2!~/Rudy/) print $0}&#39; content</code></p>
+<p><code>awk &#39;{if($1==&quot;001&quot; &amp;&amp; $2~/^Ru/) print $0}&#39; content</code></p>
+<ul>
+<li>使用内置的变量 </li>
+</ul>
+<p><code>awk &#39;BEGIN{OFS=&#39;\t&#39;}{print NF,NR,$0}END{print FILENAME}&#39; content &gt; output</code></p>
+<p>设置输出的分隔符为’\t’，输出一些内置变量的信息</p>
+<ul>
+<li>AWK变量中的字符串和数字的转换</li>
+</ul>
+<p>字符串-&gt;整数</p>
+<p><code>$ awk &#39;BEGIN{a=&quot;100&quot;;b=&quot;10test10&quot;;print (a+b+0);}&#39;</code></p>
+<p><code>110</code></p>
+<p>只需要将变量通过”+”连接运算。自动强制将字符串转为整型。非数字变成0，发现第一个非数字字符，后面自动忽略。</p>
+<p>整数-&gt;字符串</p>
+<p><code>awk &#39;BEGIN{a=100;b=100;c=(a&quot;&quot;b);print c}&#39;</code>      </p>
+<p><code>100100</code></p>
+<p>只需要将变量与””符号连接起来运算即可。</p>
+<ul>
+<li>使用内置的字符串函数</li>
+</ul>
+<p><code>gsub(r,s)</code> 在整个$0中<strong>用s代替r</strong></p>
+<p><code>gsub(r,s,t)</code> 在整个t中用s替代r</p>
+<p><code>index(s,t)</code> 返回s中字符串t的第一位置</p>
+<p><code>length(s)</code> <strong>返回s长度</strong></p>
+<p><code>match(s,r)</code> 测试s是否包含匹配r的字符串</p>
+<p><code>split(s,a,fs)</code> 在fs上将s分成序列a.fs为分隔符</p>
+<p><code>sprint(fmt,exp)</code> 返回经fmt格式化后的exp</p>
+<p><code>sub(r,s)</code> 用$0中最左边最长的子串代替s</p>
+<p><code>substr(s,p)</code> 返回字符串s中从p开始的后缀部分</p>
+<p><code>substr(s,p,n)</code> 返回字符串s中从p开始长度为n的后缀部分</p>
+<p>替换字符串</p>
+<p><code>awk &#39;BEGIN{FS=&#39;\t&#39;}{gsub(/Rudy/,&quot;RUDY&quot;);{print $0}}&#39; content</code></p>
+<ul>
+<li>使用printf进行格式化输出</li>
+</ul>
+<p><code>%c</code> ASCII字符</p>
+<p><code>%d</code> 整数</p>
+<p><code>%e</code> 浮点数，可科学计数法</p>
+<p><code>%f</code> 浮点数，小数形式</p>
+<p><code>%g</code> 由awk决定使用哪种浮点数转换e或f</p>
+<p><code>%o</code> 八进制</p>
+<p><code>%s</code> 字符串</p>
+<p><code>%x</code> 十六进制</p>
+<p>格式化输出一个字符串</p>
+<p><code>awk -F&#39;\t&#39; &#39;{printf(&quot;%s\t%s\n&quot;,$2,$1)}&#39; content</code></p>
+<ul>
+<li>向awk中传递参数</li>
+</ul>
+<p><code>awk &#39;{if($3&lt;=AGE){print $0}}&#39; AGE=20 content</code> </p>
+<ul>
+<li><p>写一个awk脚本</p>
+<pre><code><span class="comment">#!bin/awk -f</span>
+BEGIN{
+        FS=<span class="string">"['\t']"</span>
+        <span class="keyword">printf</span>(<span class="string">"<span class="variable">%s</span>\t<span class="variable">%s</span>\t<span class="variable">%s</span>\n"</span>,<span class="string">"NUMBER"</span>,<span class="string">"NAME"</span>,<span class="string">"AGE"</span>)
+}
+{
+        <span class="keyword">printf</span>(<span class="string">"<span class="variable">%s</span>\t<span class="variable">%s</span>\t<span class="variable">%s</span>\n"</span>,<span class="variable">$1</span>,<span class="variable">$2</span>,<span class="variable">$3</span>)
+}
+END{
+        <span class="keyword">print</span> <span class="string">"END OF FILE"</span>
+}
+</code></pre></li>
+</ul>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux命令/"> #linux命令 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/05/26/linux正则表达式和grep/">
                 linux正则表达式和grep
               </a>
@@ -1324,174 +1594,6 @@
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/03/21/Git笔记/">
-                Git笔记
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-03-21
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/开发工具/">开发工具</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/03/21/Git笔记/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/21/Git笔记/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="前言">前言</h2><p>实验室的项目需要用到一个版本管理系统进行管理，鉴于Git如此风靡，所以正好拿来用，顺便学习一下。一下是Git学习的笔记，大部分内容来自<a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="external">廖雪峰的Git教程</a>。</p>
-<p>为什么Git比其他版本控制系统设计得优秀，因为Git跟踪并管理的是修改，而非文件。所以一切操作几乎都是在一瞬间完成的。</p>
-<h2 id="集中式VS分布式">集中式VS分布式</h2><p>集中式版本控制系统，版本库是集中存放在中央服务器的。所有的修改都要经过中央服务器。<br>分布式版本控制系统根本没有“中央服务器”，每个人的电脑上都是一个完整的版本库。<br><strong>Git的特点就是，没有中央服务器，大家都是中央服务器</strong></p>
-<h2 id="创建版本库">创建版本库</h2><p>初始化一个Git仓库，使用<code>git init</code>命令。</p>
-<p>添加文件到Git仓库，分两步：</p>
-<ol>
-<li><p>第一步，使用命令<code>git add &lt;file&gt;</code>，可反复多次使用，添加多个文件；</p>
-</li>
-<li><p>第二步，使用命令<code>git commit</code>，完成。</p>
-</li>
-</ol>
-<h2 id="查看状态">查看状态</h2><p>要随时掌握工作区的状态，使用<code>git status</code>命令。<br> 如果<code>git status</code>告诉你有文件被修改过，用<code>git diff</code>可以查看修改内容。</p>
-<h2 id="版本回退">版本回退</h2><p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eqd05t0do1j206j04imx4.jpg" alt=""><br>HEAD指向的版本就是当前版本(HEAD指向当前的分支)</p>
-<p> 因此，Git允许我们在版本的历史之间穿梭，使用命令<code>git reset --hard commit_id</code>。</p>
-<p>返回过去，用<code>git log</code>可以查看提交历史，以便确定要回退到哪个版本。</p>
-<p>要重返未来，用<code>git reflog</code>查看命令历史，以便确定要回到未来的哪个版本。</p>
-<h2 id="工作区VS版本库VS暂存区">工作区VS版本库VS暂存区</h2><ul>
-<li>工作区（Working Directory）：就是你在电脑里能看到的目录</li>
-<li>版本库（Repository）：工作区有一个隐藏目录.git，这个不算工作区，而是Git的版本库。</li>
-<li>暂存区(stage) : 版本库里存了很多东西，其中最重要的就是称为<strong>stage</strong>（或者叫index）的暂存区，还有Git为我们自动创建的第一个分支master，以及指向master的一个指针叫HEAD。<br><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eqd05ta69vj20cq06imxh.jpg" alt="enter image description here"></li>
-</ul>
-<p><code>git add</code>命令实际上就是把要提交的所有修改放到暂存区（Stage）<br>执行<code>git commit</code>就可以一次性把暂存区的所有修改提交到分支。<br><strong>Git跟踪的是修改，每次修改，如果不add到暂存区，那就不会加入到commit中。</strong></p>
-<h2 id="撤销修改">撤销修改</h2><ul>
-<li>还没有<code>git add</code>到暂存区的代码<br><code>git checkout</code> 从暂存区或者版本库签出（取消工作区代码）,例：<code>git checkout -- readme.txt</code></li>
-</ul>
-<ol>
-<li>暂存区有代码，签出暂存区代码</li>
-<li>暂存区没代码，签出版本库代码</li>
-</ol>
-<ul>
-<li><p>已经添加到暂存区的代码,<code>git reset HEAD readme.txt</code><br>再用<code>checkout</code>命令</p>
-</li>
-<li><p>已经commit的代码<br>在推送到远程版本库之前切换版本,<code>git reset --hard</code> 版本号</p>
-</li>
-<li><p>删除文件(删除也是一个修改操作)<br><code>git rm</code>用于删除一个文件（类似于git add将更改放到暂存区）<br><code>git commit</code> 提交</p>
-</li>
-</ul>
-<h2 id="github远程仓库">github远程仓库</h2><p>提供Git仓库托管服务的，所以，只要注册一个GitHub账号，就可以免费获得Git远程仓库</p>
-<h3 id="生成ssh密钥">生成ssh密钥</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &#34;youremail@example.com&#34;</span><br></pre></td></tr></table></figure>
-<p>生成ssh 公钥和私钥</p>
-<h3 id="关联远程库">关联远程库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin git@server-name:path/repo-name.git</span><br></pre></td></tr></table></figure>
-<h3 id="推送">推送</h3><p>使用命令<code>git push -u origin master</code>第一次推送master分支的所有内容，每次本地提交后，只要有必要，就可以使用命令<code>git push origin master</code>推送最新修改；</p>
-<h3 id="克隆">克隆</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:michaelliao/gitskills.git</span><br></pre></td></tr></table></figure>
-<h2 id="分支管理">分支管理</h2><p>Git用master（主分支）指向最新的提交，再用HEAD指向当前分支<br>查看分支：<code>git branch</code><br>创建分支：<code>git branch &lt;name&gt;</code><br>切换分支：<code>git checkout &lt;name&gt;</code><br>创建+切换分支：<code>git checkout -b &lt;name&gt;</code><br>合并某分支到当前分支：<code>git merge &lt;name&gt;</code><br>删除分支：<code>git branch -d &lt;name&gt;</code></p>
-<h3 id="解决冲突">解决冲突</h3><p><code>Rudy@RUDY ~/learngit (master|MERGING)</code><br>相当于另外创建了一个分支，保存冲突，提交时以这个分支为准</p>
-<h3 id="分支策略">分支策略</h3><p>首先，master分支应该是非常稳定的，也就是仅用来发布新版本，平时不能在上面干活；</p>
-<p>那在哪干活呢？干活都在dev分支上，也就是说，dev分支是不稳定的，到某个时候，比如1.0版本发布时，再把dev分支合并到master上，在master分支发布1.0版本；</p>
-<p>小伙伴们每个人都在dev分支上干活，每个人都有自己的分支，时不时地往dev分支上合并就可以<br><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eqd05tptzoj20du03h3yy.jpg" alt="enter image description here"></p>
-<h3 id="修复bug，保存现场状态">修复bug，保存现场状态</h3><p>修复bug时，我们会通过创建新的bug分支进行修复，然后合并，最后删除；</p>
-<p>当手头工作没有完成时，先把工作现场<code>git stash</code>一下，然后去修复bug，修复后，再<code>git stash pop</code>，回到工作现场。</p>
-<blockquote>
-<p>git stash: 备份当前的工作区的内容，从最近的一次提交中读取相关内容，让工作区保证和上次提交的内容一致。同时，将当前的工作区内容保存到Git栈中。</p>
-<h3 id="新的feature分支">新的feature分支</h3><p>开发一个新feature，最好新建一个分支；</p>
-</blockquote>
-<p>如果要丢弃一个没有被合并过的分支，可以通过<code>git branch -D &lt;name&gt;</code>强行删除。</p>
-<h2 id="多人协作工作">多人协作工作</h2><p>实际上Git自动把本地的master分支和远程的master分支对应起来了，并且，远程仓库的默认名称是<code>origin</code>。</p>
-<p>试图推送：可以试图用<code>git push origin branch-name</code>推送自己的修改；</p>
-<p>如果推送失败，则因为远程分支比你的本地更新，需要先用<code>git pull</code>试图合并；如果合并有冲突，则解决冲突，并在本地提交；</p>
-<p>没有冲突或者解决掉冲突后，再用<code>git push origin branch-name</code>推送就能成功！</p>
-<p>如果git pull提示<code>no tracking information</code><br>     说明本地分支和远程分支的链接关系没有创建，用命令<code>git branch --set-upstream branch-name origin/branch-name</code>。</p>
-<h2 id="标签管理">标签管理</h2><p><strong>发布一个版本时</strong>，我们通常先在版本库中打一个标签。标签也是<strong>版本库的一个快照</strong>。</p>
-<p>Git的标签虽然是版本库的快照，但其实<strong>它就是指向某个commit的指针</strong>（跟分支很像对不对？但是分支可以移动，标签不能移动），所以，创建和删除标签都是瞬间完成的。</p>
-<p>查看所有标签<code>git tag</code></p>
-<p>新建标签<code>git tag &lt;name&gt;</code>，默认为HEAD，也可以指定一个commit id；</p>
-<p>指定标签信息,<code>git tag -a &lt;tagname&gt; -m &quot;blablabla...&quot;</code></p>
-<p>用PGP签名标签,<code>git tag -s &lt;tagname&gt; -m &quot;blablabla...&quot;</code>可以用PGP签名标签；</p>
-<p>推送一个本地标签<code>git push origin &lt;tagname&gt;</code></p>
-<p>推送全部未推送过的本地标签<code>git push origin --tags</code></p>
-<p>删除一个本地标签<code>git tag -d &lt;tagname&gt;</code></p>
-<p>删除一个远程标签<code>git push origin :refs/tags/&lt;tagname&gt;</code></p>
-<h2 id="忽略特殊文件">忽略特殊文件</h2><h3 id="问题">问题</h3><p>有些时候，必须把某些文件放到Git工作目录中，但又不能提交它们，比如保存了数据库密码的配置文件,每次git status都会显示“Untracked files …”</p>
-<h3 id="解决办法">解决办法</h3><p>在Git工作区的根目录下创建一个特殊的.gitignore文件，然后把要忽略的文件名填进去，Git就会自动忽略这些文件。</p>
-<p>忽略文件的原则是：</p>
-<blockquote>
-<ul>
-<li>忽略操作系统自动生成的文件，比如缩略图等；</li>
-<li>忽略编译生成的中间文件、可执行文件等，也就是如果一个文件是通过另一个文件自动生成的，那自动生成的文件就没必要放进版本库，比如Java编译产生的.class文件；</li>
-<li>忽略你自己的带有敏感信息的配置文件，比如存放口令的配置文件。</li>
-</ul>
-</blockquote>
-<h2 id="配置别名">配置别名</h2><p><code>git config --global alias.st status</code>设置st为status的别名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global alias.lg &#34;log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&#60;%an&#62;%Creset&#39; --abbrev-commit&#34;</span><br></pre></td></tr></table></figure>
-<p><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eqd05u3pp8j20ca08agnx.jpg" alt="enter image description here"></p>
-<h2 id="在windows下复制版本库">在windows下复制版本库</h2><p>注意路径<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone administrator@192.168.1.13:c:/GitProject/testrepo</span><br></pre></td></tr></table></figure></p>
-<h2 id="git_init_VS_git_init_–bare">git init VS git init –bare</h2><p>用<code>git init</code>初始化的版本库用户也可以在该目录下执行所有git方面的操作。但别的用户在将更新push上来的时候容易出现冲突。<br>使用<code>git init –bare</code>方法创建一个所谓的裸仓库，之所以叫裸仓库是因为这个仓库只保存git历史提交的版本信息，而<strong>不允许用户在上面进行各种git操作</strong>，如果你硬要操作的话，只会得到下面的错误（”This operation must be run in a work tree”）<br>这个就是<strong>最好把远端仓库初始化成bare仓库的原因</strong>。</p>
-<p>在裸仓库中只能切换分支，不能合并分支</p>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Git/"> #Git </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
@@ -1530,7 +1632,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-count">46</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1544,7 +1646,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

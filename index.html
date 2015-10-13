@@ -442,6 +442,182 @@ where <span class="keyword">sc</span>.cid = '001'
           
           
             
+              <a class="post-title-link" href="/2015/10/12/找工作总结-多线程同步/">
+                多线程同步
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-10-12
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/找工作总结/">找工作总结</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/10/12/找工作总结-多线程同步/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/12/找工作总结-多线程同步/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="生产者消费者">生产者消费者</h2><h4 id="描述">描述</h4><p>生产者消费者问题（英语：Producer-consumer problem），也称有限缓冲问题（英语：Bounded-buffer problem），是一个多线程同步问题的经典案例。该问题描述了两个共享固定大小缓冲区的线程——即所谓的“生产者”和“消费者”——在实际运行时会发生的问题。生产者的主要作用是生成一定量的数据放到缓冲区中，然后重复此过程。与此同时，消费者也在缓冲区消耗这些数据。该问题的关键就是要保证生产者不会在缓冲区满时加入数据，消费者也不会在缓冲区中空时消耗数据。</p>
+<h4 id="解析">解析</h4><p>需要保证两个方面的同步：</p>
+<ul>
+<li>缓冲区操作互斥<br>生产者和消费者不能同时操作一个缓冲区</li>
+<li>剩余容量的的同步<br>生产者不能在缓冲区满的情况下生产数据，消费者不能在缓冲区为空的情况下消耗数据</li>
+</ul>
+<h4 id="伪代码">伪代码</h4><pre><code>Semaphore mutex = <span class="number">1</span>
+Semaphore empty_num = size, product_num = <span class="number">0</span>
+
+producer:
+    <span class="function"><span class="title">while</span><span class="params">(<span class="number">1</span>)</span></span>:
+        <span class="function"><span class="title">P</span><span class="params">(empty_num)</span></span>
+        <span class="function"><span class="title">P</span><span class="params">(mutex)</span></span>
+        <span class="function"><span class="title">produce</span><span class="params">()</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(mutex)</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(product_num)</span></span>
+
+customer:
+    <span class="function"><span class="title">while</span><span class="params">(<span class="number">1</span>)</span></span>:
+        <span class="function"><span class="title">P</span><span class="params">(product_num)</span></span>
+        <span class="function"><span class="title">P</span><span class="params">(mutex)</span></span>
+        <span class="function"><span class="title">custome</span><span class="params">()</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(mutex)</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(empty_num)</span></span>
+</code></pre><h2 id="读者写着问题">读者写着问题</h2><p>读者—写者问题（Readers-Writers problem）也是一个经典的并发程序设计问题，是经常出现的一种同步问题。计算机系统中的数据（文件、记录）常被多个进程共享，但其中某些进程可能只要求读数据（称为读者Reader）；另一些进程则要求修改数据（称为写者Writer）。就共享数据而言，Reader和Writer是两组并发进程共享一组数据区，要求：<br>（1）允许多个读者同时执行读操作；<br>（2）不允许读者、写者同时操作；<br>（3）不允许多个写者同时操作。</p>
+<h4 id="读者优先VS写者优先">读者优先VS写者优先</h4><p>多个读者可以同时读，在读文件的时候不能写，在写文件的时候不能读。</p>
+<ul>
+<li>读者优先<br>读者可以连续不断来，只要有读者，写者就不能写</li>
+<li>写者优先<br>一旦有写者来，之后的读者必须等待</li>
+</ul>
+<h4 id="读者优先">读者优先</h4><p>需要如下信号量：</p>
+<ul>
+<li>read_count 记录读者个数</li>
+<li>writer 记录写者互斥</li>
+<li>mutex 保证read_count和writer的修改操作是互斥的</li>
+</ul>
+<pre><code>Semaphore read_count = <span class="number">0</span>
+Semaphore mutex = <span class="number">1</span>, writer = <span class="number">1</span>
+
+reader:
+    <span class="function"><span class="title">while</span><span class="params">(<span class="number">1</span>)</span></span>:
+        <span class="function"><span class="title">P</span><span class="params">(mutex)</span></span>
+        read_count++
+        <span class="function"><span class="title">if</span><span class="params">(read_count == <span class="number">1</span>)</span></span>
+            <span class="function"><span class="title">P</span><span class="params">(writer)</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(mutex)</span></span>
+        <span class="function"><span class="title">read</span><span class="params">()</span></span>
+        <span class="function"><span class="title">P</span><span class="params">(mutex)</span></span>
+        read_count--
+        <span class="function"><span class="title">if</span><span class="params">(read_count == <span class="number">0</span>)</span></span>
+            <span class="function"><span class="title">V</span><span class="params">(writer)</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(mutex)</span></span>
+
+writer:
+    <span class="function"><span class="title">while</span><span class="params">(<span class="number">1</span>)</span></span>:
+        <span class="function"><span class="title">P</span><span class="params">(writer)</span></span>
+        <span class="function"><span class="title">wirte</span><span class="params">()</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(wirter)</span></span>
+</code></pre><h4 id="写者优先">写者优先</h4><p>需要增加一个互斥锁，负责当有写者的时候阻塞之后的读者。</p>
+<pre><code>Semaphore read_count = <span class="number">0</span>
+Semaphore mutex = <span class="number">1</span>, writer = <span class="number">1</span>, queue = <span class="number">1</span>
+
+reader:
+    <span class="function"><span class="title">while</span><span class="params">(<span class="number">1</span>)</span></span>:
+        <span class="function"><span class="title">P</span><span class="params">(queue)</span></span>
+        <span class="function"><span class="title">P</span><span class="params">(mutex)</span></span>
+        read_count++
+        <span class="function"><span class="title">if</span><span class="params">(read_count == <span class="number">1</span>)</span></span>
+            <span class="function"><span class="title">P</span><span class="params">(writer)</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(mutex)</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(queue)</span></span>
+        <span class="function"><span class="title">read</span><span class="params">()</span></span>
+        <span class="function"><span class="title">P</span><span class="params">(mutex)</span></span>
+        read_count--
+        <span class="function"><span class="title">if</span><span class="params">(read_count == <span class="number">0</span>)</span></span>
+            <span class="function"><span class="title">V</span><span class="params">(writer)</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(mutex)</span></span>
+
+writer:
+    <span class="function"><span class="title">while</span><span class="params">(<span class="number">1</span>)</span></span>:
+        <span class="function"><span class="title">P</span><span class="params">(queue)</span></span>
+        <span class="function"><span class="title">P</span><span class="params">(writer)</span></span>
+        <span class="function"><span class="title">wirte</span><span class="params">()</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(wirter)</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(queue)</span></span>
+</code></pre><h2 id="哲学家就餐问题">哲学家就餐问题</h2><h4 id="问题描述">问题描述</h4><p>哲学家就餐问题可以这样表述，假设有五位哲学家围坐在一张圆形餐桌旁，做以下两件事情之一：吃饭，或者思考。吃东西的时候，他们就停止思考，思考的时候也停止吃东西。餐桌中间有一大碗意大利面，每两个哲学家之间有一只餐叉。因为用一只餐叉很难吃到意大利面，所以假设哲学家必须用两只餐叉吃东西。他们只能使用自己左右手边的那两只餐叉。哲学家就餐问题有时也用米饭和筷子而不是意大利面和餐叉来描述，因为很明显，吃米饭必须用两根筷子。</p>
+<h4 id="解析-1">解析</h4><p>对于每一个哲学家，需要拿起左边的筷子，拿起右边的筷子，吃。</p>
+<pre><code>Semaphore chopsticks[N]
+<span class="function"><span class="title">while</span><span class="params">(<span class="number">1</span>)</span></span>
+    <span class="function"><span class="title">P</span><span class="params">(chopsticks[i])</span></span>
+    <span class="function"><span class="title">P</span><span class="params">(chopsticks[i+<span class="number">1</span>]%N)</span></span>
+    <span class="function"><span class="title">eat</span><span class="params">()</span></span>
+    <span class="function"><span class="title">V</span><span class="params">(chopsticks[i+<span class="number">1</span>]%N)</span></span>
+    <span class="function"><span class="title">V</span><span class="params">(chopsticks[i])</span></span>
+</code></pre>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/操作系统/"> #操作系统 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/10/12/找工作总结-设计模式/">
                 设计模式
               </a>
@@ -2114,442 +2290,6 @@ bool isValidPostOrderSequence(vector&lt;<span class="keyword">int</span>&gt; seq
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/10/10/找工作总结-二叉树专题-基础/">
-                二叉树专题-基础
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-10-10
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/找工作总结/">找工作总结</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/10/10/找工作总结-二叉树专题-基础/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/10/找工作总结-二叉树专题-基础/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="节点声明">节点声明</h2><pre><code>struct TreeNode
-{
-    <span class="built_in">int</span> val;
-    TreeNode* <span class="built_in">left</span>;
-    TreeNode* <span class="built_in">right</span>;
-    TreeNode(<span class="built_in">int</span> x):val(x), <span class="built_in">left</span>(<span class="literal">NULL</span>), <span class="built_in">right</span>(<span class="literal">NULL</span>){}
-};
-</code></pre><h2 id="遍历">遍历</h2><h3 id="递归遍历">递归遍历</h3><pre><code><span class="literal">void</span> preTranverse(TreeNode<span class="subst">*</span> node)
-{
-    <span class="keyword">if</span>(node <span class="subst">==</span> <span class="built_in">NULL</span>)
-        <span class="keyword">return</span>;
-    visit(node);
-    preTranverse(node<span class="subst">-&gt;</span>left);
-    preTranverse(node<span class="subst">-&gt;</span>right);
-}
-</code></pre><p>以上为先序递归遍历，中序后序只需要修改<code>visit(node)</code>函数的位置即可。</p>
-<h3 id="非递归遍历">非递归遍历</h3><p>核心思想是使用栈模拟递归，二叉树可以看成是对多有两个分支的有向图，递归遍历实际上是一种深度优先遍历。实际上是使用栈模拟深度优先遍历。</p>
-<h4 id="先序">先序</h4><pre><code>void preOrder(<span class="constant">Tree</span>Node *<span class="literal">root</span>)
-<span class="keyword">{</span>
-    <span class="keyword">if</span>(<span class="literal">root</span> == <span class="constant">N</span>ULL)
-        return ;
-    stack&lt;<span class="constant">Tree</span>Node*&gt; s;
-    <span class="constant">Tree</span>Node* <span class="keyword">node</span> = <span class="literal">root</span>;
-    while(<span class="keyword">node</span> || !s.empty())
-    <span class="keyword">{</span>
-        while(<span class="keyword">node</span>)
-        <span class="keyword">{</span>
-            //visit <span class="keyword">node</span>
-            cout&lt;&lt;<span class="keyword">node</span>-&gt;val&lt;&lt;<span class="string">" "</span>;
-            s.push(<span class="keyword">node</span>);
-            <span class="keyword">node</span> = <span class="keyword">node</span>-&gt;left;
-        <span class="keyword">}</span>
-        <span class="keyword">if</span>(!s.empty())
-        <span class="keyword">{</span>
-            <span class="keyword">node</span> = s.top();
-            s.pop();
-            <span class="keyword">node</span> = <span class="keyword">node</span>-&gt;right;
-        <span class="keyword">}</span>
-    <span class="keyword">}</span>
-<span class="keyword">}</span>
-</code></pre><h4 id="中序">中序</h4><pre><code>void inOrder(<span class="constant">Tree</span>Node *<span class="literal">root</span>)
-<span class="keyword">{</span>
-    <span class="keyword">if</span>(<span class="literal">root</span> == <span class="constant">N</span>ULL)
-        return ;
-    stack&lt;<span class="constant">Tree</span>Node*&gt; s;
-    <span class="constant">Tree</span>Node* <span class="keyword">node</span> = <span class="literal">root</span>;
-    while(<span class="keyword">node</span> || !s.empty())
-    <span class="keyword">{</span>
-        while(<span class="keyword">node</span>)
-        <span class="keyword">{</span>
-            s.push(<span class="keyword">node</span>);
-            <span class="keyword">node</span> = <span class="keyword">node</span>-&gt;left;
-        <span class="keyword">}</span>
-        <span class="keyword">if</span>(!s.empty())
-        <span class="keyword">{</span>
-            <span class="keyword">node</span> = s.top();
-            //visit <span class="keyword">node</span>
-            cout&lt;&lt;<span class="keyword">node</span>-&gt;val&lt;&lt;<span class="string">" "</span>;
-            s.pop();
-            <span class="keyword">node</span> = <span class="keyword">node</span>-&gt;right;
-        <span class="keyword">}</span>
-    <span class="keyword">}</span>
-<span class="keyword">}</span>
-</code></pre><h4 id="后序">后序</h4><pre><code>struct MyNode
-{
-    TreeNode <span class="subst">*</span>n;
-    bool isFirst;
-};
-<span class="literal">void</span> postOrder(TreeNode <span class="subst">*</span>root)
-{
-    <span class="keyword">if</span>(root <span class="subst">==</span> <span class="built_in">NULL</span>)
-        <span class="keyword">return</span> ;
-    <span class="built_in">stack</span><span class="subst">&lt;</span>MyNode<span class="subst">*&gt;</span> s;
-    TreeNode<span class="subst">*</span> node <span class="subst">=</span> root;
-    <span class="keyword">while</span>(node <span class="subst">||</span> <span class="subst">!</span>s<span class="built_in">.</span>empty())
-    {
-        <span class="keyword">while</span>(node)
-        {
-            MyNode <span class="subst">*</span>myNode <span class="subst">=</span> <span class="literal">new</span> MyNode();
-            myNode<span class="subst">-&gt;</span>n <span class="subst">=</span> node;
-            myNode<span class="subst">-&gt;</span>isFirst <span class="subst">=</span> <span class="literal">true</span>;
-            s<span class="built_in">.</span>push(myNode);
-            node <span class="subst">=</span> node<span class="subst">-&gt;</span>left;
-        }
-        <span class="keyword">if</span>(<span class="subst">!</span>s<span class="built_in">.</span>empty())
-        {
-            MyNode <span class="subst">*</span>myNode <span class="subst">=</span> s<span class="built_in">.</span>top();
-            s<span class="built_in">.</span>pop();
-            <span class="keyword">if</span>(myNode<span class="subst">-&gt;</span>isFirst)
-            {
-                myNode<span class="subst">-&gt;</span>isFirst <span class="subst">=</span> <span class="literal">false</span>;
-                s<span class="built_in">.</span>push(myNode);
-                node <span class="subst">=</span> myNode<span class="subst">-&gt;</span>n<span class="subst">-&gt;</span>right;
-            }
-            <span class="keyword">else</span>
-            {
-                <span class="comment">//visit node</span>
-                cout<span class="subst">&lt;&lt;</span>myNode<span class="subst">-&gt;</span>n<span class="subst">-&gt;</span>val<span class="subst">&lt;&lt;</span><span class="string">" "</span>;
-            }
-        }
-    }
-}
-</code></pre><h3 id="层序遍历">层序遍历</h3><p>使用队列模拟广度优先遍历。</p>
-<pre><code>void levelOrder<span class="params">(TreeNode *root)</span>
-{
-    <span class="keyword">if</span><span class="params">(root == NULL)</span>
-        return;
-    queue&lt;TreeNode <span class="built_in">*</span>&gt; q;
-    TreeNode <span class="built_in">*</span>node = root;
-    q.push<span class="params">(node)</span>;
-    while<span class="params">(!q.empty<span class="params">()</span>)</span>
-    {
-        node = q.front<span class="params">()</span>;
-        q.pop<span class="params">()</span>;
-        cout&lt;&lt;node-&gt;val&lt;&lt;<span class="string">" "</span>;
-        <span class="keyword">if</span><span class="params">(node-&gt;left)</span>
-            q.push<span class="params">(node-&gt;left)</span>;
-        <span class="keyword">if</span><span class="params">(node-&gt;right)</span>
-            q.push<span class="params">(node-&gt;right)</span>;
-    }
-}
-</code></pre><h3 id="层序遍历引申题目">层序遍历引申题目</h3><h4 id="剑指offer_60_把二叉树打印成多行">剑指offer 60 把二叉树打印成多行</h4><p><strong>问题描述</strong><br>从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行。</p>
-<p><strong>解法</strong><br>遍历每一层的时候记录本行和下一行的节点个数，当本行个数变为0，开始下一行。</p>
-<p><strong>代码</strong></p>
-<pre><code>class <span class="type">Solution</span> {
-public:
-        vector&lt;vector&lt;<span class="type">int</span>&gt; &gt; <span class="type">Print</span>(<span class="type">TreeNode</span>* pRoot) {
-            vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="literal">result</span>;
-            <span class="keyword">if</span>(pRoot == <span class="type">NULL</span>)
-                <span class="keyword">return</span> <span class="literal">result</span>;
-            vector&lt;<span class="type">int</span>&gt; line;
-            queue&lt;<span class="type">TreeNode</span>*&gt; q;
-            q.push(pRoot);
-            <span class="type">int</span> thisLine = <span class="number">1</span>;
-            <span class="type">int</span> nextLine = <span class="number">0</span>;
-            <span class="keyword">while</span>(!q.empty())
-            {
-                <span class="type">TreeNode</span>* node = q.front();
-                line.push_back(node-&gt;val);
-                q.pop();
-                thisLine--;
-                <span class="keyword">if</span>(node-&gt;left)
-                {
-                    q.push(node-&gt;left);
-                    nextLine++;
-                }
-                <span class="keyword">if</span>(node-&gt;right)
-                {
-                    q.push(node-&gt;right);
-                    nextLine++;
-                }
-                <span class="keyword">if</span>(thisLine == <span class="number">0</span>)
-                {
-                    <span class="literal">result</span>.push_back(line);
-                    line.clear();
-                    thisLine = nextLine;
-                    nextLine = <span class="number">0</span>;
-                }
-            }
-            <span class="keyword">return</span> <span class="literal">result</span>;
-        }
-};
-</code></pre><h4 id="剑指offer_61_按之字形打印二叉树">剑指offer 61 按之字形打印二叉树</h4><p><strong>问题描述</strong><br>请实现一个函数按照之字形打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，其他行以此类推。</p>
-<p><strong>解法</strong><br>使用两个栈stack[2]，从0行开始，对于偶数行，从左向右打印，对于奇数行，从右向左打印。</p>
-<p><strong>代码</strong></p>
-<pre><code>class <span class="type">Solution</span> {
-public:
-    vector&lt;vector&lt;<span class="type">int</span>&gt; &gt; <span class="type">Print</span>(<span class="type">TreeNode</span>* pRoot) {
-        vector&lt;vector&lt;<span class="type">int</span>&gt; &gt; <span class="literal">result</span>;
-        <span class="keyword">if</span>(pRoot == <span class="type">NULL</span>)
-            <span class="keyword">return</span> <span class="literal">result</span>;
-        <span class="type">int</span> line = <span class="number">0</span>;
-        vector&lt;<span class="type">int</span>&gt; vec;
-        stack&lt;<span class="type">TreeNode</span>* &gt; stacks[<span class="number">2</span>];
-        stacks[<span class="number">0</span>].push(pRoot);
-        <span class="keyword">while</span>(!stacks[<span class="number">0</span>].empty() || !stacks[<span class="number">1</span>].empty())
-        {
-            <span class="type">TreeNode</span>* node = stacks[line%<span class="number">2</span>].top();
-            stacks[line%<span class="number">2</span>].pop();
-            vec.push_back(node-&gt;val);
-            <span class="keyword">if</span>(line%<span class="number">2</span> == <span class="number">0</span>){
-                <span class="keyword">if</span>(node-&gt;left)
-                    stacks[(line+<span class="number">1</span>)%<span class="number">2</span>].push(node-&gt;left);          
-                <span class="keyword">if</span>(node-&gt;right)
-                    stacks[(line+<span class="number">1</span>)%<span class="number">2</span>].push(node-&gt;right);
-            }
-            <span class="keyword">else</span>
-            {
-                <span class="keyword">if</span>(node-&gt;right)
-                    stacks[(line+<span class="number">1</span>)%<span class="number">2</span>].push(node-&gt;right);          
-                <span class="keyword">if</span>(node-&gt;left)
-                    stacks[(line+<span class="number">1</span>)%<span class="number">2</span>].push(node-&gt;left);
-            }
-            <span class="keyword">if</span>(stacks[line%<span class="number">2</span>].empty())
-            {
-                <span class="literal">result</span>.push_back(vec);
-                vec.clear();
-                line++;
-            }
-        }
-        <span class="keyword">return</span> <span class="literal">result</span>;
-    }
-};
-</code></pre><h2 id="二叉树节点个数">二叉树节点个数</h2><h3 id="二叉树中节点个数">二叉树中节点个数</h3><pre><code><span class="built_in">int</span> getNodeNum(TreeNode *root)
-{
-    <span class="keyword">if</span>(root == <span class="literal">NULL</span>)
-        return <span class="number">0</span>;
-    <span class="built_in">int</span> <span class="built_in">left</span>=getNodeNum(root-&gt;<span class="built_in">left</span>);
-    <span class="built_in">int</span> <span class="built_in">right</span>=getNodeNum(root-&gt;<span class="built_in">right</span>);
-    return (<span class="number">1</span>+<span class="built_in">left</span>+<span class="built_in">right</span>);
-}
-</code></pre><h3 id="二叉树中叶子节点个数">二叉树中叶子节点个数</h3><pre><code><span class="built_in">int</span> getLeafNodeNum(TreeNode *root)
-{
-    <span class="keyword">if</span>(root==<span class="literal">NULL</span>)
-        return <span class="number">0</span>;
-    <span class="keyword">if</span>(root-&gt;<span class="built_in">left</span>==<span class="literal">NULL</span> &amp;&amp; root-&gt;<span class="built_in">right</span>==<span class="literal">NULL</span>)
-        return <span class="number">1</span>;
-    <span class="built_in">int</span> <span class="built_in">left</span>=getLeafNodeNum(root-&gt;<span class="built_in">left</span>);
-    <span class="built_in">int</span> <span class="built_in">right</span>=getLeafNodeNum(root-&gt;<span class="built_in">right</span>);
-    return (<span class="built_in">left</span>+<span class="built_in">right</span>);
-}
-</code></pre><h3 id="二叉树第k层节点个数">二叉树第k层节点个数</h3><pre><code><span class="built_in">int</span> getNumOfKLevel(TreeNode *root, <span class="built_in">int</span> k)
-{
-    <span class="keyword">if</span>(root == <span class="literal">NULL</span> || k &lt; <span class="number">1</span>)
-        return <span class="number">0</span>;
-    <span class="keyword">if</span>(k==<span class="number">1</span>)
-        return <span class="number">1</span>;
-    <span class="built_in">int</span> <span class="built_in">left</span> = getNumOfKLevel(root-&gt;<span class="built_in">left</span>,k-<span class="number">1</span>);
-    <span class="built_in">int</span> <span class="built_in">right</span> = getNumOfKLevel(root-&gt;<span class="built_in">right</span>,k-<span class="number">1</span>);
-    return (<span class="built_in">left</span> + <span class="built_in">right</span>);
-}
-</code></pre><h2 id="二叉树深度">二叉树深度</h2><h3 id="最大深度">最大深度</h3><pre><code><span class="built_in">int</span> getDepth(TreeNode* root)
-{
-    <span class="keyword">if</span>(root == <span class="literal">NULL</span>)
-        return <span class="number">0</span>;
-    <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">1</span> + getDepth(root-&gt;<span class="built_in">left</span>);
-    <span class="built_in">int</span> <span class="built_in">right</span> = <span class="number">1</span> + getDepth(root-&gt;<span class="built_in">right</span>);
-    return <span class="built_in">left</span> &gt;= <span class="built_in">right</span> ? <span class="built_in">left</span> : <span class="built_in">right</span>;
-}
-</code></pre><h3 id="多次使用深度，使用map记录二叉树深度，防止重复递归遍历">多次使用深度，使用map记录二叉树深度，防止重复递归遍历</h3><pre><code>int getDepth(<span class="type">TreeNode</span>* node, <span class="built_in">map</span>&lt;<span class="type">TreeNode</span>*, int&gt; &amp;dict)
-{
-    <span class="keyword">if</span>(node == <span class="type">NULL</span>)
-        <span class="keyword">return</span> <span class="number">0</span>;
-    <span class="keyword">if</span>(dict.<span class="built_in">count</span>(node) != <span class="number">0</span>)
-        <span class="keyword">return</span> dict[node];
-    int <span class="keyword">left</span> = <span class="number">1</span> + getDepth(node-&gt;<span class="keyword">left</span>, dict);
-    int <span class="keyword">right</span> = <span class="number">1</span> + getDepth(node-&gt;<span class="keyword">right</span>, dict);
-    dict[node] = (<span class="keyword">left</span> &gt;= <span class="keyword">right</span> ? <span class="keyword">left</span> : <span class="keyword">right</span>);
-    <span class="keyword">return</span> dict[node];
-}
-</code></pre><h3 id="最小深度">最小深度</h3><pre><code><span class="built_in">int</span> getMinDepth(TreeNode* root)
-{
-    <span class="keyword">if</span>(root == <span class="literal">NULL</span>)
-        return <span class="number">0</span>;
-    <span class="keyword">if</span>(root-&gt;<span class="built_in">left</span> == <span class="literal">NULL</span> &amp;&amp; root-&gt;<span class="built_in">right</span> == <span class="literal">NULL</span>)
-        return <span class="number">1</span>;
-    <span class="keyword">if</span>(root-&gt;<span class="built_in">left</span> == <span class="literal">NULL</span> &amp;&amp; root-&gt;<span class="built_in">right</span> != <span class="literal">NULL</span>)
-        return <span class="number">1</span> + getMinDepth(root-&gt;<span class="built_in">right</span>);
-    <span class="keyword">if</span>(root-&gt;<span class="built_in">left</span> != <span class="literal">NULL</span> &amp;&amp; root-&gt;<span class="built_in">right</span> == <span class="literal">NULL</span>)
-        return <span class="number">1</span> + getMinDepth(root-&gt;<span class="built_in">left</span>);
-    <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">1</span> + getMinDepth(root-&gt;<span class="built_in">left</span>);
-    <span class="built_in">int</span> <span class="built_in">right</span> = <span class="number">1</span> + getMinDepth(root-&gt;<span class="built_in">right</span>);
-    return <span class="built_in">left</span> &lt;= <span class="built_in">right</span> ? <span class="built_in">left</span> : <span class="built_in">right</span>;
-}
-</code></pre><h2 id="判断">判断</h2><h3 id="判断一棵二叉树是不是平衡二叉树">判断一棵二叉树是不是平衡二叉树</h3><p>平衡二叉树：左右子树的高度差不超过1并且左右子树都是平衡二叉树</p>
-<pre><code><span class="function"><span class="keyword">bool</span> <span class="title">isBalancedCore</span><span class="params">(TreeNode* node, <span class="built_in">map</span>&lt;TreeNode*, <span class="keyword">int</span>&gt;&amp; dict)</span>
-</span>{
-    <span class="keyword">if</span>(node == NULL)
-        <span class="keyword">return</span> <span class="keyword">true</span>;
-    <span class="keyword">int</span> left = getDepth(node-&gt;left, dict);
-    <span class="keyword">int</span> right = getDepth(node-&gt;right, dict);
-    <span class="keyword">return</span> (<span class="built_in">abs</span>(left - right) &lt;= <span class="number">1</span> &amp;&amp; 
-        isBalancedCore(node-&gt;left, dict) &amp;&amp; 
-        isBalancedCore(node-&gt;right, dict));
-}
-
-<span class="function"><span class="keyword">bool</span> <span class="title">isBalanced</span><span class="params">(TreeNode* root)</span>
-</span>{
-    <span class="built_in">map</span>&lt;TreeNode*, <span class="keyword">int</span>&gt; dict;
-    <span class="keyword">return</span> isBalancedCore(root, dict);
-}
-</code></pre><h3 id="判断一棵二叉树是不是完全二叉树">判断一棵二叉树是不是完全二叉树</h3><p>层次遍历，使用队列，若遇到一个节点子树为空，则后面的都为空。</p>
-<pre><code>bool isCompleteTree(TreeNode <span class="subst">*</span>root)
-{
-    <span class="keyword">if</span>(root <span class="subst">==</span> <span class="built_in">NULL</span>)
-        <span class="keyword">return</span> <span class="literal">true</span>;
-    TreeNode <span class="subst">*</span>node <span class="subst">=</span> root;
-    <span class="built_in">queue</span><span class="subst">&lt;</span>TreeNode <span class="subst">*&gt;</span> q;
-    q<span class="built_in">.</span>push(node);
-    bool isNULL <span class="subst">=</span> <span class="literal">false</span>;
-    <span class="keyword">while</span>(<span class="subst">!</span>q<span class="built_in">.</span>empty())
-    {
-        node <span class="subst">=</span> q<span class="built_in">.</span>front();
-        q<span class="built_in">.</span>pop();
-        <span class="keyword">if</span>(isNULL <span class="subst">==</span> <span class="literal">false</span>){
-            <span class="keyword">if</span>(node<span class="subst">-&gt;</span>left <span class="subst">&amp;&amp;</span> node<span class="subst">-&gt;</span>right)
-            {
-                q<span class="built_in">.</span>push(node<span class="subst">-&gt;</span>left);
-                q<span class="built_in">.</span>push(node<span class="subst">-&gt;</span>right);
-            }
-            <span class="keyword">else</span> <span class="keyword">if</span>(node<span class="subst">-&gt;</span>left <span class="subst">==</span> <span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> node<span class="subst">-&gt;</span>right <span class="subst">!=</span> <span class="built_in">NULL</span>)
-                <span class="keyword">return</span> <span class="literal">false</span>;
-            <span class="keyword">else</span> <span class="keyword">if</span>(node<span class="subst">-&gt;</span>left <span class="subst">==</span> <span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> node<span class="subst">-&gt;</span>right <span class="subst">==</span> <span class="built_in">NULL</span>)
-                isNULL <span class="subst">=</span> <span class="literal">true</span>;
-            <span class="keyword">else</span> <span class="keyword">if</span>(node<span class="subst">-&gt;</span>left <span class="subst">!=</span> <span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> node<span class="subst">-&gt;</span>right <span class="subst">==</span> <span class="built_in">NULL</span>)
-            {
-                isNULL <span class="subst">=</span> <span class="literal">true</span>;
-                q<span class="built_in">.</span>push(node<span class="subst">-&gt;</span>left);
-            }
-        }
-        <span class="keyword">else</span>
-        {
-            <span class="keyword">if</span>(node<span class="subst">-&gt;</span>left <span class="subst">!=</span> <span class="built_in">NULL</span> <span class="subst">||</span> node<span class="subst">-&gt;</span>right <span class="subst">!=</span> <span class="built_in">NULL</span>)
-                <span class="keyword">return</span> <span class="literal">false</span>;
-        }
-    }
-    <span class="keyword">return</span> <span class="literal">true</span>;
-}
-</code></pre><h3 id="判断两颗二叉树是不是同一棵树">判断两颗二叉树是不是同一棵树</h3><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
-<span class="keyword">public</span>:
-    bool isSameTree(TreeNode* p, TreeNode* q) {
-        <span class="keyword">if</span>( p == <span class="keyword">NULL</span> &amp;&amp; q == <span class="keyword">NULL</span>)
-            <span class="keyword">return</span> <span class="keyword">true</span>;
-        <span class="keyword">else</span> <span class="keyword">if</span>(p != <span class="keyword">NULL</span> &amp;&amp; q == <span class="keyword">NULL</span>)
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-        <span class="keyword">else</span> <span class="keyword">if</span>(p == <span class="keyword">NULL</span> &amp;&amp; q != <span class="keyword">NULL</span>)
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-        <span class="keyword">return</span> (p-&gt;val == q-&gt;val) &amp;&amp;
-                isSameTree(p-&gt;left, q-&gt;left) &amp;&amp;
-                isSameTree(p-&gt;right, q-&gt;right);
-    }
-};
-</code></pre><h3 id="判断一棵二叉树是不是对称的">判断一棵二叉树是不是对称的</h3><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    bool isSymmetric(TreeNode* root) {
-        <span class="keyword">if</span>(root == <span class="literal">NULL</span>)
-            return <span class="literal">true</span>;
-        <span class="keyword">else</span>
-            return sym(root-&gt;<span class="built_in">left</span>, root-&gt;<span class="built_in">right</span>);
-    }
-
-    bool sym(TreeNode *<span class="built_in">left</span>, TreeNode *<span class="built_in">right</span>)
-    {
-        <span class="keyword">if</span>(<span class="built_in">left</span> == <span class="literal">NULL</span> &amp;&amp; <span class="built_in">right</span> == <span class="literal">NULL</span>)
-            return <span class="literal">true</span>;
-        <span class="keyword">if</span>(<span class="built_in">left</span> != <span class="literal">NULL</span> &amp;&amp; <span class="built_in">right</span> == <span class="literal">NULL</span>)
-            return <span class="literal">false</span>;
-        <span class="keyword">if</span>(<span class="built_in">left</span> == <span class="literal">NULL</span> &amp;&amp; <span class="built_in">right</span> != <span class="literal">NULL</span>)
-            return <span class="literal">false</span>;
-        return <span class="built_in">left</span>-&gt;val == <span class="built_in">right</span>-&gt;val &amp;&amp;
-            sym(<span class="built_in">left</span>-&gt;<span class="built_in">left</span>, <span class="built_in">right</span>-&gt;<span class="built_in">right</span>) &amp;&amp;
-            sym(<span class="built_in">left</span>-&gt;<span class="built_in">right</span>, <span class="built_in">right</span>-&gt;<span class="built_in">left</span>);
-    }
-};
-</code></pre>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/二叉树/"> #二叉树 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
@@ -2588,7 +2328,7 @@ public:
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-count">46</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -2602,7 +2342,7 @@ public:
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
