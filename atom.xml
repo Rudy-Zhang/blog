@@ -4,7 +4,7 @@
   <subtitle><![CDATA[seize the day]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://rudy-zhang.me/"/>
-  <updated>2015-10-12T14:46:41.199Z</updated>
+  <updated>2015-10-13T02:16:49.596Z</updated>
   <id>http://rudy-zhang.me/</id>
   
   <author>
@@ -13,6 +13,117 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[多线程同步]]></title>
+    <link href="http://rudy-zhang.me/2015/10/13/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5/"/>
+    <id>http://rudy-zhang.me/2015/10/13/找工作总结-多线程同步/</id>
+    <published>2015-10-13T02:00:00.000Z</published>
+    <updated>2015-10-13T02:16:49.596Z</updated>
+    <content type="html"><![CDATA[<h2 id="生产者消费者">生产者消费者</h2><h4 id="描述">描述</h4><p>生产者消费者问题（英语：Producer-consumer problem），也称有限缓冲问题（英语：Bounded-buffer problem），是一个多线程同步问题的经典案例。该问题描述了两个共享固定大小缓冲区的线程——即所谓的“生产者”和“消费者”——在实际运行时会发生的问题。生产者的主要作用是生成一定量的数据放到缓冲区中，然后重复此过程。与此同时，消费者也在缓冲区消耗这些数据。该问题的关键就是要保证生产者不会在缓冲区满时加入数据，消费者也不会在缓冲区中空时消耗数据。</p>
+<h4 id="解析">解析</h4><p>需要保证两个方面的同步：</p>
+<ul>
+<li>缓冲区操作互斥<br>生产者和消费者不能同时操作一个缓冲区</li>
+<li>剩余容量的的同步<br>生产者不能在缓冲区满的情况下生产数据，消费者不能在缓冲区为空的情况下消耗数据</li>
+</ul>
+<h4 id="伪代码">伪代码</h4><pre><code>Semaphore mutex = <span class="number">1</span>
+Semaphore empty_num = size, product_num = <span class="number">0</span>
+
+producer:
+    <span class="function"><span class="title">while</span><span class="params">(<span class="number">1</span>)</span></span>:
+        <span class="function"><span class="title">P</span><span class="params">(empty_num)</span></span>
+        <span class="function"><span class="title">P</span><span class="params">(mutex)</span></span>
+        <span class="function"><span class="title">produce</span><span class="params">()</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(mutex)</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(product_num)</span></span>
+
+customer:
+    <span class="function"><span class="title">while</span><span class="params">(<span class="number">1</span>)</span></span>:
+        <span class="function"><span class="title">P</span><span class="params">(product_num)</span></span>
+        <span class="function"><span class="title">P</span><span class="params">(mutex)</span></span>
+        <span class="function"><span class="title">custome</span><span class="params">()</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(mutex)</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(empty_num)</span></span>
+</code></pre><h2 id="读者写着问题">读者写着问题</h2><p>读者—写者问题（Readers-Writers problem）也是一个经典的并发程序设计问题，是经常出现的一种同步问题。计算机系统中的数据（文件、记录）常被多个进程共享，但其中某些进程可能只要求读数据（称为读者Reader）；另一些进程则要求修改数据（称为写者Writer）。就共享数据而言，Reader和Writer是两组并发进程共享一组数据区，要求：<br>（1）允许多个读者同时执行读操作；<br>（2）不允许读者、写者同时操作；<br>（3）不允许多个写者同时操作。</p>
+<h4 id="读者优先VS写者优先">读者优先VS写者优先</h4><p>多个读者可以同时读，在读文件的时候不能写，在写文件的时候不能读。</p>
+<ul>
+<li>读者优先<br>读者可以连续不断来，只要有读者，写者就不能写</li>
+<li>写者优先<br>一旦有写者来，之后的读者必须等待</li>
+</ul>
+<h4 id="读者优先">读者优先</h4><p>需要如下信号量：</p>
+<ul>
+<li>read_count 记录读者个数</li>
+<li>writer 记录写者互斥</li>
+<li>mutex 保证read_count和writer的修改操作是互斥的</li>
+</ul>
+<pre><code>Semaphore read_count = <span class="number">0</span>
+Semaphore mutex = <span class="number">1</span>, writer = <span class="number">1</span>
+
+reader:
+    <span class="function"><span class="title">while</span><span class="params">(<span class="number">1</span>)</span></span>:
+        <span class="function"><span class="title">P</span><span class="params">(mutex)</span></span>
+        read_count++
+        <span class="function"><span class="title">if</span><span class="params">(read_count == <span class="number">1</span>)</span></span>
+            <span class="function"><span class="title">P</span><span class="params">(writer)</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(mutex)</span></span>
+        <span class="function"><span class="title">read</span><span class="params">()</span></span>
+        <span class="function"><span class="title">P</span><span class="params">(mutex)</span></span>
+        read_count--
+        <span class="function"><span class="title">if</span><span class="params">(read_count == <span class="number">0</span>)</span></span>
+            <span class="function"><span class="title">V</span><span class="params">(writer)</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(mutex)</span></span>
+
+writer:
+    <span class="function"><span class="title">while</span><span class="params">(<span class="number">1</span>)</span></span>:
+        <span class="function"><span class="title">P</span><span class="params">(writer)</span></span>
+        <span class="function"><span class="title">wirte</span><span class="params">()</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(wirter)</span></span>
+</code></pre><h4 id="写者优先">写者优先</h4><p>需要增加一个互斥锁，负责当有写者的时候阻塞之后的读者。</p>
+<pre><code>Semaphore read_count = <span class="number">0</span>
+Semaphore mutex = <span class="number">1</span>, writer = <span class="number">1</span>, queue = <span class="number">1</span>
+
+reader:
+    <span class="function"><span class="title">while</span><span class="params">(<span class="number">1</span>)</span></span>:
+        <span class="function"><span class="title">P</span><span class="params">(queue)</span></span>
+        <span class="function"><span class="title">P</span><span class="params">(mutex)</span></span>
+        read_count++
+        <span class="function"><span class="title">if</span><span class="params">(read_count == <span class="number">1</span>)</span></span>
+            <span class="function"><span class="title">P</span><span class="params">(writer)</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(mutex)</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(queue)</span></span>
+        <span class="function"><span class="title">read</span><span class="params">()</span></span>
+        <span class="function"><span class="title">P</span><span class="params">(mutex)</span></span>
+        read_count--
+        <span class="function"><span class="title">if</span><span class="params">(read_count == <span class="number">0</span>)</span></span>
+            <span class="function"><span class="title">V</span><span class="params">(writer)</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(mutex)</span></span>
+
+writer:
+    <span class="function"><span class="title">while</span><span class="params">(<span class="number">1</span>)</span></span>:
+        <span class="function"><span class="title">P</span><span class="params">(queue)</span></span>
+        <span class="function"><span class="title">P</span><span class="params">(writer)</span></span>
+        <span class="function"><span class="title">wirte</span><span class="params">()</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(wirter)</span></span>
+        <span class="function"><span class="title">V</span><span class="params">(queue)</span></span>
+</code></pre><h2 id="哲学家就餐问题">哲学家就餐问题</h2><h4 id="问题描述">问题描述</h4><p>哲学家就餐问题可以这样表述，假设有五位哲学家围坐在一张圆形餐桌旁，做以下两件事情之一：吃饭，或者思考。吃东西的时候，他们就停止思考，思考的时候也停止吃东西。餐桌中间有一大碗意大利面，每两个哲学家之间有一只餐叉。因为用一只餐叉很难吃到意大利面，所以假设哲学家必须用两只餐叉吃东西。他们只能使用自己左右手边的那两只餐叉。哲学家就餐问题有时也用米饭和筷子而不是意大利面和餐叉来描述，因为很明显，吃米饭必须用两根筷子。</p>
+<h4 id="解析-1">解析</h4><p>对于每一个哲学家，需要拿起左边的筷子，拿起右边的筷子，吃。</p>
+<pre><code>Semaphore chopsticks[N]
+<span class="function"><span class="title">while</span><span class="params">(<span class="number">1</span>)</span></span>
+    <span class="function"><span class="title">P</span><span class="params">(chopsticks[i])</span></span>
+    <span class="function"><span class="title">P</span><span class="params">(chopsticks[i+<span class="number">1</span>]%N)</span></span>
+    <span class="function"><span class="title">eat</span><span class="params">()</span></span>
+    <span class="function"><span class="title">V</span><span class="params">(chopsticks[i+<span class="number">1</span>]%N)</span></span>
+    <span class="function"><span class="title">V</span><span class="params">(chopsticks[i])</span></span>
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="生产者消费者">生产者消费者</h2><h4 id="描述">描述</h4><p>生产者消费者问题（英语：Producer-consumer problem），也称有限缓冲问题（英语：Bounded-buffer problem），是一个多线程同步问题的经典案例。]]>
+    </summary>
+    
+      <category term="操作系统" scheme="http://rudy-zhang.me/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[正则表达式]]></title>
@@ -203,117 +314,6 @@ where <span class="keyword">sc</span>.cid = '001'
     </summary>
     
       <category term="数据库" scheme="http://rudy-zhang.me/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[多线程同步]]></title>
-    <link href="http://rudy-zhang.me/2015/10/12/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5/"/>
-    <id>http://rudy-zhang.me/2015/10/12/找工作总结-多线程同步/</id>
-    <published>2015-10-12T11:00:00.000Z</published>
-    <updated>2015-10-13T02:15:20.069Z</updated>
-    <content type="html"><![CDATA[<h2 id="生产者消费者">生产者消费者</h2><h4 id="描述">描述</h4><p>生产者消费者问题（英语：Producer-consumer problem），也称有限缓冲问题（英语：Bounded-buffer problem），是一个多线程同步问题的经典案例。该问题描述了两个共享固定大小缓冲区的线程——即所谓的“生产者”和“消费者”——在实际运行时会发生的问题。生产者的主要作用是生成一定量的数据放到缓冲区中，然后重复此过程。与此同时，消费者也在缓冲区消耗这些数据。该问题的关键就是要保证生产者不会在缓冲区满时加入数据，消费者也不会在缓冲区中空时消耗数据。</p>
-<h4 id="解析">解析</h4><p>需要保证两个方面的同步：</p>
-<ul>
-<li>缓冲区操作互斥<br>生产者和消费者不能同时操作一个缓冲区</li>
-<li>剩余容量的的同步<br>生产者不能在缓冲区满的情况下生产数据，消费者不能在缓冲区为空的情况下消耗数据</li>
-</ul>
-<h4 id="伪代码">伪代码</h4><pre><code>Semaphore mutex = <span class="number">1</span>
-Semaphore empty_num = size, product_num = <span class="number">0</span>
-
-producer:
-    <span class="function"><span class="title">while</span><span class="params">(<span class="number">1</span>)</span></span>:
-        <span class="function"><span class="title">P</span><span class="params">(empty_num)</span></span>
-        <span class="function"><span class="title">P</span><span class="params">(mutex)</span></span>
-        <span class="function"><span class="title">produce</span><span class="params">()</span></span>
-        <span class="function"><span class="title">V</span><span class="params">(mutex)</span></span>
-        <span class="function"><span class="title">V</span><span class="params">(product_num)</span></span>
-
-customer:
-    <span class="function"><span class="title">while</span><span class="params">(<span class="number">1</span>)</span></span>:
-        <span class="function"><span class="title">P</span><span class="params">(product_num)</span></span>
-        <span class="function"><span class="title">P</span><span class="params">(mutex)</span></span>
-        <span class="function"><span class="title">custome</span><span class="params">()</span></span>
-        <span class="function"><span class="title">V</span><span class="params">(mutex)</span></span>
-        <span class="function"><span class="title">V</span><span class="params">(empty_num)</span></span>
-</code></pre><h2 id="读者写着问题">读者写着问题</h2><p>读者—写者问题（Readers-Writers problem）也是一个经典的并发程序设计问题，是经常出现的一种同步问题。计算机系统中的数据（文件、记录）常被多个进程共享，但其中某些进程可能只要求读数据（称为读者Reader）；另一些进程则要求修改数据（称为写者Writer）。就共享数据而言，Reader和Writer是两组并发进程共享一组数据区，要求：<br>（1）允许多个读者同时执行读操作；<br>（2）不允许读者、写者同时操作；<br>（3）不允许多个写者同时操作。</p>
-<h4 id="读者优先VS写者优先">读者优先VS写者优先</h4><p>多个读者可以同时读，在读文件的时候不能写，在写文件的时候不能读。</p>
-<ul>
-<li>读者优先<br>读者可以连续不断来，只要有读者，写者就不能写</li>
-<li>写者优先<br>一旦有写者来，之后的读者必须等待</li>
-</ul>
-<h4 id="读者优先">读者优先</h4><p>需要如下信号量：</p>
-<ul>
-<li>read_count 记录读者个数</li>
-<li>writer 记录写者互斥</li>
-<li>mutex 保证read_count和writer的修改操作是互斥的</li>
-</ul>
-<pre><code>Semaphore read_count = <span class="number">0</span>
-Semaphore mutex = <span class="number">1</span>, writer = <span class="number">1</span>
-
-reader:
-    <span class="function"><span class="title">while</span><span class="params">(<span class="number">1</span>)</span></span>:
-        <span class="function"><span class="title">P</span><span class="params">(mutex)</span></span>
-        read_count++
-        <span class="function"><span class="title">if</span><span class="params">(read_count == <span class="number">1</span>)</span></span>
-            <span class="function"><span class="title">P</span><span class="params">(writer)</span></span>
-        <span class="function"><span class="title">V</span><span class="params">(mutex)</span></span>
-        <span class="function"><span class="title">read</span><span class="params">()</span></span>
-        <span class="function"><span class="title">P</span><span class="params">(mutex)</span></span>
-        read_count--
-        <span class="function"><span class="title">if</span><span class="params">(read_count == <span class="number">0</span>)</span></span>
-            <span class="function"><span class="title">V</span><span class="params">(writer)</span></span>
-        <span class="function"><span class="title">V</span><span class="params">(mutex)</span></span>
-
-writer:
-    <span class="function"><span class="title">while</span><span class="params">(<span class="number">1</span>)</span></span>:
-        <span class="function"><span class="title">P</span><span class="params">(writer)</span></span>
-        <span class="function"><span class="title">wirte</span><span class="params">()</span></span>
-        <span class="function"><span class="title">V</span><span class="params">(wirter)</span></span>
-</code></pre><h4 id="写者优先">写者优先</h4><p>需要增加一个互斥锁，负责当有写者的时候阻塞之后的读者。</p>
-<pre><code>Semaphore read_count = <span class="number">0</span>
-Semaphore mutex = <span class="number">1</span>, writer = <span class="number">1</span>, queue = <span class="number">1</span>
-
-reader:
-    <span class="function"><span class="title">while</span><span class="params">(<span class="number">1</span>)</span></span>:
-        <span class="function"><span class="title">P</span><span class="params">(queue)</span></span>
-        <span class="function"><span class="title">P</span><span class="params">(mutex)</span></span>
-        read_count++
-        <span class="function"><span class="title">if</span><span class="params">(read_count == <span class="number">1</span>)</span></span>
-            <span class="function"><span class="title">P</span><span class="params">(writer)</span></span>
-        <span class="function"><span class="title">V</span><span class="params">(mutex)</span></span>
-        <span class="function"><span class="title">V</span><span class="params">(queue)</span></span>
-        <span class="function"><span class="title">read</span><span class="params">()</span></span>
-        <span class="function"><span class="title">P</span><span class="params">(mutex)</span></span>
-        read_count--
-        <span class="function"><span class="title">if</span><span class="params">(read_count == <span class="number">0</span>)</span></span>
-            <span class="function"><span class="title">V</span><span class="params">(writer)</span></span>
-        <span class="function"><span class="title">V</span><span class="params">(mutex)</span></span>
-
-writer:
-    <span class="function"><span class="title">while</span><span class="params">(<span class="number">1</span>)</span></span>:
-        <span class="function"><span class="title">P</span><span class="params">(queue)</span></span>
-        <span class="function"><span class="title">P</span><span class="params">(writer)</span></span>
-        <span class="function"><span class="title">wirte</span><span class="params">()</span></span>
-        <span class="function"><span class="title">V</span><span class="params">(wirter)</span></span>
-        <span class="function"><span class="title">V</span><span class="params">(queue)</span></span>
-</code></pre><h2 id="哲学家就餐问题">哲学家就餐问题</h2><h4 id="问题描述">问题描述</h4><p>哲学家就餐问题可以这样表述，假设有五位哲学家围坐在一张圆形餐桌旁，做以下两件事情之一：吃饭，或者思考。吃东西的时候，他们就停止思考，思考的时候也停止吃东西。餐桌中间有一大碗意大利面，每两个哲学家之间有一只餐叉。因为用一只餐叉很难吃到意大利面，所以假设哲学家必须用两只餐叉吃东西。他们只能使用自己左右手边的那两只餐叉。哲学家就餐问题有时也用米饭和筷子而不是意大利面和餐叉来描述，因为很明显，吃米饭必须用两根筷子。</p>
-<h4 id="解析-1">解析</h4><p>对于每一个哲学家，需要拿起左边的筷子，拿起右边的筷子，吃。</p>
-<pre><code>Semaphore chopsticks[N]
-<span class="function"><span class="title">while</span><span class="params">(<span class="number">1</span>)</span></span>
-    <span class="function"><span class="title">P</span><span class="params">(chopsticks[i])</span></span>
-    <span class="function"><span class="title">P</span><span class="params">(chopsticks[i+<span class="number">1</span>]%N)</span></span>
-    <span class="function"><span class="title">eat</span><span class="params">()</span></span>
-    <span class="function"><span class="title">V</span><span class="params">(chopsticks[i+<span class="number">1</span>]%N)</span></span>
-    <span class="function"><span class="title">V</span><span class="params">(chopsticks[i])</span></span>
-</code></pre>]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="生产者消费者">生产者消费者</h2><h4 id="描述">描述</h4><p>生产者消费者问题（英语：Producer-consumer problem），也称有限缓冲问题（英语：Bounded-buffer problem），是一个多线程同步问题的经典案例。]]>
-    </summary>
-    
-      <category term="操作系统" scheme="http://rudy-zhang.me/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
     
       <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
     
