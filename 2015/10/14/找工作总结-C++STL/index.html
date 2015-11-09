@@ -1,0 +1,1095 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+
+
+
+
+  <meta name="keywords" content="C++,STL," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?Rudy-Zhang";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  <title> C++ STL // Rudy's Blog </title>
+</head>
+
+<body>
+<!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">Rudy's Blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+
+  <ul id="menu" class="menu">
+     
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-categories">
+        <a href="/categories">
+          <i class="menu-item-icon icon-categories"></i> <br />
+          分类
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              C++ STL
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-10-14
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/找工作总结/">找工作总结</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/10/14/找工作总结-C++STL/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/14/找工作总结-C++STL/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <h2 id="STL是什么">STL是什么</h2><p>定义：标准模板库（Standard Template Library，STL）<br>组成：容器（基于模板）+算法。STL是一些“容器”的集合，这些“容器”有list,vector,set,map等，STL也是算法和其他一些组件的集合。<br>优点：跨平台，可重用，高性能，免费。STL被内建在大部分编译器中，也可以说STL就是C++的一部分，使用起来很方便。<br>泛型编程：一个程序可以看做是输入，操作，输出，当不确定输入和输出的类型，但是对于数据操作的原则是一样的时候，可以使用泛型（模板机制）代替，这样可以更加抽象地表达程序，STL就是一个大量使用了泛型编程的例子。<br>模板机制：模板就是实现代码重用机制的一种工具，它可以实现类型参数化，即把类型定义为参数， 从而实现了真正的代码可重用性。<br><a href="http://www.cplusplus.com/reference/" target="_blank" rel="external">STL API参考</a></p>
+<h2 id="vector">vector</h2><p><strong>实现原理</strong><br>vector是在堆内存中连续存储的动态可伸缩数组。</p>
+<p><strong>说明</strong><br>stl array固定大小，stl vector是动态可伸缩的,当前内存不够用时，内存翻倍。</p>
+<p><strong>常用接口</strong></p>
+<pre><code><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; second (<span class="number">4</span>,<span class="number">100</span>);
+<span class="built_in">vector</span>::<span class="keyword">operator</span>[]
+<span class="built_in">vector</span>::push_back() 
+<span class="built_in">vector</span>::pop_back()
+<span class="built_in">vector</span>::clear() <span class="comment">//清空</span>
+<span class="built_in">vector</span>::empty() <span class="comment">//判断是否为空</span>
+<span class="built_in">vector</span>::size() <span class="comment">// 当前内容大小</span>
+<span class="built_in">vector</span>::capacity() <span class="comment">// 当前内存的容量</span>
+<span class="built_in">vector</span>::resize() <span class="comment">// 调整当前内容大小</span>
+</code></pre><h2 id="dequeue">dequeue</h2><p><strong>实现原理</strong><br>dequeue在内存中是一段一段的连续空间。<br>如果需要新的空间，则在内存中开辟一段空间，通过指针连接到当前dequeue的头端或者尾端。<br>dequeue通过复杂的结构，维护了这些空间整体连续的假象，并且提供了随机存取的接口。</p>
+<p><strong>常用接口</strong></p>
+<pre><code>deque::<span class="function"><span class="title">push_back</span><span class="params">()</span></span>
+deque::<span class="function"><span class="title">push_front</span><span class="params">()</span></span>
+deque::<span class="function"><span class="title">pop_back</span><span class="params">()</span></span>
+deque::<span class="function"><span class="title">pop_front</span><span class="params">()</span></span>
+vector::operator[]
+queue::<span class="function"><span class="title">front</span><span class="params">()</span></span> <span class="comment">// 队列第一个元素</span>
+queue::<span class="function"><span class="title">back</span><span class="params">()</span></span> <span class="comment">// 队列最后一个元素</span>
+</code></pre><h2 id="stack">stack</h2><p><strong>实现原理</strong><br>stack默认使用双向队列deque实现，加了适配器，修改接口</p>
+<p><strong>常用接口</strong></p>
+<pre><code>stack::<span class="function"><span class="title">push</span><span class="params">()</span></span>
+stack::<span class="function"><span class="title">pop</span><span class="params">()</span></span>
+stack::<span class="function"><span class="title">top</span><span class="params">()</span></span>
+stack::<span class="function"><span class="title">empty</span><span class="params">()</span></span>
+stack::<span class="function"><span class="title">size</span><span class="params">()</span></span>
+</code></pre><h2 id="queue">queue</h2><p><strong>实现原理</strong><br>queue使用双向队列deque实现，加了适配器，修改接口</p>
+<p><strong>常用接口</strong></p>
+<pre><code>queue::<span class="function"><span class="title">front</span><span class="params">()</span></span> <span class="comment">// 队列头，先插进去的元素</span>
+queue::<span class="function"><span class="title">back</span><span class="params">()</span></span> <span class="comment">// 队列尾，后插进去的元素</span>
+queue::<span class="function"><span class="title">push</span><span class="params">()</span></span>
+queue::<span class="function"><span class="title">pop</span><span class="params">()</span></span>
+queue::<span class="function"><span class="title">empty</span><span class="params">()</span></span>
+queue::<span class="function"><span class="title">size</span><span class="params">()</span></span>
+</code></pre><h2 id="list">list</h2><p><strong>实现原理</strong><br>STL中的list就是一双向链表，可高效地进行插入删除元素。</p>
+<p><strong>常用接口</strong></p>
+<pre><code>deque::<span class="function"><span class="title">push_back</span><span class="params">()</span></span>
+deque::<span class="function"><span class="title">push_front</span><span class="params">()</span></span>
+deque::<span class="function"><span class="title">pop_back</span><span class="params">()</span></span>
+deque::<span class="function"><span class="title">pop_front</span><span class="params">()</span></span>
+queue::<span class="function"><span class="title">front</span><span class="params">()</span></span> 
+queue::<span class="function"><span class="title">back</span><span class="params">()</span></span> 
+</code></pre><h2 id="vector,list,dequeue">vector,list,dequeue</h2><pre><code><span class="built_in">vector</span> - 会自动增长的数组
+<span class="built_in">deque</span> - 拥有<span class="built_in">vector</span>和<span class="built_in">list</span>两者优点的双端队列
+<span class="built_in">list</span> - 擅长插入删除的链表
+</code></pre><h2 id="priority_queue">priority_queue</h2><p><strong>实现原理</strong><br>优先队列（堆），默认底层使用vector来实现。</p>
+<p><strong>说明</strong><br>默认情况下是大顶堆，可以自定义为小顶堆</p>
+<p><strong>常用接口</strong></p>
+<pre><code>priority_queue&lt;<span class="built_in">int</span>&gt; <span class="type">Q</span>;
+<span class="built_in">int</span> a[<span class="number">5</span>]={<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">2</span>,<span class="number">1</span>};
+priority_queue&lt;<span class="built_in">int</span>&gt; <span class="type">Q</span>(a,a+<span class="number">5</span>);
+priority_queue&lt;<span class="built_in">int</span>, <span class="built_in">vector</span>&lt;<span class="built_in">int</span>&gt;, greater&lt;<span class="built_in">int</span>&gt; &gt; q;
+小顶堆：greater&lt;<span class="type">TYPE</span>&gt;
+大顶堆：less&lt;<span class="type">TYPE</span>&gt;
+
+empty<span class="literal">()</span> 如果优先队列为空，则返回真 
+pop<span class="literal">()</span> 删除第一个元素 
+push<span class="literal">()</span> 加入一个元素 
+size<span class="literal">()</span> 返回优先队列中拥有的元素的个数 
+top<span class="literal">()</span> 返回优先队列中有最高优先级的元素
+</code></pre><p><strong>使用vector实现堆操作</strong><br>algorithm中的make_heap,pop_heap,sort_heap来完成对vector的操作</p>
+<pre><code><span class="comment">#include&lt;iostream&gt;</span>
+<span class="comment">#include&lt;vector&gt;</span>
+<span class="comment">#include&lt;algorithm&gt;</span>
+
+<span class="keyword">using</span> namespace std;
+
+<span class="type">int</span> main()
+{
+  <span class="type">int</span> a[] = {<span class="number">15</span>, <span class="number">1</span>, <span class="number">12</span>, <span class="number">30</span>, <span class="number">20</span>};
+  vector&lt;<span class="type">int</span>&gt; ivec(a, a+<span class="number">5</span>);
+  <span class="keyword">for</span>(vector&lt;<span class="type">int</span>&gt;::<span class="keyword">iterator</span> iter=ivec.begin();iter!=ivec.<span class="keyword">end</span>();++iter)
+    cout&lt;&lt;*iter&lt;&lt;<span class="string">" "</span>;
+  cout&lt;&lt;endl;
+
+  make_heap(ivec.begin(), ivec.<span class="keyword">end</span>());//建堆
+  <span class="keyword">for</span>(vector&lt;<span class="type">int</span>&gt;::<span class="keyword">iterator</span> iter=ivec.begin();iter!=ivec.<span class="keyword">end</span>();++iter)
+    cout&lt;&lt;*iter&lt;&lt;<span class="string">" "</span>;
+  cout&lt;&lt;endl;
+
+  pop_heap(ivec.begin(), ivec.<span class="keyword">end</span>());//先pop,然后在容器中删除
+  ivec.pop_back();
+  <span class="keyword">for</span>(vector&lt;<span class="type">int</span>&gt;::<span class="keyword">iterator</span> iter=ivec.begin();iter!=ivec.<span class="keyword">end</span>();++iter)
+    cout&lt;&lt;*iter&lt;&lt;<span class="string">" "</span>;
+  cout&lt;&lt;endl;
+
+  ivec.push_back(<span class="number">99</span>);//先在容器中加入，再push
+  push_heap(ivec.begin(), ivec.<span class="keyword">end</span>());
+  <span class="keyword">for</span>(vector&lt;<span class="type">int</span>&gt;::<span class="keyword">iterator</span> iter=ivec.begin();iter!=ivec.<span class="keyword">end</span>();++iter)
+    cout&lt;&lt;*iter&lt;&lt;<span class="string">" "</span>;
+  cout&lt;&lt;endl;
+
+  sort_heap(ivec.begin(), ivec.<span class="keyword">end</span>());
+  <span class="keyword">for</span>(vector&lt;<span class="type">int</span>&gt;::<span class="keyword">iterator</span> iter=ivec.begin();iter!=ivec.<span class="keyword">end</span>();++iter)
+    cout&lt;&lt;*iter&lt;&lt;<span class="string">" "</span>;
+  cout&lt;&lt;endl;
+
+  <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><h2 id="map">map</h2><p><strong>实现原理</strong><br>使用红黑树实现，插入，查找，删除的效率都是log(n)</p>
+<p><strong>常用接口</strong></p>
+<pre><code><span class="built_in">std</span>::<span class="built_in">map</span>&lt;<span class="keyword">char</span>,<span class="keyword">int</span>&gt; first;
+<span class="built_in">map</span>::<span class="keyword">operator</span>[] <span class="comment">// 如果匹配则返回，不匹配就插入</span>
+<span class="built_in">map</span>::insert() <span class="comment">//也可以用来添加</span>
+查找
+<span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="built_in">string</span>&gt; myMap;
+<span class="keyword">if</span>(myMap.find(key)==maplive.end()) <span class="comment">// 没有</span>
+<span class="keyword">if</span>(myMap.count(key)) <span class="comment">// 找到有value的</span>
+删除
+myMap.erase(key)
+</code></pre><p><strong>遍历一个map</strong></p>
+<pre><code>map&lt;<span class="type">string</span>,<span class="type">int</span>&gt;::<span class="keyword">iterator</span> it;
+<span class="keyword">for</span>(it=m.begin();it!=m.<span class="keyword">end</span>();++it)
+    cout&lt;&lt;<span class="string">"key: "</span>&lt;&lt;it-&gt;first &lt;&lt;<span class="string">" value: "</span>&lt;&lt;it-&gt;second&lt;&lt;endl;
+</code></pre><h2 id="set">set</h2><p><strong>实现原理</strong><br>使用红黑树实现，类似于map只不过只有key，没有value</p>
+<p><strong>说明</strong><br>元素唯一，插入后自动排序，插入，查找，删除效率都是logn</p>
+<p><strong>常用接口</strong></p>
+<pre><code>std::<span class="operator"><span class="keyword">set</span>&lt;<span class="built_in">int</span>&gt; s;</span>
+插入
+<span class="operator"><span class="keyword">insert</span>()     
+clear()   　　     ,删除<span class="keyword">set</span>容器中的所有的元素
+empty() 　　　,判断<span class="keyword">set</span>容器是否为空
+<span class="keyword">size</span>() 　　　　 ,返回当前<span class="keyword">set</span>容器中的元素个数
+查找 
+iter = s.find(<span class="number">2</span>)) != s.<span class="keyword">end</span>()
+s.<span class="keyword">count</span>(<span class="number">2</span>) != <span class="number">0</span>
+删除
+s.erease(<span class="keyword">key</span>)</span>
+</code></pre><h2 id="multimap/multiset">multimap/multiset</h2><p><strong>实现原理</strong><br>使用红黑树实现，插入，查找，删除的效率都是log(n)</p>
+<p><strong>说明</strong><br>它允许重复键。multimap 中能存储重复键的能力大大地影响它的接口和使用。multimap不能使用下标操作符[]，插入和读取。</p>
+<p><strong>常用接口</strong><br>插入使用pair类型</p>
+<pre><code><span class="built_in">multimap</span> &lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; DNS_daemon;
+DNS_daemon.insert(make_pair(<span class="string">"213.108.96.7"</span>,<span class="string">"cppluspluszone.com"</span>));
+</code></pre><p>查找<br>count(k) 成员函数返回与给定键关联的值得数量。</p>
+<p>遍历查找到的元素</p>
+<pre><code>multimap&lt;<span class="type">string</span>,<span class="type">int</span>&gt;::<span class="keyword">iterator</span> it;
+<span class="type">int</span> num=m.count(<span class="string">"Jack"</span>);
+it = m.find(<span class="string">"Jack"</span>);
+cout&lt;&lt;<span class="string">"the search result is :"</span>&lt;&lt;endl;
+<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=num;i++)
+{
+    cout&lt;&lt;(*it).first&lt;&lt;<span class="string">"  "</span>&lt;&lt;(*it).second&lt;&lt;endl;
+    it++;
+}
+</code></pre><p>multiset类似于multimap</p>
+<h2 id="unordered_map">unordered_map</h2><p><strong>实现原理</strong><br>使用hash表实现，提供了和map一样的接口</p>
+<p><strong>说明</strong><br>unordered_map来自于boost，后来收录到tr1中</p>
+<p>与map的区别是，</p>
+<ol>
+<li>map使用红黑树实现，unordered_map使用hash表实现</li>
+<li>map中的key是有序的，unordered_map中的key是无序的。</li>
+</ol>
+<h2 id="string">string</h2><p><strong>实现原理</strong><br>string也是stl中的一种容器，提供iterator和相关的接口</p>
+<p><strong>常用接口</strong></p>
+<pre><code>s.empty<span class="params">()</span>  判断是否为空，bool型
+s.size<span class="params">()</span> 或 s.length<span class="params">()</span> 返回字符的个数
+s[n]  返回位置为n的字符，从<span class="number">0</span>开始计数
+s1+s2 连接
+
+int stoi <span class="params">(const string&amp;  str, size_t* idx = <span class="number">0</span>, int base = <span class="number">10</span>)</span>;
+<span class="comment">//C++，把string转化为int，如果不是以数字开头的会出Exception</span>
+clear<span class="params">()</span>;<span class="comment">//清除string中的内容</span>
+<span class="built_in">resize</span><span class="params">(<span class="number">0</span>)</span>;
+string substr<span class="params">(int pos = <span class="number">0</span>,int n = npos)</span> const;<span class="comment">//返回pos开始的n个字符组成的字符串</span>
+s.find <span class="params">( <span class="string">" cat "</span> )</span> ;  <span class="comment">//超找第一个出现的字符串”cat“，返回其下标值，查不到返回 4294967295，也可查找字符；</span>
+s.append<span class="params">(args)</span>; <span class="comment">//将args接到s的后面</span>
+s.compare <span class="params">( <span class="string">" good "</span> )</span> ;  <span class="comment">//s与”good“比较相等返回0，比"good"大返回1，小则返回-1；</span>
+reverse <span class="params">( s.begin<span class="params">()</span>, s.end <span class="params">()</span> )</span>;  <span class="comment">//反向排序函数，即字符串反转函数</span>
+</code></pre><h2 id="常用函数">常用函数</h2><p><strong>find</strong><br>    InputIterator find (InputIterator first, InputIterator last, const T&amp; val)<br>例如：</p>
+<pre><code>multimap&lt;<span class="type">string</span>,<span class="type">int</span>&gt;::<span class="keyword">iterator</span> it;
+<span class="type">int</span> num=m.count(<span class="string">"Jack"</span>);
+it = m.find(<span class="string">"Jack"</span>);
+</code></pre><p>或者</p>
+<pre><code>it = <span class="function"><span class="title">find</span><span class="params">(m.begin()</span></span>, m.<span class="function"><span class="title">end</span><span class="params">()</span></span>, <span class="string">"Jack"</span>)
+</code></pre><p><strong>swap</strong></p>
+<pre><code><span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt; <span class="function"><span class="keyword">void</span> <span class="title">swap</span> <span class="params">( T&amp; a, T&amp; b )</span>
+<span class="keyword">int</span> x</span>=<span class="number">10</span>, y=<span class="number">20</span>;                              <span class="comment">// x:10 y:20</span>
+<span class="built_in">std</span>::swap(x,y);                              <span class="comment">// x:20 y:10</span>
+<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; foo (<span class="number">4</span>,x), bar (<span class="number">6</span>,y);       <span class="comment">// foo:4x20 bar:6x10</span>
+<span class="built_in">std</span>::swap(foo,bar);                          <span class="comment">// foo:6x10 bar:4x20</span>
+</code></pre><p><strong>reverse</strong></p>
+<pre><code><span class="rule"><span class="attribute">std</span>:<span class="value">:<span class="function">reverse</span>(myvector.<span class="function">begin</span>(),myvector.<span class="function">end</span>())</span></span>; 
+</code></pre><p><strong>sort/stable_sort</strong></p>
+<pre><code><span class="rule"><span class="attribute">std</span>:<span class="value">:sort (myvector.<span class="function">begin</span>(), myvector.<span class="function">begin</span>()+<span class="number">4</span>)</span></span>;
+</code></pre><p>或</p>
+<pre><code><span class="function"><span class="keyword">bool</span> <span class="title">myfunction</span> <span class="params">(<span class="keyword">int</span> i,<span class="keyword">int</span> j)</span> </span>{ <span class="keyword">return</span> (i&lt;j); }
+<span class="keyword">int</span> myints[] = {<span class="number">32</span>,<span class="number">71</span>,<span class="number">12</span>,<span class="number">45</span>,<span class="number">26</span>,<span class="number">80</span>,<span class="number">53</span>,<span class="number">33</span>};
+<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; myvector (myints, myints+<span class="number">8</span>);               <span class="comment">// 32 71 12 45 26 80 53 33</span>
+<span class="comment">// using function as comp</span>
+<span class="built_in">std</span>::sort (myvector.begin()+<span class="number">4</span>, myvector.end(), myfunction); <span class="comment">// 12 32 45 71(26 33 53 80)</span>
+</code></pre>
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/"> #C++ </a>
+          
+            <a href="/tags/STL/"> #STL </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/10/15/找工作总结-数据库基础/">操作系统基础</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/14/找工作总结-C++基础/">C++基础</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2015/10/14/找工作总结-C++STL/"
+               data-title="C++ STL" data-url="http://rudy-zhang.me/2015/10/14/找工作总结-C++STL/">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="https://avatars0.githubusercontent.com/u/9674774" alt="Rudy Zhang" />
+          <p class="site-author-name">Rudy Zhang</p>
+        </div>
+        <p class="site-description motion-element"></p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">50</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://github.com/Rudy-Zhang" target="_blank">github</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://www.zhihu.com/people/rudy-zhang-93" target="_blank">zhihu</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#STL是什么"><span class="nav-number">1.</span> <span class="nav-text">STL是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vector"><span class="nav-number">2.</span> <span class="nav-text">vector</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dequeue"><span class="nav-number">3.</span> <span class="nav-text">dequeue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stack"><span class="nav-number">4.</span> <span class="nav-text">stack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#queue"><span class="nav-number">5.</span> <span class="nav-text">queue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#list"><span class="nav-number">6.</span> <span class="nav-text">list</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vector,list,dequeue"><span class="nav-number">7.</span> <span class="nav-text">vector,list,dequeue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#priority_queue"><span class="nav-number">8.</span> <span class="nav-text">priority_queue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#map"><span class="nav-number">9.</span> <span class="nav-text">map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#set"><span class="nav-number">10.</span> <span class="nav-text">set</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multimap/multiset"><span class="nav-number">11.</span> <span class="nav-text">multimap/multiset</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unordered_map"><span class="nav-number">12.</span> <span class="nav-text">unordered_map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#string"><span class="nav-number">13.</span> <span class="nav-text">string</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用函数"><span class="nav-number">14.</span> <span class="nav-text">常用函数</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">Rudy Zhang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.content img').each(function () {
+        var $image = $(this);
+        var $imageWrapLink = $image.parent('a');
+
+        if ($imageWrapLink.size() < 1) {
+          $imageWrapLink = $image.wrap('<a href="' + this.getAttribute('src') + '"></a>').parent('a');
+        }
+        $imageWrapLink.addClass('fancybox');
+      });
+    });
+    $('.fancybox').fancybox({
+      helpers: {
+        overlay: {
+          locked: false
+        }
+      }
+    });
+  </script>
+
+
+  <script type="text/javascript">
+  function hasMobileUA () {
+    var nav = window.navigator;
+    var ua = nav.userAgent;
+    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
+
+    return pa.test(ua);
+  }
+
+  function isDesktop () {
+    return screen.width > 991 && !hasMobileUA();
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767 && hasMobileUA();
+  }
+
+  function isMobile () {
+    return screen.width < 767 && hasMobileUA();
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+
+  function displaySidebar () {
+    setTimeout(function () {
+      $('.sidebar-toggle').trigger('click');
+    }, 800);
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    LogoAndMenuMotion();
+    sidebarToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.isShowing', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.isHiding', function () {});
+
+    function LogoAndMenuMotion() {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        
+        { e: $('.logo-line-before i'), p: { translateX: "100%" }, o: { duration: 500, sequenceQueue: false } },
+        { e: $('.logo-line-after i'), p: { translateX: "-100%" }, o: { duration: 500, sequenceQueue: false } },
+        
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200 } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    }
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, {
+        display: 'block',
+        duration: SIDEBAR_DISPLAY_DURATION,
+        complete: function () {
+          sidebar.addClass('sidebar-active');
+          sidebar.trigger('sidebar.didShow');
+        }
+      });
+      sidebar.trigger('sidebar.isShowing');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.removeClass('sidebar-active');
+      sidebar.trigger('sidebar.isHiding');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      var postMotionOptions = window.postMotionOptions || {stagger: 300, drag: true};
+      $('.post').velocity('transition.slideDownIn', postMotionOptions);
+    }
+
+    function sidebarToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      if (isDesktop() && HEXO_SIDEBAR_CONFIGURATION === 'post') {
+        displaySidebar();
+      }
+    });
+  </script>
+
+
+
+
+  <script type="text/javascript">
+    var HEXO_SIDEBAR_CONFIGURATION = 'always';
+    $(document).ready(function () {
+      if (HEXO_SIDEBAR_CONFIGURATION === 'always') {
+        displaySidebar();
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"rudy-zhang"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  
+</body>
+</html>

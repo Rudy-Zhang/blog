@@ -4,7 +4,7 @@
   <subtitle><![CDATA[seize the day]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://rudy-zhang.me/"/>
-  <updated>2015-10-13T02:16:49.596Z</updated>
+  <updated>2015-10-15T02:43:31.516Z</updated>
   <id>http://rudy-zhang.me/</id>
   
   <author>
@@ -13,6 +13,473 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[数据库基础]]></title>
+    <link href="http://rudy-zhang.me/2015/10/15/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/"/>
+    <id>http://rudy-zhang.me/2015/10/15/找工作总结-操作系统基础/</id>
+    <published>2015-10-15T04:00:00.000Z</published>
+    <updated>2015-10-15T02:43:31.516Z</updated>
+    <content type="html"><![CDATA[<h2 id="程序VS进程（Process）VS线程（Thread）">程序VS进程（Process）VS线程（Thread）</h2><p>程序是指令的集合，静态文本<br>进程是程序在一个数据集上运行的过程，进行<strong>资源分配</strong>和调度的单元<br>线程是进程中的实体，被系统<strong>独立调度和执行的基本单元</strong>，可共享资源</p>
+<h2 id="进程间通信方法">进程间通信方法</h2><p>管道，信号量，消息队列，套接字</p>
+<p>管道( pipe )：管道是一种半双工的通信方式，数据只能单向流动，而且只能在具有亲缘关系的进程间使用。进程的亲缘关系通常是指父子进程关系。<br>有名管道 (named pipe) ： 有名管道也是半双工的通信方式，但是它允许无亲缘关系进程间的通信。<br>信号量( semophore ) ： 信号量是一个计数器，可以用来控制多个进程对共享资源的访问。它常作为一种锁机制，防止某进程正在访问共享资源时，其他进程也访问该资源。因此，主要作为进程间以及同一进程内不同线程之间的同步手段。<br>消息队列( message queue ) ： 消息队列是由消息的链表，存放在内核中并由消息队列标识符标识。消息队列克服了信号传递信息少、管道只能承载无格式字节流以及缓冲区大<br>套接字( socket ) ： 套解口也是一种进程间通信机制，与其他通信机制不同的是。它可用于不同进程间的进程通信，指定端口号即可。</p>
+<h2 id="线程同步与互斥概念">线程同步与互斥概念</h2><p>线程同步：<br>使并发执行的各线程之间能够有效的共享资源。</p>
+<p>互斥VS同步：<br>AB竞争资源的相互制约叫做互斥；A做完提供给B，B才能继续做，有<strong>先后顺序</strong>，叫做同步。互斥是一种特殊的同步。</p>
+<p>同步VS异步：<br>同步必须有<strong>先后</strong>，异步无所谓先后。</p>
+<p>多线程同步互斥的常见方法：<br>事件event、互斥量，互斥锁mutex、信号量PV。<br>事件：事件能够通知一个线程的操作已经完成。<br>互斥量：所有权<br>信号量：信号量可以计算资源当前剩余量，是一个计数器。</p>
+<h2 id="临界资源和临界区">临界资源和临界区</h2><p>临界资源：一段时间内只允许一个线程访问的资源就称为临界资源或独占资源<br>临界区：<strong>访问临界资源的代码</strong>称为临界区</p>
+<h2 id="进程间同步问题">进程间同步问题</h2><p><a href="http://rudy-zhang.me/2015/10/13/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5/">参考</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="程序VS进程（Process）VS线程（Thread）">程序VS进程（Process）VS线程（Thread）</h2><p>程序是指令的集合，静态文本<br>进程是程序在一个数据集上运行的过程，进行<strong>资源分配</strong>和调度的单元<br>]]>
+    </summary>
+    
+      <category term="数据库" scheme="http://rudy-zhang.me/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[操作系统基础]]></title>
+    <link href="http://rudy-zhang.me/2015/10/15/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80/"/>
+    <id>http://rudy-zhang.me/2015/10/15/找工作总结-数据库基础/</id>
+    <published>2015-10-15T03:00:00.000Z</published>
+    <updated>2015-10-15T01:46:15.472Z</updated>
+    <content type="html"><![CDATA[<h2 id="程序VS进程（Process）VS线程（Thread）">程序VS进程（Process）VS线程（Thread）</h2><p>程序是指令的集合，静态文本<br>进程是程序在一个数据集上运行的过程，进行<strong>资源分配</strong>和调度的单元<br>线程是进程中的实体，被系统<strong>独立调度和执行的基本单元</strong>，可共享资源</p>
+<h2 id="进程间通信方法">进程间通信方法</h2><p>管道，信号量，消息队列，套接字</p>
+<p>管道( pipe )：管道是一种半双工的通信方式，数据只能单向流动，而且只能在具有亲缘关系的进程间使用。进程的亲缘关系通常是指父子进程关系。<br>有名管道 (named pipe) ： 有名管道也是半双工的通信方式，但是它允许无亲缘关系进程间的通信。<br>信号量( semophore ) ： 信号量是一个计数器，可以用来控制多个进程对共享资源的访问。它常作为一种锁机制，防止某进程正在访问共享资源时，其他进程也访问该资源。因此，主要作为进程间以及同一进程内不同线程之间的同步手段。<br>消息队列( message queue ) ： 消息队列是由消息的链表，存放在内核中并由消息队列标识符标识。消息队列克服了信号传递信息少、管道只能承载无格式字节流以及缓冲区大<br>套接字( socket ) ： 套解口也是一种进程间通信机制，与其他通信机制不同的是。它可用于不同进程间的进程通信，指定端口号即可。</p>
+<h2 id="线程同步与互斥概念">线程同步与互斥概念</h2><p>线程同步：<br>使并发执行的各线程之间能够有效的共享资源。</p>
+<p>互斥VS同步：<br>AB竞争资源的相互制约叫做互斥；A做完提供给B，B才能继续做，有<strong>先后顺序</strong>，叫做同步。互斥是一种特殊的同步。</p>
+<p>同步VS异步：<br>同步必须有<strong>先后</strong>，异步无所谓先后。</p>
+<p>多线程同步互斥的常见方法：<br>事件event、互斥量，互斥锁mutex、信号量PV。<br>事件：事件能够通知一个线程的操作已经完成。<br>互斥量：所有权<br>信号量：信号量可以计算资源当前剩余量，是一个计数器。</p>
+<h2 id="临界资源和临界区">临界资源和临界区</h2><p>临界资源：一段时间内只允许一个线程访问的资源就称为临界资源或独占资源<br>临界区：<strong>访问临界资源的代码</strong>称为临界区</p>
+<h2 id="进程间同步问题">进程间同步问题</h2><p><a href="http://rudy-zhang.me/2015/10/13/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5/">参考</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="程序VS进程（Process）VS线程（Thread）">程序VS进程（Process）VS线程（Thread）</h2><p>程序是指令的集合，静态文本<br>进程是程序在一个数据集上运行的过程，进行<strong>资源分配</strong>和调度的单元<br>]]>
+    </summary>
+    
+      <category term="操作系统" scheme="http://rudy-zhang.me/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[C++ STL]]></title>
+    <link href="http://rudy-zhang.me/2015/10/14/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-C++STL/"/>
+    <id>http://rudy-zhang.me/2015/10/14/找工作总结-C++STL/</id>
+    <published>2015-10-14T04:00:00.000Z</published>
+    <updated>2015-10-15T02:32:25.148Z</updated>
+    <content type="html"><![CDATA[<h2 id="STL是什么">STL是什么</h2><p>定义：标准模板库（Standard Template Library，STL）<br>组成：容器（基于模板）+算法。STL是一些“容器”的集合，这些“容器”有list,vector,set,map等，STL也是算法和其他一些组件的集合。<br>优点：跨平台，可重用，高性能，免费。STL被内建在大部分编译器中，也可以说STL就是C++的一部分，使用起来很方便。<br>泛型编程：一个程序可以看做是输入，操作，输出，当不确定输入和输出的类型，但是对于数据操作的原则是一样的时候，可以使用泛型（模板机制）代替，这样可以更加抽象地表达程序，STL就是一个大量使用了泛型编程的例子。<br>模板机制：模板就是实现代码重用机制的一种工具，它可以实现类型参数化，即把类型定义为参数， 从而实现了真正的代码可重用性。<br><a href="http://www.cplusplus.com/reference/" target="_blank" rel="external">STL API参考</a></p>
+<h2 id="vector">vector</h2><p><strong>实现原理</strong><br>vector是在堆内存中连续存储的动态可伸缩数组。</p>
+<p><strong>说明</strong><br>stl array固定大小，stl vector是动态可伸缩的,当前内存不够用时，内存翻倍。</p>
+<p><strong>常用接口</strong></p>
+<pre><code><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; second (<span class="number">4</span>,<span class="number">100</span>);
+<span class="built_in">vector</span>::<span class="keyword">operator</span>[]
+<span class="built_in">vector</span>::push_back() 
+<span class="built_in">vector</span>::pop_back()
+<span class="built_in">vector</span>::clear() <span class="comment">//清空</span>
+<span class="built_in">vector</span>::empty() <span class="comment">//判断是否为空</span>
+<span class="built_in">vector</span>::size() <span class="comment">// 当前内容大小</span>
+<span class="built_in">vector</span>::capacity() <span class="comment">// 当前内存的容量</span>
+<span class="built_in">vector</span>::resize() <span class="comment">// 调整当前内容大小</span>
+</code></pre><h2 id="dequeue">dequeue</h2><p><strong>实现原理</strong><br>dequeue在内存中是一段一段的连续空间。<br>如果需要新的空间，则在内存中开辟一段空间，通过指针连接到当前dequeue的头端或者尾端。<br>dequeue通过复杂的结构，维护了这些空间整体连续的假象，并且提供了随机存取的接口。</p>
+<p><strong>常用接口</strong></p>
+<pre><code>deque::<span class="function"><span class="title">push_back</span><span class="params">()</span></span>
+deque::<span class="function"><span class="title">push_front</span><span class="params">()</span></span>
+deque::<span class="function"><span class="title">pop_back</span><span class="params">()</span></span>
+deque::<span class="function"><span class="title">pop_front</span><span class="params">()</span></span>
+vector::operator[]
+queue::<span class="function"><span class="title">front</span><span class="params">()</span></span> <span class="comment">// 队列第一个元素</span>
+queue::<span class="function"><span class="title">back</span><span class="params">()</span></span> <span class="comment">// 队列最后一个元素</span>
+</code></pre><h2 id="stack">stack</h2><p><strong>实现原理</strong><br>stack默认使用双向队列deque实现，加了适配器，修改接口</p>
+<p><strong>常用接口</strong></p>
+<pre><code>stack::<span class="function"><span class="title">push</span><span class="params">()</span></span>
+stack::<span class="function"><span class="title">pop</span><span class="params">()</span></span>
+stack::<span class="function"><span class="title">top</span><span class="params">()</span></span>
+stack::<span class="function"><span class="title">empty</span><span class="params">()</span></span>
+stack::<span class="function"><span class="title">size</span><span class="params">()</span></span>
+</code></pre><h2 id="queue">queue</h2><p><strong>实现原理</strong><br>queue使用双向队列deque实现，加了适配器，修改接口</p>
+<p><strong>常用接口</strong></p>
+<pre><code>queue::<span class="function"><span class="title">front</span><span class="params">()</span></span> <span class="comment">// 队列头，先插进去的元素</span>
+queue::<span class="function"><span class="title">back</span><span class="params">()</span></span> <span class="comment">// 队列尾，后插进去的元素</span>
+queue::<span class="function"><span class="title">push</span><span class="params">()</span></span>
+queue::<span class="function"><span class="title">pop</span><span class="params">()</span></span>
+queue::<span class="function"><span class="title">empty</span><span class="params">()</span></span>
+queue::<span class="function"><span class="title">size</span><span class="params">()</span></span>
+</code></pre><h2 id="list">list</h2><p><strong>实现原理</strong><br>STL中的list就是一双向链表，可高效地进行插入删除元素。</p>
+<p><strong>常用接口</strong></p>
+<pre><code>deque::<span class="function"><span class="title">push_back</span><span class="params">()</span></span>
+deque::<span class="function"><span class="title">push_front</span><span class="params">()</span></span>
+deque::<span class="function"><span class="title">pop_back</span><span class="params">()</span></span>
+deque::<span class="function"><span class="title">pop_front</span><span class="params">()</span></span>
+queue::<span class="function"><span class="title">front</span><span class="params">()</span></span> 
+queue::<span class="function"><span class="title">back</span><span class="params">()</span></span> 
+</code></pre><h2 id="vector,list,dequeue">vector,list,dequeue</h2><pre><code><span class="built_in">vector</span> - 会自动增长的数组
+<span class="built_in">deque</span> - 拥有<span class="built_in">vector</span>和<span class="built_in">list</span>两者优点的双端队列
+<span class="built_in">list</span> - 擅长插入删除的链表
+</code></pre><h2 id="priority_queue">priority_queue</h2><p><strong>实现原理</strong><br>优先队列（堆），默认底层使用vector来实现。</p>
+<p><strong>说明</strong><br>默认情况下是大顶堆，可以自定义为小顶堆</p>
+<p><strong>常用接口</strong></p>
+<pre><code>priority_queue&lt;<span class="built_in">int</span>&gt; <span class="type">Q</span>;
+<span class="built_in">int</span> a[<span class="number">5</span>]={<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">2</span>,<span class="number">1</span>};
+priority_queue&lt;<span class="built_in">int</span>&gt; <span class="type">Q</span>(a,a+<span class="number">5</span>);
+priority_queue&lt;<span class="built_in">int</span>, <span class="built_in">vector</span>&lt;<span class="built_in">int</span>&gt;, greater&lt;<span class="built_in">int</span>&gt; &gt; q;
+小顶堆：greater&lt;<span class="type">TYPE</span>&gt;
+大顶堆：less&lt;<span class="type">TYPE</span>&gt;
+
+empty<span class="literal">()</span> 如果优先队列为空，则返回真 
+pop<span class="literal">()</span> 删除第一个元素 
+push<span class="literal">()</span> 加入一个元素 
+size<span class="literal">()</span> 返回优先队列中拥有的元素的个数 
+top<span class="literal">()</span> 返回优先队列中有最高优先级的元素
+</code></pre><p><strong>使用vector实现堆操作</strong><br>algorithm中的make_heap,pop_heap,sort_heap来完成对vector的操作</p>
+<pre><code><span class="comment">#include&lt;iostream&gt;</span>
+<span class="comment">#include&lt;vector&gt;</span>
+<span class="comment">#include&lt;algorithm&gt;</span>
+
+<span class="keyword">using</span> namespace std;
+
+<span class="type">int</span> main()
+{
+  <span class="type">int</span> a[] = {<span class="number">15</span>, <span class="number">1</span>, <span class="number">12</span>, <span class="number">30</span>, <span class="number">20</span>};
+  vector&lt;<span class="type">int</span>&gt; ivec(a, a+<span class="number">5</span>);
+  <span class="keyword">for</span>(vector&lt;<span class="type">int</span>&gt;::<span class="keyword">iterator</span> iter=ivec.begin();iter!=ivec.<span class="keyword">end</span>();++iter)
+    cout&lt;&lt;*iter&lt;&lt;<span class="string">" "</span>;
+  cout&lt;&lt;endl;
+
+  make_heap(ivec.begin(), ivec.<span class="keyword">end</span>());//建堆
+  <span class="keyword">for</span>(vector&lt;<span class="type">int</span>&gt;::<span class="keyword">iterator</span> iter=ivec.begin();iter!=ivec.<span class="keyword">end</span>();++iter)
+    cout&lt;&lt;*iter&lt;&lt;<span class="string">" "</span>;
+  cout&lt;&lt;endl;
+
+  pop_heap(ivec.begin(), ivec.<span class="keyword">end</span>());//先pop,然后在容器中删除
+  ivec.pop_back();
+  <span class="keyword">for</span>(vector&lt;<span class="type">int</span>&gt;::<span class="keyword">iterator</span> iter=ivec.begin();iter!=ivec.<span class="keyword">end</span>();++iter)
+    cout&lt;&lt;*iter&lt;&lt;<span class="string">" "</span>;
+  cout&lt;&lt;endl;
+
+  ivec.push_back(<span class="number">99</span>);//先在容器中加入，再push
+  push_heap(ivec.begin(), ivec.<span class="keyword">end</span>());
+  <span class="keyword">for</span>(vector&lt;<span class="type">int</span>&gt;::<span class="keyword">iterator</span> iter=ivec.begin();iter!=ivec.<span class="keyword">end</span>();++iter)
+    cout&lt;&lt;*iter&lt;&lt;<span class="string">" "</span>;
+  cout&lt;&lt;endl;
+
+  sort_heap(ivec.begin(), ivec.<span class="keyword">end</span>());
+  <span class="keyword">for</span>(vector&lt;<span class="type">int</span>&gt;::<span class="keyword">iterator</span> iter=ivec.begin();iter!=ivec.<span class="keyword">end</span>();++iter)
+    cout&lt;&lt;*iter&lt;&lt;<span class="string">" "</span>;
+  cout&lt;&lt;endl;
+
+  <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><h2 id="map">map</h2><p><strong>实现原理</strong><br>使用红黑树实现，插入，查找，删除的效率都是log(n)</p>
+<p><strong>常用接口</strong></p>
+<pre><code><span class="built_in">std</span>::<span class="built_in">map</span>&lt;<span class="keyword">char</span>,<span class="keyword">int</span>&gt; first;
+<span class="built_in">map</span>::<span class="keyword">operator</span>[] <span class="comment">// 如果匹配则返回，不匹配就插入</span>
+<span class="built_in">map</span>::insert() <span class="comment">//也可以用来添加</span>
+查找
+<span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="built_in">string</span>&gt; myMap;
+<span class="keyword">if</span>(myMap.find(key)==maplive.end()) <span class="comment">// 没有</span>
+<span class="keyword">if</span>(myMap.count(key)) <span class="comment">// 找到有value的</span>
+删除
+myMap.erase(key)
+</code></pre><p><strong>遍历一个map</strong></p>
+<pre><code>map&lt;<span class="type">string</span>,<span class="type">int</span>&gt;::<span class="keyword">iterator</span> it;
+<span class="keyword">for</span>(it=m.begin();it!=m.<span class="keyword">end</span>();++it)
+    cout&lt;&lt;<span class="string">"key: "</span>&lt;&lt;it-&gt;first &lt;&lt;<span class="string">" value: "</span>&lt;&lt;it-&gt;second&lt;&lt;endl;
+</code></pre><h2 id="set">set</h2><p><strong>实现原理</strong><br>使用红黑树实现，类似于map只不过只有key，没有value</p>
+<p><strong>说明</strong><br>元素唯一，插入后自动排序，插入，查找，删除效率都是logn</p>
+<p><strong>常用接口</strong></p>
+<pre><code>std::<span class="operator"><span class="keyword">set</span>&lt;<span class="built_in">int</span>&gt; s;</span>
+插入
+<span class="operator"><span class="keyword">insert</span>()     
+clear()   　　     ,删除<span class="keyword">set</span>容器中的所有的元素
+empty() 　　　,判断<span class="keyword">set</span>容器是否为空
+<span class="keyword">size</span>() 　　　　 ,返回当前<span class="keyword">set</span>容器中的元素个数
+查找 
+iter = s.find(<span class="number">2</span>)) != s.<span class="keyword">end</span>()
+s.<span class="keyword">count</span>(<span class="number">2</span>) != <span class="number">0</span>
+删除
+s.erease(<span class="keyword">key</span>)</span>
+</code></pre><h2 id="multimap/multiset">multimap/multiset</h2><p><strong>实现原理</strong><br>使用红黑树实现，插入，查找，删除的效率都是log(n)</p>
+<p><strong>说明</strong><br>它允许重复键。multimap 中能存储重复键的能力大大地影响它的接口和使用。multimap不能使用下标操作符[]，插入和读取。</p>
+<p><strong>常用接口</strong><br>插入使用pair类型</p>
+<pre><code><span class="built_in">multimap</span> &lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; DNS_daemon;
+DNS_daemon.insert(make_pair(<span class="string">"213.108.96.7"</span>,<span class="string">"cppluspluszone.com"</span>));
+</code></pre><p>查找<br>count(k) 成员函数返回与给定键关联的值得数量。</p>
+<p>遍历查找到的元素</p>
+<pre><code>multimap&lt;<span class="type">string</span>,<span class="type">int</span>&gt;::<span class="keyword">iterator</span> it;
+<span class="type">int</span> num=m.count(<span class="string">"Jack"</span>);
+it = m.find(<span class="string">"Jack"</span>);
+cout&lt;&lt;<span class="string">"the search result is :"</span>&lt;&lt;endl;
+<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=num;i++)
+{
+    cout&lt;&lt;(*it).first&lt;&lt;<span class="string">"  "</span>&lt;&lt;(*it).second&lt;&lt;endl;
+    it++;
+}
+</code></pre><p>multiset类似于multimap</p>
+<h2 id="unordered_map">unordered_map</h2><p><strong>实现原理</strong><br>使用hash表实现，提供了和map一样的接口</p>
+<p><strong>说明</strong><br>unordered_map来自于boost，后来收录到tr1中</p>
+<p>与map的区别是，</p>
+<ol>
+<li>map使用红黑树实现，unordered_map使用hash表实现</li>
+<li>map中的key是有序的，unordered_map中的key是无序的。</li>
+</ol>
+<h2 id="string">string</h2><p><strong>实现原理</strong><br>string也是stl中的一种容器，提供iterator和相关的接口</p>
+<p><strong>常用接口</strong></p>
+<pre><code>s.empty<span class="params">()</span>  判断是否为空，bool型
+s.size<span class="params">()</span> 或 s.length<span class="params">()</span> 返回字符的个数
+s[n]  返回位置为n的字符，从<span class="number">0</span>开始计数
+s1+s2 连接
+
+int stoi <span class="params">(const string&amp;  str, size_t* idx = <span class="number">0</span>, int base = <span class="number">10</span>)</span>;
+<span class="comment">//C++，把string转化为int，如果不是以数字开头的会出Exception</span>
+clear<span class="params">()</span>;<span class="comment">//清除string中的内容</span>
+<span class="built_in">resize</span><span class="params">(<span class="number">0</span>)</span>;
+string substr<span class="params">(int pos = <span class="number">0</span>,int n = npos)</span> const;<span class="comment">//返回pos开始的n个字符组成的字符串</span>
+s.find <span class="params">( <span class="string">" cat "</span> )</span> ;  <span class="comment">//超找第一个出现的字符串”cat“，返回其下标值，查不到返回 4294967295，也可查找字符；</span>
+s.append<span class="params">(args)</span>; <span class="comment">//将args接到s的后面</span>
+s.compare <span class="params">( <span class="string">" good "</span> )</span> ;  <span class="comment">//s与”good“比较相等返回0，比"good"大返回1，小则返回-1；</span>
+reverse <span class="params">( s.begin<span class="params">()</span>, s.end <span class="params">()</span> )</span>;  <span class="comment">//反向排序函数，即字符串反转函数</span>
+</code></pre><h2 id="常用函数">常用函数</h2><p><strong>find</strong><br>    InputIterator find (InputIterator first, InputIterator last, const T&amp; val)<br>例如：</p>
+<pre><code>multimap&lt;<span class="type">string</span>,<span class="type">int</span>&gt;::<span class="keyword">iterator</span> it;
+<span class="type">int</span> num=m.count(<span class="string">"Jack"</span>);
+it = m.find(<span class="string">"Jack"</span>);
+</code></pre><p>或者</p>
+<pre><code>it = <span class="function"><span class="title">find</span><span class="params">(m.begin()</span></span>, m.<span class="function"><span class="title">end</span><span class="params">()</span></span>, <span class="string">"Jack"</span>)
+</code></pre><p><strong>swap</strong></p>
+<pre><code><span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt; <span class="function"><span class="keyword">void</span> <span class="title">swap</span> <span class="params">( T&amp; a, T&amp; b )</span>
+<span class="keyword">int</span> x</span>=<span class="number">10</span>, y=<span class="number">20</span>;                              <span class="comment">// x:10 y:20</span>
+<span class="built_in">std</span>::swap(x,y);                              <span class="comment">// x:20 y:10</span>
+<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; foo (<span class="number">4</span>,x), bar (<span class="number">6</span>,y);       <span class="comment">// foo:4x20 bar:6x10</span>
+<span class="built_in">std</span>::swap(foo,bar);                          <span class="comment">// foo:6x10 bar:4x20</span>
+</code></pre><p><strong>reverse</strong></p>
+<pre><code><span class="rule"><span class="attribute">std</span>:<span class="value">:<span class="function">reverse</span>(myvector.<span class="function">begin</span>(),myvector.<span class="function">end</span>())</span></span>; 
+</code></pre><p><strong>sort/stable_sort</strong></p>
+<pre><code><span class="rule"><span class="attribute">std</span>:<span class="value">:sort (myvector.<span class="function">begin</span>(), myvector.<span class="function">begin</span>()+<span class="number">4</span>)</span></span>;
+</code></pre><p>或</p>
+<pre><code><span class="function"><span class="keyword">bool</span> <span class="title">myfunction</span> <span class="params">(<span class="keyword">int</span> i,<span class="keyword">int</span> j)</span> </span>{ <span class="keyword">return</span> (i&lt;j); }
+<span class="keyword">int</span> myints[] = {<span class="number">32</span>,<span class="number">71</span>,<span class="number">12</span>,<span class="number">45</span>,<span class="number">26</span>,<span class="number">80</span>,<span class="number">53</span>,<span class="number">33</span>};
+<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; myvector (myints, myints+<span class="number">8</span>);               <span class="comment">// 32 71 12 45 26 80 53 33</span>
+<span class="comment">// using function as comp</span>
+<span class="built_in">std</span>::sort (myvector.begin()+<span class="number">4</span>, myvector.end(), myfunction); <span class="comment">// 12 32 45 71(26 33 53 80)</span>
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="STL是什么">STL是什么</h2><p>定义：标准模板库（Standard Template Library，STL）<br>组成：容器（基于模板）+算法。STL是一些“容器”的集合，这些“容器”有list,vector,set,map等，STL也是算法和其他]]>
+    </summary>
+    
+      <category term="C++" scheme="http://rudy-zhang.me/tags/C/"/>
+    
+      <category term="STL" scheme="http://rudy-zhang.me/tags/STL/"/>
+    
+      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[C++基础]]></title>
+    <link href="http://rudy-zhang.me/2015/10/14/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-C++%E5%9F%BA%E7%A1%80/"/>
+    <id>http://rudy-zhang.me/2015/10/14/找工作总结-C++基础/</id>
+    <published>2015-10-14T03:00:00.000Z</published>
+    <updated>2015-10-15T01:52:26.631Z</updated>
+    <content type="html"><![CDATA[<h2 id="static">static</h2><p>static变量存储在静态数据区<br>相对于function：在函数内，变量，内存只被分配一次，多次调用值相同<br>相对于其他模块（.c文件）：变量和函数，不能被模块外其他函数访问(private)<br>相对于类：类中的static变量和函数属于整个类，而不是对象</p>
+<p><strong>全局变量 VS 全局静态变量</strong><br>若程序由一个源文件构成时，全局变量与全局静态变量没有区别。<br>若程序由多个源文件构成时，全局变量与全局静态变量不同：全局静态变量使得该变量成为定义该变量的源文件所独享，即：全局静态变量对组成该程序的其它源文件是无效的。(private)</p>
+<h2 id="new,delete,malloc,free">new,delete,malloc,free</h2><p>malloc与free是C++/C语言的<strong>标准库函数</strong>，new/delete是C++的<strong>运算符</strong>。它们都可用于申请动态内存和释放内存<br>new和delete对应，new调用构造函数，delete会调用析构函数。<br>new在实现上调用了malloc函数。new出来的指针是直接<strong>带类型</strong>信息的。而malloc返回的都是<code>void*</code>指针。new delete在实现上其实调用了malloc,free函数。</p>
+<p><strong>delete VS delete []</strong><br>delete只会调用一次析构函数，而delete[]会调用每一个成员的析构函数</p>
+<p><strong>malloc,calloc,realloc,free</strong><br>四个函数都被包含在stdlib.h函数库内。回值都是请求系统分配的地址,如果请求失败就返回NULL </p>
+<pre><code><span class="keyword">void</span>* realloc(<span class="keyword">void</span>* ptr, <span class="keyword">unsigned</span> newsize); 
+</code></pre><p>realloc是给一个已经分配了地址的指针重新分配空间,参数ptr为原有的空间地址,newsize是重新申请的地址长度。并把原来大小内存空间中的内容复制到newsize中。realloc 不能保证重新分配后的内存空间和原来的内存空间指在同一内存地址, 它返回的指针很可能指向一个新的地址。</p>
+<pre><code><span class="keyword">void</span>* <span class="built_in">malloc</span>(<span class="keyword">unsigned</span> size);` 
+</code></pre><p>在内存的动态存储区中分配一块长度为”size”字节的连续区域，返回该区域的首地址</p>
+<pre><code><span class="keyword">void</span>* <span class="built_in">calloc</span>(<span class="keyword">size_t</span> nelem, <span class="keyword">size_t</span> elsize);` 
+</code></pre><p>calloc调用形式为(类型*)calloc(n，size)：在内存的动态存储区中分配n块长度为”size”字节的连续区域，返回首地址。</p>
+<pre><code>free<span class="list">(<span class="keyword">q</span>)</span><span class="comment">; </span>
+</code></pre><p>其中q为已经分配的块；</p>
+<h2 id="引用">引用</h2><p>引用就是某个目标变量的<strong>别名</strong>(alias)，对应用的操作与对变量直接操作效果完全相同。在内存中并没有产生实参的副本使用指针作为函数的参数虽然也能达到与使用引用的效果，但是，在被调函数中同样要给形参分配存储单元(值传递)，且需要重复使用”*指针变量名”的形式进行运算，这很容易产生错误且程序的阅读性较差；</p>
+<p><strong>引用VS指针</strong><br>1) 引用必须被初始化，指针不必。<br>2) 引用初始化以后不能被改变指向的对象，指针可以改变所指的对象。<br>3) 不存在指向空值的引用，但是存在指向空值的指针。</p>
+<p>备注：引用时C++的特性，C中没有，引用是通过指针来实现的，对传递做了一些限制，但是对程序员是透明的。引用的目的，将 &amp; 从调用者移到了被调用者处。</p>
+<h2 id="结构体">结构体</h2><p>结构体：struct ，是由一系列相同类型或不同类型的数据构成数据的集合，也叫结构。其最主要的作用就是封装。<br>联合体：union，几个不同的变量存放在同一块内存区域中。也就是使用覆盖技术，几个变量互相覆盖。同一时刻只能使用一种变量。</p>
+<p><strong>struct VS class</strong><br>默认的继承访问权限，struct是public的，class是private的。其他没有区别。</p>
+<p><strong>数据对齐</strong></p>
+<h2 id="cosnt">cosnt</h2><ol>
+<li><p>定义常量：const修饰的类型为TYPE的变量value是不可变的。必须初始化<br>const TYPE ValueName = value;</p>
+</li>
+<li><p>指针使用CONST<br>(1)在*之前：指针所指向的内容是常量不可变 </p>
+<pre><code><span class="keyword">const</span> (<span class="keyword">char</span>) *pContent;
+(<span class="keyword">char</span>) <span class="keyword">const</span> *pContent;
+</code></pre><p>(2)在*之后：指针本身是常量不可变</p>
+<pre><code>(<span class="keyword">char</span>*) <span class="keyword">const</span> pContent; 
+</code></pre></li>
+<li><p>函数相关使用CONST<br>(1)const修饰函数参数:修饰的参数在函数内不可以改变</p>
+<pre><code>void <span class="function"><span class="keyword">function</span><span class="params">(<span class="keyword">const</span> int <span class="keyword">Var</span>)</span>;</span>
+</code></pre><p>(2)const 修饰函数返回值:返回值是一个常量</p>
+<pre><code>const int <span class="function"><span class="title">fun1</span><span class="params">()</span></span>
+int const <span class="function"><span class="title">fun1</span><span class="params">()</span></span>
+</code></pre><p>(3)const修饰成员函数:函数不能修改任何成员变量，不能调用非const成员函数</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">A</span>
+    </span>{ 
+        …
+       <span class="keyword">void</span> <span class="function"><span class="keyword">function</span><span class="params">()</span><span class="title">const</span></span>; 
+<span class="comment">//1. 常成员函数, 它不改变对象的成员变量（除了static的），也不能调用类中任何非const成员函数。</span>
+<span class="comment">//2. const类对象只能调用其const成员函数</span>
+<span class="comment">//3. 对于在类外定义的成员函数，必须在成员函数的定义和声明中都指定关键字const，不然将被视为重载</span>
+}
+</code></pre></li>
+</ol>
+<p><strong>const VS #define</strong><br>const 常量有数据类型，编译器可以对前者进行类型安全检查<br>而宏常量是别名，没有数据类型，没有类型安全检查</p>
+<p><strong>typedef, #define</strong><br>一种类型的别名，有类型检查而不只是简单的宏替换。可以做类型，数组，函数的类型替换。</p>
+<h1 id="define是宏，只做简单的宏替换，没有类型检查">define是宏，只做简单的宏替换，没有类型检查</h1><h2 id="数组与指针">数组与指针</h2><p>数组名对应着（而不是指向）<strong>一块内存</strong>，其地址与<strong>容量在生命期内保持不变</strong>，只有数组的内容可以改变。<br>指针可以随时指向任意类型的内存块，它的特征是“可变”，所以我们常用指针来操作动态内存。指针远比数组灵活，但也更危险。<br>sizeof可以计算出数组的容量，对指针操作得到的是一个指针变量的字节数。<br>当数组名作为参数传入时，实际上数组就退化成指针了。</p>
+<h2 id="隐式类型转换">隐式类型转换</h2><p>隐式类型转换分三种，即算术转换、赋值转换和输出转换。</p>
+<ul>
+<li>算术转换<br>1、为防止精度损失，如果必要的话，类型总是被提升为较宽的类型。<br>2、所有含有小于整形的有序类型的算术表达式在计算之前其类型都会被转换成整形。</li>
+<li>赋值转换<br>进行赋值操作时，赋值运算符右边的数据类型必须转换成赋值号左边的类型，若右边的数据类型的长度大于左边，则要进行截断或舍入操作。</li>
+<li>输出转换<br>要输出的数据类型与输出格式不符时，便自动进行类型转换</li>
+</ul>
+<h2 id="sizeof与strlen">sizeof与strlen</h2><p>sizeof是算符(类似宏定义的特殊关键字)，strlen是函数。<br>sizeof操作符的结果类型是size_t,其值在编译时即计算好了，参数可以是数组、指针、类型、对象、函数等。它的功能是：获得保证能容纳实现所建立的最大对象的<strong>字节大小</strong>。<br>具体而言，当参数分别如下时，sizeof返回的值表示的含义如下：<br>    数组——编译时分配的数组空间大小；<br>    指针——存储该指针所用的空间大小（存储该指针的地址的长度，是长整型，应该为4）；<br>    类型——该类型所占的空间大小；<br>    对象——对象的实际占用空间大小；<br>    函数——函数的返回类型所占的空间大小。函数的返回类型不能是void。<br>strlen的功能是：返回字符串的长度。该函数实际完成的功能是从代表该字符串的第一个地址开始遍历，直到遇到结束符NULL。</p>
+<h2 id="多态，虚表">多态，虚表</h2><p>多态是怎么实现的？<br>多态，简而言之就是用父类型别的指针指向其子类的实例，然后通过<strong>父类的指针调用实际子类的成员函数</strong>。<br>每个有虚函数的类（不是对象）都有一个虚表，父类的虚表，子类的虚表，虚表里面存储的是一个个指向函数的指针，父类的虚表存储父类的虚函数，在子类中，如果没有覆盖（override）父类的虚函数，虚表不变，如果覆盖了，那虚表更新，指向当前类中的函数。<br>每个含有虚函数的对象都有一个<strong>虚函数指针</strong>，这个指针指向该类的虚表<br>过程：当通过父类指针找到对象的时候，（判断）如果是虚函数，则是通过（子类的，通过this指针指向虚指针）虚指针找到虚表（子类虚表），再通过虚表对应项找到函数地址入口，这就是动态绑定，而不是在编译时候就决定了入口地址的静态绑定！<br>虚函数存在哪？<br>虚函数表vtable在Linux/Unix中存放在可执行文件的只读数据段中(rodata)，微软的编译器将虚函数表存放在常量段</p>
+<p><strong>静态联编VS动态联编</strong><br>联编是指一个计算机程序的不同部分彼此关联的过程。决定程序中谁调用谁，在<strong>运行的过程决定</strong>。如多态。<br>静态联编：是指联编工作在<strong>编译阶段</strong>完成的，在程序运行之前完成的，运行的时候就已经确定了。</p>
+<h2 id="C++程序内存分布">C++程序内存分布</h2><p>一个由c/C++编译的程序占用的内存分为以下几个部分<br>1、栈区（stack）— 由编译器自动分配释放，存放函数的参数值，局部变量的值等。其操作方式<strong>类似于数据结构中的栈</strong>。<br>2、堆区（heap） — 一般由程序员分配释放，若程序员不释放，程序结束时可能由OS回收。注意它与数据结构中的堆是两回事，分配方式类<strong>似于链表</strong>。<br>3、全局区（静态区）（static）—，全局变量和静态变量的存储是放在一块的，初始化的全局变量和静态变量在一块区域， 未初始化的全局变量和未初始化的静态变量在相邻的另一块区域。程序结束后由系统释放 。<br>4、文字常量区—常量字符串就是放在这里的。 程序结束后由系统释放。<br>5、程序代码区—存放函数体的二进制代码。</p>
+<p>├———————┤低地址<br>│ 代码区<br>├———————┤<br>│ 文字常量区<br>├———————┤<br>│ 全局数据区 │<br>├———————┤<br>│ 堆 │<br>├———————┤<br>│ 栈 │<br>├———————┤高地址</p>
+<p>堆从低地址向高地址扩展<br>栈从高地址向低地址扩展</p>
+<h2 id="C++变量初始化规则">C++变量初始化规则</h2><ul>
+<li>内置类型</li>
+</ul>
+<p>全局变量————&gt;全局区<br>有初始值，data段<br>无初始值，bss段，不占用内存空间，在运行的时候被编译器自动初始化为0</p>
+<p>局部变量（函数内）——-&gt;栈区<br>无初始值，随机</p>
+<p>总结：<br>放在静态数据区的（全局的）变量编译器会初始化，在栈里面的（局部）变量不会初始化。</p>
+<ul>
+<li>自建类型struct class<br>A a;放在栈,全局区里<br>A *a=new A();放在堆里</li>
+</ul>
+<p>总结：</p>
+<ol>
+<li>new出来的变量放在堆里，直接声明（如A a）根据声明位置放在全局区，栈里</li>
+<li>放在静态数据区的（全局的）变量编译器会初始化，在栈里面的（局部）变量不会初始化</li>
+</ol>
+<h2 id="ptr++">ptr++</h2><p>如果是<code>int *ptr</code>；<code>ptr++</code>等价于<code>ptr+1*sizeof(int)</code>;<br>所以每次加1都能够指向相邻的下一个元素。<br>sizeof（ptr）也就是指针本身的大小永远都是4字节，所以ptr是一个4字节的值，这个值就是指向的内容的地址<br>ptr指的是字节的序号（但是）<br>ptr2-ptr1会被翻译成（ptr2-ptr1）/sizeof(int)这对程序员是透明的，便于操作数组</p>
+<h2 id="内联函数">内联函数</h2><p>内联函数，是向编译器发出的请求，编译阶段把函数内容替换到代码中去，有类型检查<br>宏定义，编译预处理阶段，简单的替代，没有类型检查<br>内联函数：本质是用程序代码的空间换取程序调用的时间，适合在一个大项目里，有一个小函数（简单几行，没有循环语句，循环语句使得调用开销相对变小）不断被重复调用<br>内联函数使用：声明（不需要），定义（inline）</p>
+<h2 id="C++中一个class类或者对象占用多少内字节">C++中一个class类或者对象占用多少内字节</h2><p>非静态成员变量总合。<br>加上编译器为了CPU计算，作出的数据对齐处理。<br>加上为了支持虚函数，产生的额外负担。</p>
+<ol>
+<li>sizeof(class)和他声明的对象obj,sizeof(obj)是一样大的</li>
+<li>空类sizeof(class)=1,编译器就会给空类创建一个隐含的一个字节的空间。</li>
+<li>非静态变量+数据对齐。静态变量不存在这里。</li>
+<li>如果有虚函数，加4字节，指向虚表的指针，虚表也不存在这里</li>
+<li>函数，虚表，静态变量，都是属于这个类的，存在静态存储区，也不占类空间</li>
+</ol>
+<h2 id="指针">指针</h2><p><strong>指针函数与函数指针</strong><br>指针函数（函数返回指针）：是指带指针的函数，本质是函数，返回值是某一类型的指针<br>函数指针：指向函数的指针变量</p>
+<pre><code>int (<span class="keyword">*</span>f) (int x); /<span class="keyword">*</span> 声明一个函数指针 <span class="keyword">*</span>/
+f=func; /<span class="keyword">*</span> 将func函数的首地址赋给指针f <span class="keyword">*</span>/
+</code></pre><p><strong>指针数组，数组指针</strong><br>指针数组：一个数组，里面都是指针，<code>int *a[10]</code><br>数组指针：一个指针，指向一个数组，<code>int (*a)[10]</code><br>[]结合的优先级高于a</p>
+<p><strong>指针常量与常量指针</strong></p>
+<pre><code><span class="keyword">int</span> <span class="keyword">const</span> *p1 = &amp;b;<span class="comment">//const 在前，定义为常量指针  （常量的指针）</span>
+<span class="keyword">int</span> *<span class="keyword">const</span> p2 = &amp;c;<span class="comment">//*在前，定义为指针常量   （指针指向常量）</span>
+</code></pre><p><code>***a</code></p>
+<pre><code><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span>(a+1)
+<span class="keyword">*</span><span class="keyword">*</span>(<span class="keyword">*</span>a+1)
+<span class="keyword">*</span>(<span class="keyword">*</span><span class="keyword">*</span>a+1)
+<span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span>a+1
+</code></pre><p>越在上面，增加的维度越高</p>
+<h2 id="句柄VS指针">句柄VS指针</h2><p>从广义上，能够从一个数值拎起一大堆数据的东西都可以叫做句柄。Windows系统中有许多内核对象，比如打开的文件，创建的线程，程序的窗口，等等，这些对象往往很大，而且还经常变化。<br>那么怎么在程序间或程序内部的子过程（函数）之间传递这些数据呢？<br>在进程的地址空间中设一张表（句柄即编号-&gt;实际地址的映射），表里头专门保存一些编号和由这个编号对应一个地址，而由那个地址去引用实际的对象，这个编号跟那个地址在数值上没有任何规律性的联系，纯粹是个映射而已。<br>句柄作用：<strong>作为一个索引在一个表中查找对应的内核对象的实际地址</strong>。是指向指针的指针，但是不能对它做不安全的操作。windows用句柄操作系统资源（对象），隐藏了系统具体的信息。指针则直接记录了物理内存地址。</p>
+<h2 id="以对象管理资源">以对象管理资源</h2><p><strong>auto_ptr</strong><br>在C++的程序中Obj *ptr=new Obj(),需要delete ptr去释放这个ptr指向的内存。C++提供一种方法，可以不用delete就可以在函数结束的时候自动释放内存。(Effective C++ 条款13，以对象管理资源)<br>auto_ptr是一个模板类，这个类型的对象内部的析构函数完成对堆内存的释放，所以不要对这个对象的内存进行delete了。</p>
+<pre><code><span class="comment">//demo for manager heap memory by auto_ptr.</span>
+<span class="built_in">auto_ptr</span>&lt;<span class="keyword">int</span>&gt; pInt(<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">0</span>));
+*pInt = <span class="number">2</span>;
+<span class="built_in">cout</span>&lt;&lt;*pInt&lt;&lt;endl;
+
+<span class="comment">//demo for manager heap memory by hand.</span>
+<span class="keyword">int</span> *pInt2 = <span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">2</span>);
+<span class="built_in">cout</span>&lt;&lt;*pInt2&lt;&lt;endl;
+<span class="keyword">delete</span> pInt2
+</code></pre><p>其实<code>auto_ptr</code>是一个类，包装指针，并且重载了反引用(dereference)运算符<code>operator *</code>和成员选择运算符<code>operator -&gt;</code>，以模仿指针的行为。</p>
+<p><strong>shared_ptr</strong><br>的作用有如同指针，但会记录有多少个shared_ptrs共同指向一个对象。这便是所谓的引用计数（reference counting）。一旦最后一个这样的指针被销毁，也就是一旦某个对象的引用计数变为0，这个对象会被自动删除。这在非环形数据结构中防止资源泄露很有帮助。<br>auto_ptr没有考虑引用计数，因此一个对象只能由一个auto_ptr所拥有，在给其他auto_ptr赋值的时候，会转移这种拥有关系。</p>
+<h2 id="this指针">this指针</h2><ol>
+<li>this不占class或者对象的空间</li>
+<li>this在成员函数调用前构造，在成员函数结束时消失。</li>
+<li>this的作用是在调用成员函数的时候把对象传进去</li>
+</ol>
+<pre><code>A a;
+a.foo(<span class="number">10</span>);
+===被编译器翻译为===&gt;
+A::foo(&amp;a,10)
+那么foo的原型
+foo(<span class="keyword">int</span> p)
+===被编译器翻译为===&gt;
+foo(A * <span class="keyword">const</span> <span class="keyword">this</span>，<span class="keyword">int</span> p)
+所以在成员函数定义的时候可以写，<span class="keyword">this</span>-&gt;pram=XXX;
+</code></pre><h2 id="C++程序编译过程">C++程序编译过程</h2><ol>
+<li>预处理器cpp<br>预处理器cpp将对源文件中的宏进行展开，#define,#include</li>
+<li>编译器gcc/g++<br>编译器将文件编译成汇编文件</li>
+<li>汇编器as<br>汇编器将汇编文件编译成机器码</li>
+<li>链接器ld<br>将有关的目标文件彼此相连接，也即将在一个文件中引用的符号同该符号在另外一个文件中的定义连接起来，使得所有的这些目标文件成为一个能够诶操作系统装入执行的统一整体。</li>
+</ol>
+<h2 id="size_t">size_t</h2><ol>
+<li>为了使自己的程序有很好的移植性，c++程序员应该尽量使用size_t和size_type而不是int, unsigned</li>
+<li>size_t是全局定义的类型；size_type是STL类中定义的类型属性，用以保存任意string和vector类对象的长度</li>
+<li>size_t类型是通过typedef定义的一些无符号整型的别名，通常是unsigned int或unsigned long，甚至是unsigned long long。每种标准C的实现应该选择足够大的无符号整型，来代表目标平台可能的最大对象，但不能供过于求。<br>如果传入-1会变成4294967295，因为使用无符号整数表示</li>
+</ol>
+<h2 id="C++_运算符重载">C++ 运算符重载</h2><p>运算符重载的实质是<strong>函数重载</strong>。在实现过程中，首先把指定的运算表达式转化为对运算符函数的调用<br>在编译过程中：根据实参的类型把表达式转化为运算符函数，运算对象转化为运算符函数的实参<br>分为两种：</p>
+<ol>
+<li>运算符重载为成员函数（一般说来，单目运算符（+=）最好被重载为成员）<pre><code><span class="keyword">complex</span> <span class="keyword">operator</span>+(<span class="keyword">const</span> <span class="keyword">complex</span> &amp;c);
+</code></pre></li>
+<li>友元函数形式,C++ 中的string就是这样（一般说来，对双目运算符（+，-，*，/）最好被重载为友元函数）<pre><code><span class="keyword">friend</span> <span class="keyword">complex</span> <span class="keyword">operator</span> +(<span class="keyword">const</span> <span class="keyword">complex</span> &amp;c1, <span class="keyword">const</span> <span class="keyword">complex</span> &amp;c2);
+</code></pre><code>+，-，*，/</code>返回对象，<code>=</code>返回引用，返回值主要考虑的是连续运算<pre><code><span class="keyword">friend</span> ostream &amp; <span class="keyword">operator</span>&lt;&lt;(ostream &amp; os,<span class="keyword">const</span> MyString &amp;st);
+</code></pre>（单目与双目,是指操作数的数目）</li>
+</ol>
+<p><strong>友元</strong><br>友元定义在类外，友元可以访问类中的私有成员<br>好处，提高运行效率（在类外调用开销小），坏处，破坏封装性</p>
+<p><strong>参数处理顺序</strong></p>
+<ol>
+<li>Cout是对&lt;&lt;运算符的重载，返回的是cout这个ostream对象本身。&lt;&lt;连续使用时，返回的cout对象继续调用上面函数对下一个操作数进行输出，如此反复，直到该语句结束。因此，cout执行顺序是从左到右。</li>
+<li>编译器对函数实参的表达式处理顺序是从右向左。如<pre><code>void <span class="function"><span class="title">fun</span><span class="params">(int a, int b)</span></span>
+</code></pre>先处理b后处理a</li>
+</ol>
+<h2 id="#include"><code>#include</code></h2><p>C++中<code>#include</code>包含头文件带 .h 和不带 .h 的区别？<br>带 .h 的头文件是旧标准(c)的，如果想用新的标准(C++)的头文件就不要带 .h<br>C++增加了名称空间概念，借以将原来声明在全局空间下的标识符声明在了namespace std下。<br>为了和C语言兼容，C++标准化过程中，原有C语言头文件标准化后，头文件名前带个c字母，如cstdio、cstring、ctime、ctype等等。</p>
+<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;stdio.h&gt; --&gt; #<span class="keyword">include</span> &lt;cstdio&gt; </span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;stdlib.h&gt; --&gt; #<span class="keyword">include</span> &lt;cstdlib&gt; </span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;string.h&gt; --&gt; #<span class="keyword">include</span> &lt;cstring&gt;</span>
+</code></pre><h2 id="多重继承，虚继承">多重继承，虚继承</h2><p><strong>多重继承</strong><br>是从多于一个直接基类派生类的能力，多重继承的派生类继承其所有父类的属性。</p>
+<p><strong>虚拟继承</strong><br>是多重继承中特有的概念,是为解决多重继承的。在多重继承下，一个基类可以在派生层次中出现多次。virtual表明一种愿望，即在后序的派生类当中共享虚基类的同一份实例。<br>实例：istream，ostream，iostream<br>构造函数初始化方式<br>顺序和普通多重继承稍有区别，先初始化虚基类，然后依次初始化继承于虚基类的子类。</p>
+<h2 id="private_protect_public的可见性">private protect public的可见性</h2><p>访问：<br>(函数+友元函数)——子类函数———类对象<br>private: 只能由该类中的函数、其友元函数访问,不能被子类访问，该类的对象也不能访问.<br>protected: 可以被该类中的函数、子类的函数、以及其友元函数访问,但不能被该类的对象访问<br>public: 可以被该类中的函数、子类的函数、其友元函数访问,也可以由该类的对象访问<br>继承：（父类对子类的可见性由父类内访问说明符有关，继承方式影响的是子类生成的对象（或子类的子类）对于父类成员的可见性）<br>使用private继承,父类的所有方法在子类中变为private;<br>使用protected继承,父类的protected和public方法在子类中变为protected,private方法不变;<br>使用public继承,父类中的方法属性不发生改变，但是毕竟是两个类，不能访问private成员</p>
+<h2 id="抽象类，纯虚函数">抽象类，纯虚函数</h2><p>定义了纯虚函数的类成为抽象类，抽象类不能实例化。</p>
+<pre><code>virtual void <span class="function"><span class="title">fun</span><span class="params">()</span>=0;</span>
+</code></pre><h2 id="C++类型转换">C++类型转换</h2><p><strong>隐式类型转换</strong><br>算数转换，复制转换，传参数</p>
+<p><strong>显示类型转换</strong>，static_cast</p>
+<pre><code><span class="keyword">static_cast</span> &lt; type-id &gt; ( expression ) 
+</code></pre><p>作用1：编译器在编译期处理，在基类和派生类之间转换时使用，<strong>子类的类型提升到父类的类型</strong>。<br>作用2：static_cast<t>(expression) 用来<strong>强制类型转换</strong>，例如：</t></p>
+<pre><code><span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>&gt;(<span class="number">2.1</span>)
+</code></pre><p><strong>显示类型转换</strong>，dynamic_cast</p>
+<pre><code><span class="keyword">dynamic_cast</span> &lt; type-id &gt; ( expression )  RTTI的功能
+<span class="keyword">dynamic_cast</span>&lt;T&gt;(expression) 主要用来进行安全向下转型
+</code></pre><p>例如：只有基类可以使用，但是想调用子类的函数。如果可以，尝试使用多态来代替这种方法。</p>
+<h2 id="namepsace">namepsace</h2><p>指标识符的可见范围，C++标准库中的标识符都被定义到了std的namespace中<br>推荐用法 </p>
+<pre><code><span class="keyword">using</span> <span class="built_in">std</span>::<span class="built_in">cin</span>
+</code></pre><p><code>&lt;iostream.h&gt;</code>是旧标准，标识符是全局的<br><code>&lt;iosream&gt;</code>是遵循C++标准的，需要指定命名空间才能使用</p>
+<h2 id="C++默认产生的成员函数">C++默认产生的成员函数</h2><p><strong>构造函数，析构函数，拷贝构造函数，赋值函数</strong><br>构造函数：创建一个对象时，系统自动调用构造函数。<br>析构函数：在函数体内定义的对象，当函数执行结束时，该对象所在类的析构函数会被自动调用<br>拷贝构造函数：拷贝构造函数中只有一个参数，这个参数是对某个同类对象的引用。在三种情况下被调用：</p>
+<ol>
+<li>用类的一个已知的对象去初始化该类的另一个对象时。（初始化时用”Object A=B”，也可以用A(B)的形式。）</li>
+<li>函数的形参是类的对象，调用函数进行形参和实参的结合时。（定义一个函数A，A函数的形参是类的对象，在另外一个函数B中调用这个函数A，实参将具体的对象传递给形参，这时候会调用拷贝构造函数。）</li>
+<li>函数的返回值是类的对象，函数执行完返回调用者。（定义一个函数A，该函数的返回值是一个类的对象，在函数B中定义类的对象来接受函数A的返回，这个时候会调用拷贝构造函数。）</li>
+</ol>
+<p>赋值函数：赋值构造函数是将一个参数对象中私有成员赋给一个已经在内存中占据内存的对象的私有成员（赋值构造函数被赋值的对象必须已经在内存中，否则调用的将是拷贝构造函数）</p>
+<p><strong>深拷贝与浅拷贝</strong><br>所谓浅拷贝，指的是在对象复制时，只是对对象中的数据成员进行简单的赋值，上面的例子都是属于浅拷贝的情况，默认拷贝构造函数执行的也是浅拷贝。<br>在“深拷贝”的情况下，对于对象中动态成员，就不能仅仅简单地赋值了，而是重新动态分配空间。需要重写拷贝构造函数来实现。</p>
+<h2 id="形参与实参">形参与实参</h2><p>实参：调用时传递给函数的参数<br>形参：是在定义函数名和函数体的时候使用的参数,目的是用来接收调用该函数时传入的参数.在调用函数时，实参将赋值给形参。</p>
+<h2 id="小问题">小问题</h2><ul>
+<li>C++是不是类型安全的？<br>不是。两个不同类型的指针之间可以强制转换</li>
+<li>main 函数执行以前，还会执行什么代码？<br>全局对象(全局变量，全局静态变量)的构造函数会在main 函数之前执行。</li>
+<li>assert<br>assert宏的原型定义在<assert.h>中，其作用是如果它的条件返回错误，则终止程序执行 </assert.h></li>
+<li><code>#include&lt;a.h&gt;</code>和<code>#include&quot;a.h&quot;</code> 有什么区别？<br>对于#include <a.h> ,编译器从<strong>标准库路径开始搜索</strong><br>a.h对于#include “a.h” ,编译器从用户的<strong>工作路径开始搜索</strong> a.h（自己的）</a.h></li>
+<li>构造函数和析构函数能否声明为虚函数？<br>构造函数不能声明为虚函数，析构函数可以声明为虚函数，而且有时是必须声明为虚函数。<br>构造函数的调用时从上到下的，如果在构造函数中调用或者构造函数本身就是虚函数那么，子类的对象还没有构造完成就调用会出错析构函数不一样，析构函数常常需要通过多态来调用合适的函数来析构指针指向的对象。</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="static">static</h2><p>static变量存储在静态数据区<br>相对于function：在函数内，变量，内存只被分配一次，多次调用值相同<br>相对于其他模块（.c文件）：变量和函数，不能被模块外其他函数访问(private)<br>相对于类：]]>
+    </summary>
+    
+      <category term="C++" scheme="http://rudy-zhang.me/tags/C/"/>
+    
+      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[多线程同步]]></title>
@@ -320,11 +787,11 @@ where <span class="keyword">sc</span>.cid = '001'
   </entry>
   
   <entry>
-    <title><![CDATA[设计模式]]></title>
-    <link href="http://rudy-zhang.me/2015/10/12/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    <id>http://rudy-zhang.me/2015/10/12/找工作总结-设计模式/</id>
+    <title><![CDATA[面向对象和设计模式]]></title>
+    <link href="http://rudy-zhang.me/2015/10/12/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%92%8C%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://rudy-zhang.me/2015/10/12/找工作总结-面向对象和设计模式/</id>
     <published>2015-10-12T03:00:00.000Z</published>
-    <updated>2015-10-12T11:02:29.482Z</updated>
+    <updated>2015-10-15T01:29:24.384Z</updated>
     <content type="html"><![CDATA[<h2 id="UML说明">UML说明</h2><p><img src="http://ww4.sinaimg.cn/mw690/4c2edcb7jw1ewxhltbbtdj20qy0d43zm.jpg" alt=""></p>
 <h2 id="创建型模式">创建型模式</h2><h3 id="工厂模式-简单工厂">工厂模式-简单工厂</h3><p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1ewxia9uhulj20gr0emq3e.jpg" alt=""></p>
 <h3 id="工厂模式-工厂方法模式">工厂模式-工厂方法模式</h3><p><img src="http://ww2.sinaimg.cn/large/4c2edcb7jw1ewxite169fj20uo0c5q3p.jpg" alt=""></p>
@@ -345,6 +812,22 @@ where <span class="keyword">sc</span>.cid = '001'
 <h3 id="责任链模式">责任链模式</h3><p><img src="http://ww2.sinaimg.cn/large/4c2edcb7jw1ewyjd2f4lhj20o50c7758.jpg" alt=""></p>
 <h3 id="模板方法模式">模板方法模式</h3><p><img src="http://ww3.sinaimg.cn/large/4c2edcb7jw1ewyk470amyj20j80daab3.jpg" alt=""></p>
 <p><a href="http://design-patterns.readthedocs.org/zh_CN/latest/creational_patterns/creational.html" target="_blank" rel="external">跟多关于设计模式的参考</a></p>
+<h2 id="其他概念">其他概念</h2><h3 id="依赖注入-控制反转">依赖注入-控制反转</h3><p>依赖注入是实现控制反转最常用的一种方法。依赖注入可以看作是工厂模式的升华，生成的对象在配置文件（xml，json）中定义，使用反射生成相应的对象。</p>
+<h3 id="继承，封装，多态">继承，封装，多态</h3><p>继承，抽象公共的部分，对现实世界的表述更加容易理解<br>封装，封装使得程序容易改变。<br>多态，统一接口，不同方法。</p>
+<h3 id="重载和覆盖">重载和覆盖</h3><p>重载（overload）：对于类的方法（包括从父类中继承的方法），方法名相同，参数列表不同的方法之间就构成了重载关系。<br>覆盖 (override)：也叫重写，就是在当父类中的某些方法不能满足要求时，子类中改写父类的方法。当父类中的方法被覆盖了后，除非用super关键字，否则就无法再调用父类中的方法了。</p>
+<h3 id="里氏替换原则">里氏替换原则</h3><p>里氏替换原则规定，<strong>所有的子类都能作为父类的代理(proxy)工作</strong>。例如，如果一个方法需要父类对象作为输入，那么如果你提供一个子类对象，它也应该正常工作。任何不能替代父类的类都违反了里氏替换原则。</p>
+<h3 id="开闭(Open_closed)设计原则">开闭(Open closed)设计原则</h3><p>个系统对扩展是开放的，但对修改是封闭的。</p>
+<h3 id="多态">多态</h3><p>一个接口，多种方法。使用父类对象(或指针)调用子类函数。</p>
+<h2 id="小问题">小问题</h2><ul>
+<li><p>组合(composition)，聚合(aggregation)和关联(association)的区别是什么？<br><strong>关联</strong>的意思是两个对象是相互联系的。组合和聚合是关联的两种方式。在代码中表现为成员变量。<br><strong>组合</strong>是关联的一种形式，即一个对象由多个对象组成，但是它们必须共存（<strong>生命周期相同</strong>），例如人体由各种器官组合而成，独立的器官不能生存，它们必须在身体内发挥作用。代码中表现为List&lt;&gt;。<br><strong>聚合</strong>也是关联的一种形式，表示对象的集合，例如城市是居民的聚合（<strong>声明周期不相同</strong>）。在代码中表现为List&lt;&gt;。</p>
+</li>
+<li><p>接口和抽象类有什么区别？<br>接口是最纯粹的抽象形式，只有操作，没有实现<br>抽象类是一些抽象和具体事物的组合体。</p>
+</li>
+</ul>
+<h2 id="如何做设计">如何做设计</h2><h3 id="设计的共性">设计的共性</h3><p>拆，把复杂的问题变成简单的子问题，不断迭代<br>输入输出的把控<br>变化的预估</p>
+<h3 id="设计的模式">设计的模式</h3><p>系统级：分层，服务化（把公共的部分做成服务）<br>模块级：线程角色（主线程，工作线程），线程模型，流水线<br>设计模式：解决特定问题的特定方法</p>
+<h3 id="设计的过程">设计的过程</h3><p>定义问题，需求，系统边界<br>给出解决方案，尽可能多。在调研的阶段<strong>消灭变更</strong>。<br>选择解决方案</p>
+<h3 id="设计的原则">设计的原则</h3><p>simple is best，没有最好的设计，只有最合适的设计</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<h2 id="UML说明">UML说明</h2><p><img src="http://ww4.sinaimg.cn/mw690/4c2edcb7jw1ewxhltbbtdj20qy0d43zm.jpg" alt=""></p>
@@ -662,7 +1145,7 @@ public:
     <link href="http://rudy-zhang.me/2015/10/11/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E9%80%92%E5%BD%92%E4%B8%93%E9%A2%98/"/>
     <id>http://rudy-zhang.me/2015/10/11/找工作总结-递归专题/</id>
     <published>2015-10-11T02:00:00.000Z</published>
-    <updated>2015-10-11T08:53:17.416Z</updated>
+    <updated>2015-10-14T07:43:14.492Z</updated>
     <content type="html"><![CDATA[<p>递归的本质是图的深度优先遍历</p>
 <h3 id="剑指offer11_数值的整数次方">剑指offer11 数值的整数次方</h3><h4 id="问题描述">问题描述</h4><p>给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。</p>
 <h4 id="解法">解法</h4><p>求a的b次方</p>
@@ -756,8 +1239,33 @@ public:
         }
     }
 };
-</code></pre><h3 id="剑指offer_53_正则表达式匹配">剑指offer 53 正则表达式匹配</h3><h4 id="问题描述-2">问题描述</h4><p>请实现一个函数用来匹配包括’.’和<code>&#39;*&#39;</code>的正则表达式。模式中的字符’.’表示任意一个字符，而<code>&#39;*&#39;</code>表示它前面的字符可以出现任意次（包含0次）。 在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串”aaa”与模式”a.a”和<code>&quot;ab*ac*a&quot;</code>匹配，但是与”aa.a”和<code>&quot;ab*a&quot;</code>均不匹配</p>
-<h4 id="解法-2">解法</h4><p>考虑<code>bool match(char* str, char* pattern)</code><br>因为str中可能出现_*这种形式，所以每次需要扫描pattern的后一个元素。讨论以下几种情况：</p>
+</code></pre><h2 id="子集问题">子集问题</h2><h3 id="Leetcode_78_Subset">Leetcode 78 Subset</h3><h4 id="问题描述-2">问题描述</h4><p>给定一个集合，生成这个集合的所有子集</p>
+<h4 id="解法-2">解法</h4><p>遍历数组中的元素，每个元素有出现和不出现两种情况，然后递归考虑后一个元素。</p>
+<h4 id="代码-2">代码</h4><pre><code>class <span class="type">Solution</span> {
+public:
+    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; subsets(vector&lt;<span class="type">int</span>&gt;&amp; nums) {
+        sort(nums.begin(), nums.<span class="keyword">end</span>());
+        vector&lt;<span class="type">int</span>&gt; vec;
+        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="literal">result</span>;
+        genSubset(vec, <span class="literal">result</span>, <span class="number">0</span>, nums);
+        <span class="keyword">return</span> <span class="literal">result</span>;
+    }
+
+    <span class="type">void</span> genSubset(vector&lt;<span class="type">int</span>&gt;&amp; vec, vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; <span class="literal">result</span>, <span class="type">int</span> index, vector&lt;<span class="type">int</span>&gt; nums)
+    {
+        <span class="literal">result</span>.push_back(vec);
+        <span class="keyword">for</span>(<span class="type">int</span> i = index; i &lt; nums.size(); i++)
+        {
+            vec.push_back(nums[i]);
+            genSubset(vec, <span class="literal">result</span>, i + <span class="number">1</span>, nums);
+            vec.pop_back();
+        }
+    }
+};
+</code></pre><h3 id="拓展：子集和问题">拓展：子集和问题</h3><h4 id="问题描述-3">问题描述</h4><p>子集和问题的一个实例为〈S,t〉。其中，S={ 1 x ， 2 x ，…， n x }是一个正整数的集合，c是一个正整数。子集和问题判定是否存在S的一个子集S1，使得 S1中的所有元素之和等于c。<br>试设计一个解子集和问题的回溯法。</p>
+<h4 id="解法-3">解法</h4><p>使用暴力解法，任何一个数字在最终的结果中都有出现和不出现两种情况所以复杂度是(2^n)方，需要在不断遍历结果过程中对结果进行剪枝。<br>可以构造所有子集，每次进入的时候判断是否满足条件。</p>
+<h3 id="剑指offer_53_正则表达式匹配">剑指offer 53 正则表达式匹配</h3><h4 id="问题描述-4">问题描述</h4><p>请实现一个函数用来匹配包括’.’和<code>&#39;*&#39;</code>的正则表达式。模式中的字符’.’表示任意一个字符，而<code>&#39;*&#39;</code>表示它前面的字符可以出现任意次（包含0次）。 在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串”aaa”与模式”a.a”和<code>&quot;ab*ac*a&quot;</code>匹配，但是与”aa.a”和<code>&quot;ab*a&quot;</code>均不匹配</p>
+<h4 id="解法-4">解法</h4><p>考虑<code>bool match(char* str, char* pattern)</code><br>因为str中可能出现_*这种形式，所以每次需要扫描pattern的后一个元素。讨论以下几种情况：</p>
 <ul>
 <li><p><code>_*</code></p>
 <ul>
@@ -775,7 +1283,7 @@ public:
 <li><code>*str == *p</code> -&gt; str+1, p+1</li>
 <li><code>*p == &#39;.&#39;</code> -&gt; str+1, p+1</li>
 </ul>
-<h4 id="代码-2">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<h4 id="代码-3">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
 <span class="keyword">public</span>:
     bool match(<span class="keyword">char</span>* <span class="keyword">str</span>, <span class="keyword">char</span>* pattern)
     {
@@ -2412,140 +2920,6 @@ public:
   </entry>
   
   <entry>
-    <title><![CDATA[数组专题-数组中出现的次数]]></title>
-    <link href="http://rudy-zhang.me/2015/09/27/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E6%95%B0%E7%BB%84%E4%B8%93%E9%A2%98-%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0/"/>
-    <id>http://rudy-zhang.me/2015/09/27/找工作总结-数组专题-出现次数/</id>
-    <published>2015-09-27T13:56:00.000Z</published>
-    <updated>2015-10-03T02:00:01.358Z</updated>
-    <content type="html"><![CDATA[<h2 id="通用的几种解题思路">通用的几种解题思路</h2><ul>
-<li>使用map记录出现的次数，要求额外增加空间复杂度</li>
-<li>所有数字异或可以消灭掉数组中出现偶数次的数字</li>
-</ul>
-<h3 id="剑指offer51_数组中重复的数字">剑指offer51 数组中重复的数字</h3><h4 id="问题描述">问题描述</h4><p>在一个长度为n的数组里的所有数字都在0到n-1的范围内。 数组中某些数字是重复的，但不知道有几个数字是重复的。也不知道每个数字重复几次。请找出数组中任意一个重复的数字。 例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出是重复的数字2或者3。</p>
-<h4 id="解法">解法</h4><ul>
-<li>排序后扫描，时间复杂度nlogn，空间复杂度O(1)</li>
-<li>使用map记录，时间复杂度O(n)，空间复杂度O(n)</li>
-</ul>
-<h4 id="注意点">注意点</h4><ul>
-<li>map的遍历<br><code>map&lt;int, int&gt;::iterator iter;</code><br><code>iter-&gt;first</code> <code>iter-&gt;second</code></li>
-</ul>
-<h4 id="代码">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="function"><span class="keyword">bool</span> <span class="title">duplicate</span><span class="params">(<span class="keyword">int</span> numbers[], <span class="keyword">int</span> length, <span class="keyword">int</span>* duplication)</span> </span>{
-        <span class="keyword">if</span>(length &lt;= <span class="number">1</span>)
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; dict;
-        <span class="keyword">bool</span> ans = <span class="keyword">false</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++)
-        {
-            <span class="keyword">if</span>(dict.count(numbers[i]) == <span class="number">0</span>)
-                dict[numbers[i]] = <span class="number">1</span>;
-            <span class="keyword">else</span>{
-                dict[numbers[i]] += <span class="number">1</span>;
-                ans = <span class="keyword">true</span>;
-            }
-        }
-        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;::iterator iter;
-        <span class="keyword">for</span>(iter = dict.begin();iter != dict.end();iter++)
-        {
-            <span class="keyword">if</span>(iter-&gt;second &gt; <span class="number">1</span>)
-            {
-                *duplication = iter-&gt;first;
-                duplication++;
-            }
-        }
-        <span class="keyword">return</span> ans;
-    }
-};
-</code></pre><h3 id="剑指offer29_数组中出现次数超过一半的数字">剑指offer29 数组中出现次数超过一半的数字</h3><h4 id="问题描述-1">问题描述</h4><p>数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。由于数字2在数组中出现了5次，超过数组长度的一半，因此输出2。</p>
-<h4 id="解法-1">解法</h4><ul>
-<li>使用快排partition函数，扫描一遍数组中间元素就是出现超过一半的数字</li>
-<li>使用time记录数字出现的次数，cur记录当前数字</li>
-</ul>
-<h4 id="注意点-1">注意点</h4><ul>
-<li>使用解法2需要判断最后的次数是否真的大于一半，如果不是，返回特定值</li>
-</ul>
-<h4 id="代码-1">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="keyword">int</span> MoreThanHalfNum_Solution(vector&lt;<span class="keyword">int</span>&gt; numbers) {
-        <span class="keyword">if</span>(numbers.<span class="keyword">size</span>() == <span class="number">0</span>) 
-            <span class="keyword">return</span> <span class="number">0</span>;
-        <span class="keyword">int</span> time = <span class="number">1</span>;
-        <span class="keyword">int</span> cur = numbers[<span class="number">0</span>];
-        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; numbers.<span class="keyword">size</span>(); i++)
-        {
-            <span class="keyword">if</span>(time == <span class="number">0</span>)
-            {
-                cur = numbers[i];
-                time = <span class="number">1</span>;
-            }
-            <span class="keyword">else</span> <span class="keyword">if</span>(numbers[i] == cur)
-                time++;
-            <span class="keyword">else</span>
-                time--;
-        }
-        <span class="keyword">int</span> <span class="keyword">count</span> = <span class="number">0</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;numbers.<span class="keyword">size</span>(); i++)
-        {
-            <span class="keyword">if</span>(numbers[i] == cur)
-                <span class="keyword">count</span>++;
-        }
-        <span class="keyword">if</span>(<span class="keyword">count</span> * <span class="number">2</span> &gt; numbers.<span class="keyword">size</span>())
-            <span class="keyword">return</span> cur;
-        <span class="keyword">else</span>
-            <span class="keyword">return</span> <span class="number">0</span>;
-    }
-};
-</code></pre><h3 id="剑指offer40_数组中只出现一次的数字">剑指offer40 数组中只出现一次的数字</h3><h4 id="问题描述-2">问题描述</h4><p>一个整型数组里除了两个数字之外，其他的数字都出现了两次。请写程序找出这两个只出现一次的数字。</p>
-<h4 id="解法-2">解法</h4><ul>
-<li>对于只有一个数字出现一次，对所有数字做异或操作</li>
-<li>有两个数字a,b出现了一次，其它出现偶数次。所有数字异或得temp = a^b，使用result做spliter，每一个数字和temp做与操作，把数组分成两组</li>
-</ul>
-<h4 id="注意点-2">注意点</h4><ul>
-<li>与或非的操作符优先级</li>
-</ul>
-<h4 id="代码-2">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    void FindNumsAppearOnce(vector&lt;<span class="built_in">int</span>&gt; <span class="type">data</span>,<span class="built_in">int</span>* num1,<span class="built_in">int</span> *num2) {
-        <span class="keyword">if</span>(<span class="type">data</span>.<span class="built_in">size</span>() &lt;= <span class="number">1</span>)
-        {
-            *num1 = <span class="number">0</span>;
-            *num2 = <span class="number">0</span>;
-            <span class="keyword">return</span> ;
-        }
-        <span class="built_in">int</span> temp = <span class="number">0</span>;
-        for(<span class="built_in">int</span> i = <span class="number">0</span>;i &lt;<span class="type">data</span>.<span class="built_in">size</span>(); i++)
-            temp ^= <span class="type">data</span>[i];
-
-        <span class="built_in">int</span> a = <span class="number">0</span>, b = <span class="number">0</span>;
-        for(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="type">data</span>.<span class="built_in">size</span>(); i++)
-        {
-            <span class="keyword">if</span>((<span class="type">data</span>[i] &amp; temp) == <span class="number">0</span>)
-                a ^= <span class="type">data</span>[i];
-            <span class="keyword">else</span>
-                b ^= <span class="type">data</span>[i];
-
-        }
-        *num1 = a;
-        *num2 = b;
-    }
-};
-</code></pre>]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="通用的几种解题思路">通用的几种解题思路</h2><ul>
-<li>使用map记录出现的次数，要求额外增加空间复杂度</li>
-<li>所有数字异或可以消灭掉数组中出现偶数次的数字</li>
-</ul>
-<h3 id="剑指offer51_数组中重复的数字">剑指]]>
-    </summary>
-    
-      <category term="数组" scheme="http://rudy-zhang.me/tags/%E6%95%B0%E7%BB%84/"/>
-    
-      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[数组专题-一般题目]]></title>
     <link href="http://rudy-zhang.me/2015/09/27/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E6%95%B0%E7%BB%84%E4%B8%93%E9%A2%98-%E4%B8%80%E8%88%AC%E9%A2%98%E7%9B%AE/"/>
     <id>http://rudy-zhang.me/2015/09/27/找工作总结-数组专题-一般题目/</id>
@@ -3334,869 +3708,136 @@ public:
   </entry>
   
   <entry>
-    <title><![CDATA[字符串专题]]></title>
-    <link href="http://rudy-zhang.me/2015/09/25/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%93%E9%A2%98-%E4%B8%80%E8%88%AC%E9%A2%98%E7%9B%AE/"/>
-    <id>http://rudy-zhang.me/2015/09/25/找工作总结-字符串专题-一般题目/</id>
-    <published>2015-09-25T13:56:00.000Z</published>
-    <updated>2015-10-10T09:50:10.607Z</updated>
-    <content type="html"><![CDATA[<h3 id="剑指offer4_替换空格">剑指offer4 替换空格</h3><p>问题描述：请实现一个函数，将一个字符串中的空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。</p>
-<p>解法：扫描一遍，记录空格个数。申请newSize，从后向前填充数组。</p>
-<pre><code>class Solution {
+    <title><![CDATA[数组专题-数组中出现的次数]]></title>
+    <link href="http://rudy-zhang.me/2015/09/27/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93-%E6%95%B0%E7%BB%84%E4%B8%93%E9%A2%98-%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0/"/>
+    <id>http://rudy-zhang.me/2015/09/27/找工作总结-数组专题-出现次数/</id>
+    <published>2015-09-27T13:56:00.000Z</published>
+    <updated>2015-10-03T02:00:01.358Z</updated>
+    <content type="html"><![CDATA[<h2 id="通用的几种解题思路">通用的几种解题思路</h2><ul>
+<li>使用map记录出现的次数，要求额外增加空间复杂度</li>
+<li>所有数字异或可以消灭掉数组中出现偶数次的数字</li>
+</ul>
+<h3 id="剑指offer51_数组中重复的数字">剑指offer51 数组中重复的数字</h3><h4 id="问题描述">问题描述</h4><p>在一个长度为n的数组里的所有数字都在0到n-1的范围内。 数组中某些数字是重复的，但不知道有几个数字是重复的。也不知道每个数字重复几次。请找出数组中任意一个重复的数字。 例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出是重复的数字2或者3。</p>
+<h4 id="解法">解法</h4><ul>
+<li>排序后扫描，时间复杂度nlogn，空间复杂度O(1)</li>
+<li>使用map记录，时间复杂度O(n)，空间复杂度O(n)</li>
+</ul>
+<h4 id="注意点">注意点</h4><ul>
+<li>map的遍历<br><code>map&lt;int, int&gt;::iterator iter;</code><br><code>iter-&gt;first</code> <code>iter-&gt;second</code></li>
+</ul>
+<h4 id="代码">代码</h4><pre><code><span class="keyword">class</span> Solution {
 <span class="keyword">public</span>:
-    string replaceSpace(string <span class="built_in">str</span>) {
-        <span class="keyword">if</span>(<span class="built_in">str</span>.<span class="built_in">size</span>()==<span class="number">0</span>)
-            <span class="keyword">return</span> <span class="built_in">str</span>;
-        <span class="built_in">int</span> numOfSpace=<span class="number">0</span>;
-        <span class="keyword">for</span>(<span class="built_in">int</span> i=<span class="number">0</span>;i&lt;<span class="built_in">str</span>.<span class="built_in">size</span>();++i)
-            <span class="keyword">if</span>(<span class="built_in">str</span>[i]==<span class="string">' '</span>)
-                ++numOfSpace;
-        <span class="built_in">int</span> newSize=<span class="built_in">str</span>.<span class="built_in">size</span>()+<span class="number">2</span>*numOfSpace;
-        string ans;
-        ans.resize(newSize);
-        <span class="built_in">int</span> i=<span class="built_in">str</span>.<span class="built_in">size</span>()-<span class="number">1</span>,j=newSize-<span class="number">1</span>;
-        <span class="keyword">while</span>(i&gt;=<span class="number">0</span>&amp;&amp;j&gt;=<span class="number">0</span>)   
+    <span class="function"><span class="keyword">bool</span> <span class="title">duplicate</span><span class="params">(<span class="keyword">int</span> numbers[], <span class="keyword">int</span> length, <span class="keyword">int</span>* duplication)</span> </span>{
+        <span class="keyword">if</span>(length &lt;= <span class="number">1</span>)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; dict;
+        <span class="keyword">bool</span> ans = <span class="keyword">false</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++)
         {
-            <span class="keyword">if</span>(<span class="built_in">str</span>[i]==<span class="string">' '</span>)
-            {
-                ans[j--]=<span class="string">'0'</span>;
-                ans[j--]=<span class="string">'2'</span>;
-                ans[j--]=<span class="string">'%'</span>;
-                --i;
+            <span class="keyword">if</span>(dict.count(numbers[i]) == <span class="number">0</span>)
+                dict[numbers[i]] = <span class="number">1</span>;
+            <span class="keyword">else</span>{
+                dict[numbers[i]] += <span class="number">1</span>;
+                ans = <span class="keyword">true</span>;
             }
+        }
+        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;::iterator iter;
+        <span class="keyword">for</span>(iter = dict.begin();iter != dict.end();iter++)
+        {
+            <span class="keyword">if</span>(iter-&gt;second &gt; <span class="number">1</span>)
+            {
+                *duplication = iter-&gt;first;
+                duplication++;
+            }
+        }
+        <span class="keyword">return</span> ans;
+    }
+};
+</code></pre><h3 id="剑指offer29_数组中出现次数超过一半的数字">剑指offer29 数组中出现次数超过一半的数字</h3><h4 id="问题描述-1">问题描述</h4><p>数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。由于数字2在数组中出现了5次，超过数组长度的一半，因此输出2。</p>
+<h4 id="解法-1">解法</h4><ul>
+<li>使用快排partition函数，扫描一遍数组中间元素就是出现超过一半的数字</li>
+<li>使用time记录数字出现的次数，cur记录当前数字</li>
+</ul>
+<h4 id="注意点-1">注意点</h4><ul>
+<li>使用解法2需要判断最后的次数是否真的大于一半，如果不是，返回特定值</li>
+</ul>
+<h4 id="代码-1">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="keyword">int</span> MoreThanHalfNum_Solution(vector&lt;<span class="keyword">int</span>&gt; numbers) {
+        <span class="keyword">if</span>(numbers.<span class="keyword">size</span>() == <span class="number">0</span>) 
+            <span class="keyword">return</span> <span class="number">0</span>;
+        <span class="keyword">int</span> time = <span class="number">1</span>;
+        <span class="keyword">int</span> cur = numbers[<span class="number">0</span>];
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; numbers.<span class="keyword">size</span>(); i++)
+        {
+            <span class="keyword">if</span>(time == <span class="number">0</span>)
+            {
+                cur = numbers[i];
+                time = <span class="number">1</span>;
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(numbers[i] == cur)
+                time++;
             <span class="keyword">else</span>
-                ans[j--]=<span class="built_in">str</span>[i--];
+                time--;
         }
-        <span class="keyword">return</span> ans;
-    }
-};
-</code></pre><h3 id="剑指offer54_表示数值的字符串">剑指offer54 表示数值的字符串</h3><p>问题描述：请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如，字符串”+100”,”5e2”,”-123”,”3.1416”和”-1E-16”都表示数值。 但是”12e”,”1a3.14”,”1.2.3”,”+-5”和”12e+4.3”都不是。</p>
-<p>解法：首先可以写出这个字符串的正则表达式</p>
-<pre><code>(+|-)？\<span class="keyword">d</span>+(.\<span class="keyword">d</span>+)?(<span class="keyword">e</span>|<span class="literal">E</span>(+|-)?\<span class="keyword">d</span>+)?
-</code></pre><p>对于正则表达式中的符号，<code>?</code>表示0或1，使用<code>if</code>判断，+表示1或者更多，直接扫描判断。</p>
-<p>注意点：<br>(1) 非法输入，传入str == NULL<br>(2) 结束条件的判断</p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
-<span class="keyword">public</span>:
-    bool isNumeric(<span class="keyword">char</span>* <span class="keyword">str</span>)
-    {
-        <span class="keyword">if</span>(<span class="keyword">str</span> == NULL)
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'+'</span> || *<span class="keyword">str</span> == <span class="string">'-'</span>)
-            <span class="keyword">str</span>++;
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-        scanDigits(<span class="keyword">str</span>);
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
-            <span class="keyword">return</span> <span class="keyword">true</span>;
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'.'</span>)
+        <span class="keyword">int</span> <span class="keyword">count</span> = <span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;numbers.<span class="keyword">size</span>(); i++)
         {
-            <span class="keyword">str</span>++;
-            <span class="comment">//根据题目要求是否允许"32."这样的数据</span>
-            <span class="comment">//if(*str == '\0')</span>
-            <span class="comment">//    return false;</span>
-            scanDigits(<span class="keyword">str</span>);
+            <span class="keyword">if</span>(numbers[i] == cur)
+                <span class="keyword">count</span>++;
         }
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
-            <span class="keyword">return</span> <span class="keyword">true</span>;
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'e'</span> || *<span class="keyword">str</span> == <span class="string">'E'</span>)
-            <span class="keyword">str</span>++;
+        <span class="keyword">if</span>(<span class="keyword">count</span> * <span class="number">2</span> &gt; numbers.<span class="keyword">size</span>())
+            <span class="keyword">return</span> cur;
         <span class="keyword">else</span>
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'+'</span> || *<span class="keyword">str</span> == <span class="string">'-'</span>)
-            <span class="keyword">str</span>++;
-        scanDigits(<span class="keyword">str</span>);
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
-            <span class="keyword">return</span> <span class="keyword">true</span>;
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
-            <span class="keyword">return</span> <span class="keyword">true</span>;
-        <span class="keyword">else</span>
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-    }
-
-    <span class="keyword">void</span> scanDigits(<span class="keyword">char</span> *(&amp;<span class="keyword">str</span>))
-    {
-        <span class="keyword">while</span>(*<span class="keyword">str</span> != <span class="string">'\0'</span> &amp;&amp; *<span class="keyword">str</span> &gt;= <span class="string">'0'</span> &amp;&amp; *<span class="keyword">str</span> &lt;= <span class="string">'9'</span>)
-            <span class="keyword">str</span>++;
+            <span class="keyword">return</span> <span class="number">0</span>;
     }
 };
-</code></pre><h3 id="剑指offer55_字符流中第一个不重复的字符">剑指offer55 字符流中第一个不重复的字符</h3><p>问题描述：请实现一个函数用来找出字符流中第一个只出现一次的字符。例如，当从字符流中只读出前两个字符”go”时，第一个只出现一次的字符是”g”。当从该字符流中读出前六个字符“google”时，第一个只出现一次的字符是”l”。</p>
-<p>解法：字符只有256个，所以可以使用<code>int dict[256]</code>数组来记录所有字符出现的情况。0表示未出现过，-1表示出现过大于1次，&gt;0时dict[i]表示字符i第一次出现的index</p>
-<p>注意点：<br>通过遍历dict[26]找到minIndex找到<strong>第一次出现</strong>的字符</p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>
-</span>{
+</code></pre><h3 id="剑指offer40_数组中只出现一次的数字">剑指offer40 数组中只出现一次的数字</h3><h4 id="问题描述-2">问题描述</h4><p>一个整型数组里除了两个数字之外，其他的数字都出现了两次。请写程序找出这两个只出现一次的数字。</p>
+<h4 id="解法-2">解法</h4><ul>
+<li>对于只有一个数字出现一次，对所有数字做异或操作</li>
+<li>有两个数字a,b出现了一次，其它出现偶数次。所有数字异或得temp = a^b，使用result做spliter，每一个数字和temp做与操作，把数组分成两组</li>
+</ul>
+<h4 id="注意点-2">注意点</h4><ul>
+<li>与或非的操作符优先级</li>
+</ul>
+<h4 id="代码-2">代码</h4><pre><code><span class="keyword">class</span> Solution {
 <span class="keyword">public</span>:
-      <span class="comment">//Insert one char from stringstream</span>
-    <span class="keyword">void</span> Insert(<span class="keyword">char</span> ch)
-    {
-        <span class="keyword">if</span>(dict[ch] == <span class="number">0</span>) <span class="comment">//没出现过</span>
-            dict[ch] = <span class="keyword">index</span>;
-        <span class="keyword">else</span> <span class="comment">//出现过</span>
-            dict[ch] = -<span class="number">1</span>;
-        <span class="keyword">index</span>++;
-    }
-      <span class="comment">//return the first appearence once char in current stringstream</span>
-    <span class="keyword">char</span> FirstAppearingOnce()
-    {
-        <span class="keyword">char</span> ans=<span class="string">'#'</span>;
-        <span class="keyword">int</span> minIndex = INT_MAX;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">256</span>;i++)
+    void FindNumsAppearOnce(vector&lt;<span class="built_in">int</span>&gt; <span class="type">data</span>,<span class="built_in">int</span>* num1,<span class="built_in">int</span> *num2) {
+        <span class="keyword">if</span>(<span class="type">data</span>.<span class="built_in">size</span>() &lt;= <span class="number">1</span>)
         {
-            <span class="keyword">if</span>(dict[i] &gt; <span class="number">0</span> &amp;&amp; dict[i] &lt; minIndex)
-            {
-                ans = i;
-                minIndex = dict[i];
-            }
+            *num1 = <span class="number">0</span>;
+            *num2 = <span class="number">0</span>;
+            <span class="keyword">return</span> ;
         }
-        <span class="keyword">return</span> ans;
-    }
+        <span class="built_in">int</span> temp = <span class="number">0</span>;
+        for(<span class="built_in">int</span> i = <span class="number">0</span>;i &lt;<span class="type">data</span>.<span class="built_in">size</span>(); i++)
+            temp ^= <span class="type">data</span>[i];
 
-    Solution()
-    {
-        <span class="keyword">index</span> = <span class="number">1</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">256</span>;i++)
-            dict[i] = <span class="number">0</span>;
-    }
-<span class="keyword">private</span>:
-    <span class="keyword">int</span> dict[<span class="number">256</span>];
-    <span class="keyword">int</span> <span class="keyword">index</span>=<span class="number">1</span>;
-};
-</code></pre><h3 id="剑指offer42_反转单词顺序_VS_左旋字符串">剑指offer42 反转单词顺序 VS 左旋字符串</h3><p>反转字符串函数：</p>
-<pre><code>void reverseString(<span class="built_in">string</span> &amp;str, <span class="built_in">int</span> <span class="built_in">left</span>, <span class="built_in">int</span> <span class="built_in">right</span>)
-{
-    <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
-    {
-        char temp = str[<span class="built_in">left</span>];
-        str[<span class="built_in">left</span>] = str[<span class="built_in">right</span>];
-        str[<span class="built_in">right</span>] = temp;
-        <span class="built_in">left</span>++;
-        <span class="built_in">right</span>--;
-    }
-}
-</code></pre><h4 id="反转单词顺序">反转单词顺序</h4><p>问题描述：JOBDU最近来了一个新员工Fish，每天早晨总是会拿着一本英文杂志，写些句子在本子上。同事Cat对Fish写的内容颇感兴趣，有一天他向Fish借来翻看，但却读不懂它的意思。例如，“student. a am I”。后来才意识到，这家伙原来把句子单词的顺序翻转了，正确的句子应该是“I am a student.”。Cat对一一的翻转这些单词顺序可不在行，你能帮助他么？</p>
-<p>解法：先反转每一个单词，再反转整句</p>
-<p>注意点：</p>
-<ol>
-<li>功能测试：”student. a am I”</li>
-<li>特殊测试用例”aaa “,” aaa”</li>
-</ol>
-<pre><code>class Solution {
-<span class="keyword">public</span>:
-    string ReverseSentence(string <span class="built_in">str</span>) {
-        <span class="keyword">if</span>(<span class="built_in">str</span>.<span class="built_in">size</span>() == <span class="number">0</span>) <span class="keyword">return</span> <span class="built_in">str</span>;
-        reverseString(<span class="built_in">str</span>, <span class="number">0</span>, <span class="built_in">str</span>.<span class="built_in">size</span>() - <span class="number">1</span>);
-        <span class="built_in">int</span> left = <span class="number">0</span>, right = <span class="number">0</span>;
-        <span class="keyword">while</span>(right &lt; <span class="built_in">str</span>.<span class="built_in">size</span>())
+        <span class="built_in">int</span> a = <span class="number">0</span>, b = <span class="number">0</span>;
+        for(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="type">data</span>.<span class="built_in">size</span>(); i++)
         {
-            <span class="keyword">while</span>(<span class="built_in">str</span>[left] == <span class="string">' '</span>)
-            {
-                left++;
-                right++;
-            }
-            <span class="comment">//应对用例"aa "</span>
-            <span class="keyword">if</span>(left &gt;= <span class="built_in">str</span>.<span class="built_in">size</span>()) 
-                <span class="keyword">break</span>;
-            <span class="keyword">while</span>(<span class="built_in">str</span>[right] != <span class="string">' '</span> &amp;&amp; <span class="built_in">str</span>[right] != <span class="string">'\0'</span>)
-                right++;
-            reverseString(<span class="built_in">str</span>,left,right-<span class="number">1</span>);
-            left = right;
-        }
-        <span class="keyword">return</span> <span class="built_in">str</span>;
-    }
+            <span class="keyword">if</span>((<span class="type">data</span>[i] &amp; temp) == <span class="number">0</span>)
+                a ^= <span class="type">data</span>[i];
+            <span class="keyword">else</span>
+                b ^= <span class="type">data</span>[i];
 
-    <span class="keyword">void</span> reverseString(string &amp;<span class="built_in">str</span>,<span class="built_in">int</span> left,<span class="built_in">int</span> right)
-    {
-        <span class="keyword">while</span>(left &lt; right)
-        {
-            <span class="built_in">char</span> temp = <span class="built_in">str</span>[left];
-            <span class="built_in">str</span>[left] = <span class="built_in">str</span>[right];
-            <span class="built_in">str</span>[right] = temp;
-            left++;
-            right--;
         }
-    }
-};
-</code></pre><h4 id="左旋字符串">左旋字符串</h4><p>问题描述：汇编语言中有一种移位指令叫做循环左移（ROL），现在有个简单的任务，就是用字符串模拟这个指令的运算结果。对于一个给定的字符序列S，请你把其循环左移K位后的序列输出。例如，字符序列S=”abcXYZdef”,要求输出循环左移3位后的结果，即“XYZdefabc”。是不是很简单？OK，搞定它！</p>
-<p>解法：先反转3分割的两部分，再旋转这个字符串</p>
-<pre><code>class Solution {
-<span class="keyword">public</span>:
-    string LeftRotateString(string <span class="built_in">str</span>, <span class="built_in">int</span> n) {
-        <span class="keyword">if</span>(<span class="built_in">str</span>.<span class="built_in">size</span>() == <span class="number">0</span>) <span class="keyword">return</span> <span class="built_in">str</span>;
-        <span class="keyword">if</span>(n &gt;= <span class="built_in">str</span>.<span class="built_in">size</span>() || n &lt;= <span class="number">0</span>) <span class="keyword">return</span> <span class="built_in">str</span>;
-        reverseString(<span class="built_in">str</span>, <span class="number">0</span>, n - <span class="number">1</span>);
-        reverseString(<span class="built_in">str</span>, n, <span class="built_in">str</span>.<span class="built_in">size</span>() - <span class="number">1</span>);
-        reverseString(<span class="built_in">str</span>, <span class="number">0</span>, <span class="built_in">str</span>.<span class="built_in">size</span>() - <span class="number">1</span>);
-        <span class="keyword">return</span> <span class="built_in">str</span>;
-    }
-
-    <span class="keyword">void</span> reverseString(string &amp;<span class="built_in">str</span>,<span class="built_in">int</span> left,<span class="built_in">int</span> right)
-    {
-        <span class="keyword">while</span>(left &lt; right)
-        {
-            <span class="built_in">char</span> temp = <span class="built_in">str</span>[left];
-            <span class="built_in">str</span>[left] = <span class="built_in">str</span>[right];
-            <span class="built_in">str</span>[right] = temp;
-            left++;
-            right--;
-        }
+        *num1 = a;
+        *num2 = b;
     }
 };
 </code></pre>]]></content>
     <summary type="html">
-    <![CDATA[<h3 id="剑指offer4_替换空格">剑指offer4 替换空格</h3><p>问题描述：请实现一个函数，将一个字符串中的空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。</p>
-<p>解法：扫描一]]>
+    <![CDATA[<h2 id="通用的几种解题思路">通用的几种解题思路</h2><ul>
+<li>使用map记录出现的次数，要求额外增加空间复杂度</li>
+<li>所有数字异或可以消灭掉数组中出现偶数次的数字</li>
+</ul>
+<h3 id="剑指offer51_数组中重复的数字">剑指]]>
     </summary>
     
-      <category term="字符串" scheme="http://rudy-zhang.me/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/"/>
+      <category term="数组" scheme="http://rudy-zhang.me/tags/%E6%95%B0%E7%BB%84/"/>
     
       <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[排序算法总结]]></title>
-    <link href="http://rudy-zhang.me/2015/09/24/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/"/>
-    <id>http://rudy-zhang.me/2015/09/24/排序算法总结/</id>
-    <published>2015-09-24T13:56:00.000Z</published>
-    <updated>2015-10-10T09:49:44.656Z</updated>
-    <content type="html"><![CDATA[<h2 id="插入排序">插入排序</h2><h3 id="直接插入排序">直接插入排序</h3><p>原理：将数组分为无序区和有序区两个区，然后不断将无序区的第一个元素按大小顺序插入到有序区中去，最终将所有无序区元素都移动到有序区完成排序。</p>
-<pre><code>void insertSort(int a[], int N)
-<span class="comment">{
-    for(int i = 1; i &lt; N; i++)
-    {
-        int temp = a[i];
-        int j;
-        for(j = i; j &gt; 0 &amp;&amp; temp &lt; a[j-1]; j--)
-            a[j] = a[j-1];
-        a[j] = temp;
-    }</span>
-}
-</code></pre><h3 id="希尔排序">希尔排序</h3><p>原理：又称增量缩小排序。先将序列按增量划分为元素个数相同的若干组，使用直接插入排序法进行排序，然后不断缩小增量直至为1，最后使用直接插入排序完成排序。</p>
-<blockquote>
-<p>由于多次插入排序，我们知道一次插入排序是稳定的，不会改变相同元素的相对顺序，但在不同的插入排序过程中，相同的元素可能在各自的插入排序中移动，最后其稳定性就会被打乱，所以shell排序是不稳定的。</p>
-</blockquote>
-<pre><code><span class="function"><span class="keyword">void</span> <span class="title">shellSort</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> N)</span>
-</span>{
-    <span class="keyword">for</span>(<span class="keyword">int</span> incre = N / <span class="number">2</span>; incre &gt; <span class="number">0</span>; incre /= <span class="number">2</span>)
-    {
-        <span class="keyword">for</span>(<span class="keyword">int</span> i = incre; i &lt; N; i++)
-        {
-            <span class="keyword">int</span> temp = a[i];
-            <span class="keyword">int</span> j;
-            <span class="keyword">for</span>(j = i; j &gt;= incre &amp;&amp; temp &lt; a[j - incre]; j -= incre)
-                a[j] = a[j - incre];
-            a[j] = temp;
-        }
-    }
-}
-</code></pre><h2 id="交换排序">交换排序</h2><h3 id="冒泡排序">冒泡排序</h3><p>原理：将序列划分为无序和有序区，不断通过交换较大元素至无序区尾完成排序。</p>
-<pre><code>void bubbleSort(int <span class="literal">a</span>[], int N)
-{
-    for(int i = <span class="number">0</span><span class="comment">; i &lt; N; i++)</span>
-    {
-        for(int j = i<span class="comment">; j &lt; N - i - 1; j++)</span>
-        {
-            <span class="keyword">if</span>(<span class="literal">a</span>[j] &gt; <span class="literal">a</span>[j+<span class="number">1</span>])
-            {
-                int temp = <span class="literal">a</span>[j]<span class="comment">;</span>
-                <span class="literal">a</span>[j] = <span class="literal">a</span>[j+<span class="number">1</span>]<span class="comment">;</span>
-                <span class="literal">a</span>[j+<span class="number">1</span>] = temp<span class="comment">;</span>
-            }
-        }
-    }
-}
-</code></pre><p>补充说明：使用didSwap=true/false可以避免重复的比较，使得最好情况的复杂度变为O(n)</p>
-<h3 id="快速排序">快速排序</h3><p>原理：不断寻找一个序列的中点，然后对中点左右的序列递归的进行排序，直至全部序列排序完成，使用了分治的思想。<br>1．先从数列中取出一个数作为基准数。<br>2．分区过程，将比这个数大的数全放到它的右边，小于或等于它的数全放到它的左边。<br>3．再对左右区间重复第二步，直到各区间只有一个数。</p>
-<p>实现：</p>
-<pre><code>void quickSortCore(<span class="built_in">int</span> a[], <span class="built_in">int</span> <span class="built_in">left</span>, <span class="built_in">int</span> <span class="built_in">right</span>)
-{
-    <span class="keyword">if</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
-    {
-        <span class="built_in">int</span> temp = a[<span class="built_in">left</span>];
-        <span class="built_in">int</span> i = <span class="built_in">left</span>, j = <span class="built_in">right</span>;
-        <span class="keyword">while</span>(i &lt; j)
-        {
-            <span class="keyword">while</span>(i &lt; j &amp;&amp; temp &lt;= a[j])
-                j--;
-            <span class="keyword">if</span>(i &lt; j)
-                a[i++] = a[j];
-            <span class="keyword">while</span>(i &lt; j &amp;&amp; temp &gt;= a[i])
-                i++;
-            <span class="keyword">if</span>(i &lt; j)
-                a[j--] = a[i];
-        }
-        a[i] = temp;
-        quickSortCore(a, <span class="built_in">left</span>, i-<span class="number">1</span>);
-        quickSortCore(a, i+<span class="number">1</span>, <span class="built_in">right</span>);
-    }
-
-}
-
-void quickSort(<span class="built_in">int</span> a[], <span class="built_in">int</span> N)
-{
-    quickSortCore(a, <span class="number">0</span>, N-<span class="number">1</span>);
-}
-</code></pre><h2 id="选择排序">选择排序</h2><h3 id="直接选择排序">直接选择排序</h3><p>原理：将序列划分为无序和有序区，寻找无序区中的最小值和无序区的首元素交换，有序区扩大一个，循环最终完成全部排序。</p>
-<pre><code><span class="function"><span class="keyword">void</span> <span class="title">selectSort</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> N)</span>
-</span>{
-    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)
-    {
-        <span class="keyword">int</span> k = i;
-        <span class="keyword">for</span>(<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; N; j++)
-        {
-            <span class="keyword">if</span>(a[j] &lt; a[k])
-                k = j;
-        }
-        <span class="keyword">int</span> temp = a[i];
-        a[i] = a[k];
-        a[k] = temp;
-    }
-}
-</code></pre><h3 id="堆排序">堆排序</h3><p>堆序性质： 堆分为大顶堆和小顶堆，满足<code>Key[i]&gt;=Key[2i+1]&amp;&amp;key&gt;=key[2i+2]</code>称为大顶堆，满足 <code>Key[i]&lt;=key[2i+1]&amp;&amp;Key[i]&lt;=key[2i+2]</code>称为小顶堆。</p>
-<p>原理：利用大顶堆或小顶堆思想，首先建立堆，然后将堆首与堆尾交换，堆尾之后为有序区。如从小到大排序，建立大顶堆，堆顶元素与堆尾不断交换，同时缩小堆的范围，最终得到排序结果。</p>
-<pre><code>void percDown(int a[], int i, int N)
-<span class="comment">{
-    int temp = a[i], child;
-    for(; 2 * i + 1 &lt; N; i = child)
-    {
-        child = 2 * i + 1;
-        if(child + 1 &lt; N &amp;&amp; a[child] &lt; a[child + 1])
-            child++;
-        if(temp &lt; a[child])
-            a[i] = a[child];
-        else
-            break;
-    }</span>
-    a[i] = temp;
-}
-
-void heapSort(int a[], int N)
-<span class="comment">{
-    for(int i = N / 2; i &gt;= 0; i--)
-        percDown(a, i, N);
-    for(int i = N-1; i &gt; 0; i--)
-    {
-        int temp = a[i];
-        a[i] = a[0];
-        a[0] = temp;
-        percDown(a, 0, i);
-    }</span>
-}
-</code></pre><h2 id="归并排序">归并排序</h2><p>原理：将原序列划分为有序的两个序列，然后利用归并算法进行合并，合并之后即为有序序列。</p>
-<pre><code>void merge(<span class="built_in">int</span> a[], <span class="built_in">int</span> temp[], <span class="built_in">int</span> <span class="built_in">left</span>, <span class="built_in">int</span> <span class="built_in">mid</span>, <span class="built_in">int</span> <span class="built_in">right</span>)
-{
-    <span class="keyword">if</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
-    {
-        <span class="built_in">int</span> lpos = <span class="built_in">left</span>, lend = <span class="built_in">mid</span>;
-        <span class="built_in">int</span> rpos = <span class="built_in">mid</span> + <span class="number">1</span>, rend = <span class="built_in">right</span>;
-        <span class="built_in">int</span> tpos = <span class="built_in">left</span>;
-        <span class="keyword">while</span>(lpos &lt;= lend &amp;&amp; rpos &lt;= rend)
-        {
-            <span class="keyword">if</span>(a[lpos] &lt;= a[rpos])
-                temp[tpos++] = a[lpos++];
-            <span class="keyword">else</span>
-                temp[tpos++] = a[rpos++];
-        }
-        <span class="keyword">while</span>(lpos &lt;= lend)
-            temp[tpos++] = a[lpos++];
-        <span class="keyword">while</span>(rpos &lt;= rend)
-            temp[tpos++] = a[rpos++];
-        <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt;= <span class="built_in">right</span>; i++)
-            a[i] = temp[i];
-    }
-}
-void mergeSortCore(<span class="built_in">int</span> a[], <span class="built_in">int</span> temp[], <span class="built_in">int</span> <span class="built_in">left</span>, <span class="built_in">int</span> <span class="built_in">right</span>)
-{
-    <span class="keyword">if</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
-    {
-        <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>) / <span class="number">2</span>;
-        mergeSortCore(a, temp, <span class="built_in">left</span>, <span class="built_in">mid</span>);
-        mergeSortCore(a, temp, <span class="built_in">mid</span>+<span class="number">1</span>, <span class="built_in">right</span>);
-        merge(a, temp, <span class="built_in">left</span>, <span class="built_in">mid</span>, <span class="built_in">right</span>);
-    }
-}
-void mergeSort(<span class="built_in">int</span> a[], <span class="built_in">int</span> N)
-{
-    <span class="built_in">int</span> *temp = <span class="keyword">new</span> <span class="built_in">int</span>[N];
-    mergeSortCore(a, temp, <span class="number">0</span>, N-<span class="number">1</span>);
-    delete [] temp;
-}
-</code></pre><h2 id="各种排序算法的复杂度稳定性分析">各种排序算法的复杂度稳定性分析</h2><table>
-<thead>
-<tr>
-<th style="text-align:left">分类</th>
-<th style="text-align:left">名称</th>
-<th style="text-align:left">复杂度分析</th>
-<th>稳定性</th>
-<th>稳定性原因分析</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">插入排序</td>
-<td style="text-align:left">简单插入</td>
-<td style="text-align:left">平均O(n^2),最好O(n),最坏O(n^2)</td>
-<td>稳定</td>
-<td>没有跨元素交换</td>
-</tr>
-<tr>
-<td style="text-align:left">———-</td>
-<td style="text-align:left">希尔排序</td>
-<td style="text-align:left">平均接近nlogn,最好O(n),最坏O(n^2)</td>
-<td>不稳定</td>
-<td>增量分组，有跨元素交换</td>
-</tr>
-<tr>
-<td style="text-align:left">交换排序</td>
-<td style="text-align:left">冒泡排序</td>
-<td style="text-align:left">平均O(n^2),最好O(n),最坏O(n^2)</td>
-<td>稳定</td>
-<td>没有跨元素交换</td>
-</tr>
-<tr>
-<td style="text-align:left">———-</td>
-<td style="text-align:left">快速排序</td>
-<td style="text-align:left">平均nlogn,最好nlogn,最坏O(n^2)</td>
-<td>不稳定</td>
-<td>有跨元素交换</td>
-</tr>
-<tr>
-<td style="text-align:left">选择排序</td>
-<td style="text-align:left">直接选择</td>
-<td style="text-align:left">平均O(n^2),最好O(n^2),最坏O(n^2)</td>
-<td>不稳定</td>
-<td>5 8 5 2</td>
-</tr>
-<tr>
-<td style="text-align:left">———-</td>
-<td style="text-align:left">堆排序</td>
-<td style="text-align:left">平均,最好,最坏nlogn</td>
-<td>不稳定</td>
-<td>3 2 3 2</td>
-</tr>
-<tr>
-<td style="text-align:left">归并排序</td>
-<td style="text-align:left">归并排序</td>
-<td style="text-align:left">平均,最好,最坏nlogn，有O(n)空间复杂度</td>
-<td>稳定</td>
-<td>没有跨元素交换</td>
-</tr>
-</tbody>
-</table>
-<h2 id="扩展问题">扩展问题</h2><ul>
-<li>单链表可以做快速排序吗？为什么？</li>
-</ul>
-<p>可以。快速排序的核心函数partition，选择某个元素为枢纽元x(通常是第一个)，一遍扫描之后使得比x小的在枢纽元左边，比x大的在枢纽元的右边。使用链表时，x指向链表头(枢纽元)，扫描这个链表，小元素拼在链表头，大元素拼在链表尾部，从而完成一次partition函数的流程。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="插入排序">插入排序</h2><h3 id="直接插入排序">直接插入排序</h3><p>原理：将数组分为无序区和有序区两个区，然后不断将无序区的第一个元素按大小顺序插入到有序区中去，最终将所有无序区元素都移动到有序区完成排序。</p>
-<pre><code>vo]]>
-    </summary>
-    
-      <category term="排序" scheme="http://rudy-zhang.me/tags/%E6%8E%92%E5%BA%8F/"/>
-    
-      <category term="找工作总结" scheme="http://rudy-zhang.me/categories/%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Effective C++ 读书笔记]]></title>
-    <link href="http://rudy-zhang.me/2015/08/21/effectiveCPP%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    <id>http://rudy-zhang.me/2015/08/21/effectiveCPP读书笔记/</id>
-    <published>2015-08-20T23:23:33.000Z</published>
-    <updated>2015-08-30T07:56:04.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="条款1，视C++为一个语言联邦">条款1，视C++为一个语言联邦</h2><p>可以把C++看成四个组成部分：</p>
-<ul>
-<li>C语言的部分 </li>
-<li>Object Oriented C++ 继承封装多态</li>
-<li>Template C++ 使用模板编程</li>
-<li>STL</li>
-</ul>
-<p>每一个部分都有各自的规约</p>
-<h2 id="条款2，_尽量以const，enum，inline替换#define">条款2， 尽量以const，enum，inline替换#define</h2><ul>
-<li>#define只有替换功能，在预处理阶段完成，没有<strong>类型检查</strong>，也没有封装性</li>
-<li>使用const替代变量定义，inline替代函数定义</li>
-<li>预处理器中，#include必不可少，#ifdef，#else可以用来进行控制编译</li>
-</ul>
-<h2 id="条款3，尽可能使用const">条款3，尽可能使用const</h2><p>只要是事实，就把它说出来。只要是const就要声明为const类型。</p>
-<ul>
-<li>const修饰变量<br>const char <em>p = greeting等价于char const </em>p = greeting<br>char * const p = greeting 指针不可更改指向对象</li>
-<li>const修饰函数，是最有威力的应用</li>
-</ul>
-<p>(1) const 返回值</p>
-<p>(2) const 函数参数，使用最多</p>
-<p>(3) const 成员函数，表明这个函数不能修改任何成员变量（static变量可以修改），也不能调用任何非const成员</p>
-<p>补充，<br>volidate int a，告诉编译器这个值可能被未知因素修改，每次都要从内存中重新读取<br>mutable int a，可以突破const成员函数限制，在函数中被修改</p>
-<h2 id="条款4，确定对象被使用前已先被初始化">条款4，确定对象被使用前已先被初始化</h2><ul>
-<li><p>成员初始化应该在构造函数之前，意味着要使用<strong>成员初始化列表</strong>进行成员变量的初始化<br>说明：成员变量总是以声明的次序被初始化</p>
-</li>
-<li><p>对于static变量，使用Singleton+inline，保证在对象使用前初始化</p>
-</li>
-</ul>
-<h2 id="条款5，了解C++默默编写并调用了哪些函数">条款5，了解C++默默编写并调用了哪些函数</h2><p>构造函数，拷贝构造函数，赋值函数，析构函数</p>
-<h2 id="条款6，若不想使用编译器自动生成的函数，就该明确拒绝">条款6，若不想使用编译器自动生成的函数，就该明确拒绝</h2><ul>
-<li>如果某些对象不可复制（不能使用copy constructor）<br>不是很安全的做法：把拷贝构造函数声明为private<br>更好的做法：写一个<strong>UnCopyable基类</strong>，copy constructor声明为private</li>
-</ul>
-<h2 id="条款7，为多态基类声明virtual析构函数">条款7，为多态基类声明virtual析构函数</h2><pre><code><span class="class"><span class="keyword">class</span> <span class="title">B</span>:<span class="title">A</span></span>{}
-A *b=<span class="keyword">new</span> B()
-<span class="keyword">delete</span> b
-</code></pre><p>因为b是A类型的指针，所以会导致局部销毁（只有A的部分被销毁）</p>
-<p>原则：</p>
-<ul>
-<li><strong>企图作为（多态的）base class的类理论上都应该有virtual函数</strong>，否则不应该作为base class（虚指针会额外增加空间）</li>
-<li>任何带有virtual 函数的类都应该把析构函数声明为virtual<br>不要试图继承任何STL容器，因为他们没有virtual的析构函数</li>
-</ul>
-<h2 id="条款8，别让异常逃离析构函数">条款8，别让异常逃离析构函数</h2><ul>
-<li>析构函数不能抛出异常，否则会导致不明行为。</li>
-<li>析构函数应该吞下这个异常，防止传播</li>
-<li><strong>调用一个自己的函数，使得用户有机会来处理这个异常</strong>。 </li>
-</ul>
-<h2 id="条款9，_绝不要在构造或者析构过程中调用virtual函数">条款9， 绝不要在构造或者析构过程中调用virtual函数</h2><ul>
-<li><p>构造过程</p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">A</span></span>{
-<span class="keyword">public</span>:     
-    A(){
-         virtual <span class="function"><span class="title">fun</span><span class="params">()</span></span>
-    }
-}
-<span class="class"><span class="keyword">class</span> <span class="title">B</span>:<span class="typename">A{}</span></span>
-B b;
-</code></pre></li>
-</ul>
-<p>构造B-&gt;构造A-&gt;调用fun(),这时B还没构造完（被编译器看成A对象），导致virtual 函数不会下降到子类执行。</p>
-<ul>
-<li>析构过程<br>析构B-&gt;析构A-&gt;调用fun()，这时B已经被析构掉了，同样virtual函数不会下降，得不到想要的结果。</li>
-</ul>
-<h2 id="条款10，令operator=_返回一个reference_to_*this">条款10，令operator= 返回一个reference to *this</h2><p>为了保证连续运算如：A=B=C 相当于A = (B = C)<br>返回一个引用，不会调用copy constructor<br>对于+=同样适用</p>
-<h2 id="条款11，在operator=_中处理自我赋值">条款11，在operator= 中处理自我赋值</h2><p>判断一下，if (this == &amp;rhs) return *this</p>
-<h2 id="条款12，复制对象时勿忘其每一个成分">条款12，复制对象时勿忘其每一个成分</h2><p>可能出现的问题</p>
-<p>（1）对象中的非内置类型不能得到赋值</p>
-<p>（2）对象从父类继承而来的变量不能得到赋值</p>
-<ul>
-<li>赋值所有local成员（内置类型，对象）</li>
-<li>调用所有base class中的适当的copy constructor</li>
-</ul>
-<h2 id="条款13，以对象管理资源">条款13，以对象管理资源</h2><p>C++申请释放的资源：堆内存（最常用），文件，互斥锁，数据库连接等。一旦申请资源，就必须释放，否则就会造成内存泄露。</p>
-<p>以对象管理资源相当于，使用一个类（RAII类）封装这个资源，在构造时初始化，在析构时释放。声明这个对象时使用栈内存声明。</p>
-<p>常用：</p>
-<p><code>auto_ptr</code> ,封装对象，重写了指针行为，看起来像一个指针。只能指向一个对象。复制或者赋值，会删除原来的指针。</p>
-<p><code>shared_ptr</code>，类似于auto_ptr，不过允许多个指针指向同一个对象，内部提供引用计数。<br>这两个是最常见的RAII类，在构造时初始化，析构时delete。（注意不能<code>auto_ptr</code>(new std::string[10])数组对象）</p>
-<h2 id="条款14，在资源管理类中小心copying行为">条款14，在资源管理类中小心copying行为</h2><p>类似于<code>auto_ptr</code>或者<code>shared_ptr</code>的处理方式，对于复制。可以：</p>
-<ul>
-<li>禁止复制</li>
-<li>引用计数，类似于shared_ptr</li>
-</ul>
-<h2 id="条款15，在资源管理类中提供对原始资源的访问">条款15，在资源管理类中提供对原始资源的访问</h2><p>隐式：如<code>auto_ptr</code>重写了指针行为，*ptr,<code>ptr-&gt;</code>使得这个变量看起来像一个指针。从而可以访问封装的资源</p>
-<p>显示：提供get()函数返回资源</p>
-<h2 id="条款16，使用new和delete时要采用相同的形式">条款16，使用new和delete时要采用相同的形式</h2><p>A *a=new A() ,释放时 使用delete a</p>
-<p>int *a=new a[100],释放时使用delete []a</p>
-<h2 id="条款17，以独立语句将newed对象置入智能指针">条款17，以独立语句将newed对象置入智能指针</h2><pre><code>std::tr1::shared_ptr&lt;Widget&gt; <span class="function"><span class="title">pw</span><span class="params">(new Widget)</span></span>
-<span class="function"><span class="title">processWidget</span><span class="params">(pwd, priority()</span></span>)
-</code></pre><p>使用单独语句，不要放到一起可能会造成编译先后导致指针丢失。<br>其实不是很明白这点</p>
-<h2 id="条款18，让接口容易被使用，不易被误用">条款18，让接口容易被使用，不易被误用</h2><ul>
-<li><p>导入新类型</p>
-<pre><code><span class="built_in">Date</span>(<span class="built_in">int</span> <span class="built_in">month</span>, <span class="built_in">int</span> <span class="built_in">day</span>, <span class="built_in">int</span> <span class="built_in">year</span>)
-</code></pre></li>
-</ul>
-<p>多个参数，使用Month，Day，Year类型，可以预防接口被误用</p>
-<ul>
-<li>接口一致性</li>
-</ul>
-<p>如:stl每个容器都有size()方法</p>
-<h2 id="条款19，设计class犹如设计type">条款19，设计class犹如设计type</h2><p>设计一个类时需要考虑很多问题：</p>
-<ol>
-<li>创建和销毁</li>
-<li>初始化（初始化列表），拷贝构造函数</li>
-<li>pass by value &amp;&amp; pass by reference</li>
-<li>继承关系</li>
-<li>类型转换</li>
-<li>操作符重载</li>
-<li>标准函数驳回（private copy constructor）</li>
-<li>public private</li>
-<li>效率，异常</li>
-<li>不够一般化，太过一般化</li>
-<li>是否真的需要这个类型</li>
-</ol>
-<h2 id="条款20，_宁以pass_by_reference_to_const_替换_pass_by_value">条款20， 宁以pass by reference to const 替换 pass by value</h2><ul>
-<li>区别</li>
-</ul>
-<p>pass by value:</p>
-<p>要调用copy constructor，可能是费时的操作</p>
-<p>pass by reference to const:</p>
-<p>const Student &amp;s，const保证变量在函数内不会被修改</p>
-<ul>
-<li><p>pass by value可能导致多态失效</p>
-<pre><code><span class="keyword">void</span> printNameAndDisplay（Window w）
-</code></pre></li>
-</ul>
-<p>传入子类对象，不能实现多态</p>
-<ul>
-<li>在编译器底层，reference是通过指针来实现的</li>
-</ul>
-<h2 id="条款21，必须返回对象时，别妄想返回其reference">条款21，必须返回对象时，别妄想返回其reference</h2><pre><code><span class="keyword">const</span> <span class="built_in">Rational</span> operator* (<span class="keyword">const</span> <span class="built_in">Rational</span> &amp;lhs, <span class="keyword">const</span> <span class="built_in">Rational</span> &amp;rhs)
-</code></pre><p>如果返回reference</p>
-<ul>
-<li>返回local stack的对象（Rational r），则函数退出时，这个对象已经被销毁了</li>
-<li>返回heap-allocate对象，会造成何时delete的问题。</li>
-<li>返回static对象，if(a<em>b == c</em>d),导致一个static对象不够用的问题</li>
-</ul>
-<p>原则，必须在返回reference和object作出一个选择，程序员的工作就是选出正确的那个</p>
-<h2 id="条款22，将变量声明为private">条款22，将变量声明为private</h2><ul>
-<li>public接口内全部都是函数，可以产生用户使用这个类时，良好的一致性</li>
-<li>private parameter可以产生封装的效果，封装使得变更更加容易</li>
-<li>假如有一个public变量，如果取消它，所有使用它的客户代码都会被破坏<br>假如有一个protect变量，如果取笑它，所有使用它的derived class都会被破坏<br>所以protect并不比public更具有封装性</li>
-</ul>
-<h2 id="条款23，宁以non-member、non-friend替换member函数">条款23，宁以non-member、non-friend替换member函数</h2><ul>
-<li>多个操作具有先后顺序，应该把他们绑定到一起</li>
-<li>封装-&gt;客户端难修改-&gt;更多弹性去改变</li>
-<li>non-member（non-friend）函数VSmember函数</li>
-</ul>
-<p>non-member函数不能访问private成分，提供更大的封装性</p>
-<h2 id="条款24，若所有参数皆需类型转换，请为此采用non-member函数">条款24，若所有参数皆需类型转换，请为此采用non-member函数</h2><p>实现有理数类Rational，乘法的操作符重载<br>开始可能会向使用成员函数的写法 </p>
-<pre><code><span class="keyword">const</span> <span class="built_in">Rational</span> operator*(<span class="keyword">const</span> <span class="built_in">Rational</span> &amp; rhs) <span class="keyword">const</span>
-</code></pre><p>但是希望完成乘法交换律</p>
-<pre><code><span class="type">Rational</span> r
-<span class="type">Rational</span> <span class="literal">result</span> = <span class="number">2</span> * r
-</code></pre><p>需要对2进行隐式类型转换，方法</p>
-<pre><code><span class="keyword">const</span> <span class="built_in">Rational</span> operator*(<span class="keyword">const</span> <span class="built_in">Rational</span> &amp;lhs, <span class="keyword">const</span> <span class="built_in">Rational</span> &amp;rhs) 
-</code></pre><p>使用non-member函数。</p>
-<p>不是很明白</p>
-<h2 id="条款25，考虑写出一个不抛出异常的swap函数">条款25，考虑写出一个不抛出异常的swap函数</h2><p>std::swap(T&amp; a, T&amp; b)可以对两个对象进行交换</p>
-<p>如果这样做的效率不高，可以考虑自己写一个不会抛出异常的swap成员函数</p>
-<p>例如：stl 容器中就有很多swap函数，只交换指针，而不会复制对象。</p>
-<ol>
-<li>自行实现这样一个swap成员函数(可以使用std::swap调换指针)</li>
-<li>在命名空间内提供一个swap<widget>(Widget &amp;a,Widget &amp;b)去实现一个非成员函数来调用前者。</widget></li>
-</ol>
-<h2 id="条款26，尽可能延后变量定义式的出现时间">条款26，尽可能延后变量定义式的出现时间</h2><p>对变量进行定义，意味着承受构造的成本。</p>
-<p>原则：应该延后变量定义到使用前的一刻为止。</p>
-<h2 id="条款27，尽量少做转型动作">条款27，尽量少做转型动作</h2><p>C风格的转型</p>
-<pre><code><span class="list">(<span class="keyword">int</span>)</span><span class="number">2.1</span>
-int<span class="list">(<span class="number">2.1</span>)</span>
-</code></pre><p>C++的新式转型：</p>
-<ul>
-<li><code>const_cast&lt;T&gt;(expression)</code> 将对象的常量性移除</li>
-<li><code>dynamic_cast&lt;T&gt;(expression)</code> 主要用来进行安全向下转型<br>例如：只有基类可以使用，但是想调用子类的函数。尝试使用多态来代替。</li>
-<li><code>static_cast&lt;T&gt;(expression)</code> 主要用来强制类型转换<br>例如：<code>static_cast&lt;int&gt;(2.1)</code><br>尽量使用C++风格的转型</li>
-</ul>
-<h2 id="条款28，避免返回handles指向对象内部成分">条款28，避免返回handles指向对象内部成分</h2><pre><code><span class="keyword">class</span> <span class="title">A</span>{
-<span class="keyword">public</span>：
-     <span class="function"><span class="keyword">void</span> <span class="title">func</span>(<span class="params"></span>)</span>;
-}
-<span class="keyword">class</span> <span class="title">B</span>{
-<span class="keyword">private</span>:
-     A *a
-}
-</code></pre><p>如果在B类中提供<code>A&amp;</code>的返回（假设为rt），那么用户可以调用<code>rt.func()</code>修改B中的private成员了。<br>这是一种放松封装的行为。</p>
-<h2 id="条款29，为“异常安全”而努力是值得的">条款29，为“异常安全”而努力是值得的</h2><p>异常安全的函数提供以下三个保证之一（从弱到强）：</p>
-<ul>
-<li>基本承诺：如果抛出异常，程序内的任何事物仍然保持在有效状态下</li>
-<li>强烈保证：函数调用成功，则完全成功。函数调用失败，则程序回复到调用之前的状态</li>
-<li>nothrow：保证绝对不抛出异常。（通常完全使用内置类型的操作，提供不抛出异常的保证）<br>一个软件系统，要么具备异常安全性，要么不具备。只提供部分异常安全性函数，不能叫做具备异常安全性的系统。<br>以对象管理资源，是一种很好的防止内存泄露，保证异常安全性的方法。</li>
-</ul>
-<h2 id="条款30，透彻了解inlining的里里外外">条款30，透彻了解inlining的里里外外</h2><ul>
-<li>inline函数意味着对这个函数的每一次调用，使用函数本体替换</li>
-</ul>
-<p>好处：减少调用成本</p>
-<p>坏处：增加代码体积</p>
-<ul>
-<li>inline函数适合小型被频繁调用的函数</li>
-</ul>
-<p>函数内部有for循环不适合inline，因为本身的开销已经够大，减少调用的开销意义不大。</p>
-<ul>
-<li>inline只是一个向编译器发出的申请，编译器可以忽略它。</li>
-</ul>
-<p>如编译器拒绝复杂函数inline(带有递归，循环),virtual函数也会使inline落空。</p>
-<h2 id="条款31，将文件间的编译依存关系降到最低">条款31，将文件间的编译依存关系降到最低</h2><p>方法1，使用Handle class</p>
-<p>增加一个实现类去真正实现类的功能，原来的类只维护一个指向实现类的指针</p>
-<p>方法2，使用Interface class</p>
-<p>基类是虚基类，不包括任何成员变量。</p>
-<h2 id="条款32，确定你的public继承是is-a的关系">条款32，确定你的public继承是is-a的关系</h2><p>如题</p>
-<h2 id="条款33，避免遮掩继承而来的名称">条款33，避免遮掩继承而来的名称</h2><p>假如：Derived:Base</p>
-<p>当编译器通过函数名称去找相应函数，会先从Derived类作用域找，然后再从Base类的作用域找<br>当使用函数重载的时候就可能出现问题。</p>
-<p>使用using Base::func可以避免这种情况。 </p>
-<h2 id="条款34，区分接口继承和实现继承">条款34，区分接口继承和实现继承</h2><ul>
-<li>对于non-virtual函数的继承</li>
-</ul>
-<p>意味着，子类必须有和父类一样的实现</p>
-<ul>
-<li>对于virtual</li>
-</ul>
-<p>（1）pure-virtual, 只继承接口，意味着每个子类的行为都很有可能不一样</p>
-<p>（2）imprure-virtual， 提供缺省的实现，意味着有一些子类的行为可能一样</p>
-<p>可以使用pure-virtual+缺省行为分离(另外写一个函数)的方法，解决有可能子类在不知情的情况下继承了并不需要的缺省的实现。 </p>
-<h2 id="条款35，考虑virtual函数以外的其他选择">条款35，考虑virtual函数以外的其他选择</h2><ul>
-<li><p>NVI Non-virtual Interface<br>使用public non-virtual 函数调用private virtual函数(做一下修饰而已)</p>
-</li>
-<li><p>使用函数指针</p>
-</li>
-<li><p>使用tr1::function封装函数指针，代替函数指针的行为</p>
-</li>
-<li><p>使用strategy设计模式</p>
-</li>
-</ul>
-<p>将想要virtual的行为封装成一个类(Calculator)，在类内部进行多态计算，通过传入的对象指针来判断。</p>
-<h2 id="条款36，绝不重新定义继承而来的non-virtual函数">条款36，绝不重新定义继承而来的non-virtual函数</h2><pre><code><span class="class"><span class="keyword">class</span> <span class="title">A</span></span>{
-<span class="keyword">public</span>:
-     void <span class="function"><span class="title">fun</span><span class="params">()</span></span>
-}
-<span class="class"><span class="keyword">class</span> <span class="title">B</span>:<span class="typename">A{</span></span>
-<span class="keyword">public</span>:
-     void <span class="function"><span class="title">fun</span><span class="params">()</span></span>
-}
-A *ptA=new B()
-B *ptB=new B()
-</code></pre><p>ptA-&gt;fun()调用A中的fun<br>ptB-&gt;fun()调用B中的fun<br>因为non-virtual函数不能进行动态绑定，调用函数只跟指针类型有关，所以</p>
-<ol>
-<li>不要重写父类的non-virtual函数</li>
-<li>父类的non-virtual函数意味着，所有子类的实现都是这样</li>
-</ol>
-<h2 id="条款37，绝不重新定义进程而来的缺省参数值">条款37，绝不重新定义进程而来的缺省参数值</h2><p>缺省参数都是静态绑定的，即使是在virtual的函数中</p>
-<h2 id="条款38，复合（组合）是has-a的关系">条款38，复合（组合）是has-a的关系</h2><h2 id="条款39，明智而审慎地使用private继承">条款39，明智而审慎地使用private继承</h2><p>private继承意味着所有父类的成员在子类中都变为private，</p>
-<p>好处：可以让基类部分最优化，减少尺寸。</p>
-<h2 id="条款40，明智而审慎地使用多重继承">条款40，明智而审慎地使用多重继承</h2><ul>
-<li>一个class继承自多个base class，那么父类成分有相同函数，就需要显示指定。</li>
-<li>对于钻石型继承，B:A,C:A,D:B,D:C，需要指定虚继承，来避免重复继承A中的成分</li>
-<li>虚继承需要编译器做很多工作，要付出一定成本，一般不用。</li>
-<li>如果有单一继承可以满足需求，一般这个方案一定比多重继承要好。</li>
-</ul>
-<h2 id="条款41，了解隐式接口和编译器多态">条款41，了解隐式接口和编译器多态</h2><ul>
-<li><p>运行时多态，通过虚指针和虚函数实现</p>
-</li>
-<li><p>编译时多态</p>
-</li>
-</ul>
-<p>(1) 函数重载，相同函数名不同参数列表</p>
-<p>(2) 在模板特化的时候，根据类型生成具体的函数</p>
-<h2 id="条款42，了解typename的双重意义">条款42，了解typename的双重意义</h2><pre><code><span class="keyword">template</span>&lt; class T&gt; class <span class="type">Widget</span>;
-<span class="keyword">template</span>&lt;typename T&gt;class <span class="type">Widget</span>;
-</code></pre><p>并没有什么不同</p>
-<p>当使用嵌套从属名称，如：</p>
-<pre><code><span class="keyword">template</span>&lt;typename C&gt;
-typename C::const_iterator iter(container.begin())
-</code></pre><p>const_iterator是依赖于C的名称，这时候必须用typename</p>
-<h2 id="条款43，学习处理模板化基类内的名称">条款43，学习处理模板化基类内的名称</h2><p>对于模板C++的继承，由于基类模板可能被特化，特化使得基类内的成员不确定，C++会拒绝从模板化基类中寻找继承而来的名称</p>
-<p>解决办法：</p>
-<ol>
-<li>在使用base class之前使用this-&gt;</li>
-<li>使用using</li>
-</ol>
-<h2 id="条款44，将与参数无关的代码抽离templates">条款44，将与参数无关的代码抽离templates</h2><p>使用带参template可能会引起代码膨胀，如：</p>
-<pre><code><span class="keyword">template</span>&lt;typename T,std:size_t n&gt;
-</code></pre><p>解决办法：<br>使用模板父类去处理由于size_t而造成的代码膨胀的问题</p>
-<h2 id="条款45，运用成员函数模板接受所有兼容类型的参数">条款45，运用成员函数模板接受所有兼容类型的参数</h2><ul>
-<li>智能指针是使用模板实现的，那如果我们要智能指针之间（具有继承关系的）能够相互转化，赋值，解决办法：</li>
-<li>使用成员函数模板，对兼容的类型进行构造和赋值</li>
-</ul>
-<h2 id="条款46，需要类型转换时请为模版定义非成员函数">条款46，需要类型转换时请为模版定义非成员函数</h2><pre><code><span class="type">Rational</span>&lt;<span class="type">int</span>&gt; a(<span class="number">1</span>,<span class="number">2</span>);
-<span class="type">Rational</span>&lt;<span class="type">int</span>&gt; <span class="literal">result</span> = a*<span class="number">2</span>; // <span class="type">Error</span>
-</code></pre><p>模板化实例，不进行隐式类型转换，使用friend方法。</p>
-<h2 id="条款47，请使用traits_classes表现类型信息">条款47，请使用traits classes表现类型信息</h2><p>引用：</p>
-<blockquote>
-<p>traits class是个类模板，在不修改一个实体（通常是数据类型或常量）的前提下，把属性和方法关联到一个编译时的实体。在c++中的具体实现方式是：首先定义一个类模板，然后进行显式特化或进行相关类型的部分特化。<br>我的理解是：traits是服务于泛型编程的，其目的是让模板更加通用，同时把一些细节向普通的模板用户隐藏起来。当用不同的类型去实例化一个模板时，不可避免有些类型会存在一些与众不同的属性，若考虑这些特性的话，可能会导致形成的模板不够“泛型”或是过于繁琐，而traits的作用是把这些特殊属性隐藏起来，从而实现让模板更加通用。</p>
-</blockquote>
-<h2 id="条款48，认识template元编程">条款48，认识template元编程</h2><ul>
-<li>模版元编程有两个效力：第一，它让某些事情更容易；第二，可将工作从运行期转移到编译期。</li>
-<li>引用：<blockquote>
-<p>所谓元编程就是编写直接生成或操纵程序的程序，C++ 模板给 C++ 语言提供了元编程的能力，模板使 C++ 编程变得异常灵活，能实现很多高级动态语言才有的特性（语法上可能比较丑陋，一些历史原因见下文）。普通用户对 C++ 模板的使用可能不是很频繁，大致限于泛型编程，但一些系统级的代码，尤其是对通用性、性能要求极高的基础库（如 STL、Boost）几乎不可避免的都大量地使用 C++ 模板，一个稍有规模的大量使用模板的程序，不可避免的要涉及元编程（如类型计算）。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="条款49，了解new_handler的行为">条款49，了解new_handler的行为</h2><p>new_handler 的意思就是说，当使用operator new 无法分配内存时，转交给用户，用户来做一些事情。</p>
-<h2 id="条款50，了解new和delete的合理替换时机">条款50，了解new和delete的合理替换时机</h2><p>有时候，我们替换掉编译器提供的new或者delete。重写operator new。三个常见理由：</p>
-<ol>
-<li>用来检测运用上的错误，超额分配一些内存，再额外的空间放置一些内存；</li>
-<li>为了强化效能，编译器提供的new/delete是通用的，通用就意味着冗余和效率低下，为什么？这个很好理解，因为他要支持很多情况下，也必须考虑很多情况。我们重写new/delete，也就是说，对于特定情况，给出特定的实现。</li>
-<li>为了收集使用上的统计数据。</li>
-</ol>
-<h2 id="条款51，编写new和delete时需固守常规">条款51，编写new和delete时需固守常规</h2><p>自定义new/delete的时候，需要遵守一些规则。</p>
-<ol>
-<li>循环申请，直到成功或者抛出异常</li>
-<li>class专属版本处理，分配大小与class大小不一致的错误。</li>
-<li>delete的时候，判断是否为null。</li>
-</ol>
-<h2 id="条款52，写了placement_new也要写placement_delete">条款52，写了placement new也要写placement delete</h2><h2 id="条款53，不要轻忽编译器的警告">条款53，不要轻忽编译器的警告</h2><h2 id="条款54，让自己熟悉包括TR1在内的标准程序库">条款54，让自己熟悉包括TR1在内的标准程序库</h2><p>C++11（原名C++0x）于2011年8月12日公布。<br>TR1是一份文档，由编译器实现，在std::tr1命名空间下<br>C++11纳入了大部分TR1的内容</p>
-<h2 id="条款55，让自己熟悉Boost">条款55，让自己熟悉Boost</h2><p>Boost是一个社区，提供很多程序库，作为新的C++标准的试验场。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="条款1，视C++为一个语言联邦">条款1，视C++为一个语言联邦</h2><p>可以把C++看成四个组成部分：</p>
-<ul>
-<li>C语言的部分 </li>
-<li>Object Oriented C++ 继承封装多态</li>
-<li>Template C]]>
-    </summary>
-    
-      <category term="C++" scheme="http://rudy-zhang.me/tags/C/"/>
-    
-      <category term="编程语言" scheme="http://rudy-zhang.me/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[从图灵到图灵测试再到图灵停机]]></title>
-    <link href="http://rudy-zhang.me/2015/05/31/%E4%BB%8E%E5%9B%BE%E7%81%B5%E6%B5%8B%E8%AF%95%E5%88%B0%E5%9B%BE%E7%81%B5%E5%81%9C%E6%9C%BA/"/>
-    <id>http://rudy-zhang.me/2015/05/31/从图灵测试到图灵停机/</id>
-    <published>2015-05-31T07:23:33.000Z</published>
-    <updated>2015-05-31T08:02:36.000Z</updated>
-    <content type="html"><![CDATA[<p>今天看了电影《机械姬》，讲述了由人类制造出了AI最终具有了通过图灵测试的能力，故事的核心在于判断一个机器人是否具真的具有人工智能。从一个理科生的角度来讲能够发现重重漏洞，但是电影还是不错的电影，引发了对人工智能的思考。</p>
-<p>年初的《模仿游戏》讲述了图灵在二战时期帮助盟军破解德军密码系统Enigma的故事。图灵，这个计算机之父，影响着计算机技术发展的方方面面，计算机的最高奖图灵奖也是以他的名字命名的，没办法人家是祖师爷呀。</p>
-<h2 id="图灵生平">图灵生平</h2><blockquote>
-<p>阿兰·麦席森·图灵（Alan Mathison Turing），生于1912年6月23日，逝于1954年6月7日 ，被誉为“<strong>计算机科学之父</strong>”和“人工智能之父”。图灵和同事破译的情报，在盟军诺曼底登陆等重大军事行动中发挥了重要作用，图灵因此在1946年获得“不列颠帝国勋章”。历史学家认为，他让二战提早了2年结束，至少拯救了2000万人的生命 。<br>计算机逻辑的奠基者，提出了“图灵机”和“图灵测试”等重要概念。美国计算机协会（ACM）1966年设立的以其名命名的“<strong>图灵奖</strong>”是计算机界最负盛名和最崇高的一个奖项，有“计算机界的诺贝尔奖”之称。</p>
-<p>1912年6月23日出生于英国帕丁顿，1931年进入剑桥大学国王学院，师从著名数学家哈代，1938年在美国普林斯顿大学取得博士学位，二战爆发后返回剑桥，曾经协助军方破解德国的著名密码系统Enigma，帮助盟军取得了二战的胜利。</p>
-<p>因图灵的同性恋倾向，他于1952年被起诉（这种行为在当时的英国仍属刑事犯罪）。 为了继续科研工作，他接受了治疗雌激素注射（ 化学阉割 ）代替牢狱之刑。 图灵于1954年6月7日去世（食用氰化物泡过的苹果中毒）， 勘验确定他的死亡是自杀。 英国女王伊丽莎白二世在2013年追授特赦。</p>
-<p>阿兰·麦席森·图灵是一名世界级的长跑运动员。他的马拉松最好成绩是2小时46分3秒，比1948年奥林匹克运动会金牌成绩慢11分钟。1948年的一次跨国赛跑比赛中，他跑赢了同年奥运会银牌得主汤姆·理查兹（Tom Richards）。</p>
-</blockquote>
-<h2 id="图灵测试">图灵测试</h2><blockquote>
-<p>如果一台机器能够与人类展开对话（通过电传设备）而不能被辨别出其机器身份，那么称这台机器具有智能。</p>
-</blockquote>
-<p>这也是《机械姬》这部电影讨论的核心所在。善良单纯的天才程序员被大Boss天才坑蒙拐骗参加设计的图灵测试，机器人ava通过利用程序员的同情心（程序员多么可怜），诱骗他完成了逃离实验基地的任务。最终是否通过测试不是由程序员判断的，而是由机器人能否骗到程序员决定的。多么精巧的设计！一个高智商的程序员，明知道很有可能被骗，但还是被骗了，这无疑是真正的人工智能。</p>
-<p>最后实验失控，大Boss被AI杀死（预示着人类要灭亡么？），AI进入到人群之中。</p>
-<p>这是一部好电影，但这篇文章不是一篇影评，就不赘述电影的细节了。</p>
-<h2 id="图灵停机问题">图灵停机问题</h2><p>突然想起来本科离散数学提到的一个很有意思的问题，图灵停机问题（The Halting Problem））。描述如下：</p>
-<blockquote>
-<p>不存在这样一个程序（算法），它能够计算任何程序（算法）在给定输入上是否会结束（停机）。</p>
-</blockquote>
-<p>精妙的是这个问题的证明过程。通过反证法可以证明这个命题。</p>
-<p>假设我们某一天真做出了这么一个极度聪明的万能算法（就叫God_algo吧），你只要给它一段程序（二进制描述），再给它这段程序的输入，它就能告诉你这段程序在这个输入上会不会结束（停机），我们来编写一下我们的这个算法吧：</p>
-<pre><code>bool God_algo(<span class="keyword">char</span>* <span class="keyword">program</span>, <span class="keyword">char</span>* <span class="keyword">input</span>)
-{
-    <span class="keyword">if</span>(&lt;<span class="keyword">program</span>&gt; halts <span class="keyword">on</span> &lt;<span class="keyword">input</span>&gt;)
-        <span class="keyword">return</span> true;
-    <span class="keyword">return</span> false;
-}
-</code></pre><p>这里我们假设if的判断语句里面是你天才思考的结晶，它能够像上帝一样洞察一切程序的宿命。现在，我们从这个God_algo出发导出一个新的算法：</p>
-<pre><code><span class="function"><span class="keyword">bool</span> <span class="title">Satan_algo</span><span class="params">(<span class="keyword">char</span>* program)</span>
-</span>{
-    <span class="keyword">if</span>( God_algo(program, program) )
-    {
-           <span class="keyword">while</span>(<span class="number">1</span>);        <span class="comment">// loop forever!</span>
-           <span class="keyword">return</span> <span class="keyword">false</span>;   <span class="comment">// can never get here!</span>
-    }
-    <span class="keyword">else</span>
-       <span class="keyword">return</span> <span class="keyword">true</span>;
-}
-</code></pre><p>正如它的名字所暗示的那样，这个算法便是一切邪恶的根源了。当我们把这个算法运用到它自身身上时，会发生什么呢？</p>
-<pre><code>Satan_algo<span class="list">(<span class="keyword">Satan_algo</span>)</span><span class="comment">;</span>
-</code></pre><p>我们来分析一下这行简单的调用：</p>
-<ol>
-<li><p>Satan_algo(Satan_algo)这个调用要么能够运行结束返回（停机），要么不能返回（loop forever）。</p>
-</li>
-<li><p>如果它能够结束，那么Santa_algo算法里面的那个if判断就会成立（因为God_algo(Santa_algo,Santa_algo)将会返回true），从而程序便进入那个包含一个无穷循环while(1);的if分支，于是这个Satan_algo(Satan_algo)调用便永远不会返回（结束）了。</p>
-</li>
-<li><p>如果不能结束（停机），则if判断就会失败，从而选择另一个if分支并返回true，即Satan_algo(Satan_algo)又能够返回（停机）。</p>
-</li>
-</ol>
-<p>总之，我们有：</p>
-<p>Satan_algo(Satan_algo)能够停机=&gt; 它不能停机</p>
-<p>Satan_algo(Satan_algo)不能停机=&gt; 它能够停机</p>
-<p>所以它停也不是，不停也不是，左右矛盾。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>今天看了电影《机械姬》，讲述了由人类制造出了AI最终具有了通过图灵测试的能力，故事的核心在于判断一个机器人是否具真的具有人工智能。从一个理科生的角度来讲能够发现重重漏洞，但是电影还是不错的电影，引发了对人工智能的思考。</p>
-<p>年初的《模仿游戏》讲述了图灵在二战时期帮]]>
-    </summary>
-    
-      <category term="杂七杂八" scheme="http://rudy-zhang.me/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/"/>
     
   </entry>
   

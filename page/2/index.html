@@ -123,6 +123,1184 @@
           
           
             
+              <a class="post-title-link" href="/2015/10/11/找工作总结-递归专题/">
+                递归
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-10-11
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/找工作总结/">找工作总结</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/10/11/找工作总结-递归专题/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/11/找工作总结-递归专题/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>递归的本质是图的深度优先遍历</p>
+<h3 id="剑指offer11_数值的整数次方">剑指offer11 数值的整数次方</h3><h4 id="问题描述">问题描述</h4><p>给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。</p>
+<h4 id="解法">解法</h4><p>求a的b次方</p>
+<ul>
+<li>如果b是奇数，result=a*a^(b-1)</li>
+<li>如果b是偶数，temp=a^(b/2),result=temp*temp</li>
+</ul>
+<p>避免多次乘法。</p>
+<h4 id="注意点">注意点</h4><ul>
+<li>判断输入数据是否合法，0的负数次方不合法，0的0次方返回1.0</li>
+<li>浮点数相等的判断</li>
+<li><p>负数次方转化为整数次方</p>
+<h4 id="代码">代码</h4><p>  class Solution {<br>  public:</p>
+<pre><code><span class="keyword">bool</span> invalidInput=<span class="keyword">false</span>;
+<span class="function"><span class="keyword">double</span> <span class="title">Power</span>(<span class="params"><span class="keyword">double</span> <span class="keyword">base</span>, <span class="keyword">int</span> exponent</span>) </span>{
+    <span class="keyword">if</span>(doubleEqual(<span class="keyword">base</span>, <span class="number">0.0</span>) &amp;&amp; exponent &lt; <span class="number">0</span>)
+    {
+        invalidInput = <span class="keyword">true</span>;
+        <span class="keyword">return</span> <span class="number">0.0</span>;
+    }
+    <span class="keyword">if</span>(doubleEqual(<span class="keyword">base</span>, <span class="number">0.0</span>) &amp;&amp; exponent == <span class="number">0</span>)
+        <span class="keyword">return</span> <span class="number">1.0</span>;
+    <span class="keyword">if</span>(doubleEqual(<span class="keyword">base</span>,<span class="number">0.0</span>))
+        <span class="keyword">return</span> <span class="number">0.0</span>;
+    <span class="keyword">int</span> absExponent;
+    <span class="keyword">if</span>(exponent &lt; <span class="number">0</span>)
+        absExponent =- exponent;
+    <span class="keyword">else</span>
+        absExponent = exponent;
+
+    <span class="keyword">double</span> temp = powerPositive(<span class="keyword">base</span>, absExponent);
+    <span class="keyword">if</span>(exponent &gt;= <span class="number">0</span>)
+        <span class="keyword">return</span> temp;
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="number">1.0</span> / temp;
+}
+
+<span class="function"><span class="keyword">double</span> <span class="title">powerPositive</span>(<span class="params"><span class="keyword">double</span> <span class="keyword">base</span>, <span class="keyword">int</span> exp</span>)
+</span>{
+    <span class="keyword">if</span>(exp == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;
+    <span class="keyword">if</span>(exp == <span class="number">1</span>) <span class="keyword">return</span> <span class="keyword">base</span>;
+    <span class="keyword">double</span> temp = powerPositive(<span class="keyword">base</span>, exp &gt;&gt; <span class="number">1</span>);
+    <span class="keyword">if</span>((exp&amp;<span class="number">1</span>) == <span class="number">1</span>)
+        <span class="keyword">return</span> temp * temp * <span class="keyword">base</span>;
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> temp * temp;
+
+}
+
+<span class="function"><span class="keyword">bool</span> <span class="title">doubleEqual</span>(<span class="params"><span class="keyword">double</span> a, <span class="keyword">double</span> b</span>)
+</span>{
+    <span class="keyword">if</span>(a - b &gt; -<span class="number">0.0000001</span> &amp;&amp; a - b &lt; <span class="number">0.0000001</span>)
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+}
+</code></pre><p>  };</p>
+</li>
+</ul>
+<h3 id="全排列问题（剑指offer_28_字符串的全排列）">全排列问题（剑指offer 28 字符串的全排列）</h3><h4 id="问题描述-1">问题描述</h4><p>输入一个字符串,按字典序打印出该字符串中字符的所有排列。例如输入字符串abc,则打印出由字符a,b,c所能排列出来的所有字符串abc,acb,bac,bca,cab和cba。 结果请按字母顺序输出。</p>
+<h4 id="解法-1">解法</h4><p>使用递归进行深度优先遍历，可以画出递归树，然后对这个树（图）进行深度优先遍历。递归函数表示当前位置的元素(index)和之后(包括自己)的元素进行交换。</p>
+<h4 id="注意点-1">注意点</h4><ul>
+<li>元素交换后还需要换回来</li>
+<li>排列的序列中如果有重复元素需要判断。</li>
+</ul>
+<h4 id="代码-1">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+  vector&lt;string&gt; Permutation(string <span class="keyword">str</span>) {
+    vector&lt;string&gt; vec;
+    <span class="keyword">if</span>(<span class="keyword">str</span>.size() == <span class="number">0</span>) <span class="keyword">return</span> vec;
+    PermutationR(<span class="keyword">str</span>,<span class="number">0</span>,vec);
+    sort(vec.begin(),vec.end());
+    <span class="keyword">return</span> vec;
+  }
+
+    <span class="keyword">void</span> PermutationR(string&amp; <span class="keyword">str</span>, <span class="keyword">int</span> <span class="keyword">index</span>, vector&lt;string&gt;&amp; vec)
+    {
+        <span class="keyword">if</span>(<span class="keyword">index</span> == <span class="keyword">str</span>.size() - <span class="number">1</span>)
+            vec.push_back(<span class="keyword">str</span>);
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="keyword">index</span>; i &lt; <span class="keyword">str</span>.size(); i++)
+        {
+            <span class="keyword">if</span>(i != <span class="keyword">index</span> &amp;&amp; <span class="keyword">str</span>[<span class="keyword">index</span>] == <span class="keyword">str</span>[i]) 
+                <span class="keyword">continue</span>;
+            <span class="keyword">char</span> temp = <span class="keyword">str</span>[<span class="keyword">index</span>];
+            <span class="keyword">str</span>[<span class="keyword">index</span>] = <span class="keyword">str</span>[i];
+            <span class="keyword">str</span>[i] = temp;
+            PermutationR(<span class="keyword">str</span>, <span class="keyword">index</span> + <span class="number">1</span>, vec); 
+            temp = <span class="keyword">str</span>[<span class="keyword">index</span>];
+            <span class="keyword">str</span>[<span class="keyword">index</span>] = <span class="keyword">str</span>[i];
+            <span class="keyword">str</span>[i] = temp;
+        }
+    }
+};
+</code></pre><h2 id="子集问题">子集问题</h2><h3 id="Leetcode_78_Subset">Leetcode 78 Subset</h3><h4 id="问题描述-2">问题描述</h4><p>给定一个集合，生成这个集合的所有子集</p>
+<h4 id="解法-2">解法</h4><p>遍历数组中的元素，每个元素有出现和不出现两种情况，然后递归考虑后一个元素。</p>
+<h4 id="代码-2">代码</h4><pre><code>class <span class="type">Solution</span> {
+public:
+    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; subsets(vector&lt;<span class="type">int</span>&gt;&amp; nums) {
+        sort(nums.begin(), nums.<span class="keyword">end</span>());
+        vector&lt;<span class="type">int</span>&gt; vec;
+        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="literal">result</span>;
+        genSubset(vec, <span class="literal">result</span>, <span class="number">0</span>, nums);
+        <span class="keyword">return</span> <span class="literal">result</span>;
+    }
+
+    <span class="type">void</span> genSubset(vector&lt;<span class="type">int</span>&gt;&amp; vec, vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; <span class="literal">result</span>, <span class="type">int</span> index, vector&lt;<span class="type">int</span>&gt; nums)
+    {
+        <span class="literal">result</span>.push_back(vec);
+        <span class="keyword">for</span>(<span class="type">int</span> i = index; i &lt; nums.size(); i++)
+        {
+            vec.push_back(nums[i]);
+            genSubset(vec, <span class="literal">result</span>, i + <span class="number">1</span>, nums);
+            vec.pop_back();
+        }
+    }
+};
+</code></pre><h3 id="拓展：子集和问题">拓展：子集和问题</h3><h4 id="问题描述-3">问题描述</h4><p>子集和问题的一个实例为〈S,t〉。其中，S={ 1 x ， 2 x ，…， n x }是一个正整数的集合，c是一个正整数。子集和问题判定是否存在S的一个子集S1，使得 S1中的所有元素之和等于c。<br>试设计一个解子集和问题的回溯法。</p>
+<h4 id="解法-3">解法</h4><p>使用暴力解法，任何一个数字在最终的结果中都有出现和不出现两种情况所以复杂度是(2^n)方，需要在不断遍历结果过程中对结果进行剪枝。<br>可以构造所有子集，每次进入的时候判断是否满足条件。</p>
+<h3 id="剑指offer_53_正则表达式匹配">剑指offer 53 正则表达式匹配</h3><h4 id="问题描述-4">问题描述</h4><p>请实现一个函数用来匹配包括’.’和<code>&#39;*&#39;</code>的正则表达式。模式中的字符’.’表示任意一个字符，而<code>&#39;*&#39;</code>表示它前面的字符可以出现任意次（包含0次）。 在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串”aaa”与模式”a.a”和<code>&quot;ab*ac*a&quot;</code>匹配，但是与”aa.a”和<code>&quot;ab*a&quot;</code>均不匹配</p>
+<h4 id="解法-4">解法</h4><p>考虑<code>bool match(char* str, char* pattern)</code><br>因为str中可能出现_*这种形式，所以每次需要扫描pattern的后一个元素。讨论以下几种情况：</p>
+<ul>
+<li><p><code>_*</code></p>
+<ul>
+<li><p>如果能匹配上 <code>*p == *str</code>或者 <code>*p == &#39;.&#39;</code></p>
+<ul>
+<li>next state -&gt; str+1, p+2</li>
+<li>current state -&gt; str+1, p</li>
+<li>ignore this -&gt; str p+2</li>
+</ul>
+</li>
+<li><p>如果匹配不上 ignore this -&gt; str, p+2</p>
+</li>
+</ul>
+</li>
+<li><code>*str == *p</code> -&gt; str+1, p+1</li>
+<li><code>*p == &#39;.&#39;</code> -&gt; str+1, p+1</li>
+</ul>
+<h4 id="代码-3">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+    bool match(<span class="keyword">char</span>* <span class="keyword">str</span>, <span class="keyword">char</span>* pattern)
+    {
+        <span class="keyword">if</span>(<span class="keyword">str</span> == NULL || pattern == NULL)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">return</span> matchCore(<span class="keyword">str</span>, pattern);
+    }
+    bool matchCore(<span class="keyword">char</span> *<span class="keyword">str</span>, <span class="keyword">char</span> *p)
+    {
+        <span class="keyword">if</span>(*<span class="keyword">str</span>  == <span class="string">'\0'</span> &amp;&amp; *p == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">if</span>(*<span class="keyword">str</span> != <span class="string">'\0'</span> &amp;&amp; *p == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">if</span>(*(p+<span class="number">1</span>) == <span class="string">'*'</span>)
+        {
+            <span class="keyword">if</span>(*p == *<span class="keyword">str</span> || (*p == <span class="string">'.'</span> &amp;&amp; *<span class="keyword">str</span> != <span class="string">'\0'</span>))
+                <span class="keyword">return</span> matchCore(<span class="keyword">str</span>+<span class="number">1</span>, p+<span class="number">2</span>) || matchCore(<span class="keyword">str</span>+<span class="number">1</span>, p) || matchCore(<span class="keyword">str</span>, p+<span class="number">2</span>);
+            <span class="keyword">else</span>
+                <span class="keyword">return</span> matchCore(<span class="keyword">str</span>, p+<span class="number">2</span>);
+        }
+        <span class="keyword">if</span>(*p == *<span class="keyword">str</span> || (*p == <span class="string">'.'</span> &amp;&amp; *<span class="keyword">str</span> != <span class="string">'\0'</span>))
+            <span class="keyword">return</span> matchCore(<span class="keyword">str</span>+<span class="number">1</span>, p+<span class="number">1</span>);
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+};
+</code></pre>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/递归/"> #递归 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/10/11/找工作总结-常用函数专题/">
+                常用函数
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-10-11
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/找工作总结/">找工作总结</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/10/11/找工作总结-常用函数专题/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/11/找工作总结-常用函数专题/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="C语言常用库函数">C语言常用库函数</h2><p>需要引用断言函数库</p>
+<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;assert.h&gt;</span>
+</code></pre><h3 id="注意点">注意点</h3><ul>
+<li>需要声明断言</li>
+<li>字符串操作结尾需要’\0’</li>
+<li>不改变的内容需要声明const</li>
+<li>对于<code>void*</code>类型，使用<code>(char*)dst</code>按字节赋值</li>
+</ul>
+<h3 id="strlen">strlen</h3><pre><code>size_t strlen(<span class="keyword">const</span> <span class="built_in">char</span>* <span class="built_in">str</span>)
+{
+    <span class="keyword">assert</span>(<span class="built_in">str</span> != NULL);
+    size_t len = <span class="number">0</span>;
+    <span class="keyword">while</span>(*<span class="built_in">str</span> != <span class="string">'\0'</span>)
+    {
+        <span class="built_in">str</span>++;
+        len++;
+    }
+    <span class="keyword">return</span> len;
+}
+</code></pre><h3 id="strcpy">strcpy</h3><pre><code><span class="keyword">char</span>* strcpy(<span class="keyword">char</span>* dst, <span class="keyword">const</span> <span class="keyword">char</span>* src)
+{
+    <span class="keyword">assert</span>(dst != NULL);
+    <span class="keyword">assert</span>(src != NULL);
+    <span class="keyword">char</span>* <span class="keyword">ret</span> = dst;
+    <span class="keyword">while</span>(*src != '\0')
+    {
+<span class="comment">        *dst = *src;</span>
+        dst++;
+        src++;
+    }
+<span class="comment">    *dst = '\0';</span>
+    <span class="keyword">return</span> <span class="keyword">ret</span>;
+}
+</code></pre><h3 id="memcpy">memcpy</h3><pre><code><span class="keyword">void</span>* memcpy(<span class="keyword">void</span>* dst, <span class="keyword">const</span> <span class="keyword">void</span>* src, size_t <span class="built_in">size</span>)
+{
+    <span class="keyword">assert</span>(dst != NULL);
+    <span class="keyword">assert</span>(src != NULL);
+    <span class="keyword">void</span>* ret = dst;
+    <span class="keyword">while</span>(<span class="built_in">size</span>--)
+    {
+        *(<span class="built_in">char</span>*)dst = *(<span class="built_in">char</span>*)src;
+        dst = (<span class="built_in">char</span>*)dst + <span class="number">1</span>;
+        src = (<span class="built_in">char</span>*)src + <span class="number">1</span>;
+    }
+    <span class="keyword">return</span> ret;
+}
+</code></pre><h3 id="memset">memset</h3><pre><code><span class="keyword">void</span>* memset(<span class="keyword">void</span>* dst, <span class="keyword">int</span> val, size_t <span class="keyword">size</span>)
+{
+    assert(dst != <span class="keyword">NULL</span>);
+    <span class="keyword">void</span>* ret = dst;
+    <span class="keyword">while</span>(<span class="keyword">size</span>--)
+    {
+        *(<span class="keyword">char</span>*)dst = val;
+        dst = (<span class="keyword">char</span>*)dst + <span class="number">1</span>;
+    }
+    <span class="keyword">return</span> ret;
+}
+</code></pre><h3 id="strcmp">strcmp</h3><pre><code><span class="label">int</span> <span class="keyword">strcmp(const </span>char* <span class="keyword">str1, </span>const char* <span class="keyword">str2)
+</span>{
+    <span class="preprocessor">assert</span>(<span class="keyword">str1 </span>!= NULL)<span class="comment">;</span>
+    <span class="preprocessor">assert</span>(<span class="keyword">str2 </span>!= NULL)<span class="comment">;</span>
+    <span class="preprocessor">while</span>(*<span class="keyword">str1 </span>!= <span class="string">'\0'</span> &amp;&amp; *<span class="keyword">str2 </span>!= <span class="string">'\0'</span>)
+    {
+        <span class="preprocessor">if</span>(*<span class="keyword">str1 </span>&gt; *<span class="keyword">str2)
+</span>            return <span class="number">1</span><span class="comment">;</span>
+        <span class="preprocessor">else</span> <span class="preprocessor">if</span>(*<span class="keyword">str1 </span>&lt; <span class="keyword">str2)
+</span>            return -<span class="number">1</span><span class="comment">;</span>
+        <span class="keyword">str1++;
+</span>        <span class="keyword">str2++;
+</span>    }
+    <span class="preprocessor">if</span>(*<span class="keyword">str1 </span>!= <span class="string">'\0'</span>)
+        return <span class="number">1</span><span class="comment">;</span>
+    <span class="preprocessor">else</span> <span class="preprocessor">if</span>(*<span class="keyword">str2 </span>!= <span class="string">'\0'</span>)
+        return -<span class="number">1</span><span class="comment">;</span>
+    <span class="preprocessor">else</span>
+        return <span class="number">0</span><span class="comment">;</span>
+}
+</code></pre><h3 id="strcat">strcat</h3><pre><code><span class="label">char</span>* <span class="keyword">strcat(char* </span><span class="keyword">str1, </span>const char* <span class="keyword">str2)
+</span>{
+    <span class="preprocessor">assert</span>(<span class="keyword">str1 </span>!= NULL)<span class="comment">;</span>
+    char* ret = <span class="keyword">str1;
+</span>    <span class="preprocessor">while</span>(*<span class="keyword">str1 </span>!= <span class="string">'\0'</span>)
+        <span class="keyword">str1++;
+</span>    <span class="preprocessor">while</span>(*<span class="keyword">str2 </span>!= <span class="string">'\0'</span>)
+    {
+        *<span class="keyword">str1 </span>= *<span class="keyword">str2;
+</span>        <span class="keyword">str1++;
+</span>        <span class="keyword">str2++;
+</span>    }
+    *<span class="keyword">str1 </span>= <span class="string">'\0'</span><span class="comment">;</span>
+    return ret<span class="comment">;</span>
+}
+</code></pre><h2 id="atoi和itoa">atoi和itoa</h2><h3 id="atoi">atoi</h3><p>把字符串(<code>char*</code>或者<code>string</code>)转化为整数</p>
+<h4 id="注意点-1">注意点</h4><ul>
+<li>删除字符串前面的空值</li>
+<li>考虑字符传中可能出现的+,-</li>
+<li>考虑溢出的情况</li>
+</ul>
+<h4 id="代码">代码</h4><pre><code><span class="built_in">int</span> atoi(<span class="keyword">const</span> <span class="built_in">char</span>* <span class="built_in">str</span>)
+{
+    <span class="keyword">assert</span>(<span class="built_in">str</span> != NULL);
+    <span class="keyword">while</span>(*<span class="built_in">str</span> == <span class="string">' '</span>)
+        <span class="built_in">str</span>++;
+    bool isNeg = <span class="keyword">false</span>;
+    <span class="keyword">if</span>(*<span class="built_in">str</span> == <span class="string">'-'</span>)
+    {
+        isNeg = <span class="keyword">true</span>;
+        <span class="built_in">str</span>++;
+    }
+    <span class="keyword">else</span> <span class="keyword">if</span>(*<span class="built_in">str</span> == <span class="string">'+'</span>)
+        <span class="built_in">str</span>++;
+    <span class="keyword">long</span> <span class="keyword">long</span> num = <span class="number">0</span>;
+    <span class="keyword">while</span>(*<span class="built_in">str</span> !=<span class="string">'\0'</span> &amp;&amp; *<span class="built_in">str</span> &gt;= <span class="string">'0'</span> &amp;&amp; *<span class="built_in">str</span> &lt;= <span class="string">'9'</span>)
+    {
+        num = num * <span class="number">10</span> + (*<span class="built_in">str</span> - <span class="string">'0'</span>);
+        <span class="keyword">if</span>(isNeg &amp;&amp; -num &lt; INT_MIN)
+            <span class="keyword">return</span> <span class="number">0</span>;
+        <span class="keyword">if</span>(!isNeg &amp;&amp; num &gt; INT_MAX)
+            <span class="keyword">return</span> <span class="number">0</span>;
+        <span class="built_in">str</span>++;
+    }
+    <span class="keyword">if</span>(isNeg)
+        <span class="keyword">return</span> -num;
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> num;
+}
+</code></pre><h3 id="itoa">itoa</h3><h4 id="注意点-2">注意点</h4><ul>
+<li>正负数</li>
+<li>反转字符串</li>
+<li>最后的’\0’</li>
+</ul>
+<h4 id="代码-1">代码</h4><pre><code><span class="keyword">char</span>* itoa(<span class="keyword">int</span> num, <span class="keyword">char</span>* <span class="keyword">str</span>)
+{
+    <span class="keyword">bool</span> isNeg = <span class="keyword">false</span>;
+    <span class="keyword">if</span>(num &lt; <span class="number">0</span>)
+    {
+        isNeg = <span class="keyword">true</span>;
+        num = -num;
+    }
+    <span class="keyword">int</span> i = <span class="number">0</span>;
+    <span class="keyword">while</span>(num)
+    {
+        <span class="keyword">str</span>[i] = num % <span class="number">10</span>;
+        num /= <span class="number">10</span>;
+        i++;
+    }
+    <span class="keyword">if</span>(isNeg)
+        <span class="keyword">str</span>[i++] = <span class="string">'-'</span>;
+    <span class="keyword">for</span>(j = <span class="number">0</span>, k = i-<span class="number">1</span>; j &lt; k; j++, k--)
+    {
+        <span class="keyword">char</span> ch = <span class="keyword">str</span>[j];
+        <span class="keyword">str</span>[j] = <span class="keyword">str</span>[k];
+        <span class="keyword">str</span>[k] = ch;
+    }
+    <span class="keyword">str</span>[i] = <span class="string">'\0'</span>;
+    <span class="keyword">return</span> <span class="keyword">str</span>;
+}
+</code></pre><h2 id="自己实现一个String">自己实现一个String</h2><h3 id="注意点-3">注意点</h3><ul>
+<li>参数不修改使用const</li>
+<li>构造函数<ul>
+<li>为m_data申请空间，包括字符串结束符’\0’</li>
+<li><code>const char* str</code>,判断传入<code>char* str</code>参数是否为空</li>
+</ul>
+</li>
+<li>拷贝构造函数<ul>
+<li>复制一个对象，一定需要申请新的空间</li>
+<li><code>strlen(other.m_data)</code>在类中获取m_data指针</li>
+<li>使用字符串函数strcpy</li>
+</ul>
+</li>
+<li>析构函数<ul>
+<li><code>delete [] m_data;</code></li>
+</ul>
+</li>
+<li>赋值函数<ul>
+<li>判断this == &amp;rhs</li>
+<li>先申请空间，再释放原空间，再赋值(避免申请失败造成不了后果)</li>
+</ul>
+</li>
+<li>重载操作符<ul>
+<li>考虑返回引用(operator=)or值(operator+)</li>
+<li>一般单目运算符使用成员函数重载，双目运算符使用友元</li>
+<li>MyString&amp; other参数是否和this相等</li>
+<li>重载operator+,判断源字符串为空</li>
+<li>重载operator==，使用strcmp</li>
+</ul>
+</li>
+</ul>
+<h3 id="代码-2">代码</h3><pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+
+<span class="keyword">class</span> MyString
+{
+<span class="keyword">public</span>:
+    MyString();
+    MyString(<span class="keyword">const</span> <span class="keyword">char</span>* str);
+    MyString(<span class="keyword">const</span> MyString&amp; other);
+    ~MyString();
+    MyString&amp; <span class="keyword">operator</span> = (<span class="keyword">const</span> MyString&amp; rhs);
+    MyString <span class="keyword">operator</span> + (<span class="keyword">const</span> MyString&amp; rhs);
+    <span class="keyword">char</span> <span class="keyword">operator</span>[](<span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> index);
+    <span class="keyword">bool</span> <span class="keyword">operator</span> == (<span class="keyword">const</span> MyString&amp; rhs);
+    <span class="keyword">friend</span> ostream&amp; <span class="keyword">operator</span> &lt;&lt; (ostream&amp; output, <span class="keyword">const</span> MyString&amp; rhs);
+<span class="keyword">private</span>:
+    <span class="keyword">char</span>* m_data;
+};
+
+MyString::MyString()
+{
+    m_data = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">1</span>];
+    *m_data = <span class="string">'\0'</span>;
+}
+
+MyString::MyString(<span class="keyword">const</span> <span class="keyword">char</span>* str)
+{
+    <span class="keyword">if</span>(str == NULL)
+    {
+        m_data = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">1</span>];
+        *m_data = <span class="string">'\0'</span>;
+    }
+    <span class="keyword">else</span>
+    {
+        <span class="keyword">int</span> len = <span class="built_in">strlen</span>(str);
+        m_data = <span class="keyword">new</span> <span class="keyword">char</span>[len + <span class="number">1</span>];
+        <span class="built_in">strcpy</span>(m_data, str);
+    }
+}
+
+MyString::MyString(<span class="keyword">const</span> MyString&amp; other)
+{
+    <span class="keyword">int</span> len = <span class="built_in">strlen</span>(other.m_data);
+    m_data = <span class="keyword">new</span> <span class="keyword">char</span>[len + <span class="number">1</span>];
+    <span class="built_in">strcpy</span>(m_data, other.m_data);
+}
+
+MyString::~MyString()
+{
+    <span class="keyword">delete</span> [] m_data;
+}
+
+MyString&amp; MyString::<span class="keyword">operator</span> = (<span class="keyword">const</span> MyString&amp; rhs)
+{
+    <span class="keyword">if</span>(<span class="keyword">this</span> != &amp;rhs)
+    {
+        <span class="keyword">char</span>* temp = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="built_in">strlen</span>(rhs.m_data) + <span class="number">1</span>];
+        <span class="built_in">strcpy</span>(temp, rhs.m_data);
+        <span class="keyword">delete</span> [] m_data;
+        m_data = NULL;
+        m_data = temp;
+    }
+    <span class="keyword">return</span> *<span class="keyword">this</span>;
+}
+
+MyString MyString::<span class="keyword">operator</span> + (<span class="keyword">const</span> MyString&amp; rhs)
+{
+    MyString newStr;
+    <span class="keyword">if</span>(rhs.m_data == NULL)
+        newStr = *<span class="keyword">this</span>;
+    <span class="keyword">else</span> <span class="keyword">if</span>(m_data == NULL)
+        newStr = rhs;
+    <span class="keyword">else</span>
+    {
+        newStr.m_data = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="built_in">strlen</span>(m_data) + <span class="built_in">strlen</span>(rhs.m_data) + <span class="number">1</span>];
+        <span class="built_in">strcpy</span>(newStr.m_data, m_data);
+        <span class="built_in">strcat</span>(newStr.m_data, rhs.m_data);
+    }
+    <span class="keyword">return</span> newStr;
+}
+
+<span class="keyword">char</span> MyString::<span class="keyword">operator</span>[](<span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> index)
+{
+    <span class="keyword">return</span> m_data[index];
+}
+
+<span class="keyword">bool</span> MyString::<span class="keyword">operator</span> == (<span class="keyword">const</span> MyString&amp; rhs)
+{
+    <span class="keyword">int</span> result = <span class="built_in">strcmp</span>(m_data, rhs.m_data);
+    <span class="keyword">return</span> (<span class="number">0</span> == result);
+}
+
+ostream&amp; <span class="keyword">operator</span> &lt;&lt; (ostream&amp; output, <span class="keyword">const</span> MyString&amp; rhs)
+{
+    output &lt;&lt; rhs.m_data;
+    <span class="keyword">return</span> output;
+}
+</code></pre><h2 id="Singleton">Singleton</h2><h3 id="简单写法">简单写法</h3><pre><code>class Singleton
+{<span class="keyword">
+public</span>:
+   <span class="keyword"> static</span> Singleton*<span class="function"> getInstance(</span><span class="function">)</span>;
+    virtual<span class="function"> ~Singleton(</span><span class="function">)</span>;<span class="keyword">
+private</span>:
+   <span class="function"> Singleton(</span><span class="function">)</span>;
+   <span class="keyword"> static</span> Singleton *instance;
+};
+
+Singleton* Singleton::instance = NU<span class="class">LL;</span>//如果允许在这里直接new出来可以避免多线程的影响
+Singleton::Singleton(<span class="function">)</span>{}
+Singleton::~Singleton(<span class="function">)</span>
+{
+    delete instance;
+   <span class="instruction"> instance </span>= NU<span class="class">LL;</span>
+}
+
+Singleton*<span class="function"> Singleton::getInstance(</span><span class="function">)</span>
+{
+   <span class="function"> if(</span>instance == NULL<span class="function">)</span>
+    {
+       <span class="instruction"> instance </span>=<span class="instruction"> new </span>Singleton(<span class="function">)</span>;
+    }
+   <span class="instruction"> return </span>instance;
+}
+</code></pre><h3 id="模板+资源管理+线程安全">模板+资源管理+线程安全</h3><pre><code><span class="keyword">template</span>&lt;typename T&gt;
+class <span class="type">Singleton</span>
+{
+private:
+    <span class="type">Singleton</span>(){};
+    <span class="keyword">static</span> auto_ptr&lt;T&gt; <span class="keyword">ptr</span>;
+public:
+    <span class="keyword">static</span> auto_ptr&lt;T&gt; getInstance()
+    {
+        <span class="type">Mutex</span> mutex;
+        mutex.lock();
+        <span class="keyword">if</span>(! <span class="keyword">ptr</span>.get())
+        {
+            auto_ptr&lt;T&gt; temp(new T);
+            <span class="keyword">ptr</span> = temp;
+        }
+        <span class="keyword">return</span> <span class="keyword">ptr</span>;
+    }
+}
+</code></pre>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/常用函数/"> #常用函数 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/10/10/找工作总结-二叉树专题-一般题目/">
+                二叉树专题-一般题目
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-10-10
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/找工作总结/">找工作总结</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/10/10/找工作总结-二叉树专题-一般题目/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/10/找工作总结-二叉树专题-一般题目/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="求二叉树镜像">求二叉树镜像</h3><pre><code><span class="type">TreeNode</span> *getMirror(<span class="type">TreeNode</span> *root)
+{
+    <span class="keyword">if</span>(root == <span class="type">NULL</span>)
+        <span class="keyword">return</span> root;
+    <span class="type">TreeNode</span> *<span class="keyword">left</span> = getMirror(root-&gt;<span class="keyword">left</span>);
+    <span class="type">TreeNode</span> *<span class="keyword">right</span> = getMirror(root-&gt;<span class="keyword">right</span>);
+    root-&gt;<span class="keyword">left</span> = <span class="keyword">right</span>;
+    root-&gt;<span class="keyword">right</span> = <span class="keyword">left</span>;
+    <span class="keyword">return</span> root;
+}
+</code></pre><h3 id="判断一棵二叉树是不是另一棵二叉树的子结构">判断一棵二叉树是不是另一棵二叉树的子结构</h3><pre><code>bool judge(TreeNode <span class="subst">*</span>node1, TreeNode <span class="subst">*</span>node2)
+{
+    <span class="keyword">if</span>(node1 <span class="subst">==</span> <span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> node2 <span class="subst">==</span> <span class="built_in">NULL</span>)
+        <span class="keyword">return</span> <span class="literal">true</span>;
+    <span class="keyword">if</span>(node1 <span class="subst">!=</span> <span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> node2 <span class="subst">==</span> <span class="built_in">NULL</span>)
+        <span class="keyword">return</span> <span class="literal">true</span>;
+    <span class="keyword">if</span>(node1 <span class="subst">==</span> <span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> node2 <span class="subst">!=</span> <span class="built_in">NULL</span>)
+        <span class="keyword">return</span> <span class="literal">false</span>;
+    <span class="keyword">if</span>(node1<span class="subst">-&gt;</span>val <span class="subst">==</span> node2<span class="subst">-&gt;</span>val)
+        <span class="keyword">return</span> judge(node1<span class="subst">-&gt;</span>left, node2<span class="subst">-&gt;</span>left) <span class="subst">&amp;&amp;</span>
+            judge(node2<span class="subst">-&gt;</span>right, node2<span class="subst">-&gt;</span>right);
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="literal">false</span>;
+}
+bool hasSubTree(TreeNode <span class="subst">*</span>node1, TreeNode <span class="subst">*</span>node2)
+{
+    <span class="keyword">if</span>(node1 <span class="subst">==</span> <span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> node2 <span class="subst">==</span> <span class="built_in">NULL</span>)
+        <span class="keyword">return</span> <span class="literal">true</span>;
+    <span class="keyword">if</span>(node1 <span class="subst">!=</span> <span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> node2 <span class="subst">==</span> <span class="built_in">NULL</span>)
+        <span class="keyword">return</span> <span class="literal">true</span>;
+    <span class="keyword">if</span>(node1 <span class="subst">==</span> <span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> node2 <span class="subst">!=</span> <span class="built_in">NULL</span>)
+        <span class="keyword">return</span> <span class="literal">false</span>;
+    <span class="keyword">if</span>(node1<span class="subst">-&gt;</span>val <span class="subst">==</span> node2<span class="subst">-&gt;</span>val <span class="subst">&amp;&amp;</span> judge(node1, node2))
+            <span class="keyword">return</span> <span class="literal">true</span>;
+    <span class="keyword">return</span> hasSubTree(node1<span class="subst">-&gt;</span>left, node2) <span class="subst">||</span>
+            hasSubTree(node1<span class="subst">-&gt;</span>right, node2);
+}
+</code></pre><h3 id="求二叉树中两个节点的最低公共祖先节点">求二叉树中两个节点的最低公共祖先节点</h3><h4 id="如果是二叉查找树">如果是二叉查找树</h4><pre><code><span class="keyword">class</span> <span class="type">Solution</span> {
+public:
+    <span class="type">TreeNode</span>* lowestCommonAncestor(<span class="type">TreeNode</span>* root, <span class="type">TreeNode</span>* p, <span class="type">TreeNode</span>* q) {
+        <span class="keyword">if</span>(root-&gt;<span class="keyword">val</span> &lt; p-&gt;<span class="keyword">val</span> &amp;&amp; root-&gt;<span class="keyword">val</span> &lt; q-&gt;<span class="keyword">val</span>)
+            return lowestCommonAncestor(root-&gt;right, p, q);
+        <span class="keyword">else</span> <span class="keyword">if</span>(root-&gt;<span class="keyword">val</span> &gt; p-&gt;<span class="keyword">val</span> &amp;&amp; root-&gt;<span class="keyword">val</span> &gt; q-&gt;<span class="keyword">val</span>)
+            return lowestCommonAncestor(root-&gt;left, p, q);
+        <span class="keyword">else</span>
+            return root;
+    }
+};
+</code></pre><ul>
+<li>考虑是否需要判断这棵树是不是二叉查找树</li>
+<li>考虑这两个节点是否在树中</li>
+</ul>
+<h4 id="如果是一棵普通的树">如果是一棵普通的树</h4><pre><code><span class="keyword">class</span> <span class="type">Solution</span> {
+public:
+    <span class="type">TreeNode</span>* lowestCommonAncestor(<span class="type">TreeNode</span>* root, <span class="type">TreeNode</span>* p, <span class="type">TreeNode</span>* q) {
+        <span class="keyword">if</span>(root-&gt;<span class="keyword">val</span> &lt; p-&gt;<span class="keyword">val</span> &amp;&amp; root-&gt;<span class="keyword">val</span> &lt; q-&gt;<span class="keyword">val</span>)
+            return lowestCommonAncestor(root-&gt;right, p, q);
+        <span class="keyword">else</span> <span class="keyword">if</span>(root-&gt;<span class="keyword">val</span> &gt; p-&gt;<span class="keyword">val</span> &amp;&amp; root-&gt;<span class="keyword">val</span> &gt; q-&gt;<span class="keyword">val</span>)
+            return lowestCommonAncestor(root-&gt;left, p, q);
+        <span class="keyword">else</span>
+            return root;
+    }
+};
+</code></pre><h3 id="求二叉树中节点最大距离">求二叉树中节点最大距离</h3><p><a href="http://blog.csdn.net/lalor/article/details/7626678" target="_blank" rel="external">问题描述</a></p>
+<h4 id="解法">解法</h4><ul>
+<li>二叉树为空，最大距离是0</li>
+<li>二叉树不为空，最大距离=max:<ul>
+<li>左子树中最大距离</li>
+<li>右子树中最大距离</li>
+<li>左子树到跟的最大距离+1+右子树到根的最大距离</li>
+</ul>
+</li>
+</ul>
+<h4 id="代码">代码</h4><pre><code>int GetMaxDistance(BinaryTreeNode * pRoot, int &amp; <span class="keyword">max</span>Left, int &amp; <span class="keyword">max</span>Right)
+{
+    // <span class="keyword">max</span>Left, 左子树中的节点距离根节点的最远距离
+    // <span class="keyword">max</span>Right, 右子树中的节点距离根节点的最远距离
+    if(pRoot == NULL)
+    {
+        <span class="keyword">max</span>Left = <span class="number">0</span>;
+        <span class="keyword">max</span>Right = <span class="number">0</span>;
+        return <span class="number">0</span>;
+    }
+    int <span class="keyword">max</span>LL, <span class="keyword">max</span>LR, <span class="keyword">max</span>RL, <span class="keyword">max</span>RR; //<span class="keyword">max</span>LL 代表左子树中节点距离左子树根节点最大距离
+    int <span class="keyword">max</span>DistLeft, <span class="keyword">max</span>DistRight; //左右子树中的最大距离
+    if(pRoot-&gt;m_pLeft != NULL)
+    {
+        <span class="keyword">max</span>DistLeft = GetMaxDistance(pRoot-&gt;m_pLeft, <span class="keyword">max</span>LL, <span class="keyword">max</span>LR);
+        <span class="keyword">max</span>Left = <span class="keyword">max</span>(<span class="keyword">max</span>LL, <span class="keyword">max</span>LR) + <span class="number">1</span>;
+    }
+    else
+    {
+        <span class="keyword">max</span>DistLeft = <span class="number">0</span>;
+        <span class="keyword">max</span>Left = <span class="number">0</span>;
+    }
+    if(pRoot-&gt;m_pRight != NULL)
+    {
+        <span class="keyword">max</span>DistRight = GetMaxDistance(pRoot-&gt;m_pRight, <span class="keyword">max</span>RL, <span class="keyword">max</span>RR);
+        <span class="keyword">max</span>Right = <span class="keyword">max</span>(<span class="keyword">max</span>RL, <span class="keyword">max</span>RR) + <span class="number">1</span>;
+    }
+    else
+    {
+        <span class="keyword">max</span>DistRight = <span class="number">0</span>;
+        <span class="keyword">max</span>Right = <span class="number">0</span>;
+    }
+    return <span class="keyword">max</span>(<span class="keyword">max</span>(<span class="keyword">max</span>DistLeft, <span class="keyword">max</span>DistRight), <span class="keyword">max</span>Left+<span class="keyword">max</span>Right);
+}
+</code></pre><h3 id="剑指offer25_二叉树中某一路径和为target">剑指offer25 二叉树中某一路径和为target</h3><h4 id="问题描述">问题描述</h4><p>输入一颗二叉树和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。</p>
+<h4 id="解法-1">解法</h4><p>先序递归遍历，使用vector存储路径</p>
+<h3 id="#">#</h3><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; FindPath(TreeNode* root,<span class="keyword">int</span> expectNumber) {
+        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; <span class="built_in">list</span>;
+        <span class="keyword">if</span>(root == NULL) <span class="keyword">return</span> <span class="built_in">list</span>;
+        <span class="built_in">vector</span>&lt;TreeNode *&gt; path;
+        Find(root, expectNumber, <span class="number">0</span>, path, <span class="built_in">list</span>);
+        <span class="keyword">return</span> <span class="built_in">list</span>;
+    }
+
+    <span class="function"><span class="keyword">void</span> <span class="title">Find</span><span class="params">(TreeNode *node, <span class="keyword">int</span> expectNumber, <span class="keyword">int</span> currentSum, <span class="built_in">vector</span>&lt;TreeNode *&gt; &amp;path, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; &amp;<span class="built_in">list</span>)</span>
+    </span>{
+        <span class="keyword">if</span>(node == NULL)
+            <span class="keyword">return</span>;
+        currentSum += node-&gt;val;
+        path.push_back(node);
+        <span class="keyword">if</span>(node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; currentSum == expectNumber)
+        {
+            <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vec;
+            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; path.size(); i++)
+            {
+                vec.push_back(path[i]-&gt;val);
+            }
+            <span class="built_in">list</span>.push_back(vec);
+        }
+        Find(node-&gt;left,expectNumber,currentSum,path,<span class="built_in">list</span>);
+        Find(node-&gt;right,expectNumber,currentSum,path,<span class="built_in">list</span>);
+        path.pop_back();
+    }
+};
+</code></pre><h3 id="剑指offer_58_二叉树的下一个节点">剑指offer 58 二叉树的下一个节点</h3><h4 id="问题描述-1">问题描述</h4><p> 给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。</p>
+<h4 id="解法-2">解法</h4><p>中序遍历的顺序使左中右，假设当前节点为node，讨论下面两种情况：</p>
+<ul>
+<li>node存在右子树，下一个节点是右节点一直向左遍历的最后一个节点</li>
+<li>不存在右子树，node == node-&gt;father-&gt;right,想左回溯，直到node == node-&gt;father-&gt;left </li>
+</ul>
+<h4 id="代码-1">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+    TreeLinkNode* GetNext(TreeLinkNode* pNode)
+    {
+        <span class="keyword">if</span>(pNode == <span class="keyword">NULL</span>)
+            <span class="keyword">return</span> <span class="keyword">NULL</span>;
+        <span class="keyword">if</span>(pNode-&gt;right != <span class="keyword">NULL</span>)
+        {
+            TreeLinkNode* right = pNode-&gt;right;
+            TreeLinkNode* node = right;
+            <span class="keyword">while</span>(node-&gt;left)
+                node = node-&gt;left;
+            <span class="keyword">return</span> node;
+        }
+        <span class="keyword">else</span> <span class="keyword">if</span>(pNode-&gt;next == <span class="keyword">NULL</span>)
+            <span class="keyword">return</span> <span class="keyword">NULL</span>;
+        <span class="keyword">else</span>
+        {
+            TreeLinkNode* node = pNode;
+            <span class="keyword">while</span>(node-&gt;next &amp;&amp; node-&gt;next-&gt;right == node)
+                node = node-&gt;next;
+            <span class="keyword">if</span>(node-&gt;next == <span class="keyword">NULL</span>)
+                <span class="keyword">return</span> <span class="keyword">NULL</span>;
+            <span class="keyword">else</span>
+                <span class="keyword">return</span> node-&gt;next;
+        }
+    }
+};
+</code></pre><h3 id="剑指offer_62_序列化二叉树">剑指offer 62 序列化二叉树</h3><h4 id="问题描述-2">问题描述</h4><p>请实现两个函数，分别用来序列化和反序列化二叉树</p>
+<h4 id="解法-3">解法</h4><p>可以使用任意一种遍历方法</p>
+<h4 id="注意点">注意点</h4><ul>
+<li>对NULL的处理</li>
+<li>使用sprintf函数，把node-&gt;val把整数赋值到字符串上</li>
+</ul>
+<h4 id="代码-2">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+    <span class="keyword">char</span>* Serialize(TreeNode *root) {   
+        <span class="keyword">if</span>(root == NULL)
+            <span class="keyword">return</span> NULL;
+        string <span class="keyword">str</span>;
+        serializeR(root, <span class="keyword">str</span>);
+        <span class="keyword">char</span> *p = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="keyword">str</span>.size()+<span class="number">1</span>];
+        strcpy(p, <span class="keyword">str</span>.data());
+        <span class="keyword">return</span> p;
+    }
+
+    <span class="keyword">void</span> serializeR(TreeNode* node, string&amp; <span class="keyword">str</span>)
+    {
+        <span class="keyword">if</span>(node == NULL)
+        {   
+            <span class="keyword">str</span> += <span class="string">"#,"</span>;
+            <span class="keyword">return</span> ;
+        }  
+        <span class="keyword">char</span> numStr[<span class="number">15</span>];
+        sprintf(numStr, <span class="string">"%d"</span>, node-&gt;val);
+        <span class="keyword">str</span> += numStr;
+        <span class="keyword">str</span> += <span class="string">','</span>;
+        serializeR(node-&gt;left, <span class="keyword">str</span>);
+        serializeR(node-&gt;right, <span class="keyword">str</span>);
+    }
+
+    TreeNode* Deserialize(<span class="keyword">char</span> *<span class="keyword">str</span>) {
+        <span class="keyword">if</span>(<span class="keyword">str</span> == NULL || *<span class="keyword">str</span> == <span class="string">'\0'</span> || *<span class="keyword">str</span> == <span class="string">'#'</span>)
+            <span class="keyword">return</span> NULL;
+        <span class="keyword">int</span> num = <span class="number">0</span>;
+        <span class="keyword">return</span> deserialR(<span class="keyword">str</span>, num);
+    }
+
+    TreeNode* deserialR(<span class="keyword">char</span>* <span class="keyword">str</span>, <span class="keyword">int</span>&amp; num)
+    {
+        <span class="keyword">if</span>(<span class="keyword">str</span>[num] == <span class="string">'\0'</span>)
+            <span class="keyword">return</span> NULL;
+        <span class="keyword">if</span>(<span class="keyword">str</span>[num] == <span class="string">'#'</span>)
+        {
+            num += <span class="number">2</span>;
+            <span class="keyword">return</span> NULL;
+        }
+        <span class="keyword">int</span> val = <span class="number">0</span>;
+        <span class="keyword">while</span>(<span class="keyword">str</span>[num] != <span class="string">','</span> &amp;&amp; <span class="keyword">str</span>[num] != <span class="string">'\0'</span>)
+        {
+            val = val*<span class="number">10</span> + (<span class="keyword">str</span>[num] - <span class="string">'0'</span>);
+            num++;
+        }
+        num++;
+        TreeNode* node = <span class="keyword">new</span> TreeNode(val);
+        node-&gt;left = deserialR(<span class="keyword">str</span>, num);
+        node-&gt;right = deserialR(<span class="keyword">str</span>, num);
+        <span class="keyword">return</span> node;
+    }
+};
+</code></pre>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/二叉树/"> #二叉树 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/10/10/找工作总结-二叉树专题-二叉查找树/">
+                二叉树专题-二叉查找树
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-10-10
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/找工作总结/">找工作总结</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/10/10/找工作总结-二叉树专题-二叉查找树/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/10/找工作总结-二叉树专题-二叉查找树/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="主要思路">主要思路</h2><blockquote>
+<p>二叉排序树（Binary Sort Tree）又称二叉查找树（Binary Search Tree），亦称二叉搜索树。<br>二叉排序树或者是一棵空树，或者是具有下列性质的二叉树：<br>（1）若左子树不空，则左子树上所有结点的值均小于它的根结点的值；<br>（2）若右子树不空，则右子树上所有结点的值均大于它的根结点的值；<br>（3）左、右子树也分别为二叉排序树；<br>（4）没有键值相等的节点。</p>
+</blockquote>
+<p>常用思路：二叉查找树的中序遍历是一个有序序列</p>
+<h2 id="题目">题目</h2><h3 id="验证一个二叉查找树是否合法">验证一个二叉查找树是否合法</h3><p>中序遍历是有序的<br>使用额外存储：</p>
+<pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="function"><span class="keyword">bool</span> <span class="title">isValidBST</span><span class="params">(TreeNode *root)</span> </span>{
+        <span class="keyword">if</span>(root == NULL) <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vec;
+        inorder(root, vec);
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;vec.size()-<span class="number">1</span>;i++)
+        {
+            <span class="keyword">if</span>(vec[i]&gt;=vec[i+<span class="number">1</span>])
+                <span class="keyword">return</span> <span class="keyword">false</span>;
+        }
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    }
+
+    <span class="function"><span class="keyword">void</span> <span class="title">inorder</span><span class="params">(TreeNode *node,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;vec)</span>
+    </span>{
+        <span class="keyword">if</span>(node == NULL)
+            <span class="keyword">return</span>;
+        inorder(node-&gt;left, vec);
+        vec.push_back(node-&gt;val);
+        inorder(node-&gt;right, vec);
+    }
+};
+</code></pre><p>直接在中序遍历的过程中判断：</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+    TreeNode *prev=<span class="keyword">NULL</span>;
+    bool isValidBST(TreeNode* root) {
+        <span class="keyword">if</span>(root == <span class="keyword">NULL</span>)
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">if</span>(!isValidBST(root-&gt;left))
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">if</span>(prev &amp;&amp; prev-&gt;val &gt;= root-&gt;val)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        prev = root;
+        <span class="keyword">return</span> isValidBST(root-&gt;right);
+    }
+};
+</code></pre><h3 id="判断一个序列是不是二叉查找树的后序遍历">判断一个序列是不是二叉查找树的后序遍历</h3><pre><code>bool isValidR(vector&lt;<span class="keyword">int</span>&gt; &amp;seq, <span class="keyword">int</span> start, <span class="keyword">int</span> end)
+{
+    <span class="keyword">if</span>(start &gt;= end)
+        <span class="keyword">return</span> true;
+    <span class="keyword">int</span> ls,le,rs,re,i;
+    ls = start;
+    <span class="keyword">for</span>(i=start;i&lt;end &amp;&amp; se<span class="string">q[i]</span>&lt;se<span class="string">q[end]</span>;i++){}
+    le = i-<span class="number">1</span>;
+    rs = i;
+    <span class="keyword">for</span>(;i&lt;end;i++)
+    {
+        <span class="keyword">if</span>(se<span class="string">q[i]</span>&lt;=se<span class="string">q[end]</span>)
+            <span class="keyword">return</span> false;
+    }
+    re=end-<span class="number">1</span>;
+    <span class="keyword">return</span> isValidR(seq, ls, le) &amp;&amp; isValidR(seq, rs, re);
+}
+bool isValidPostOrderSequence(vector&lt;<span class="keyword">int</span>&gt; seq)
+{
+    <span class="keyword">if</span>(seq.size() == <span class="number">0</span>)
+        <span class="keyword">return</span> false;
+    <span class="keyword">if</span>(seq.size() == <span class="number">1</span>)
+        <span class="keyword">return</span> true;
+    <span class="keyword">return</span> isValidR(seq, <span class="number">0</span>, seq.size()-<span class="number">1</span>);
+}
+</code></pre><h3 id="剑指offer_63_二叉查找树的第K个节点">剑指offer 63 二叉查找树的第K个节点</h3><h4 id="问题描述">问题描述</h4><p>给定一颗二叉搜索树，请找出其中的第k大的结点。例如， 5 / \ 3 7 /\ /\ 2 4 6 8 中，按结点数值大小顺序第三个结点的值为4。</p>
+<h4 id="解法">解法</h4><p>找到中序遍历的第k个元素即可，使用k的引用传递当做全局变量使用</p>
+<h4 id="代码">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+    TreeNode* KthNode(TreeNode* pRoot, unsigned int k)
+    {
+        <span class="keyword">if</span>(pRoot == <span class="keyword">NULL</span> || k &lt;= <span class="number">0</span>)
+            <span class="keyword">return</span> <span class="keyword">NULL</span>;
+        <span class="keyword">return</span> KthNodeR(pRoot, k);
+    }
+
+    TreeNode* KthNodeR(TreeNode* node, unsigned int&amp; k)
+    {
+        <span class="keyword">if</span>(node == <span class="keyword">NULL</span>)
+            <span class="keyword">return</span> <span class="keyword">NULL</span>;
+        TreeNode* temp = KthNodeR(node-&gt;left, k);
+        <span class="keyword">if</span>(temp)
+            <span class="keyword">return</span> temp;
+        k--;
+        <span class="keyword">if</span>(k == <span class="number">0</span>)
+            <span class="keyword">return</span> node;
+        temp = KthNodeR(node-&gt;right, k);
+        <span class="keyword">if</span>(temp)
+            <span class="keyword">return</span> temp;
+    }
+};
+</code></pre><h3 id="剑指offer_27_二叉搜索树与双向链表">剑指offer 27 二叉搜索树与双向链表</h3><h4 id="问题描述-1">问题描述</h4><p>输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。</p>
+<h4 id="解法-1">解法</h4><p>中序遍历，使用lastInList的引用传递，提供已经中序遍历链表的最后一个节点。</p>
+<h4 id="代码-1">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+    TreeNode* Convert(TreeNode* pRootOfTree)
+    {
+        <span class="keyword">if</span>(pRootOfTree == <span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
+        TreeNode* lastInList=<span class="keyword">NULL</span>;
+        convertCore(pRootOfTree, lastInList);
+        TreeNode *head = pRootOfTree;
+        <span class="keyword">while</span>(head-&gt;left)
+            head=head-&gt;left;
+        <span class="keyword">return</span> head;
+    }
+
+    void convertCore(TreeNode *root, TreeNode *(&amp;lastInList))
+    {
+        <span class="keyword">if</span>(root == <span class="keyword">NULL</span>) <span class="keyword">return</span>;
+        <span class="keyword">if</span>(root-&gt;left)
+            convertCore(root-&gt;left, lastInList);
+        root-&gt;left = lastInList;
+        <span class="keyword">if</span>(lastInList)
+            lastInList-&gt;right=root;
+        lastInList = root;
+        <span class="keyword">if</span>(root-&gt;right)
+            convertCore(root-&gt;right, lastInList);
+    }
+};
+</code></pre>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/二叉树/"> #二叉树 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/10/10/找工作总结-二叉树专题-基础/">
                 二叉树专题-基础
               </a>
@@ -1168,201 +2346,6 @@ public:
           
           
             
-              <a class="post-title-link" href="/2015/09/27/找工作总结-数组专题-出现次数/">
-                数组专题-数组中出现的次数
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-09-27
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/找工作总结/">找工作总结</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/09/27/找工作总结-数组专题-出现次数/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/27/找工作总结-数组专题-出现次数/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="通用的几种解题思路">通用的几种解题思路</h2><ul>
-<li>使用map记录出现的次数，要求额外增加空间复杂度</li>
-<li>所有数字异或可以消灭掉数组中出现偶数次的数字</li>
-</ul>
-<h3 id="剑指offer51_数组中重复的数字">剑指offer51 数组中重复的数字</h3><h4 id="问题描述">问题描述</h4><p>在一个长度为n的数组里的所有数字都在0到n-1的范围内。 数组中某些数字是重复的，但不知道有几个数字是重复的。也不知道每个数字重复几次。请找出数组中任意一个重复的数字。 例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出是重复的数字2或者3。</p>
-<h4 id="解法">解法</h4><ul>
-<li>排序后扫描，时间复杂度nlogn，空间复杂度O(1)</li>
-<li>使用map记录，时间复杂度O(n)，空间复杂度O(n)</li>
-</ul>
-<h4 id="注意点">注意点</h4><ul>
-<li>map的遍历<br><code>map&lt;int, int&gt;::iterator iter;</code><br><code>iter-&gt;first</code> <code>iter-&gt;second</code></li>
-</ul>
-<h4 id="代码">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="function"><span class="keyword">bool</span> <span class="title">duplicate</span><span class="params">(<span class="keyword">int</span> numbers[], <span class="keyword">int</span> length, <span class="keyword">int</span>* duplication)</span> </span>{
-        <span class="keyword">if</span>(length &lt;= <span class="number">1</span>)
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; dict;
-        <span class="keyword">bool</span> ans = <span class="keyword">false</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++)
-        {
-            <span class="keyword">if</span>(dict.count(numbers[i]) == <span class="number">0</span>)
-                dict[numbers[i]] = <span class="number">1</span>;
-            <span class="keyword">else</span>{
-                dict[numbers[i]] += <span class="number">1</span>;
-                ans = <span class="keyword">true</span>;
-            }
-        }
-        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;::iterator iter;
-        <span class="keyword">for</span>(iter = dict.begin();iter != dict.end();iter++)
-        {
-            <span class="keyword">if</span>(iter-&gt;second &gt; <span class="number">1</span>)
-            {
-                *duplication = iter-&gt;first;
-                duplication++;
-            }
-        }
-        <span class="keyword">return</span> ans;
-    }
-};
-</code></pre><h3 id="剑指offer29_数组中出现次数超过一半的数字">剑指offer29 数组中出现次数超过一半的数字</h3><h4 id="问题描述-1">问题描述</h4><p>数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。由于数字2在数组中出现了5次，超过数组长度的一半，因此输出2。</p>
-<h4 id="解法-1">解法</h4><ul>
-<li>使用快排partition函数，扫描一遍数组中间元素就是出现超过一半的数字</li>
-<li>使用time记录数字出现的次数，cur记录当前数字</li>
-</ul>
-<h4 id="注意点-1">注意点</h4><ul>
-<li>使用解法2需要判断最后的次数是否真的大于一半，如果不是，返回特定值</li>
-</ul>
-<h4 id="代码-1">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="keyword">int</span> MoreThanHalfNum_Solution(vector&lt;<span class="keyword">int</span>&gt; numbers) {
-        <span class="keyword">if</span>(numbers.<span class="keyword">size</span>() == <span class="number">0</span>) 
-            <span class="keyword">return</span> <span class="number">0</span>;
-        <span class="keyword">int</span> time = <span class="number">1</span>;
-        <span class="keyword">int</span> cur = numbers[<span class="number">0</span>];
-        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; numbers.<span class="keyword">size</span>(); i++)
-        {
-            <span class="keyword">if</span>(time == <span class="number">0</span>)
-            {
-                cur = numbers[i];
-                time = <span class="number">1</span>;
-            }
-            <span class="keyword">else</span> <span class="keyword">if</span>(numbers[i] == cur)
-                time++;
-            <span class="keyword">else</span>
-                time--;
-        }
-        <span class="keyword">int</span> <span class="keyword">count</span> = <span class="number">0</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;numbers.<span class="keyword">size</span>(); i++)
-        {
-            <span class="keyword">if</span>(numbers[i] == cur)
-                <span class="keyword">count</span>++;
-        }
-        <span class="keyword">if</span>(<span class="keyword">count</span> * <span class="number">2</span> &gt; numbers.<span class="keyword">size</span>())
-            <span class="keyword">return</span> cur;
-        <span class="keyword">else</span>
-            <span class="keyword">return</span> <span class="number">0</span>;
-    }
-};
-</code></pre><h3 id="剑指offer40_数组中只出现一次的数字">剑指offer40 数组中只出现一次的数字</h3><h4 id="问题描述-2">问题描述</h4><p>一个整型数组里除了两个数字之外，其他的数字都出现了两次。请写程序找出这两个只出现一次的数字。</p>
-<h4 id="解法-2">解法</h4><ul>
-<li>对于只有一个数字出现一次，对所有数字做异或操作</li>
-<li>有两个数字a,b出现了一次，其它出现偶数次。所有数字异或得temp = a^b，使用result做spliter，每一个数字和temp做与操作，把数组分成两组</li>
-</ul>
-<h4 id="注意点-2">注意点</h4><ul>
-<li>与或非的操作符优先级</li>
-</ul>
-<h4 id="代码-2">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    void FindNumsAppearOnce(vector&lt;<span class="built_in">int</span>&gt; <span class="type">data</span>,<span class="built_in">int</span>* num1,<span class="built_in">int</span> *num2) {
-        <span class="keyword">if</span>(<span class="type">data</span>.<span class="built_in">size</span>() &lt;= <span class="number">1</span>)
-        {
-            *num1 = <span class="number">0</span>;
-            *num2 = <span class="number">0</span>;
-            <span class="keyword">return</span> ;
-        }
-        <span class="built_in">int</span> temp = <span class="number">0</span>;
-        for(<span class="built_in">int</span> i = <span class="number">0</span>;i &lt;<span class="type">data</span>.<span class="built_in">size</span>(); i++)
-            temp ^= <span class="type">data</span>[i];
-
-        <span class="built_in">int</span> a = <span class="number">0</span>, b = <span class="number">0</span>;
-        for(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="type">data</span>.<span class="built_in">size</span>(); i++)
-        {
-            <span class="keyword">if</span>((<span class="type">data</span>[i] &amp; temp) == <span class="number">0</span>)
-                a ^= <span class="type">data</span>[i];
-            <span class="keyword">else</span>
-                b ^= <span class="type">data</span>[i];
-
-        }
-        *num1 = a;
-        *num2 = b;
-    }
-};
-</code></pre>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/数组/"> #数组 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
               <a class="post-title-link" href="/2015/09/27/找工作总结-数组专题-一般题目/">
                 数组专题-一般题目
               </a>
@@ -2276,8 +3259,8 @@ public:
           
           
             
-              <a class="post-title-link" href="/2015/09/25/找工作总结-字符串专题-一般题目/">
-                字符串专题
+              <a class="post-title-link" href="/2015/09/27/找工作总结-数组专题-出现次数/">
+                数组专题-数组中出现的次数
               </a>
             
           
@@ -2286,7 +3269,7 @@ public:
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-09-25
+          发表于 2015-09-27
         </span>
 
         
@@ -2306,8 +3289,8 @@ public:
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/09/25/找工作总结-字符串专题-一般题目/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/25/找工作总结-字符串专题-一般题目/"></span>
+            <a href="/2015/09/27/找工作总结-数组专题-出现次数/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/27/找工作总结-数组专题-出现次数/"></span>
             </a>
           </span>
           
@@ -2322,206 +3305,117 @@ public:
 
       
         
-          <h3 id="剑指offer4_替换空格">剑指offer4 替换空格</h3><p>问题描述：请实现一个函数，将一个字符串中的空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。</p>
-<p>解法：扫描一遍，记录空格个数。申请newSize，从后向前填充数组。</p>
-<pre><code>class Solution {
+          <h2 id="通用的几种解题思路">通用的几种解题思路</h2><ul>
+<li>使用map记录出现的次数，要求额外增加空间复杂度</li>
+<li>所有数字异或可以消灭掉数组中出现偶数次的数字</li>
+</ul>
+<h3 id="剑指offer51_数组中重复的数字">剑指offer51 数组中重复的数字</h3><h4 id="问题描述">问题描述</h4><p>在一个长度为n的数组里的所有数字都在0到n-1的范围内。 数组中某些数字是重复的，但不知道有几个数字是重复的。也不知道每个数字重复几次。请找出数组中任意一个重复的数字。 例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出是重复的数字2或者3。</p>
+<h4 id="解法">解法</h4><ul>
+<li>排序后扫描，时间复杂度nlogn，空间复杂度O(1)</li>
+<li>使用map记录，时间复杂度O(n)，空间复杂度O(n)</li>
+</ul>
+<h4 id="注意点">注意点</h4><ul>
+<li>map的遍历<br><code>map&lt;int, int&gt;::iterator iter;</code><br><code>iter-&gt;first</code> <code>iter-&gt;second</code></li>
+</ul>
+<h4 id="代码">代码</h4><pre><code><span class="keyword">class</span> Solution {
 <span class="keyword">public</span>:
-    string replaceSpace(string <span class="built_in">str</span>) {
-        <span class="keyword">if</span>(<span class="built_in">str</span>.<span class="built_in">size</span>()==<span class="number">0</span>)
-            <span class="keyword">return</span> <span class="built_in">str</span>;
-        <span class="built_in">int</span> numOfSpace=<span class="number">0</span>;
-        <span class="keyword">for</span>(<span class="built_in">int</span> i=<span class="number">0</span>;i&lt;<span class="built_in">str</span>.<span class="built_in">size</span>();++i)
-            <span class="keyword">if</span>(<span class="built_in">str</span>[i]==<span class="string">' '</span>)
-                ++numOfSpace;
-        <span class="built_in">int</span> newSize=<span class="built_in">str</span>.<span class="built_in">size</span>()+<span class="number">2</span>*numOfSpace;
-        string ans;
-        ans.resize(newSize);
-        <span class="built_in">int</span> i=<span class="built_in">str</span>.<span class="built_in">size</span>()-<span class="number">1</span>,j=newSize-<span class="number">1</span>;
-        <span class="keyword">while</span>(i&gt;=<span class="number">0</span>&amp;&amp;j&gt;=<span class="number">0</span>)   
+    <span class="function"><span class="keyword">bool</span> <span class="title">duplicate</span><span class="params">(<span class="keyword">int</span> numbers[], <span class="keyword">int</span> length, <span class="keyword">int</span>* duplication)</span> </span>{
+        <span class="keyword">if</span>(length &lt;= <span class="number">1</span>)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; dict;
+        <span class="keyword">bool</span> ans = <span class="keyword">false</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++)
         {
-            <span class="keyword">if</span>(<span class="built_in">str</span>[i]==<span class="string">' '</span>)
-            {
-                ans[j--]=<span class="string">'0'</span>;
-                ans[j--]=<span class="string">'2'</span>;
-                ans[j--]=<span class="string">'%'</span>;
-                --i;
+            <span class="keyword">if</span>(dict.count(numbers[i]) == <span class="number">0</span>)
+                dict[numbers[i]] = <span class="number">1</span>;
+            <span class="keyword">else</span>{
+                dict[numbers[i]] += <span class="number">1</span>;
+                ans = <span class="keyword">true</span>;
             }
+        }
+        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;::iterator iter;
+        <span class="keyword">for</span>(iter = dict.begin();iter != dict.end();iter++)
+        {
+            <span class="keyword">if</span>(iter-&gt;second &gt; <span class="number">1</span>)
+            {
+                *duplication = iter-&gt;first;
+                duplication++;
+            }
+        }
+        <span class="keyword">return</span> ans;
+    }
+};
+</code></pre><h3 id="剑指offer29_数组中出现次数超过一半的数字">剑指offer29 数组中出现次数超过一半的数字</h3><h4 id="问题描述-1">问题描述</h4><p>数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。由于数字2在数组中出现了5次，超过数组长度的一半，因此输出2。</p>
+<h4 id="解法-1">解法</h4><ul>
+<li>使用快排partition函数，扫描一遍数组中间元素就是出现超过一半的数字</li>
+<li>使用time记录数字出现的次数，cur记录当前数字</li>
+</ul>
+<h4 id="注意点-1">注意点</h4><ul>
+<li>使用解法2需要判断最后的次数是否真的大于一半，如果不是，返回特定值</li>
+</ul>
+<h4 id="代码-1">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="keyword">int</span> MoreThanHalfNum_Solution(vector&lt;<span class="keyword">int</span>&gt; numbers) {
+        <span class="keyword">if</span>(numbers.<span class="keyword">size</span>() == <span class="number">0</span>) 
+            <span class="keyword">return</span> <span class="number">0</span>;
+        <span class="keyword">int</span> time = <span class="number">1</span>;
+        <span class="keyword">int</span> cur = numbers[<span class="number">0</span>];
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; numbers.<span class="keyword">size</span>(); i++)
+        {
+            <span class="keyword">if</span>(time == <span class="number">0</span>)
+            {
+                cur = numbers[i];
+                time = <span class="number">1</span>;
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(numbers[i] == cur)
+                time++;
             <span class="keyword">else</span>
-                ans[j--]=<span class="built_in">str</span>[i--];
+                time--;
         }
-        <span class="keyword">return</span> ans;
-    }
-};
-</code></pre><h3 id="剑指offer54_表示数值的字符串">剑指offer54 表示数值的字符串</h3><p>问题描述：请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如，字符串”+100”,”5e2”,”-123”,”3.1416”和”-1E-16”都表示数值。 但是”12e”,”1a3.14”,”1.2.3”,”+-5”和”12e+4.3”都不是。</p>
-<p>解法：首先可以写出这个字符串的正则表达式</p>
-<pre><code>(+|-)？\<span class="keyword">d</span>+(.\<span class="keyword">d</span>+)?(<span class="keyword">e</span>|<span class="literal">E</span>(+|-)?\<span class="keyword">d</span>+)?
-</code></pre><p>对于正则表达式中的符号，<code>?</code>表示0或1，使用<code>if</code>判断，+表示1或者更多，直接扫描判断。</p>
-<p>注意点：<br>(1) 非法输入，传入str == NULL<br>(2) 结束条件的判断</p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
-<span class="keyword">public</span>:
-    bool isNumeric(<span class="keyword">char</span>* <span class="keyword">str</span>)
-    {
-        <span class="keyword">if</span>(<span class="keyword">str</span> == NULL)
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'+'</span> || *<span class="keyword">str</span> == <span class="string">'-'</span>)
-            <span class="keyword">str</span>++;
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-        scanDigits(<span class="keyword">str</span>);
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
-            <span class="keyword">return</span> <span class="keyword">true</span>;
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'.'</span>)
+        <span class="keyword">int</span> <span class="keyword">count</span> = <span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;numbers.<span class="keyword">size</span>(); i++)
         {
-            <span class="keyword">str</span>++;
-            <span class="comment">//根据题目要求是否允许"32."这样的数据</span>
-            <span class="comment">//if(*str == '\0')</span>
-            <span class="comment">//    return false;</span>
-            scanDigits(<span class="keyword">str</span>);
+            <span class="keyword">if</span>(numbers[i] == cur)
+                <span class="keyword">count</span>++;
         }
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
-            <span class="keyword">return</span> <span class="keyword">true</span>;
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'e'</span> || *<span class="keyword">str</span> == <span class="string">'E'</span>)
-            <span class="keyword">str</span>++;
+        <span class="keyword">if</span>(<span class="keyword">count</span> * <span class="number">2</span> &gt; numbers.<span class="keyword">size</span>())
+            <span class="keyword">return</span> cur;
         <span class="keyword">else</span>
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'+'</span> || *<span class="keyword">str</span> == <span class="string">'-'</span>)
-            <span class="keyword">str</span>++;
-        scanDigits(<span class="keyword">str</span>);
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
-            <span class="keyword">return</span> <span class="keyword">true</span>;
-        <span class="keyword">if</span>(*<span class="keyword">str</span> == <span class="string">'\0'</span>)
-            <span class="keyword">return</span> <span class="keyword">true</span>;
-        <span class="keyword">else</span>
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-    }
-
-    <span class="keyword">void</span> scanDigits(<span class="keyword">char</span> *(&amp;<span class="keyword">str</span>))
-    {
-        <span class="keyword">while</span>(*<span class="keyword">str</span> != <span class="string">'\0'</span> &amp;&amp; *<span class="keyword">str</span> &gt;= <span class="string">'0'</span> &amp;&amp; *<span class="keyword">str</span> &lt;= <span class="string">'9'</span>)
-            <span class="keyword">str</span>++;
+            <span class="keyword">return</span> <span class="number">0</span>;
     }
 };
-</code></pre><h3 id="剑指offer55_字符流中第一个不重复的字符">剑指offer55 字符流中第一个不重复的字符</h3><p>问题描述：请实现一个函数用来找出字符流中第一个只出现一次的字符。例如，当从字符流中只读出前两个字符”go”时，第一个只出现一次的字符是”g”。当从该字符流中读出前六个字符“google”时，第一个只出现一次的字符是”l”。</p>
-<p>解法：字符只有256个，所以可以使用<code>int dict[256]</code>数组来记录所有字符出现的情况。0表示未出现过，-1表示出现过大于1次，&gt;0时dict[i]表示字符i第一次出现的index</p>
-<p>注意点：<br>通过遍历dict[26]找到minIndex找到<strong>第一次出现</strong>的字符</p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>
-</span>{
+</code></pre><h3 id="剑指offer40_数组中只出现一次的数字">剑指offer40 数组中只出现一次的数字</h3><h4 id="问题描述-2">问题描述</h4><p>一个整型数组里除了两个数字之外，其他的数字都出现了两次。请写程序找出这两个只出现一次的数字。</p>
+<h4 id="解法-2">解法</h4><ul>
+<li>对于只有一个数字出现一次，对所有数字做异或操作</li>
+<li>有两个数字a,b出现了一次，其它出现偶数次。所有数字异或得temp = a^b，使用result做spliter，每一个数字和temp做与操作，把数组分成两组</li>
+</ul>
+<h4 id="注意点-2">注意点</h4><ul>
+<li>与或非的操作符优先级</li>
+</ul>
+<h4 id="代码-2">代码</h4><pre><code><span class="keyword">class</span> Solution {
 <span class="keyword">public</span>:
-      <span class="comment">//Insert one char from stringstream</span>
-    <span class="keyword">void</span> Insert(<span class="keyword">char</span> ch)
-    {
-        <span class="keyword">if</span>(dict[ch] == <span class="number">0</span>) <span class="comment">//没出现过</span>
-            dict[ch] = <span class="keyword">index</span>;
-        <span class="keyword">else</span> <span class="comment">//出现过</span>
-            dict[ch] = -<span class="number">1</span>;
-        <span class="keyword">index</span>++;
-    }
-      <span class="comment">//return the first appearence once char in current stringstream</span>
-    <span class="keyword">char</span> FirstAppearingOnce()
-    {
-        <span class="keyword">char</span> ans=<span class="string">'#'</span>;
-        <span class="keyword">int</span> minIndex = INT_MAX;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">256</span>;i++)
+    void FindNumsAppearOnce(vector&lt;<span class="built_in">int</span>&gt; <span class="type">data</span>,<span class="built_in">int</span>* num1,<span class="built_in">int</span> *num2) {
+        <span class="keyword">if</span>(<span class="type">data</span>.<span class="built_in">size</span>() &lt;= <span class="number">1</span>)
         {
-            <span class="keyword">if</span>(dict[i] &gt; <span class="number">0</span> &amp;&amp; dict[i] &lt; minIndex)
-            {
-                ans = i;
-                minIndex = dict[i];
-            }
+            *num1 = <span class="number">0</span>;
+            *num2 = <span class="number">0</span>;
+            <span class="keyword">return</span> ;
         }
-        <span class="keyword">return</span> ans;
-    }
+        <span class="built_in">int</span> temp = <span class="number">0</span>;
+        for(<span class="built_in">int</span> i = <span class="number">0</span>;i &lt;<span class="type">data</span>.<span class="built_in">size</span>(); i++)
+            temp ^= <span class="type">data</span>[i];
 
-    Solution()
-    {
-        <span class="keyword">index</span> = <span class="number">1</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">256</span>;i++)
-            dict[i] = <span class="number">0</span>;
-    }
-<span class="keyword">private</span>:
-    <span class="keyword">int</span> dict[<span class="number">256</span>];
-    <span class="keyword">int</span> <span class="keyword">index</span>=<span class="number">1</span>;
-};
-</code></pre><h3 id="剑指offer42_反转单词顺序_VS_左旋字符串">剑指offer42 反转单词顺序 VS 左旋字符串</h3><p>反转字符串函数：</p>
-<pre><code>void reverseString(<span class="built_in">string</span> &amp;str, <span class="built_in">int</span> <span class="built_in">left</span>, <span class="built_in">int</span> <span class="built_in">right</span>)
-{
-    <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
-    {
-        char temp = str[<span class="built_in">left</span>];
-        str[<span class="built_in">left</span>] = str[<span class="built_in">right</span>];
-        str[<span class="built_in">right</span>] = temp;
-        <span class="built_in">left</span>++;
-        <span class="built_in">right</span>--;
-    }
-}
-</code></pre><h4 id="反转单词顺序">反转单词顺序</h4><p>问题描述：JOBDU最近来了一个新员工Fish，每天早晨总是会拿着一本英文杂志，写些句子在本子上。同事Cat对Fish写的内容颇感兴趣，有一天他向Fish借来翻看，但却读不懂它的意思。例如，“student. a am I”。后来才意识到，这家伙原来把句子单词的顺序翻转了，正确的句子应该是“I am a student.”。Cat对一一的翻转这些单词顺序可不在行，你能帮助他么？</p>
-<p>解法：先反转每一个单词，再反转整句</p>
-<p>注意点：</p>
-<ol>
-<li>功能测试：”student. a am I”</li>
-<li>特殊测试用例”aaa “,” aaa”</li>
-</ol>
-<pre><code>class Solution {
-<span class="keyword">public</span>:
-    string ReverseSentence(string <span class="built_in">str</span>) {
-        <span class="keyword">if</span>(<span class="built_in">str</span>.<span class="built_in">size</span>() == <span class="number">0</span>) <span class="keyword">return</span> <span class="built_in">str</span>;
-        reverseString(<span class="built_in">str</span>, <span class="number">0</span>, <span class="built_in">str</span>.<span class="built_in">size</span>() - <span class="number">1</span>);
-        <span class="built_in">int</span> left = <span class="number">0</span>, right = <span class="number">0</span>;
-        <span class="keyword">while</span>(right &lt; <span class="built_in">str</span>.<span class="built_in">size</span>())
+        <span class="built_in">int</span> a = <span class="number">0</span>, b = <span class="number">0</span>;
+        for(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="type">data</span>.<span class="built_in">size</span>(); i++)
         {
-            <span class="keyword">while</span>(<span class="built_in">str</span>[left] == <span class="string">' '</span>)
-            {
-                left++;
-                right++;
-            }
-            <span class="comment">//应对用例"aa "</span>
-            <span class="keyword">if</span>(left &gt;= <span class="built_in">str</span>.<span class="built_in">size</span>()) 
-                <span class="keyword">break</span>;
-            <span class="keyword">while</span>(<span class="built_in">str</span>[right] != <span class="string">' '</span> &amp;&amp; <span class="built_in">str</span>[right] != <span class="string">'\0'</span>)
-                right++;
-            reverseString(<span class="built_in">str</span>,left,right-<span class="number">1</span>);
-            left = right;
-        }
-        <span class="keyword">return</span> <span class="built_in">str</span>;
-    }
+            <span class="keyword">if</span>((<span class="type">data</span>[i] &amp; temp) == <span class="number">0</span>)
+                a ^= <span class="type">data</span>[i];
+            <span class="keyword">else</span>
+                b ^= <span class="type">data</span>[i];
 
-    <span class="keyword">void</span> reverseString(string &amp;<span class="built_in">str</span>,<span class="built_in">int</span> left,<span class="built_in">int</span> right)
-    {
-        <span class="keyword">while</span>(left &lt; right)
-        {
-            <span class="built_in">char</span> temp = <span class="built_in">str</span>[left];
-            <span class="built_in">str</span>[left] = <span class="built_in">str</span>[right];
-            <span class="built_in">str</span>[right] = temp;
-            left++;
-            right--;
         }
-    }
-};
-</code></pre><h4 id="左旋字符串">左旋字符串</h4><p>问题描述：汇编语言中有一种移位指令叫做循环左移（ROL），现在有个简单的任务，就是用字符串模拟这个指令的运算结果。对于一个给定的字符序列S，请你把其循环左移K位后的序列输出。例如，字符序列S=”abcXYZdef”,要求输出循环左移3位后的结果，即“XYZdefabc”。是不是很简单？OK，搞定它！</p>
-<p>解法：先反转3分割的两部分，再旋转这个字符串</p>
-<pre><code>class Solution {
-<span class="keyword">public</span>:
-    string LeftRotateString(string <span class="built_in">str</span>, <span class="built_in">int</span> n) {
-        <span class="keyword">if</span>(<span class="built_in">str</span>.<span class="built_in">size</span>() == <span class="number">0</span>) <span class="keyword">return</span> <span class="built_in">str</span>;
-        <span class="keyword">if</span>(n &gt;= <span class="built_in">str</span>.<span class="built_in">size</span>() || n &lt;= <span class="number">0</span>) <span class="keyword">return</span> <span class="built_in">str</span>;
-        reverseString(<span class="built_in">str</span>, <span class="number">0</span>, n - <span class="number">1</span>);
-        reverseString(<span class="built_in">str</span>, n, <span class="built_in">str</span>.<span class="built_in">size</span>() - <span class="number">1</span>);
-        reverseString(<span class="built_in">str</span>, <span class="number">0</span>, <span class="built_in">str</span>.<span class="built_in">size</span>() - <span class="number">1</span>);
-        <span class="keyword">return</span> <span class="built_in">str</span>;
-    }
-
-    <span class="keyword">void</span> reverseString(string &amp;<span class="built_in">str</span>,<span class="built_in">int</span> left,<span class="built_in">int</span> right)
-    {
-        <span class="keyword">while</span>(left &lt; right)
-        {
-            <span class="built_in">char</span> temp = <span class="built_in">str</span>[left];
-            <span class="built_in">str</span>[left] = <span class="built_in">str</span>[right];
-            <span class="built_in">str</span>[right] = temp;
-            left++;
-            right--;
-        }
+        *num1 = a;
+        *num2 = b;
     }
 };
 </code></pre>
@@ -2533,841 +3427,9 @@ public:
       
         <div class="post-tags">
           
-            <a href="/tags/字符串/"> #字符串 </a>
+            <a href="/tags/数组/"> #数组 </a>
           
         </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/09/24/排序算法总结/">
-                排序算法总结
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-09-24
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/找工作总结/">找工作总结</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/09/24/排序算法总结/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/24/排序算法总结/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="插入排序">插入排序</h2><h3 id="直接插入排序">直接插入排序</h3><p>原理：将数组分为无序区和有序区两个区，然后不断将无序区的第一个元素按大小顺序插入到有序区中去，最终将所有无序区元素都移动到有序区完成排序。</p>
-<pre><code>void insertSort(int a[], int N)
-<span class="comment">{
-    for(int i = 1; i &lt; N; i++)
-    {
-        int temp = a[i];
-        int j;
-        for(j = i; j &gt; 0 &amp;&amp; temp &lt; a[j-1]; j--)
-            a[j] = a[j-1];
-        a[j] = temp;
-    }</span>
-}
-</code></pre><h3 id="希尔排序">希尔排序</h3><p>原理：又称增量缩小排序。先将序列按增量划分为元素个数相同的若干组，使用直接插入排序法进行排序，然后不断缩小增量直至为1，最后使用直接插入排序完成排序。</p>
-<blockquote>
-<p>由于多次插入排序，我们知道一次插入排序是稳定的，不会改变相同元素的相对顺序，但在不同的插入排序过程中，相同的元素可能在各自的插入排序中移动，最后其稳定性就会被打乱，所以shell排序是不稳定的。</p>
-</blockquote>
-<pre><code><span class="function"><span class="keyword">void</span> <span class="title">shellSort</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> N)</span>
-</span>{
-    <span class="keyword">for</span>(<span class="keyword">int</span> incre = N / <span class="number">2</span>; incre &gt; <span class="number">0</span>; incre /= <span class="number">2</span>)
-    {
-        <span class="keyword">for</span>(<span class="keyword">int</span> i = incre; i &lt; N; i++)
-        {
-            <span class="keyword">int</span> temp = a[i];
-            <span class="keyword">int</span> j;
-            <span class="keyword">for</span>(j = i; j &gt;= incre &amp;&amp; temp &lt; a[j - incre]; j -= incre)
-                a[j] = a[j - incre];
-            a[j] = temp;
-        }
-    }
-}
-</code></pre><h2 id="交换排序">交换排序</h2><h3 id="冒泡排序">冒泡排序</h3><p>原理：将序列划分为无序和有序区，不断通过交换较大元素至无序区尾完成排序。</p>
-<pre><code>void bubbleSort(int <span class="literal">a</span>[], int N)
-{
-    for(int i = <span class="number">0</span><span class="comment">; i &lt; N; i++)</span>
-    {
-        for(int j = i<span class="comment">; j &lt; N - i - 1; j++)</span>
-        {
-            <span class="keyword">if</span>(<span class="literal">a</span>[j] &gt; <span class="literal">a</span>[j+<span class="number">1</span>])
-            {
-                int temp = <span class="literal">a</span>[j]<span class="comment">;</span>
-                <span class="literal">a</span>[j] = <span class="literal">a</span>[j+<span class="number">1</span>]<span class="comment">;</span>
-                <span class="literal">a</span>[j+<span class="number">1</span>] = temp<span class="comment">;</span>
-            }
-        }
-    }
-}
-</code></pre><p>补充说明：使用didSwap=true/false可以避免重复的比较，使得最好情况的复杂度变为O(n)</p>
-<h3 id="快速排序">快速排序</h3><p>原理：不断寻找一个序列的中点，然后对中点左右的序列递归的进行排序，直至全部序列排序完成，使用了分治的思想。<br>1．先从数列中取出一个数作为基准数。<br>2．分区过程，将比这个数大的数全放到它的右边，小于或等于它的数全放到它的左边。<br>3．再对左右区间重复第二步，直到各区间只有一个数。</p>
-<p>实现：</p>
-<pre><code>void quickSortCore(<span class="built_in">int</span> a[], <span class="built_in">int</span> <span class="built_in">left</span>, <span class="built_in">int</span> <span class="built_in">right</span>)
-{
-    <span class="keyword">if</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
-    {
-        <span class="built_in">int</span> temp = a[<span class="built_in">left</span>];
-        <span class="built_in">int</span> i = <span class="built_in">left</span>, j = <span class="built_in">right</span>;
-        <span class="keyword">while</span>(i &lt; j)
-        {
-            <span class="keyword">while</span>(i &lt; j &amp;&amp; temp &lt;= a[j])
-                j--;
-            <span class="keyword">if</span>(i &lt; j)
-                a[i++] = a[j];
-            <span class="keyword">while</span>(i &lt; j &amp;&amp; temp &gt;= a[i])
-                i++;
-            <span class="keyword">if</span>(i &lt; j)
-                a[j--] = a[i];
-        }
-        a[i] = temp;
-        quickSortCore(a, <span class="built_in">left</span>, i-<span class="number">1</span>);
-        quickSortCore(a, i+<span class="number">1</span>, <span class="built_in">right</span>);
-    }
-
-}
-
-void quickSort(<span class="built_in">int</span> a[], <span class="built_in">int</span> N)
-{
-    quickSortCore(a, <span class="number">0</span>, N-<span class="number">1</span>);
-}
-</code></pre><h2 id="选择排序">选择排序</h2><h3 id="直接选择排序">直接选择排序</h3><p>原理：将序列划分为无序和有序区，寻找无序区中的最小值和无序区的首元素交换，有序区扩大一个，循环最终完成全部排序。</p>
-<pre><code><span class="function"><span class="keyword">void</span> <span class="title">selectSort</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> N)</span>
-</span>{
-    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)
-    {
-        <span class="keyword">int</span> k = i;
-        <span class="keyword">for</span>(<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; N; j++)
-        {
-            <span class="keyword">if</span>(a[j] &lt; a[k])
-                k = j;
-        }
-        <span class="keyword">int</span> temp = a[i];
-        a[i] = a[k];
-        a[k] = temp;
-    }
-}
-</code></pre><h3 id="堆排序">堆排序</h3><p>堆序性质： 堆分为大顶堆和小顶堆，满足<code>Key[i]&gt;=Key[2i+1]&amp;&amp;key&gt;=key[2i+2]</code>称为大顶堆，满足 <code>Key[i]&lt;=key[2i+1]&amp;&amp;Key[i]&lt;=key[2i+2]</code>称为小顶堆。</p>
-<p>原理：利用大顶堆或小顶堆思想，首先建立堆，然后将堆首与堆尾交换，堆尾之后为有序区。如从小到大排序，建立大顶堆，堆顶元素与堆尾不断交换，同时缩小堆的范围，最终得到排序结果。</p>
-<pre><code>void percDown(int a[], int i, int N)
-<span class="comment">{
-    int temp = a[i], child;
-    for(; 2 * i + 1 &lt; N; i = child)
-    {
-        child = 2 * i + 1;
-        if(child + 1 &lt; N &amp;&amp; a[child] &lt; a[child + 1])
-            child++;
-        if(temp &lt; a[child])
-            a[i] = a[child];
-        else
-            break;
-    }</span>
-    a[i] = temp;
-}
-
-void heapSort(int a[], int N)
-<span class="comment">{
-    for(int i = N / 2; i &gt;= 0; i--)
-        percDown(a, i, N);
-    for(int i = N-1; i &gt; 0; i--)
-    {
-        int temp = a[i];
-        a[i] = a[0];
-        a[0] = temp;
-        percDown(a, 0, i);
-    }</span>
-}
-</code></pre><h2 id="归并排序">归并排序</h2><p>原理：将原序列划分为有序的两个序列，然后利用归并算法进行合并，合并之后即为有序序列。</p>
-<pre><code>void merge(<span class="built_in">int</span> a[], <span class="built_in">int</span> temp[], <span class="built_in">int</span> <span class="built_in">left</span>, <span class="built_in">int</span> <span class="built_in">mid</span>, <span class="built_in">int</span> <span class="built_in">right</span>)
-{
-    <span class="keyword">if</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
-    {
-        <span class="built_in">int</span> lpos = <span class="built_in">left</span>, lend = <span class="built_in">mid</span>;
-        <span class="built_in">int</span> rpos = <span class="built_in">mid</span> + <span class="number">1</span>, rend = <span class="built_in">right</span>;
-        <span class="built_in">int</span> tpos = <span class="built_in">left</span>;
-        <span class="keyword">while</span>(lpos &lt;= lend &amp;&amp; rpos &lt;= rend)
-        {
-            <span class="keyword">if</span>(a[lpos] &lt;= a[rpos])
-                temp[tpos++] = a[lpos++];
-            <span class="keyword">else</span>
-                temp[tpos++] = a[rpos++];
-        }
-        <span class="keyword">while</span>(lpos &lt;= lend)
-            temp[tpos++] = a[lpos++];
-        <span class="keyword">while</span>(rpos &lt;= rend)
-            temp[tpos++] = a[rpos++];
-        <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt;= <span class="built_in">right</span>; i++)
-            a[i] = temp[i];
-    }
-}
-void mergeSortCore(<span class="built_in">int</span> a[], <span class="built_in">int</span> temp[], <span class="built_in">int</span> <span class="built_in">left</span>, <span class="built_in">int</span> <span class="built_in">right</span>)
-{
-    <span class="keyword">if</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
-    {
-        <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>) / <span class="number">2</span>;
-        mergeSortCore(a, temp, <span class="built_in">left</span>, <span class="built_in">mid</span>);
-        mergeSortCore(a, temp, <span class="built_in">mid</span>+<span class="number">1</span>, <span class="built_in">right</span>);
-        merge(a, temp, <span class="built_in">left</span>, <span class="built_in">mid</span>, <span class="built_in">right</span>);
-    }
-}
-void mergeSort(<span class="built_in">int</span> a[], <span class="built_in">int</span> N)
-{
-    <span class="built_in">int</span> *temp = <span class="keyword">new</span> <span class="built_in">int</span>[N];
-    mergeSortCore(a, temp, <span class="number">0</span>, N-<span class="number">1</span>);
-    delete [] temp;
-}
-</code></pre><h2 id="各种排序算法的复杂度稳定性分析">各种排序算法的复杂度稳定性分析</h2><table>
-<thead>
-<tr>
-<th style="text-align:left">分类</th>
-<th style="text-align:left">名称</th>
-<th style="text-align:left">复杂度分析</th>
-<th>稳定性</th>
-<th>稳定性原因分析</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">插入排序</td>
-<td style="text-align:left">简单插入</td>
-<td style="text-align:left">平均O(n^2),最好O(n),最坏O(n^2)</td>
-<td>稳定</td>
-<td>没有跨元素交换</td>
-</tr>
-<tr>
-<td style="text-align:left">———-</td>
-<td style="text-align:left">希尔排序</td>
-<td style="text-align:left">平均接近nlogn,最好O(n),最坏O(n^2)</td>
-<td>不稳定</td>
-<td>增量分组，有跨元素交换</td>
-</tr>
-<tr>
-<td style="text-align:left">交换排序</td>
-<td style="text-align:left">冒泡排序</td>
-<td style="text-align:left">平均O(n^2),最好O(n),最坏O(n^2)</td>
-<td>稳定</td>
-<td>没有跨元素交换</td>
-</tr>
-<tr>
-<td style="text-align:left">———-</td>
-<td style="text-align:left">快速排序</td>
-<td style="text-align:left">平均nlogn,最好nlogn,最坏O(n^2)</td>
-<td>不稳定</td>
-<td>有跨元素交换</td>
-</tr>
-<tr>
-<td style="text-align:left">选择排序</td>
-<td style="text-align:left">直接选择</td>
-<td style="text-align:left">平均O(n^2),最好O(n^2),最坏O(n^2)</td>
-<td>不稳定</td>
-<td>5 8 5 2</td>
-</tr>
-<tr>
-<td style="text-align:left">———-</td>
-<td style="text-align:left">堆排序</td>
-<td style="text-align:left">平均,最好,最坏nlogn</td>
-<td>不稳定</td>
-<td>3 2 3 2</td>
-</tr>
-<tr>
-<td style="text-align:left">归并排序</td>
-<td style="text-align:left">归并排序</td>
-<td style="text-align:left">平均,最好,最坏nlogn，有O(n)空间复杂度</td>
-<td>稳定</td>
-<td>没有跨元素交换</td>
-</tr>
-</tbody>
-</table>
-<h2 id="扩展问题">扩展问题</h2><ul>
-<li>单链表可以做快速排序吗？为什么？</li>
-</ul>
-<p>可以。快速排序的核心函数partition，选择某个元素为枢纽元x(通常是第一个)，一遍扫描之后使得比x小的在枢纽元左边，比x大的在枢纽元的右边。使用链表时，x指向链表头(枢纽元)，扫描这个链表，小元素拼在链表头，大元素拼在链表尾部，从而完成一次partition函数的流程。</p>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/排序/"> #排序 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/08/21/effectiveCPP读书笔记/">
-                Effective C++ 读书笔记
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-08-20
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/编程语言/">编程语言</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/08/21/effectiveCPP读书笔记/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/21/effectiveCPP读书笔记/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="条款1，视C++为一个语言联邦">条款1，视C++为一个语言联邦</h2><p>可以把C++看成四个组成部分：</p>
-<ul>
-<li>C语言的部分 </li>
-<li>Object Oriented C++ 继承封装多态</li>
-<li>Template C++ 使用模板编程</li>
-<li>STL</li>
-</ul>
-<p>每一个部分都有各自的规约</p>
-<h2 id="条款2，_尽量以const，enum，inline替换#define">条款2， 尽量以const，enum，inline替换#define</h2><ul>
-<li>#define只有替换功能，在预处理阶段完成，没有<strong>类型检查</strong>，也没有封装性</li>
-<li>使用const替代变量定义，inline替代函数定义</li>
-<li>预处理器中，#include必不可少，#ifdef，#else可以用来进行控制编译</li>
-</ul>
-<h2 id="条款3，尽可能使用const">条款3，尽可能使用const</h2><p>只要是事实，就把它说出来。只要是const就要声明为const类型。</p>
-<ul>
-<li>const修饰变量<br>const char <em>p = greeting等价于char const </em>p = greeting<br>char * const p = greeting 指针不可更改指向对象</li>
-<li>const修饰函数，是最有威力的应用</li>
-</ul>
-<p>(1) const 返回值</p>
-<p>(2) const 函数参数，使用最多</p>
-<p>(3) const 成员函数，表明这个函数不能修改任何成员变量（static变量可以修改），也不能调用任何非const成员</p>
-<p>补充，<br>volidate int a，告诉编译器这个值可能被未知因素修改，每次都要从内存中重新读取<br>mutable int a，可以突破const成员函数限制，在函数中被修改</p>
-<h2 id="条款4，确定对象被使用前已先被初始化">条款4，确定对象被使用前已先被初始化</h2><ul>
-<li><p>成员初始化应该在构造函数之前，意味着要使用<strong>成员初始化列表</strong>进行成员变量的初始化<br>说明：成员变量总是以声明的次序被初始化</p>
-</li>
-<li><p>对于static变量，使用Singleton+inline，保证在对象使用前初始化</p>
-</li>
-</ul>
-<h2 id="条款5，了解C++默默编写并调用了哪些函数">条款5，了解C++默默编写并调用了哪些函数</h2><p>构造函数，拷贝构造函数，赋值函数，析构函数</p>
-<h2 id="条款6，若不想使用编译器自动生成的函数，就该明确拒绝">条款6，若不想使用编译器自动生成的函数，就该明确拒绝</h2><ul>
-<li>如果某些对象不可复制（不能使用copy constructor）<br>不是很安全的做法：把拷贝构造函数声明为private<br>更好的做法：写一个<strong>UnCopyable基类</strong>，copy constructor声明为private</li>
-</ul>
-<h2 id="条款7，为多态基类声明virtual析构函数">条款7，为多态基类声明virtual析构函数</h2><pre><code><span class="class"><span class="keyword">class</span> <span class="title">B</span>:<span class="title">A</span></span>{}
-A *b=<span class="keyword">new</span> B()
-<span class="keyword">delete</span> b
-</code></pre><p>因为b是A类型的指针，所以会导致局部销毁（只有A的部分被销毁）</p>
-<p>原则：</p>
-<ul>
-<li><strong>企图作为（多态的）base class的类理论上都应该有virtual函数</strong>，否则不应该作为base class（虚指针会额外增加空间）</li>
-<li>任何带有virtual 函数的类都应该把析构函数声明为virtual<br>不要试图继承任何STL容器，因为他们没有virtual的析构函数</li>
-</ul>
-<h2 id="条款8，别让异常逃离析构函数">条款8，别让异常逃离析构函数</h2><ul>
-<li>析构函数不能抛出异常，否则会导致不明行为。</li>
-<li>析构函数应该吞下这个异常，防止传播</li>
-<li><strong>调用一个自己的函数，使得用户有机会来处理这个异常</strong>。 </li>
-</ul>
-<h2 id="条款9，_绝不要在构造或者析构过程中调用virtual函数">条款9， 绝不要在构造或者析构过程中调用virtual函数</h2><ul>
-<li><p>构造过程</p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">A</span></span>{
-<span class="keyword">public</span>:     
-    A(){
-         virtual <span class="function"><span class="title">fun</span><span class="params">()</span></span>
-    }
-}
-<span class="class"><span class="keyword">class</span> <span class="title">B</span>:<span class="typename">A{}</span></span>
-B b;
-</code></pre></li>
-</ul>
-<p>构造B-&gt;构造A-&gt;调用fun(),这时B还没构造完（被编译器看成A对象），导致virtual 函数不会下降到子类执行。</p>
-<ul>
-<li>析构过程<br>析构B-&gt;析构A-&gt;调用fun()，这时B已经被析构掉了，同样virtual函数不会下降，得不到想要的结果。</li>
-</ul>
-<h2 id="条款10，令operator=_返回一个reference_to_*this">条款10，令operator= 返回一个reference to *this</h2><p>为了保证连续运算如：A=B=C 相当于A = (B = C)<br>返回一个引用，不会调用copy constructor<br>对于+=同样适用</p>
-<h2 id="条款11，在operator=_中处理自我赋值">条款11，在operator= 中处理自我赋值</h2><p>判断一下，if (this == &amp;rhs) return *this</p>
-<h2 id="条款12，复制对象时勿忘其每一个成分">条款12，复制对象时勿忘其每一个成分</h2><p>可能出现的问题</p>
-<p>（1）对象中的非内置类型不能得到赋值</p>
-<p>（2）对象从父类继承而来的变量不能得到赋值</p>
-<ul>
-<li>赋值所有local成员（内置类型，对象）</li>
-<li>调用所有base class中的适当的copy constructor</li>
-</ul>
-<h2 id="条款13，以对象管理资源">条款13，以对象管理资源</h2><p>C++申请释放的资源：堆内存（最常用），文件，互斥锁，数据库连接等。一旦申请资源，就必须释放，否则就会造成内存泄露。</p>
-<p>以对象管理资源相当于，使用一个类（RAII类）封装这个资源，在构造时初始化，在析构时释放。声明这个对象时使用栈内存声明。</p>
-<p>常用：</p>
-<p><code>auto_ptr</code> ,封装对象，重写了指针行为，看起来像一个指针。只能指向一个对象。复制或者赋值，会删除原来的指针。</p>
-<p><code>shared_ptr</code>，类似于auto_ptr，不过允许多个指针指向同一个对象，内部提供引用计数。<br>这两个是最常见的RAII类，在构造时初始化，析构时delete。（注意不能<code>auto_ptr</code>(new std::string[10])数组对象）</p>
-<h2 id="条款14，在资源管理类中小心copying行为">条款14，在资源管理类中小心copying行为</h2><p>类似于<code>auto_ptr</code>或者<code>shared_ptr</code>的处理方式，对于复制。可以：</p>
-<ul>
-<li>禁止复制</li>
-<li>引用计数，类似于shared_ptr</li>
-</ul>
-<h2 id="条款15，在资源管理类中提供对原始资源的访问">条款15，在资源管理类中提供对原始资源的访问</h2><p>隐式：如<code>auto_ptr</code>重写了指针行为，*ptr,<code>ptr-&gt;</code>使得这个变量看起来像一个指针。从而可以访问封装的资源</p>
-<p>显示：提供get()函数返回资源</p>
-<h2 id="条款16，使用new和delete时要采用相同的形式">条款16，使用new和delete时要采用相同的形式</h2><p>A *a=new A() ,释放时 使用delete a</p>
-<p>int *a=new a[100],释放时使用delete []a</p>
-<h2 id="条款17，以独立语句将newed对象置入智能指针">条款17，以独立语句将newed对象置入智能指针</h2><pre><code>std::tr1::shared_ptr&lt;Widget&gt; <span class="function"><span class="title">pw</span><span class="params">(new Widget)</span></span>
-<span class="function"><span class="title">processWidget</span><span class="params">(pwd, priority()</span></span>)
-</code></pre><p>使用单独语句，不要放到一起可能会造成编译先后导致指针丢失。<br>其实不是很明白这点</p>
-<h2 id="条款18，让接口容易被使用，不易被误用">条款18，让接口容易被使用，不易被误用</h2><ul>
-<li><p>导入新类型</p>
-<pre><code><span class="built_in">Date</span>(<span class="built_in">int</span> <span class="built_in">month</span>, <span class="built_in">int</span> <span class="built_in">day</span>, <span class="built_in">int</span> <span class="built_in">year</span>)
-</code></pre></li>
-</ul>
-<p>多个参数，使用Month，Day，Year类型，可以预防接口被误用</p>
-<ul>
-<li>接口一致性</li>
-</ul>
-<p>如:stl每个容器都有size()方法</p>
-<h2 id="条款19，设计class犹如设计type">条款19，设计class犹如设计type</h2><p>设计一个类时需要考虑很多问题：</p>
-<ol>
-<li>创建和销毁</li>
-<li>初始化（初始化列表），拷贝构造函数</li>
-<li>pass by value &amp;&amp; pass by reference</li>
-<li>继承关系</li>
-<li>类型转换</li>
-<li>操作符重载</li>
-<li>标准函数驳回（private copy constructor）</li>
-<li>public private</li>
-<li>效率，异常</li>
-<li>不够一般化，太过一般化</li>
-<li>是否真的需要这个类型</li>
-</ol>
-<h2 id="条款20，_宁以pass_by_reference_to_const_替换_pass_by_value">条款20， 宁以pass by reference to const 替换 pass by value</h2><ul>
-<li>区别</li>
-</ul>
-<p>pass by value:</p>
-<p>要调用copy constructor，可能是费时的操作</p>
-<p>pass by reference to const:</p>
-<p>const Student &amp;s，const保证变量在函数内不会被修改</p>
-<ul>
-<li><p>pass by value可能导致多态失效</p>
-<pre><code><span class="keyword">void</span> printNameAndDisplay（Window w）
-</code></pre></li>
-</ul>
-<p>传入子类对象，不能实现多态</p>
-<ul>
-<li>在编译器底层，reference是通过指针来实现的</li>
-</ul>
-<h2 id="条款21，必须返回对象时，别妄想返回其reference">条款21，必须返回对象时，别妄想返回其reference</h2><pre><code><span class="keyword">const</span> <span class="built_in">Rational</span> operator* (<span class="keyword">const</span> <span class="built_in">Rational</span> &amp;lhs, <span class="keyword">const</span> <span class="built_in">Rational</span> &amp;rhs)
-</code></pre><p>如果返回reference</p>
-<ul>
-<li>返回local stack的对象（Rational r），则函数退出时，这个对象已经被销毁了</li>
-<li>返回heap-allocate对象，会造成何时delete的问题。</li>
-<li>返回static对象，if(a<em>b == c</em>d),导致一个static对象不够用的问题</li>
-</ul>
-<p>原则，必须在返回reference和object作出一个选择，程序员的工作就是选出正确的那个</p>
-<h2 id="条款22，将变量声明为private">条款22，将变量声明为private</h2><ul>
-<li>public接口内全部都是函数，可以产生用户使用这个类时，良好的一致性</li>
-<li>private parameter可以产生封装的效果，封装使得变更更加容易</li>
-<li>假如有一个public变量，如果取消它，所有使用它的客户代码都会被破坏<br>假如有一个protect变量，如果取笑它，所有使用它的derived class都会被破坏<br>所以protect并不比public更具有封装性</li>
-</ul>
-<h2 id="条款23，宁以non-member、non-friend替换member函数">条款23，宁以non-member、non-friend替换member函数</h2><ul>
-<li>多个操作具有先后顺序，应该把他们绑定到一起</li>
-<li>封装-&gt;客户端难修改-&gt;更多弹性去改变</li>
-<li>non-member（non-friend）函数VSmember函数</li>
-</ul>
-<p>non-member函数不能访问private成分，提供更大的封装性</p>
-<h2 id="条款24，若所有参数皆需类型转换，请为此采用non-member函数">条款24，若所有参数皆需类型转换，请为此采用non-member函数</h2><p>实现有理数类Rational，乘法的操作符重载<br>开始可能会向使用成员函数的写法 </p>
-<pre><code><span class="keyword">const</span> <span class="built_in">Rational</span> operator*(<span class="keyword">const</span> <span class="built_in">Rational</span> &amp; rhs) <span class="keyword">const</span>
-</code></pre><p>但是希望完成乘法交换律</p>
-<pre><code><span class="type">Rational</span> r
-<span class="type">Rational</span> <span class="literal">result</span> = <span class="number">2</span> * r
-</code></pre><p>需要对2进行隐式类型转换，方法</p>
-<pre><code><span class="keyword">const</span> <span class="built_in">Rational</span> operator*(<span class="keyword">const</span> <span class="built_in">Rational</span> &amp;lhs, <span class="keyword">const</span> <span class="built_in">Rational</span> &amp;rhs) 
-</code></pre><p>使用non-member函数。</p>
-<p>不是很明白</p>
-<h2 id="条款25，考虑写出一个不抛出异常的swap函数">条款25，考虑写出一个不抛出异常的swap函数</h2><p>std::swap(T&amp; a, T&amp; b)可以对两个对象进行交换</p>
-<p>如果这样做的效率不高，可以考虑自己写一个不会抛出异常的swap成员函数</p>
-<p>例如：stl 容器中就有很多swap函数，只交换指针，而不会复制对象。</p>
-<ol>
-<li>自行实现这样一个swap成员函数(可以使用std::swap调换指针)</li>
-<li>在命名空间内提供一个swap<widget>(Widget &amp;a,Widget &amp;b)去实现一个非成员函数来调用前者。</widget></li>
-</ol>
-<h2 id="条款26，尽可能延后变量定义式的出现时间">条款26，尽可能延后变量定义式的出现时间</h2><p>对变量进行定义，意味着承受构造的成本。</p>
-<p>原则：应该延后变量定义到使用前的一刻为止。</p>
-<h2 id="条款27，尽量少做转型动作">条款27，尽量少做转型动作</h2><p>C风格的转型</p>
-<pre><code><span class="list">(<span class="keyword">int</span>)</span><span class="number">2.1</span>
-int<span class="list">(<span class="number">2.1</span>)</span>
-</code></pre><p>C++的新式转型：</p>
-<ul>
-<li><code>const_cast&lt;T&gt;(expression)</code> 将对象的常量性移除</li>
-<li><code>dynamic_cast&lt;T&gt;(expression)</code> 主要用来进行安全向下转型<br>例如：只有基类可以使用，但是想调用子类的函数。尝试使用多态来代替。</li>
-<li><code>static_cast&lt;T&gt;(expression)</code> 主要用来强制类型转换<br>例如：<code>static_cast&lt;int&gt;(2.1)</code><br>尽量使用C++风格的转型</li>
-</ul>
-<h2 id="条款28，避免返回handles指向对象内部成分">条款28，避免返回handles指向对象内部成分</h2><pre><code><span class="keyword">class</span> <span class="title">A</span>{
-<span class="keyword">public</span>：
-     <span class="function"><span class="keyword">void</span> <span class="title">func</span>(<span class="params"></span>)</span>;
-}
-<span class="keyword">class</span> <span class="title">B</span>{
-<span class="keyword">private</span>:
-     A *a
-}
-</code></pre><p>如果在B类中提供<code>A&amp;</code>的返回（假设为rt），那么用户可以调用<code>rt.func()</code>修改B中的private成员了。<br>这是一种放松封装的行为。</p>
-<h2 id="条款29，为“异常安全”而努力是值得的">条款29，为“异常安全”而努力是值得的</h2><p>异常安全的函数提供以下三个保证之一（从弱到强）：</p>
-<ul>
-<li>基本承诺：如果抛出异常，程序内的任何事物仍然保持在有效状态下</li>
-<li>强烈保证：函数调用成功，则完全成功。函数调用失败，则程序回复到调用之前的状态</li>
-<li>nothrow：保证绝对不抛出异常。（通常完全使用内置类型的操作，提供不抛出异常的保证）<br>一个软件系统，要么具备异常安全性，要么不具备。只提供部分异常安全性函数，不能叫做具备异常安全性的系统。<br>以对象管理资源，是一种很好的防止内存泄露，保证异常安全性的方法。</li>
-</ul>
-<h2 id="条款30，透彻了解inlining的里里外外">条款30，透彻了解inlining的里里外外</h2><ul>
-<li>inline函数意味着对这个函数的每一次调用，使用函数本体替换</li>
-</ul>
-<p>好处：减少调用成本</p>
-<p>坏处：增加代码体积</p>
-<ul>
-<li>inline函数适合小型被频繁调用的函数</li>
-</ul>
-<p>函数内部有for循环不适合inline，因为本身的开销已经够大，减少调用的开销意义不大。</p>
-<ul>
-<li>inline只是一个向编译器发出的申请，编译器可以忽略它。</li>
-</ul>
-<p>如编译器拒绝复杂函数inline(带有递归，循环),virtual函数也会使inline落空。</p>
-<h2 id="条款31，将文件间的编译依存关系降到最低">条款31，将文件间的编译依存关系降到最低</h2><p>方法1，使用Handle class</p>
-<p>增加一个实现类去真正实现类的功能，原来的类只维护一个指向实现类的指针</p>
-<p>方法2，使用Interface class</p>
-<p>基类是虚基类，不包括任何成员变量。</p>
-<h2 id="条款32，确定你的public继承是is-a的关系">条款32，确定你的public继承是is-a的关系</h2><p>如题</p>
-<h2 id="条款33，避免遮掩继承而来的名称">条款33，避免遮掩继承而来的名称</h2><p>假如：Derived:Base</p>
-<p>当编译器通过函数名称去找相应函数，会先从Derived类作用域找，然后再从Base类的作用域找<br>当使用函数重载的时候就可能出现问题。</p>
-<p>使用using Base::func可以避免这种情况。 </p>
-<h2 id="条款34，区分接口继承和实现继承">条款34，区分接口继承和实现继承</h2><ul>
-<li>对于non-virtual函数的继承</li>
-</ul>
-<p>意味着，子类必须有和父类一样的实现</p>
-<ul>
-<li>对于virtual</li>
-</ul>
-<p>（1）pure-virtual, 只继承接口，意味着每个子类的行为都很有可能不一样</p>
-<p>（2）imprure-virtual， 提供缺省的实现，意味着有一些子类的行为可能一样</p>
-<p>可以使用pure-virtual+缺省行为分离(另外写一个函数)的方法，解决有可能子类在不知情的情况下继承了并不需要的缺省的实现。 </p>
-<h2 id="条款35，考虑virtual函数以外的其他选择">条款35，考虑virtual函数以外的其他选择</h2><ul>
-<li><p>NVI Non-virtual Interface<br>使用public non-virtual 函数调用private virtual函数(做一下修饰而已)</p>
-</li>
-<li><p>使用函数指针</p>
-</li>
-<li><p>使用tr1::function封装函数指针，代替函数指针的行为</p>
-</li>
-<li><p>使用strategy设计模式</p>
-</li>
-</ul>
-<p>将想要virtual的行为封装成一个类(Calculator)，在类内部进行多态计算，通过传入的对象指针来判断。</p>
-<h2 id="条款36，绝不重新定义继承而来的non-virtual函数">条款36，绝不重新定义继承而来的non-virtual函数</h2><pre><code><span class="class"><span class="keyword">class</span> <span class="title">A</span></span>{
-<span class="keyword">public</span>:
-     void <span class="function"><span class="title">fun</span><span class="params">()</span></span>
-}
-<span class="class"><span class="keyword">class</span> <span class="title">B</span>:<span class="typename">A{</span></span>
-<span class="keyword">public</span>:
-     void <span class="function"><span class="title">fun</span><span class="params">()</span></span>
-}
-A *ptA=new B()
-B *ptB=new B()
-</code></pre><p>ptA-&gt;fun()调用A中的fun<br>ptB-&gt;fun()调用B中的fun<br>因为non-virtual函数不能进行动态绑定，调用函数只跟指针类型有关，所以</p>
-<ol>
-<li>不要重写父类的non-virtual函数</li>
-<li>父类的non-virtual函数意味着，所有子类的实现都是这样</li>
-</ol>
-<h2 id="条款37，绝不重新定义进程而来的缺省参数值">条款37，绝不重新定义进程而来的缺省参数值</h2><p>缺省参数都是静态绑定的，即使是在virtual的函数中</p>
-<h2 id="条款38，复合（组合）是has-a的关系">条款38，复合（组合）是has-a的关系</h2><h2 id="条款39，明智而审慎地使用private继承">条款39，明智而审慎地使用private继承</h2><p>private继承意味着所有父类的成员在子类中都变为private，</p>
-<p>好处：可以让基类部分最优化，减少尺寸。</p>
-<h2 id="条款40，明智而审慎地使用多重继承">条款40，明智而审慎地使用多重继承</h2><ul>
-<li>一个class继承自多个base class，那么父类成分有相同函数，就需要显示指定。</li>
-<li>对于钻石型继承，B:A,C:A,D:B,D:C，需要指定虚继承，来避免重复继承A中的成分</li>
-<li>虚继承需要编译器做很多工作，要付出一定成本，一般不用。</li>
-<li>如果有单一继承可以满足需求，一般这个方案一定比多重继承要好。</li>
-</ul>
-<h2 id="条款41，了解隐式接口和编译器多态">条款41，了解隐式接口和编译器多态</h2><ul>
-<li><p>运行时多态，通过虚指针和虚函数实现</p>
-</li>
-<li><p>编译时多态</p>
-</li>
-</ul>
-<p>(1) 函数重载，相同函数名不同参数列表</p>
-<p>(2) 在模板特化的时候，根据类型生成具体的函数</p>
-<h2 id="条款42，了解typename的双重意义">条款42，了解typename的双重意义</h2><pre><code><span class="keyword">template</span>&lt; class T&gt; class <span class="type">Widget</span>;
-<span class="keyword">template</span>&lt;typename T&gt;class <span class="type">Widget</span>;
-</code></pre><p>并没有什么不同</p>
-<p>当使用嵌套从属名称，如：</p>
-<pre><code><span class="keyword">template</span>&lt;typename C&gt;
-typename C::const_iterator iter(container.begin())
-</code></pre><p>const_iterator是依赖于C的名称，这时候必须用typename</p>
-<h2 id="条款43，学习处理模板化基类内的名称">条款43，学习处理模板化基类内的名称</h2><p>对于模板C++的继承，由于基类模板可能被特化，特化使得基类内的成员不确定，C++会拒绝从模板化基类中寻找继承而来的名称</p>
-<p>解决办法：</p>
-<ol>
-<li>在使用base class之前使用this-&gt;</li>
-<li>使用using</li>
-</ol>
-<h2 id="条款44，将与参数无关的代码抽离templates">条款44，将与参数无关的代码抽离templates</h2><p>使用带参template可能会引起代码膨胀，如：</p>
-<pre><code><span class="keyword">template</span>&lt;typename T,std:size_t n&gt;
-</code></pre><p>解决办法：<br>使用模板父类去处理由于size_t而造成的代码膨胀的问题</p>
-<h2 id="条款45，运用成员函数模板接受所有兼容类型的参数">条款45，运用成员函数模板接受所有兼容类型的参数</h2><ul>
-<li>智能指针是使用模板实现的，那如果我们要智能指针之间（具有继承关系的）能够相互转化，赋值，解决办法：</li>
-<li>使用成员函数模板，对兼容的类型进行构造和赋值</li>
-</ul>
-<h2 id="条款46，需要类型转换时请为模版定义非成员函数">条款46，需要类型转换时请为模版定义非成员函数</h2><pre><code><span class="type">Rational</span>&lt;<span class="type">int</span>&gt; a(<span class="number">1</span>,<span class="number">2</span>);
-<span class="type">Rational</span>&lt;<span class="type">int</span>&gt; <span class="literal">result</span> = a*<span class="number">2</span>; // <span class="type">Error</span>
-</code></pre><p>模板化实例，不进行隐式类型转换，使用friend方法。</p>
-<h2 id="条款47，请使用traits_classes表现类型信息">条款47，请使用traits classes表现类型信息</h2><p>引用：</p>
-<blockquote>
-<p>traits class是个类模板，在不修改一个实体（通常是数据类型或常量）的前提下，把属性和方法关联到一个编译时的实体。在c++中的具体实现方式是：首先定义一个类模板，然后进行显式特化或进行相关类型的部分特化。<br>我的理解是：traits是服务于泛型编程的，其目的是让模板更加通用，同时把一些细节向普通的模板用户隐藏起来。当用不同的类型去实例化一个模板时，不可避免有些类型会存在一些与众不同的属性，若考虑这些特性的话，可能会导致形成的模板不够“泛型”或是过于繁琐，而traits的作用是把这些特殊属性隐藏起来，从而实现让模板更加通用。</p>
-</blockquote>
-<h2 id="条款48，认识template元编程">条款48，认识template元编程</h2><ul>
-<li>模版元编程有两个效力：第一，它让某些事情更容易；第二，可将工作从运行期转移到编译期。</li>
-<li>引用：<blockquote>
-<p>所谓元编程就是编写直接生成或操纵程序的程序，C++ 模板给 C++ 语言提供了元编程的能力，模板使 C++ 编程变得异常灵活，能实现很多高级动态语言才有的特性（语法上可能比较丑陋，一些历史原因见下文）。普通用户对 C++ 模板的使用可能不是很频繁，大致限于泛型编程，但一些系统级的代码，尤其是对通用性、性能要求极高的基础库（如 STL、Boost）几乎不可避免的都大量地使用 C++ 模板，一个稍有规模的大量使用模板的程序，不可避免的要涉及元编程（如类型计算）。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="条款49，了解new_handler的行为">条款49，了解new_handler的行为</h2><p>new_handler 的意思就是说，当使用operator new 无法分配内存时，转交给用户，用户来做一些事情。</p>
-<h2 id="条款50，了解new和delete的合理替换时机">条款50，了解new和delete的合理替换时机</h2><p>有时候，我们替换掉编译器提供的new或者delete。重写operator new。三个常见理由：</p>
-<ol>
-<li>用来检测运用上的错误，超额分配一些内存，再额外的空间放置一些内存；</li>
-<li>为了强化效能，编译器提供的new/delete是通用的，通用就意味着冗余和效率低下，为什么？这个很好理解，因为他要支持很多情况下，也必须考虑很多情况。我们重写new/delete，也就是说，对于特定情况，给出特定的实现。</li>
-<li>为了收集使用上的统计数据。</li>
-</ol>
-<h2 id="条款51，编写new和delete时需固守常规">条款51，编写new和delete时需固守常规</h2><p>自定义new/delete的时候，需要遵守一些规则。</p>
-<ol>
-<li>循环申请，直到成功或者抛出异常</li>
-<li>class专属版本处理，分配大小与class大小不一致的错误。</li>
-<li>delete的时候，判断是否为null。</li>
-</ol>
-<h2 id="条款52，写了placement_new也要写placement_delete">条款52，写了placement new也要写placement delete</h2><h2 id="条款53，不要轻忽编译器的警告">条款53，不要轻忽编译器的警告</h2><h2 id="条款54，让自己熟悉包括TR1在内的标准程序库">条款54，让自己熟悉包括TR1在内的标准程序库</h2><p>C++11（原名C++0x）于2011年8月12日公布。<br>TR1是一份文档，由编译器实现，在std::tr1命名空间下<br>C++11纳入了大部分TR1的内容</p>
-<h2 id="条款55，让自己熟悉Boost">条款55，让自己熟悉Boost</h2><p>Boost是一个社区，提供很多程序库，作为新的C++标准的试验场。</p>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/C/"> #C++ </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/05/31/从图灵测试到图灵停机/">
-                从图灵到图灵测试再到图灵停机
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-05-31
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/杂七杂八/">杂七杂八</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/05/31/从图灵测试到图灵停机/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/31/从图灵测试到图灵停机/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>今天看了电影《机械姬》，讲述了由人类制造出了AI最终具有了通过图灵测试的能力，故事的核心在于判断一个机器人是否具真的具有人工智能。从一个理科生的角度来讲能够发现重重漏洞，但是电影还是不错的电影，引发了对人工智能的思考。</p>
-<p>年初的《模仿游戏》讲述了图灵在二战时期帮助盟军破解德军密码系统Enigma的故事。图灵，这个计算机之父，影响着计算机技术发展的方方面面，计算机的最高奖图灵奖也是以他的名字命名的，没办法人家是祖师爷呀。</p>
-<h2 id="图灵生平">图灵生平</h2><blockquote>
-<p>阿兰·麦席森·图灵（Alan Mathison Turing），生于1912年6月23日，逝于1954年6月7日 ，被誉为“<strong>计算机科学之父</strong>”和“人工智能之父”。图灵和同事破译的情报，在盟军诺曼底登陆等重大军事行动中发挥了重要作用，图灵因此在1946年获得“不列颠帝国勋章”。历史学家认为，他让二战提早了2年结束，至少拯救了2000万人的生命 。<br>计算机逻辑的奠基者，提出了“图灵机”和“图灵测试”等重要概念。美国计算机协会（ACM）1966年设立的以其名命名的“<strong>图灵奖</strong>”是计算机界最负盛名和最崇高的一个奖项，有“计算机界的诺贝尔奖”之称。</p>
-<p>1912年6月23日出生于英国帕丁顿，1931年进入剑桥大学国王学院，师从著名数学家哈代，1938年在美国普林斯顿大学取得博士学位，二战爆发后返回剑桥，曾经协助军方破解德国的著名密码系统Enigma，帮助盟军取得了二战的胜利。</p>
-<p>因图灵的同性恋倾向，他于1952年被起诉（这种行为在当时的英国仍属刑事犯罪）。 为了继续科研工作，他接受了治疗雌激素注射（ 化学阉割 ）代替牢狱之刑。 图灵于1954年6月7日去世（食用氰化物泡过的苹果中毒）， 勘验确定他的死亡是自杀。 英国女王伊丽莎白二世在2013年追授特赦。</p>
-<p>阿兰·麦席森·图灵是一名世界级的长跑运动员。他的马拉松最好成绩是2小时46分3秒，比1948年奥林匹克运动会金牌成绩慢11分钟。1948年的一次跨国赛跑比赛中，他跑赢了同年奥运会银牌得主汤姆·理查兹（Tom Richards）。</p>
-</blockquote>
-<h2 id="图灵测试">图灵测试</h2><blockquote>
-<p>如果一台机器能够与人类展开对话（通过电传设备）而不能被辨别出其机器身份，那么称这台机器具有智能。</p>
-</blockquote>
-<p>这也是《机械姬》这部电影讨论的核心所在。善良单纯的天才程序员被大Boss天才坑蒙拐骗参加设计的图灵测试，机器人ava通过利用程序员的同情心（程序员多么可怜），诱骗他完成了逃离实验基地的任务。最终是否通过测试不是由程序员判断的，而是由机器人能否骗到程序员决定的。多么精巧的设计！一个高智商的程序员，明知道很有可能被骗，但还是被骗了，这无疑是真正的人工智能。</p>
-<p>最后实验失控，大Boss被AI杀死（预示着人类要灭亡么？），AI进入到人群之中。</p>
-<p>这是一部好电影，但这篇文章不是一篇影评，就不赘述电影的细节了。</p>
-<h2 id="图灵停机问题">图灵停机问题</h2><p>突然想起来本科离散数学提到的一个很有意思的问题，图灵停机问题（The Halting Problem））。描述如下：</p>
-<blockquote>
-<p>不存在这样一个程序（算法），它能够计算任何程序（算法）在给定输入上是否会结束（停机）。</p>
-</blockquote>
-<p>精妙的是这个问题的证明过程。通过反证法可以证明这个命题。</p>
-<p>假设我们某一天真做出了这么一个极度聪明的万能算法（就叫God_algo吧），你只要给它一段程序（二进制描述），再给它这段程序的输入，它就能告诉你这段程序在这个输入上会不会结束（停机），我们来编写一下我们的这个算法吧：</p>
-<pre><code>bool God_algo(<span class="keyword">char</span>* <span class="keyword">program</span>, <span class="keyword">char</span>* <span class="keyword">input</span>)
-{
-    <span class="keyword">if</span>(&lt;<span class="keyword">program</span>&gt; halts <span class="keyword">on</span> &lt;<span class="keyword">input</span>&gt;)
-        <span class="keyword">return</span> true;
-    <span class="keyword">return</span> false;
-}
-</code></pre><p>这里我们假设if的判断语句里面是你天才思考的结晶，它能够像上帝一样洞察一切程序的宿命。现在，我们从这个God_algo出发导出一个新的算法：</p>
-<pre><code><span class="function"><span class="keyword">bool</span> <span class="title">Satan_algo</span><span class="params">(<span class="keyword">char</span>* program)</span>
-</span>{
-    <span class="keyword">if</span>( God_algo(program, program) )
-    {
-           <span class="keyword">while</span>(<span class="number">1</span>);        <span class="comment">// loop forever!</span>
-           <span class="keyword">return</span> <span class="keyword">false</span>;   <span class="comment">// can never get here!</span>
-    }
-    <span class="keyword">else</span>
-       <span class="keyword">return</span> <span class="keyword">true</span>;
-}
-</code></pre><p>正如它的名字所暗示的那样，这个算法便是一切邪恶的根源了。当我们把这个算法运用到它自身身上时，会发生什么呢？</p>
-<pre><code>Satan_algo<span class="list">(<span class="keyword">Satan_algo</span>)</span><span class="comment">;</span>
-</code></pre><p>我们来分析一下这行简单的调用：</p>
-<ol>
-<li><p>Satan_algo(Satan_algo)这个调用要么能够运行结束返回（停机），要么不能返回（loop forever）。</p>
-</li>
-<li><p>如果它能够结束，那么Santa_algo算法里面的那个if判断就会成立（因为God_algo(Santa_algo,Santa_algo)将会返回true），从而程序便进入那个包含一个无穷循环while(1);的if分支，于是这个Satan_algo(Satan_algo)调用便永远不会返回（结束）了。</p>
-</li>
-<li><p>如果不能结束（停机），则if判断就会失败，从而选择另一个if分支并返回true，即Satan_algo(Satan_algo)又能够返回（停机）。</p>
-</li>
-</ol>
-<p>总之，我们有：</p>
-<p>Satan_algo(Satan_algo)能够停机=&gt; 它不能停机</p>
-<p>Satan_algo(Satan_algo)不能停机=&gt; 它能够停机</p>
-<p>所以它停也不是，不停也不是，左右矛盾。</p>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
       
 
       
@@ -3419,7 +3481,7 @@ typename C::const_iterator iter(container.begin())
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">46</span>
+              <span class="site-state-item-count">50</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -3433,7 +3495,7 @@ typename C::const_iterator iter(container.begin())
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

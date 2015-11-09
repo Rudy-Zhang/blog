@@ -1,0 +1,1086 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+
+
+
+
+  <meta name="keywords" content="C++," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?Rudy-Zhang";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  <title> C++基础 // Rudy's Blog </title>
+</head>
+
+<body>
+<!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">Rudy's Blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+
+  <ul id="menu" class="menu">
+     
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-categories">
+        <a href="/categories">
+          <i class="menu-item-icon icon-categories"></i> <br />
+          分类
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              C++基础
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-10-14
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/找工作总结/">找工作总结</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/10/14/找工作总结-C++基础/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/14/找工作总结-C++基础/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <h2 id="static">static</h2><p>static变量存储在静态数据区<br>相对于function：在函数内，变量，内存只被分配一次，多次调用值相同<br>相对于其他模块（.c文件）：变量和函数，不能被模块外其他函数访问(private)<br>相对于类：类中的static变量和函数属于整个类，而不是对象</p>
+<p><strong>全局变量 VS 全局静态变量</strong><br>若程序由一个源文件构成时，全局变量与全局静态变量没有区别。<br>若程序由多个源文件构成时，全局变量与全局静态变量不同：全局静态变量使得该变量成为定义该变量的源文件所独享，即：全局静态变量对组成该程序的其它源文件是无效的。(private)</p>
+<h2 id="new,delete,malloc,free">new,delete,malloc,free</h2><p>malloc与free是C++/C语言的<strong>标准库函数</strong>，new/delete是C++的<strong>运算符</strong>。它们都可用于申请动态内存和释放内存<br>new和delete对应，new调用构造函数，delete会调用析构函数。<br>new在实现上调用了malloc函数。new出来的指针是直接<strong>带类型</strong>信息的。而malloc返回的都是<code>void*</code>指针。new delete在实现上其实调用了malloc,free函数。</p>
+<p><strong>delete VS delete []</strong><br>delete只会调用一次析构函数，而delete[]会调用每一个成员的析构函数</p>
+<p><strong>malloc,calloc,realloc,free</strong><br>四个函数都被包含在stdlib.h函数库内。回值都是请求系统分配的地址,如果请求失败就返回NULL </p>
+<pre><code><span class="keyword">void</span>* realloc(<span class="keyword">void</span>* ptr, <span class="keyword">unsigned</span> newsize); 
+</code></pre><p>realloc是给一个已经分配了地址的指针重新分配空间,参数ptr为原有的空间地址,newsize是重新申请的地址长度。并把原来大小内存空间中的内容复制到newsize中。realloc 不能保证重新分配后的内存空间和原来的内存空间指在同一内存地址, 它返回的指针很可能指向一个新的地址。</p>
+<pre><code><span class="keyword">void</span>* <span class="built_in">malloc</span>(<span class="keyword">unsigned</span> size);` 
+</code></pre><p>在内存的动态存储区中分配一块长度为”size”字节的连续区域，返回该区域的首地址</p>
+<pre><code><span class="keyword">void</span>* <span class="built_in">calloc</span>(<span class="keyword">size_t</span> nelem, <span class="keyword">size_t</span> elsize);` 
+</code></pre><p>calloc调用形式为(类型*)calloc(n，size)：在内存的动态存储区中分配n块长度为”size”字节的连续区域，返回首地址。</p>
+<pre><code>free<span class="list">(<span class="keyword">q</span>)</span><span class="comment">; </span>
+</code></pre><p>其中q为已经分配的块；</p>
+<h2 id="引用">引用</h2><p>引用就是某个目标变量的<strong>别名</strong>(alias)，对应用的操作与对变量直接操作效果完全相同。在内存中并没有产生实参的副本使用指针作为函数的参数虽然也能达到与使用引用的效果，但是，在被调函数中同样要给形参分配存储单元(值传递)，且需要重复使用”*指针变量名”的形式进行运算，这很容易产生错误且程序的阅读性较差；</p>
+<p><strong>引用VS指针</strong><br>1) 引用必须被初始化，指针不必。<br>2) 引用初始化以后不能被改变指向的对象，指针可以改变所指的对象。<br>3) 不存在指向空值的引用，但是存在指向空值的指针。</p>
+<p>备注：引用时C++的特性，C中没有，引用是通过指针来实现的，对传递做了一些限制，但是对程序员是透明的。引用的目的，将 &amp; 从调用者移到了被调用者处。</p>
+<h2 id="结构体">结构体</h2><p>结构体：struct ，是由一系列相同类型或不同类型的数据构成数据的集合，也叫结构。其最主要的作用就是封装。<br>联合体：union，几个不同的变量存放在同一块内存区域中。也就是使用覆盖技术，几个变量互相覆盖。同一时刻只能使用一种变量。</p>
+<p><strong>struct VS class</strong><br>默认的继承访问权限，struct是public的，class是private的。其他没有区别。</p>
+<p><strong>数据对齐</strong></p>
+<h2 id="cosnt">cosnt</h2><ol>
+<li><p>定义常量：const修饰的类型为TYPE的变量value是不可变的。必须初始化<br>const TYPE ValueName = value;</p>
+</li>
+<li><p>指针使用CONST<br>(1)在*之前：指针所指向的内容是常量不可变 </p>
+<pre><code><span class="keyword">const</span> (<span class="keyword">char</span>) *pContent;
+(<span class="keyword">char</span>) <span class="keyword">const</span> *pContent;
+</code></pre><p>(2)在*之后：指针本身是常量不可变</p>
+<pre><code>(<span class="keyword">char</span>*) <span class="keyword">const</span> pContent; 
+</code></pre></li>
+<li><p>函数相关使用CONST<br>(1)const修饰函数参数:修饰的参数在函数内不可以改变</p>
+<pre><code>void <span class="function"><span class="keyword">function</span><span class="params">(<span class="keyword">const</span> int <span class="keyword">Var</span>)</span>;</span>
+</code></pre><p>(2)const 修饰函数返回值:返回值是一个常量</p>
+<pre><code>const int <span class="function"><span class="title">fun1</span><span class="params">()</span></span>
+int const <span class="function"><span class="title">fun1</span><span class="params">()</span></span>
+</code></pre><p>(3)const修饰成员函数:函数不能修改任何成员变量，不能调用非const成员函数</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">A</span>
+    </span>{ 
+        …
+       <span class="keyword">void</span> <span class="function"><span class="keyword">function</span><span class="params">()</span><span class="title">const</span></span>; 
+<span class="comment">//1. 常成员函数, 它不改变对象的成员变量（除了static的），也不能调用类中任何非const成员函数。</span>
+<span class="comment">//2. const类对象只能调用其const成员函数</span>
+<span class="comment">//3. 对于在类外定义的成员函数，必须在成员函数的定义和声明中都指定关键字const，不然将被视为重载</span>
+}
+</code></pre></li>
+</ol>
+<p><strong>const VS #define</strong><br>const 常量有数据类型，编译器可以对前者进行类型安全检查<br>而宏常量是别名，没有数据类型，没有类型安全检查</p>
+<p><strong>typedef, #define</strong><br>一种类型的别名，有类型检查而不只是简单的宏替换。可以做类型，数组，函数的类型替换。</p>
+<h1 id="define是宏，只做简单的宏替换，没有类型检查">define是宏，只做简单的宏替换，没有类型检查</h1><h2 id="数组与指针">数组与指针</h2><p>数组名对应着（而不是指向）<strong>一块内存</strong>，其地址与<strong>容量在生命期内保持不变</strong>，只有数组的内容可以改变。<br>指针可以随时指向任意类型的内存块，它的特征是“可变”，所以我们常用指针来操作动态内存。指针远比数组灵活，但也更危险。<br>sizeof可以计算出数组的容量，对指针操作得到的是一个指针变量的字节数。<br>当数组名作为参数传入时，实际上数组就退化成指针了。</p>
+<h2 id="隐式类型转换">隐式类型转换</h2><p>隐式类型转换分三种，即算术转换、赋值转换和输出转换。</p>
+<ul>
+<li>算术转换<br>1、为防止精度损失，如果必要的话，类型总是被提升为较宽的类型。<br>2、所有含有小于整形的有序类型的算术表达式在计算之前其类型都会被转换成整形。</li>
+<li>赋值转换<br>进行赋值操作时，赋值运算符右边的数据类型必须转换成赋值号左边的类型，若右边的数据类型的长度大于左边，则要进行截断或舍入操作。</li>
+<li>输出转换<br>要输出的数据类型与输出格式不符时，便自动进行类型转换</li>
+</ul>
+<h2 id="sizeof与strlen">sizeof与strlen</h2><p>sizeof是算符(类似宏定义的特殊关键字)，strlen是函数。<br>sizeof操作符的结果类型是size_t,其值在编译时即计算好了，参数可以是数组、指针、类型、对象、函数等。它的功能是：获得保证能容纳实现所建立的最大对象的<strong>字节大小</strong>。<br>具体而言，当参数分别如下时，sizeof返回的值表示的含义如下：<br>    数组——编译时分配的数组空间大小；<br>    指针——存储该指针所用的空间大小（存储该指针的地址的长度，是长整型，应该为4）；<br>    类型——该类型所占的空间大小；<br>    对象——对象的实际占用空间大小；<br>    函数——函数的返回类型所占的空间大小。函数的返回类型不能是void。<br>strlen的功能是：返回字符串的长度。该函数实际完成的功能是从代表该字符串的第一个地址开始遍历，直到遇到结束符NULL。</p>
+<h2 id="多态，虚表">多态，虚表</h2><p>多态是怎么实现的？<br>多态，简而言之就是用父类型别的指针指向其子类的实例，然后通过<strong>父类的指针调用实际子类的成员函数</strong>。<br>每个有虚函数的类（不是对象）都有一个虚表，父类的虚表，子类的虚表，虚表里面存储的是一个个指向函数的指针，父类的虚表存储父类的虚函数，在子类中，如果没有覆盖（override）父类的虚函数，虚表不变，如果覆盖了，那虚表更新，指向当前类中的函数。<br>每个含有虚函数的对象都有一个<strong>虚函数指针</strong>，这个指针指向该类的虚表<br>过程：当通过父类指针找到对象的时候，（判断）如果是虚函数，则是通过（子类的，通过this指针指向虚指针）虚指针找到虚表（子类虚表），再通过虚表对应项找到函数地址入口，这就是动态绑定，而不是在编译时候就决定了入口地址的静态绑定！<br>虚函数存在哪？<br>虚函数表vtable在Linux/Unix中存放在可执行文件的只读数据段中(rodata)，微软的编译器将虚函数表存放在常量段</p>
+<p><strong>静态联编VS动态联编</strong><br>联编是指一个计算机程序的不同部分彼此关联的过程。决定程序中谁调用谁，在<strong>运行的过程决定</strong>。如多态。<br>静态联编：是指联编工作在<strong>编译阶段</strong>完成的，在程序运行之前完成的，运行的时候就已经确定了。</p>
+<h2 id="C++程序内存分布">C++程序内存分布</h2><p>一个由c/C++编译的程序占用的内存分为以下几个部分<br>1、栈区（stack）— 由编译器自动分配释放，存放函数的参数值，局部变量的值等。其操作方式<strong>类似于数据结构中的栈</strong>。<br>2、堆区（heap） — 一般由程序员分配释放，若程序员不释放，程序结束时可能由OS回收。注意它与数据结构中的堆是两回事，分配方式类<strong>似于链表</strong>。<br>3、全局区（静态区）（static）—，全局变量和静态变量的存储是放在一块的，初始化的全局变量和静态变量在一块区域， 未初始化的全局变量和未初始化的静态变量在相邻的另一块区域。程序结束后由系统释放 。<br>4、文字常量区—常量字符串就是放在这里的。 程序结束后由系统释放。<br>5、程序代码区—存放函数体的二进制代码。</p>
+<p>├———————┤低地址<br>│ 代码区<br>├———————┤<br>│ 文字常量区<br>├———————┤<br>│ 全局数据区 │<br>├———————┤<br>│ 堆 │<br>├———————┤<br>│ 栈 │<br>├———————┤高地址</p>
+<p>堆从低地址向高地址扩展<br>栈从高地址向低地址扩展</p>
+<h2 id="C++变量初始化规则">C++变量初始化规则</h2><ul>
+<li>内置类型</li>
+</ul>
+<p>全局变量————&gt;全局区<br>有初始值，data段<br>无初始值，bss段，不占用内存空间，在运行的时候被编译器自动初始化为0</p>
+<p>局部变量（函数内）——-&gt;栈区<br>无初始值，随机</p>
+<p>总结：<br>放在静态数据区的（全局的）变量编译器会初始化，在栈里面的（局部）变量不会初始化。</p>
+<ul>
+<li>自建类型struct class<br>A a;放在栈,全局区里<br>A *a=new A();放在堆里</li>
+</ul>
+<p>总结：</p>
+<ol>
+<li>new出来的变量放在堆里，直接声明（如A a）根据声明位置放在全局区，栈里</li>
+<li>放在静态数据区的（全局的）变量编译器会初始化，在栈里面的（局部）变量不会初始化</li>
+</ol>
+<h2 id="ptr++">ptr++</h2><p>如果是<code>int *ptr</code>；<code>ptr++</code>等价于<code>ptr+1*sizeof(int)</code>;<br>所以每次加1都能够指向相邻的下一个元素。<br>sizeof（ptr）也就是指针本身的大小永远都是4字节，所以ptr是一个4字节的值，这个值就是指向的内容的地址<br>ptr指的是字节的序号（但是）<br>ptr2-ptr1会被翻译成（ptr2-ptr1）/sizeof(int)这对程序员是透明的，便于操作数组</p>
+<h2 id="内联函数">内联函数</h2><p>内联函数，是向编译器发出的请求，编译阶段把函数内容替换到代码中去，有类型检查<br>宏定义，编译预处理阶段，简单的替代，没有类型检查<br>内联函数：本质是用程序代码的空间换取程序调用的时间，适合在一个大项目里，有一个小函数（简单几行，没有循环语句，循环语句使得调用开销相对变小）不断被重复调用<br>内联函数使用：声明（不需要），定义（inline）</p>
+<h2 id="C++中一个class类或者对象占用多少内字节">C++中一个class类或者对象占用多少内字节</h2><p>非静态成员变量总合。<br>加上编译器为了CPU计算，作出的数据对齐处理。<br>加上为了支持虚函数，产生的额外负担。</p>
+<ol>
+<li>sizeof(class)和他声明的对象obj,sizeof(obj)是一样大的</li>
+<li>空类sizeof(class)=1,编译器就会给空类创建一个隐含的一个字节的空间。</li>
+<li>非静态变量+数据对齐。静态变量不存在这里。</li>
+<li>如果有虚函数，加4字节，指向虚表的指针，虚表也不存在这里</li>
+<li>函数，虚表，静态变量，都是属于这个类的，存在静态存储区，也不占类空间</li>
+</ol>
+<h2 id="指针">指针</h2><p><strong>指针函数与函数指针</strong><br>指针函数（函数返回指针）：是指带指针的函数，本质是函数，返回值是某一类型的指针<br>函数指针：指向函数的指针变量</p>
+<pre><code>int (<span class="keyword">*</span>f) (int x); /<span class="keyword">*</span> 声明一个函数指针 <span class="keyword">*</span>/
+f=func; /<span class="keyword">*</span> 将func函数的首地址赋给指针f <span class="keyword">*</span>/
+</code></pre><p><strong>指针数组，数组指针</strong><br>指针数组：一个数组，里面都是指针，<code>int *a[10]</code><br>数组指针：一个指针，指向一个数组，<code>int (*a)[10]</code><br>[]结合的优先级高于a</p>
+<p><strong>指针常量与常量指针</strong></p>
+<pre><code><span class="keyword">int</span> <span class="keyword">const</span> *p1 = &amp;b;<span class="comment">//const 在前，定义为常量指针  （常量的指针）</span>
+<span class="keyword">int</span> *<span class="keyword">const</span> p2 = &amp;c;<span class="comment">//*在前，定义为指针常量   （指针指向常量）</span>
+</code></pre><p><code>***a</code></p>
+<pre><code><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span>(a+1)
+<span class="keyword">*</span><span class="keyword">*</span>(<span class="keyword">*</span>a+1)
+<span class="keyword">*</span>(<span class="keyword">*</span><span class="keyword">*</span>a+1)
+<span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span>a+1
+</code></pre><p>越在上面，增加的维度越高</p>
+<h2 id="句柄VS指针">句柄VS指针</h2><p>从广义上，能够从一个数值拎起一大堆数据的东西都可以叫做句柄。Windows系统中有许多内核对象，比如打开的文件，创建的线程，程序的窗口，等等，这些对象往往很大，而且还经常变化。<br>那么怎么在程序间或程序内部的子过程（函数）之间传递这些数据呢？<br>在进程的地址空间中设一张表（句柄即编号-&gt;实际地址的映射），表里头专门保存一些编号和由这个编号对应一个地址，而由那个地址去引用实际的对象，这个编号跟那个地址在数值上没有任何规律性的联系，纯粹是个映射而已。<br>句柄作用：<strong>作为一个索引在一个表中查找对应的内核对象的实际地址</strong>。是指向指针的指针，但是不能对它做不安全的操作。windows用句柄操作系统资源（对象），隐藏了系统具体的信息。指针则直接记录了物理内存地址。</p>
+<h2 id="以对象管理资源">以对象管理资源</h2><p><strong>auto_ptr</strong><br>在C++的程序中Obj *ptr=new Obj(),需要delete ptr去释放这个ptr指向的内存。C++提供一种方法，可以不用delete就可以在函数结束的时候自动释放内存。(Effective C++ 条款13，以对象管理资源)<br>auto_ptr是一个模板类，这个类型的对象内部的析构函数完成对堆内存的释放，所以不要对这个对象的内存进行delete了。</p>
+<pre><code><span class="comment">//demo for manager heap memory by auto_ptr.</span>
+<span class="built_in">auto_ptr</span>&lt;<span class="keyword">int</span>&gt; pInt(<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">0</span>));
+*pInt = <span class="number">2</span>;
+<span class="built_in">cout</span>&lt;&lt;*pInt&lt;&lt;endl;
+
+<span class="comment">//demo for manager heap memory by hand.</span>
+<span class="keyword">int</span> *pInt2 = <span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">2</span>);
+<span class="built_in">cout</span>&lt;&lt;*pInt2&lt;&lt;endl;
+<span class="keyword">delete</span> pInt2
+</code></pre><p>其实<code>auto_ptr</code>是一个类，包装指针，并且重载了反引用(dereference)运算符<code>operator *</code>和成员选择运算符<code>operator -&gt;</code>，以模仿指针的行为。</p>
+<p><strong>shared_ptr</strong><br>的作用有如同指针，但会记录有多少个shared_ptrs共同指向一个对象。这便是所谓的引用计数（reference counting）。一旦最后一个这样的指针被销毁，也就是一旦某个对象的引用计数变为0，这个对象会被自动删除。这在非环形数据结构中防止资源泄露很有帮助。<br>auto_ptr没有考虑引用计数，因此一个对象只能由一个auto_ptr所拥有，在给其他auto_ptr赋值的时候，会转移这种拥有关系。</p>
+<h2 id="this指针">this指针</h2><ol>
+<li>this不占class或者对象的空间</li>
+<li>this在成员函数调用前构造，在成员函数结束时消失。</li>
+<li>this的作用是在调用成员函数的时候把对象传进去</li>
+</ol>
+<pre><code>A a;
+a.foo(<span class="number">10</span>);
+===被编译器翻译为===&gt;
+A::foo(&amp;a,10)
+那么foo的原型
+foo(<span class="keyword">int</span> p)
+===被编译器翻译为===&gt;
+foo(A * <span class="keyword">const</span> <span class="keyword">this</span>，<span class="keyword">int</span> p)
+所以在成员函数定义的时候可以写，<span class="keyword">this</span>-&gt;pram=XXX;
+</code></pre><h2 id="C++程序编译过程">C++程序编译过程</h2><ol>
+<li>预处理器cpp<br>预处理器cpp将对源文件中的宏进行展开，#define,#include</li>
+<li>编译器gcc/g++<br>编译器将文件编译成汇编文件</li>
+<li>汇编器as<br>汇编器将汇编文件编译成机器码</li>
+<li>链接器ld<br>将有关的目标文件彼此相连接，也即将在一个文件中引用的符号同该符号在另外一个文件中的定义连接起来，使得所有的这些目标文件成为一个能够诶操作系统装入执行的统一整体。</li>
+</ol>
+<h2 id="size_t">size_t</h2><ol>
+<li>为了使自己的程序有很好的移植性，c++程序员应该尽量使用size_t和size_type而不是int, unsigned</li>
+<li>size_t是全局定义的类型；size_type是STL类中定义的类型属性，用以保存任意string和vector类对象的长度</li>
+<li>size_t类型是通过typedef定义的一些无符号整型的别名，通常是unsigned int或unsigned long，甚至是unsigned long long。每种标准C的实现应该选择足够大的无符号整型，来代表目标平台可能的最大对象，但不能供过于求。<br>如果传入-1会变成4294967295，因为使用无符号整数表示</li>
+</ol>
+<h2 id="C++_运算符重载">C++ 运算符重载</h2><p>运算符重载的实质是<strong>函数重载</strong>。在实现过程中，首先把指定的运算表达式转化为对运算符函数的调用<br>在编译过程中：根据实参的类型把表达式转化为运算符函数，运算对象转化为运算符函数的实参<br>分为两种：</p>
+<ol>
+<li>运算符重载为成员函数（一般说来，单目运算符（+=）最好被重载为成员）<pre><code><span class="keyword">complex</span> <span class="keyword">operator</span>+(<span class="keyword">const</span> <span class="keyword">complex</span> &amp;c);
+</code></pre></li>
+<li>友元函数形式,C++ 中的string就是这样（一般说来，对双目运算符（+，-，*，/）最好被重载为友元函数）<pre><code><span class="keyword">friend</span> <span class="keyword">complex</span> <span class="keyword">operator</span> +(<span class="keyword">const</span> <span class="keyword">complex</span> &amp;c1, <span class="keyword">const</span> <span class="keyword">complex</span> &amp;c2);
+</code></pre><code>+，-，*，/</code>返回对象，<code>=</code>返回引用，返回值主要考虑的是连续运算<pre><code><span class="keyword">friend</span> ostream &amp; <span class="keyword">operator</span>&lt;&lt;(ostream &amp; os,<span class="keyword">const</span> MyString &amp;st);
+</code></pre>（单目与双目,是指操作数的数目）</li>
+</ol>
+<p><strong>友元</strong><br>友元定义在类外，友元可以访问类中的私有成员<br>好处，提高运行效率（在类外调用开销小），坏处，破坏封装性</p>
+<p><strong>参数处理顺序</strong></p>
+<ol>
+<li>Cout是对&lt;&lt;运算符的重载，返回的是cout这个ostream对象本身。&lt;&lt;连续使用时，返回的cout对象继续调用上面函数对下一个操作数进行输出，如此反复，直到该语句结束。因此，cout执行顺序是从左到右。</li>
+<li>编译器对函数实参的表达式处理顺序是从右向左。如<pre><code>void <span class="function"><span class="title">fun</span><span class="params">(int a, int b)</span></span>
+</code></pre>先处理b后处理a</li>
+</ol>
+<h2 id="#include"><code>#include</code></h2><p>C++中<code>#include</code>包含头文件带 .h 和不带 .h 的区别？<br>带 .h 的头文件是旧标准(c)的，如果想用新的标准(C++)的头文件就不要带 .h<br>C++增加了名称空间概念，借以将原来声明在全局空间下的标识符声明在了namespace std下。<br>为了和C语言兼容，C++标准化过程中，原有C语言头文件标准化后，头文件名前带个c字母，如cstdio、cstring、ctime、ctype等等。</p>
+<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;stdio.h&gt; --&gt; #<span class="keyword">include</span> &lt;cstdio&gt; </span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;stdlib.h&gt; --&gt; #<span class="keyword">include</span> &lt;cstdlib&gt; </span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;string.h&gt; --&gt; #<span class="keyword">include</span> &lt;cstring&gt;</span>
+</code></pre><h2 id="多重继承，虚继承">多重继承，虚继承</h2><p><strong>多重继承</strong><br>是从多于一个直接基类派生类的能力，多重继承的派生类继承其所有父类的属性。</p>
+<p><strong>虚拟继承</strong><br>是多重继承中特有的概念,是为解决多重继承的。在多重继承下，一个基类可以在派生层次中出现多次。virtual表明一种愿望，即在后序的派生类当中共享虚基类的同一份实例。<br>实例：istream，ostream，iostream<br>构造函数初始化方式<br>顺序和普通多重继承稍有区别，先初始化虚基类，然后依次初始化继承于虚基类的子类。</p>
+<h2 id="private_protect_public的可见性">private protect public的可见性</h2><p>访问：<br>(函数+友元函数)——子类函数———类对象<br>private: 只能由该类中的函数、其友元函数访问,不能被子类访问，该类的对象也不能访问.<br>protected: 可以被该类中的函数、子类的函数、以及其友元函数访问,但不能被该类的对象访问<br>public: 可以被该类中的函数、子类的函数、其友元函数访问,也可以由该类的对象访问<br>继承：（父类对子类的可见性由父类内访问说明符有关，继承方式影响的是子类生成的对象（或子类的子类）对于父类成员的可见性）<br>使用private继承,父类的所有方法在子类中变为private;<br>使用protected继承,父类的protected和public方法在子类中变为protected,private方法不变;<br>使用public继承,父类中的方法属性不发生改变，但是毕竟是两个类，不能访问private成员</p>
+<h2 id="抽象类，纯虚函数">抽象类，纯虚函数</h2><p>定义了纯虚函数的类成为抽象类，抽象类不能实例化。</p>
+<pre><code>virtual void <span class="function"><span class="title">fun</span><span class="params">()</span>=0;</span>
+</code></pre><h2 id="C++类型转换">C++类型转换</h2><p><strong>隐式类型转换</strong><br>算数转换，复制转换，传参数</p>
+<p><strong>显示类型转换</strong>，static_cast</p>
+<pre><code><span class="keyword">static_cast</span> &lt; type-id &gt; ( expression ) 
+</code></pre><p>作用1：编译器在编译期处理，在基类和派生类之间转换时使用，<strong>子类的类型提升到父类的类型</strong>。<br>作用2：static_cast<t>(expression) 用来<strong>强制类型转换</strong>，例如：</t></p>
+<pre><code><span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>&gt;(<span class="number">2.1</span>)
+</code></pre><p><strong>显示类型转换</strong>，dynamic_cast</p>
+<pre><code><span class="keyword">dynamic_cast</span> &lt; type-id &gt; ( expression )  RTTI的功能
+<span class="keyword">dynamic_cast</span>&lt;T&gt;(expression) 主要用来进行安全向下转型
+</code></pre><p>例如：只有基类可以使用，但是想调用子类的函数。如果可以，尝试使用多态来代替这种方法。</p>
+<h2 id="namepsace">namepsace</h2><p>指标识符的可见范围，C++标准库中的标识符都被定义到了std的namespace中<br>推荐用法 </p>
+<pre><code><span class="keyword">using</span> <span class="built_in">std</span>::<span class="built_in">cin</span>
+</code></pre><p><code>&lt;iostream.h&gt;</code>是旧标准，标识符是全局的<br><code>&lt;iosream&gt;</code>是遵循C++标准的，需要指定命名空间才能使用</p>
+<h2 id="C++默认产生的成员函数">C++默认产生的成员函数</h2><p><strong>构造函数，析构函数，拷贝构造函数，赋值函数</strong><br>构造函数：创建一个对象时，系统自动调用构造函数。<br>析构函数：在函数体内定义的对象，当函数执行结束时，该对象所在类的析构函数会被自动调用<br>拷贝构造函数：拷贝构造函数中只有一个参数，这个参数是对某个同类对象的引用。在三种情况下被调用：</p>
+<ol>
+<li>用类的一个已知的对象去初始化该类的另一个对象时。（初始化时用”Object A=B”，也可以用A(B)的形式。）</li>
+<li>函数的形参是类的对象，调用函数进行形参和实参的结合时。（定义一个函数A，A函数的形参是类的对象，在另外一个函数B中调用这个函数A，实参将具体的对象传递给形参，这时候会调用拷贝构造函数。）</li>
+<li>函数的返回值是类的对象，函数执行完返回调用者。（定义一个函数A，该函数的返回值是一个类的对象，在函数B中定义类的对象来接受函数A的返回，这个时候会调用拷贝构造函数。）</li>
+</ol>
+<p>赋值函数：赋值构造函数是将一个参数对象中私有成员赋给一个已经在内存中占据内存的对象的私有成员（赋值构造函数被赋值的对象必须已经在内存中，否则调用的将是拷贝构造函数）</p>
+<p><strong>深拷贝与浅拷贝</strong><br>所谓浅拷贝，指的是在对象复制时，只是对对象中的数据成员进行简单的赋值，上面的例子都是属于浅拷贝的情况，默认拷贝构造函数执行的也是浅拷贝。<br>在“深拷贝”的情况下，对于对象中动态成员，就不能仅仅简单地赋值了，而是重新动态分配空间。需要重写拷贝构造函数来实现。</p>
+<h2 id="形参与实参">形参与实参</h2><p>实参：调用时传递给函数的参数<br>形参：是在定义函数名和函数体的时候使用的参数,目的是用来接收调用该函数时传入的参数.在调用函数时，实参将赋值给形参。</p>
+<h2 id="小问题">小问题</h2><ul>
+<li>C++是不是类型安全的？<br>不是。两个不同类型的指针之间可以强制转换</li>
+<li>main 函数执行以前，还会执行什么代码？<br>全局对象(全局变量，全局静态变量)的构造函数会在main 函数之前执行。</li>
+<li>assert<br>assert宏的原型定义在<assert.h>中，其作用是如果它的条件返回错误，则终止程序执行 </assert.h></li>
+<li><code>#include&lt;a.h&gt;</code>和<code>#include&quot;a.h&quot;</code> 有什么区别？<br>对于#include <a.h> ,编译器从<strong>标准库路径开始搜索</strong><br>a.h对于#include “a.h” ,编译器从用户的<strong>工作路径开始搜索</strong> a.h（自己的）</a.h></li>
+<li>构造函数和析构函数能否声明为虚函数？<br>构造函数不能声明为虚函数，析构函数可以声明为虚函数，而且有时是必须声明为虚函数。<br>构造函数的调用时从上到下的，如果在构造函数中调用或者构造函数本身就是虚函数那么，子类的对象还没有构造完成就调用会出错析构函数不一样，析构函数常常需要通过多态来调用合适的函数来析构指针指向的对象。</li>
+</ul>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/"> #C++ </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/10/14/找工作总结-C++STL/">C++ STL</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/13/找工作总结-多线程同步/">多线程同步</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2015/10/14/找工作总结-C++基础/"
+               data-title="C++基础" data-url="http://rudy-zhang.me/2015/10/14/找工作总结-C++基础/">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="https://avatars0.githubusercontent.com/u/9674774" alt="Rudy Zhang" />
+          <p class="site-author-name">Rudy Zhang</p>
+        </div>
+        <p class="site-description motion-element"></p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">50</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://github.com/Rudy-Zhang" target="_blank">github</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://www.zhihu.com/people/rudy-zhang-93" target="_blank">zhihu</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#static"><span class="nav-number">1.</span> <span class="nav-text">static</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#new,delete,malloc,free"><span class="nav-number">2.</span> <span class="nav-text">new,delete,malloc,free</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">3.</span> <span class="nav-text">引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构体"><span class="nav-number">4.</span> <span class="nav-text">结构体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cosnt"><span class="nav-number">5.</span> <span class="nav-text">cosnt</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#define是宏，只做简单的宏替换，没有类型检查"><span class="nav-number"></span> <span class="nav-text">define是宏，只做简单的宏替换，没有类型检查</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数组与指针"><span class="nav-number">1.</span> <span class="nav-text">数组与指针</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#隐式类型转换"><span class="nav-number">2.</span> <span class="nav-text">隐式类型转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sizeof与strlen"><span class="nav-number">3.</span> <span class="nav-text">sizeof与strlen</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多态，虚表"><span class="nav-number">4.</span> <span class="nav-text">多态，虚表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C++程序内存分布"><span class="nav-number">5.</span> <span class="nav-text">C++程序内存分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C++变量初始化规则"><span class="nav-number">6.</span> <span class="nav-text">C++变量初始化规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ptr++"><span class="nav-number">7.</span> <span class="nav-text">ptr++</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内联函数"><span class="nav-number">8.</span> <span class="nav-text">内联函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C++中一个class类或者对象占用多少内字节"><span class="nav-number">9.</span> <span class="nav-text">C++中一个class类或者对象占用多少内字节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指针"><span class="nav-number">10.</span> <span class="nav-text">指针</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#句柄VS指针"><span class="nav-number">11.</span> <span class="nav-text">句柄VS指针</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以对象管理资源"><span class="nav-number">12.</span> <span class="nav-text">以对象管理资源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#this指针"><span class="nav-number">13.</span> <span class="nav-text">this指针</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C++程序编译过程"><span class="nav-number">14.</span> <span class="nav-text">C++程序编译过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#size_t"><span class="nav-number">15.</span> <span class="nav-text">size_t</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C++_运算符重载"><span class="nav-number">16.</span> <span class="nav-text">C++ 运算符重载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="##include"><span class="nav-number">17.</span> <span class="nav-text">#include</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多重继承，虚继承"><span class="nav-number">18.</span> <span class="nav-text">多重继承，虚继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#private_protect_public的可见性"><span class="nav-number">19.</span> <span class="nav-text">private protect public的可见性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象类，纯虚函数"><span class="nav-number">20.</span> <span class="nav-text">抽象类，纯虚函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C++类型转换"><span class="nav-number">21.</span> <span class="nav-text">C++类型转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#namepsace"><span class="nav-number">22.</span> <span class="nav-text">namepsace</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C++默认产生的成员函数"><span class="nav-number">23.</span> <span class="nav-text">C++默认产生的成员函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#形参与实参"><span class="nav-number">24.</span> <span class="nav-text">形参与实参</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小问题"><span class="nav-number">25.</span> <span class="nav-text">小问题</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">Rudy Zhang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.content img').each(function () {
+        var $image = $(this);
+        var $imageWrapLink = $image.parent('a');
+
+        if ($imageWrapLink.size() < 1) {
+          $imageWrapLink = $image.wrap('<a href="' + this.getAttribute('src') + '"></a>').parent('a');
+        }
+        $imageWrapLink.addClass('fancybox');
+      });
+    });
+    $('.fancybox').fancybox({
+      helpers: {
+        overlay: {
+          locked: false
+        }
+      }
+    });
+  </script>
+
+
+  <script type="text/javascript">
+  function hasMobileUA () {
+    var nav = window.navigator;
+    var ua = nav.userAgent;
+    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
+
+    return pa.test(ua);
+  }
+
+  function isDesktop () {
+    return screen.width > 991 && !hasMobileUA();
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767 && hasMobileUA();
+  }
+
+  function isMobile () {
+    return screen.width < 767 && hasMobileUA();
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+
+  function displaySidebar () {
+    setTimeout(function () {
+      $('.sidebar-toggle').trigger('click');
+    }, 800);
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    LogoAndMenuMotion();
+    sidebarToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.isShowing', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.isHiding', function () {});
+
+    function LogoAndMenuMotion() {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        
+        { e: $('.logo-line-before i'), p: { translateX: "100%" }, o: { duration: 500, sequenceQueue: false } },
+        { e: $('.logo-line-after i'), p: { translateX: "-100%" }, o: { duration: 500, sequenceQueue: false } },
+        
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200 } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    }
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, {
+        display: 'block',
+        duration: SIDEBAR_DISPLAY_DURATION,
+        complete: function () {
+          sidebar.addClass('sidebar-active');
+          sidebar.trigger('sidebar.didShow');
+        }
+      });
+      sidebar.trigger('sidebar.isShowing');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.removeClass('sidebar-active');
+      sidebar.trigger('sidebar.isHiding');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      var postMotionOptions = window.postMotionOptions || {stagger: 300, drag: true};
+      $('.post').velocity('transition.slideDownIn', postMotionOptions);
+    }
+
+    function sidebarToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      if (isDesktop() && HEXO_SIDEBAR_CONFIGURATION === 'post') {
+        displaySidebar();
+      }
+    });
+  </script>
+
+
+
+
+  <script type="text/javascript">
+    var HEXO_SIDEBAR_CONFIGURATION = 'always';
+    $(document).ready(function () {
+      if (HEXO_SIDEBAR_CONFIGURATION === 'always') {
+        displaySidebar();
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"rudy-zhang"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  
+</body>
+</html>

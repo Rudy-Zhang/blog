@@ -257,8 +257,33 @@
         }
     }
 };
-</code></pre><h3 id="剑指offer_53_正则表达式匹配">剑指offer 53 正则表达式匹配</h3><h4 id="问题描述-2">问题描述</h4><p>请实现一个函数用来匹配包括’.’和<code>&#39;*&#39;</code>的正则表达式。模式中的字符’.’表示任意一个字符，而<code>&#39;*&#39;</code>表示它前面的字符可以出现任意次（包含0次）。 在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串”aaa”与模式”a.a”和<code>&quot;ab*ac*a&quot;</code>匹配，但是与”aa.a”和<code>&quot;ab*a&quot;</code>均不匹配</p>
-<h4 id="解法-2">解法</h4><p>考虑<code>bool match(char* str, char* pattern)</code><br>因为str中可能出现_*这种形式，所以每次需要扫描pattern的后一个元素。讨论以下几种情况：</p>
+</code></pre><h2 id="子集问题">子集问题</h2><h3 id="Leetcode_78_Subset">Leetcode 78 Subset</h3><h4 id="问题描述-2">问题描述</h4><p>给定一个集合，生成这个集合的所有子集</p>
+<h4 id="解法-2">解法</h4><p>遍历数组中的元素，每个元素有出现和不出现两种情况，然后递归考虑后一个元素。</p>
+<h4 id="代码-2">代码</h4><pre><code>class <span class="type">Solution</span> {
+public:
+    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; subsets(vector&lt;<span class="type">int</span>&gt;&amp; nums) {
+        sort(nums.begin(), nums.<span class="keyword">end</span>());
+        vector&lt;<span class="type">int</span>&gt; vec;
+        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="literal">result</span>;
+        genSubset(vec, <span class="literal">result</span>, <span class="number">0</span>, nums);
+        <span class="keyword">return</span> <span class="literal">result</span>;
+    }
+
+    <span class="type">void</span> genSubset(vector&lt;<span class="type">int</span>&gt;&amp; vec, vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; <span class="literal">result</span>, <span class="type">int</span> index, vector&lt;<span class="type">int</span>&gt; nums)
+    {
+        <span class="literal">result</span>.push_back(vec);
+        <span class="keyword">for</span>(<span class="type">int</span> i = index; i &lt; nums.size(); i++)
+        {
+            vec.push_back(nums[i]);
+            genSubset(vec, <span class="literal">result</span>, i + <span class="number">1</span>, nums);
+            vec.pop_back();
+        }
+    }
+};
+</code></pre><h3 id="拓展：子集和问题">拓展：子集和问题</h3><h4 id="问题描述-3">问题描述</h4><p>子集和问题的一个实例为〈S,t〉。其中，S={ 1 x ， 2 x ，…， n x }是一个正整数的集合，c是一个正整数。子集和问题判定是否存在S的一个子集S1，使得 S1中的所有元素之和等于c。<br>试设计一个解子集和问题的回溯法。</p>
+<h4 id="解法-3">解法</h4><p>使用暴力解法，任何一个数字在最终的结果中都有出现和不出现两种情况所以复杂度是(2^n)方，需要在不断遍历结果过程中对结果进行剪枝。<br>可以构造所有子集，每次进入的时候判断是否满足条件。</p>
+<h3 id="剑指offer_53_正则表达式匹配">剑指offer 53 正则表达式匹配</h3><h4 id="问题描述-4">问题描述</h4><p>请实现一个函数用来匹配包括’.’和<code>&#39;*&#39;</code>的正则表达式。模式中的字符’.’表示任意一个字符，而<code>&#39;*&#39;</code>表示它前面的字符可以出现任意次（包含0次）。 在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串”aaa”与模式”a.a”和<code>&quot;ab*ac*a&quot;</code>匹配，但是与”aa.a”和<code>&quot;ab*a&quot;</code>均不匹配</p>
+<h4 id="解法-4">解法</h4><p>考虑<code>bool match(char* str, char* pattern)</code><br>因为str中可能出现_*这种形式，所以每次需要扫描pattern的后一个元素。讨论以下几种情况：</p>
 <ul>
 <li><p><code>_*</code></p>
 <ul>
@@ -276,7 +301,7 @@
 <li><code>*str == *p</code> -&gt; str+1, p+1</li>
 <li><code>*p == &#39;.&#39;</code> -&gt; str+1, p+1</li>
 </ul>
-<h4 id="代码-2">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<h4 id="代码-3">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
 <span class="keyword">public</span>:
     bool match(<span class="keyword">char</span>* <span class="keyword">str</span>, <span class="keyword">char</span>* pattern)
     {
@@ -389,7 +414,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">46</span>
+              <span class="site-state-item-count">50</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -403,7 +428,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -437,7 +462,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#剑指offer11_数值的整数次方"><span class="nav-number">1.</span> <span class="nav-text">剑指offer11 数值的整数次方</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述"><span class="nav-number">1.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解法"><span class="nav-number">1.2.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意点"><span class="nav-number">1.3.</span> <span class="nav-text">注意点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-number">1.4.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全排列问题（剑指offer_28_字符串的全排列）"><span class="nav-number">2.</span> <span class="nav-text">全排列问题（剑指offer 28 字符串的全排列）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述-1"><span class="nav-number">2.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解法-1"><span class="nav-number">2.2.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意点-1"><span class="nav-number">2.3.</span> <span class="nav-text">注意点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码-1"><span class="nav-number">2.4.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#剑指offer_53_正则表达式匹配"><span class="nav-number">3.</span> <span class="nav-text">剑指offer 53 正则表达式匹配</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述-2"><span class="nav-number">3.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解法-2"><span class="nav-number">3.2.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码-2"><span class="nav-number">3.3.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#剑指offer11_数值的整数次方"><span class="nav-number">1.</span> <span class="nav-text">剑指offer11 数值的整数次方</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述"><span class="nav-number">1.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解法"><span class="nav-number">1.2.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意点"><span class="nav-number">1.3.</span> <span class="nav-text">注意点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-number">1.4.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全排列问题（剑指offer_28_字符串的全排列）"><span class="nav-number">2.</span> <span class="nav-text">全排列问题（剑指offer 28 字符串的全排列）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述-1"><span class="nav-number">2.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解法-1"><span class="nav-number">2.2.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意点-1"><span class="nav-number">2.3.</span> <span class="nav-text">注意点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码-1"><span class="nav-number">2.4.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#子集问题"><span class="nav-number"></span> <span class="nav-text">子集问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Leetcode_78_Subset"><span class="nav-number">1.</span> <span class="nav-text">Leetcode 78 Subset</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述-2"><span class="nav-number">1.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解法-2"><span class="nav-number">1.2.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码-2"><span class="nav-number">1.3.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拓展：子集和问题"><span class="nav-number">2.</span> <span class="nav-text">拓展：子集和问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述-3"><span class="nav-number">2.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解法-3"><span class="nav-number">2.2.</span> <span class="nav-text">解法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#剑指offer_53_正则表达式匹配"><span class="nav-number">3.</span> <span class="nav-text">剑指offer 53 正则表达式匹配</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述-4"><span class="nav-number">3.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解法-4"><span class="nav-number">3.2.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码-3"><span class="nav-number">3.3.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
