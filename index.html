@@ -123,6 +123,483 @@
           
           
             
+              <a class="post-title-link" href="/2015/12/06/集体智慧编程读书笔记/">
+                《集体智慧编程》读书笔记
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-12-06
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/读书笔记/">读书笔记</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/12/06/集体智慧编程读书笔记/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/06/集体智慧编程读书笔记/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h1 id="第二章_提供推荐">第二章 提供推荐</h1><p>Making Recommendations</p>
+<p>文章中的思维导图来自：<a href="http://www.pythoner.com/183.html" target="_blank" rel="external">http://www.pythoner.com/183.html</a><br><img src="http://www.pythoner.com/wp-content/uploads/2013/05/%E6%8F%90%E4%BE%9B%E6%8E%A8%E8%8D%90.png" alt=""></p>
+<h2 id="概念">概念</h2><h3 id="协同过滤">协同过滤</h3><p>对一大群人进行搜索，并从中找出与某人品味相近的一小群人。</p>
+<h2 id="相似度评价">相似度评价</h2><h3 id="欧几里德距离">欧几里德距离</h3><pre><code><span class="number">1</span>/(<span class="number">1</span>+<span class="function"><span class="title">sqrt</span><span class="params">(pow(<span class="number">4.5</span>, <span class="number">2</span>)</span></span>+<span class="function"><span class="title">pow</span><span class="params">(<span class="number">1</span>-<span class="number">2</span>, <span class="number">2</span>)</span></span>))
+</code></pre><p>每个人的平均水平不一样会对数据造成影响</p>
+<h3 id="皮尔逊相关度">皮尔逊相关度</h3><ul>
+<li><a href="http://www.360doc.com/content/13/1124/03/9482_331690142.shtml" target="_blank" rel="external">期望，方差，协方差的概念</a></li>
+<li>协方差衡量两个变量的总体误差，相关系数对协方差进行了归一化。</li>
+<li>使用皮尔逊相关系数可以进行相似性度量，找到品味相近的人。</li>
+</ul>
+<h3 id="推荐物品">推荐物品</h3><p>目标用户为target，其他用户为others。others与target的相似度，使用皮尔逊相关度可以得到。相似度（品味）越大，在推荐的时候所占权值越大。</p>
+<h3 id="相似商品">相似商品</h3><p>对调人和物品（变换字典结构）。原来的字典结构是</p>
+<pre><code>critics[<span class="link_label">person</span>][<span class="link_reference">product</span>]-&gt; critics[<span class="link_label">product</span>][<span class="link_reference">person</span>]
+</code></pre><h1 id="第三章_发现群组">第三章 发现群组</h1><p>Discovering Groups<br><img src="http://www.pythoner.com/wp-content/uploads/2013/05/%E5%8F%91%E7%8E%B0%E7%BE%A4%E7%BB%84.png" alt=""></p>
+<h2 id="概念-1">概念</h2><h3 id="监督学习/无监督学习">监督学习/无监督学习</h3><ul>
+<li>监督学习（supervised）<br>利用样本输入和期望输出来学习如何预测<br>方法：神经网络，决策树，SVN，贝叶斯过滤</li>
+<li>无监督学习（unsupervised）<br>在一组数据中寻找某种结构<br>方法：聚类，负矩阵因式分解，自组织映射</li>
+</ul>
+<h2 id="单词向量">单词向量</h2><p>博客数据-&gt;数据矩阵<code>data[article][word]</code>，数据值可以为频率。</p>
+<h2 id="分级聚类">分级聚类</h2><p>计算每两个群组的距离，并将距离最近的两个群组合并，然后重复进行这一过程</p>
+<h2 id="列聚类">列聚类</h2><p>按行进行聚类，把相似的博客聚集到一起<br>按列进行分类，把经常共同出现（单词结合使用）的单词，聚集到一起</p>
+<h2 id="K-Means聚类">K-Means聚类</h2><ul>
+<li>过程<br>首先确定k个中心位置(位于空间中代表聚类的中心店)，然后将各个数据项分配给最临近的中心点。待分配完成之后，聚类中心就会移到分配给该聚类所有节点的平均位置处，然后整个分配过程重新开始。</li>
+<li>结果<br>最终形成k个聚类。由于初始位置是随机的，初始位置不同会造成结果的不同。</li>
+</ul>
+<h1 id="第四章_搜索与排名">第四章 搜索与排名</h1><p>Searching and Ranking<br><img src="http://www.pythoner.com/wp-content/uploads/2013/05/%E6%90%9C%E7%B4%A2%E4%B8%8E%E6%8E%92%E5%90%8D.png" alt=""></p>
+<h2 id="搜索引擎组成">搜索引擎组成</h2><ul>
+<li>搜集文档</li>
+<li>建立索引(倒排索引)</li>
+<li>查询，通过单词返回文档</li>
+<li>神经网络，对查询结果排名进行优化</li>
+</ul>
+<h2 id="基于内容的排名">基于内容的排名</h2><ul>
+<li>评价指标<br>单词频度（出现越多越靠前）<br>文档位置（越靠近开头越靠前）<br>单词距离（查询多个单词，越靠近越靠前）</li>
+<li>归一化函数<br>把指标值，归一到0-1</li>
+</ul>
+<h2 id="利用外部回指链接">利用外部回指链接</h2><p>通过链接指向的情况，修改对该网页的评价。</p>
+<h3 id="简单计数">简单计数</h3><h3 id="page_rank">page rank</h3><p>网页的重要性是依据指向该网页的所有其他网页的重要性，以及这些网页中所包含的链接数求得的。</p>
+<h3 id="利用链接文本">利用链接文本</h3><h2 id="从点击行为中学习">从点击行为中学习</h2><h3 id="人工神经网络（anns）">人工神经网络（anns）</h3><p>构造一个人工神经网络，提供：</p>
+<ul>
+<li>查询条件中的单词</li>
+<li>返回给用户的搜索</li>
+<li>用户的点击决策</li>
+</ul>
+<p>对这些数据进行训练，用以改善搜索结果的排序</p>
+<h3 id="设计点击跟踪网络">设计点击跟踪网络</h3><h4 id="多层感知机">多层感知机</h4><p>以一组节点（神经元）构成，并且彼此相连。<br>输入层-中间层-输出层</p>
+<h4 id="前馈法">前馈法</h4><p>反双曲正切变换tanh函数<br>算法接受一列输入，将其推入网络，然后返回所有输出层节点的输出结果</p>
+<h4 id="反向传播法">反向传播法</h4><p>训练的过程，在接受输入的时候调整权值</p>
+<h1 id="第五章_优化">第五章 优化</h1><p>Optimization<br><img src="http://www.pythoner.com/wp-content/uploads/2013/05/%E4%BC%98%E5%8C%96.png" alt=""></p>
+<h2 id="概念-2">概念</h2><h3 id="随机优化">随机优化</h3><p>受多种变量的影响，存在很多可能的组合，结果因为这些组合会产生很大的变化</p>
+<h3 id="成本函数（Cost_Function）">成本函数（Cost Function）</h3><p>任何优化算法的目标，就是要寻找一组能够使成本函数的返回结果达到最小化。成本函数需要返回一个值表示方案的好坏。</p>
+<h2 id="问题：组团旅游">问题：组团旅游</h2><p>家庭成员来自全国各地，希望在纽约碰面</p>
+<h2 id="方法">方法</h2><h3 id="随机搜索法">随机搜索法</h3><p>随机产生猜测，不是一种很好的算法，但是是评估基准</p>
+<h3 id="爬山法">爬山法</h3><p>从一个随机解开始，在其临近的解集中寻找更好的解。<br>问题：容易陷入局部最优<br>解决：随机重复爬山法，多个随机生成的初始解运行若干次</p>
+<h3 id="模拟退火">模拟退火</h3><h4 id="退火">退火</h4><p>将合金加热后再慢慢冷却，大量原子跃迁的过程</p>
+<h4 id="过程">过程</h4><ul>
+<li>从一个随机解开始</li>
+<li>用一个变量表示温度，一开始温度非常高，而后逐渐降低</li>
+<li>每次迭代，随机选中题解中的某个数字，朝某方向变化</li>
+</ul>
+<h4 id="算法关键">算法关键</h4><p>如果新的成本值更低，则新的题解会成为当前题解。如果成本值更高，则新的题解扔将可能成为当前题解。<br>模拟退火算法之所以管用，不仅仅是因为他接受一个更优解，而且还因为它在退火的过程的开始阶段会接受表现较差的解。随着退火过程的进行，算法越来越不可能接受较差的解，直到最后只接受更优的解。</p>
+<h3 id="遗传算法">遗传算法</h3><p>其中启发式算法，过程如下：</p>
+<ul>
+<li>先随机生成一组解</li>
+<li>将当前种群中位于最顶端的题解加入其所在的新种群中</li>
+<li>对一个既有解进行微小，简单，随机的改变（交叉，变异）</li>
+</ul>
+<h1 id="第六章_文档过滤">第六章 文档过滤</h1><p>Document Filtering<br><img src="http://www.pythoner.com/wp-content/uploads/2013/05/%E6%96%87%E6%A1%A3%E8%BF%87%E6%BB%A4.png" alt=""></p>
+<h2 id="概念-3">概念</h2><h3 id="特征">特征</h3><p>指任何可以用来判断内容中具备或缺失的东西</p>
+<h3 id="贝叶斯定理">贝叶斯定理</h3><p>见上面</p>
+<h3 id="朴素分类器">朴素分类器</h3><p>在这里把单词看做特征<br>假设将要被组合的各个概率是彼此独立的<br>最后一个步骤是判定某个内容所属的分类，通过定义一个最小阈值</p>
+<h3 id="费舍尔方法">费舍尔方法</h3><p>为文档中的每个特征都求得了分类的概率，然后又将这些概率组合起来，并判断是否有可能构成一个随机集合<br><strong>将所有概率想成起来，然后取自然对数，再将所得结果乘以-2</strong>，<code>-2*ln(TTPr)</code><br>如果概率彼此独立且随机分布，则满足卡方分布</p>
+<h1 id="第七章_决策树建模">第七章 决策树建模</h1><p>Modeling with Decision Trees<br><img src="http://www.pythoner.com/wp-content/uploads/2013/05/%E5%86%B3%E7%AD%96%E6%A0%91%E5%BB%BA%E6%A8%A1.png" alt=""></p>
+<h2 id="预测注册用户">预测注册用户</h2><p>预测出一位用户成为付费顾客的可能性有多大</p>
+<h2 id="引入决策树">引入决策树</h2><p>决策树是一种简单的机器学习方法，是对被观测数据进行分类的一种直观方法，决策树在经过训练之后，看起来就像是以树状形式排列的一系列if-then语句。</p>
+<h3 id="建立决策后进行分类">建立决策后进行分类</h3><p>只要沿着树的路径一直向下，正确回答每一个问题，就能够得到最终答案。沿着决策树向上回溯，就能够得到推理的过程。</p>
+<h2 id="拆分方案">拆分方案</h2><p>需要一种方法来衡量数据集合中各种因素的混合情况。</p>
+<h3 id="基尼不纯度">基尼不纯度</h3><p>指将来自集合中的某种结果随机应用于集合中某一项数据项的预期误差。</p>
+<h3 id="熵">熵</h3><p>代表集合的无序程度。<br>熵是遍历所有可能的结果之后所得到的的P(x)log(P(x))之和</p>
+<h3 id="区别">区别</h3><p>熵和基尼不纯度之间的主要区别在于，熵达到峰值的过程要相对慢一些。因此，熵对于混乱集合的判罚往往要更重一些。</p>
+<h2 id="以递归方式构造树">以递归方式构造树</h2><p>算法会针对每个属性计算相应的信息增益，然后从中选出信息增益最大的属性。（熵下降最快的方向）</p>
+<h3 id="信息增益">信息增益</h3><p>所谓信息增益是指当前熵与两个新群组经加权平均后的熵的差值。</p>
+<h2 id="决策树剪枝">决策树剪枝</h2><p>为了避免产生的决策树过于针对于训练数据。两种方法</p>
+<ul>
+<li>当熵减少的数量小于某个最小值时，就停止分支的创建</li>
+<li>先构造好整棵树，然后再尝试消除多余的节点</li>
+</ul>
+<h2 id="处理缺失数据">处理缺失数据</h2><p>可以选择两个分支都走</p>
+<h2 id="什么时候使用决策树">什么时候使用决策树</h2><h2 id="优点">优点</h2><p>容易解释这个模型<br>同时接受分类数据（Categorical）数据和数值（numerical）数据</p>
+<h2 id="缺点">缺点</h2><p>数据集大时不那么有效</p>
+<h1 id="构建价格模型（Building_Price_Model）">构建价格模型（Building Price Model）</h1><h2 id="提出问题">提出问题</h2><p>构造一个样本数据集，葡萄酒-峰值年</p>
+<h2 id="K-最近邻算法（KNN）">K-最近邻算法（KNN）</h2><p>通过寻找与当前所关注的商品情况相似的一组商品，对这些商品的价格求平均值，进而做出价格预测。</p>
+<ul>
+<li>K代表为了求得最终结果而参与平均运算的商品数量</li>
+</ul>
+<h3 id="优缺点">优缺点</h3><p>缺点：计算量很大<br>有点：每次有新的数据加入，都无须重新进行计算。</p>
+<h3 id="定义相似度">定义相似度</h3><p>欧几里德距离</p>
+<h3 id="为邻近分配权重">为邻近分配权重</h3><p>避免选择距离太远的近邻</p>
+<h4 id="反函数">反函数</h4><h4 id="减法函数">减法函数</h4><h4 id="高斯函数">高斯函数</h4><h4 id="加权KNN">加权KNN</h4><h2 id="交叉验证">交叉验证</h2><p>将数据拆分成训练集与测试集，将训练集传入算法，随着正确答案的得出，就得到了一组用以进行预测的数据集，我们要求算法对测试集中的每一项数据都做出预测。</p>
+<h2 id="不同类型的变量">不同类型的变量</h2><p>变量并不处于同一值域范围内</p>
+<h3 id="按比例缩放">按比例缩放</h3><p>进行归一化处理</p>
+<h3 id="对缩放结果进行优化">对缩放结果进行优化</h3><p>利用优化算法自动寻找最优解</p>
+<h1 id="高阶分类：核方法与SVN">高阶分类：核方法与SVN</h1><p>Advanced Classification： Kernel Methods and SVMs<br><img src="http://www.pythoner.com/wp-content/uploads/2013/05/%E9%AB%98%E9%98%B6%E5%88%86%E7%B1%BB%EF%BC%9A%E6%A0%B8%E6%96%B9%E6%B3%95%E5%92%8CSVM.png" alt=""></p>
+<h2 id="问题">问题</h2><p>约会网站的配对（包含很多遍历，既有数值型的，也有名词性的，还有大量的非线性关系）<br>Facebook：即被某些性格特种的人们是否能够成为好朋友</p>
+<h2 id="决策树">决策树</h2><p>存在多个数值型数据如，且着写输入彼此之间呈现的关系并不简单，决策树常常不是最有效的方法。</p>
+<h2 id="基本线性分类">基本线性分类</h2><p>寻找每个分类中所有数据的平均值，并构造一个代表该分类中心位置的点。然后我们就可以通过判断距离哪个中心店位置来对新的坐标点进行分类。</p>
+<h3 id="点积">点积</h3><p>针对两个向量，将第一个向量中的每个值与第二个向量中的对应值相乘，然后再将所得的每个乘积想家，最后得到一个总的结果。</p>
+<h2 id="对数据进行缩放处理">对数据进行缩放处理</h2><p>将所有数据都缩放为统一尺度，从而使每个变量的差值都有可比性<br>把分类特征转化为数值型数据（0，1或者1，-1）</p>
+<h2 id="核方法">核方法</h2><p>例子中分类呈环状，通过预先对坐标点进行变换，构造一个只用一条直线就可以进行划分的新的数据集是可能的</p>
+<h3 id="核技法">核技法</h3><p>用一个新的函数来取代原来的点积函数，当借助某个映射函数将数据第一次变换到更高维度的坐标空间时，新函数将会返回高维度坐标空间内的点积结果</p>
+<h3 id="径向基函数">径向基函数</h3><p>核技法有很多种，比较常用的一种是径向基函数。<br>接受两个向量作为输入参数，并返回一个坐标值，与点积不同的是，径向基函数是非线性的，因而能够将数据映射到更为复杂的空间中。</p>
+<h2 id="支持向量机">支持向量机</h2><p>Support-Vector Machines<br>尝试寻找一条尽可能远离所有分类的线，这条线被称为最大间隔超平面。</p>
+<h3 id="选择分界线">选择分界线</h3><p>寻找两条分别经过各分类相应坐标点的平行线，并使其与分界线的距离尽可能远。<br>可以去掉其余所有的数据，分界线依然会处于相同的位置</p>
+<h3 id="支持向量">支持向量</h3><p>位于这条分界线附近的坐标点成为支持向量</p>
+<h3 id="支持向量机-1">支持向量机</h3><p>利用支持向量来寻找分界线的算法就是支持向量机</p>
+<h1 id="寻找独立特征">寻找独立特征</h1><p>Finding Independaent Features<br><img src="http://www.pythoner.com/wp-content/uploads/2013/05/%E5%AF%BB%E6%89%BE%E7%8B%AC%E7%AB%8B%E7%89%B9%E5%BE%81.png" alt=""><br>本章研究如何在数据集未明确标识结果的前提下，从中提取出重要的潜在特征。</p>
+<h2 id="举例">举例</h2><p>鸡尾酒宴会分离出单独的声音<br>对重复出现于一组文档中的单词使用模式进行识别</p>
+<h2 id="数据">数据</h2><p>新闻，转换成矩阵</p>
+<h2 id="负矩阵因式分解">负矩阵因式分解</h2><p>NMF（Non-Negative Matrix Factorization）、<br>找到两个更小的矩阵，使二者相乘得到原来的矩阵</p>
+<h1 id="智能进化">智能进化</h1><p>Evoving Intelligengce<br><img src="http://www.pythoner.com/wp-content/uploads/2013/05/%E6%99%BA%E8%83%BD%E8%BF%9B%E5%8C%96.png" alt=""><br>从本质上来看是要构造一个能构造算法的算法</p>
+<h2 id="遗传编程">遗传编程</h2><p>受到生物进化理论启发的集中机器学习技术。通常的工作方式</p>
+<ul>
+<li>以一大堆程序（种群）开始，这些程序可以是随机产生的，也可以是认为设计的</li>
+<li>这些程序在一个用户自定义的任务中展开竞争，测试那个结果表现更好</li>
+<li>采取两种不同的方式对表现最好的程序实施复制和修改。变异，配对，产生新的程序（种群）。</li>
+</ul>
+<h1 id="算法总结">算法总结</h1><p>Algorithm Summary<br><img src="http://www.pythoner.com/wp-content/uploads/2013/05/%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93.png" alt=""></p>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/"> #机器学习 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/11/09/SignalR笔记/">
+                SignalR笔记
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-11-09
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/web开发/">web开发</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/11/09/SignalR笔记/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/09/SignalR笔记/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h1 id="SignalR笔记">SignalR笔记</h1><h2 id="简介">简介</h2><p>SignalR 是一个集成的<strong>客户端与服务器库</strong>，基于浏览器的客户端和基于 ASP.NET 的服务器组件可以借助它来进行双向多步对话。 它和AJax类似，都是基于现有的技术。本身是一个<strong>复合体</strong>。</p>
+<p>一般情况下，SignalR会使用Javascript的长轮询（ long polling），实现客户端和服务端通信。在WebSockets出现以后，SignalR也支持WebSockets通信。当然SignalR也使用了服务端的任务并行处理技术以提高服务器的扩展性。</p>
+<p>WebSocket</p>
+<blockquote>
+<p>WebSocket protocol 是HTML5一种新的协议。它实现了浏览器与服务器全双工通信(full-duplex)。HTML5定义了WebSocket协议，能更好的节省服务器资源和带宽并达到实时通讯。</p>
+</blockquote>
+<p>单工，全双工，半双工</p>
+<blockquote>
+<ul>
+<li>单工就是在同一时间只允许一方向另一方传送信息，而另一方不能向一方传送 </li>
+<li>全双工（Full Duplex）是指在发送数据的同时也能够接收数据，两者同步进行，这好像我们平时<strong>打电话</strong>一样，说话的同时也能够听到对方的声音。目前的网卡一般都支持全双工。 </li>
+<li>半双工（Half Duplex），所谓半双工就是指一个时间段内只有一个动作发生，早期的<strong>对讲机</strong>、以及早期集线器等设备都是基于半双工的产品。 </li>
+</ul>
+</blockquote>
+<p>SignalR 内的客户端库 (.NET/JavaScript) 提供了自动管理的能力，开发人员只需要直接使用 SignalR 的 Client Library 即可，同时它的 JavaScript 库可和 jQuery 完美整合，因此能直接与像 jQuery 或 Knockout.js 一起使用。</p>
+<p>SignalR内部有两类对象</p>
+<ol>
+<li><p>Persistent Connection(HTTP持久链接)：持久性连接，用来解决长时间连接的能力，而且还可以由客户端主动向服务器要求数据，而服务器端也不需要实现太多细节，只需要处理 PersistentConnection 内所提供的五个事件：OnConnected, OnReconnected, OnReceived, OnError 和 OnDisconnect 即可。</p>
+</li>
+<li><p>Hub：信息交换器，用来解决 <strong>realtime 信息交换的功能</strong>，服务器端可以利用 URL 来注册一个或多个 Hub，只要连接到这个 Hub，就能与所有的客户端共享发送到服务器上的信息，同时服务器端可以调用客户端的脚本，不过它背后还是不离 HTTP 的标准，所以它看起来神奇，但它并没有那么神奇，只是 JavaScript 更强，强到可以用像 eval() 或是动态解释执行的方式，允许 JavaScript 能够动态的加载与执行方法调用而己。</p>
+</li>
+</ol>
+<p>SignalR 将整个交换信息的行为封装得非常漂亮，客户端和服务器全部都使用 JSON 来沟通，在服务器端声明的所有 hub 的信息，都会一般生成 JavaScript 输出到客户端，.NET 则是依赖 Proxy 来生成代理对象，这点就和 WCF/.NET Remoting 十分类似，而 Proxy 的内部则是将 JSON 转换成对象，以让客户端可以看到对象。</p>
+<h2 id="Hub：信息交换器">Hub：信息交换器</h2><h3 id="服务端">服务端</h3><p>由服务器端调用客户端的 JavaScript 脚本的功能，而这个功能的要求必须是要实现成 Hub 的模式，因此我们可以顺便看到如何实现一个 Hub 类型的 SignalR 应用程序。</p>
+<p>向项目中加入一个类Chat继承自 Hub 类 (这是 Hub 应用程序的要求) ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">using System; &#10;using System.Collections.Generic; &#10;using System.Linq; &#10;using System.Web; &#10;using SignalR.Hubs; &#10;using System.Threading.Tasks; &#10;using System.Threading;&#10;&#10;namespace MvcApplicationSignalR &#10;&#123; &#10;   [HubName(&#34;geffChat&#34;)] &#10;   public class Chat : Hub  &#10;   &#123; &#10;       public void SendMessage(string message) &#10;       &#123; &#10;           Clients.sendMessage(message); &#10;       &#125; &#10;   &#125; &#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>这段程序代码的用意是，在连接进到 Hub 时，将连接代码加到联机用户的集合中，等会就会使用到，因为我们会依照客户端的 ID 来调用客户端脚本。</p>
+<ol>
+<li><p>HubName：这个 atttibute 代表 client 端要如何建立对应 server 端对象的 proxy object。通过 HubName ， server 端的 class name才不会被 client 绑死。如果没有设定，则会以 server 端 class name 为 HubName 默认值。</p>
+</li>
+<li><p>继承 Hub：继承 Hub 之后，很多对应的设计就都不用写了，我们只需要把注意力放在 client 如何送 request 给 server的 hub ， server 如何通知 client 即可。</p>
+</li>
+<li><p>public void SendMessage(string message) ，就像 WebService Method 或 PageMethod 一般， client 端通过 proxy object ，可以直接调用 server 端这个方法。后续会介绍到如何在页面上使用。</p>
+</li>
+<li><p>Clients 属性：代表所有有使用 Chat 的页面。而 Clients 的型别是 dynamic ，因为要直接对应到 JavaScript 的对象。</p>
+</li>
+<li><p>Clients.sendMessage(message)：代表 server 端调用 Clients 上的 sendMessage 方法，也就是 JavaScript 的方法。</p>
+</li>
+<li><p>总结： Chat 对象职责就是当 client 端调用SendMessage() 方法后，要把这个 message ，送给所有 client 页面上呈现。以达到聊天室的功能。</p>
+</li>
+</ol>
+<h3 id="客户端">客户端</h3><p>在Home/Index页面上增加以下html代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;%--&#24456;&#37325;&#35201;&#30340;&#19968;&#20010;&#21442;&#32771;&#65292;&#19968;&#23450;&#35201;&#21152;&#65292;&#19988;&#22312;&#36825;&#19968;&#34892;&#20043;&#21069;&#65292;&#19968;&#23450;&#35201;&#20808;&#21442;&#32771;jQuery.js&#19982;signalR.js--%&#62; &#10;&#60;script src=&#34;@Url.Content(&#34;~/signalr/hubs&#34;)&#34; type=&#34;text/javascript&#34;&#62;&#60;/script&#62;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;script type=&#34;text/javascript&#34;&#62; &#10;    $(function () &#123; &#10;        // &#24314;&#31435;&#23545;&#24212;server&#31471;Hub class&#30340;&#23545;&#35937;&#65292;&#35831;&#27880;&#24847;geffChat&#30340;&#31532;&#19968;&#20010;&#23383;&#27597;&#35201;&#25913;&#25104;&#23567;&#20889; &#10;        var chat = $.connection.geffChat;&#10;&#10;        // &#23450;&#20041;client&#31471;&#30340;javascript function&#65292;&#20379;server&#31471;hub&#65292;&#36890;&#36807;dynamic&#30340;&#26041;&#24335;&#65292;&#35843;&#29992;&#25152;&#26377;Clients&#30340;javascript function &#10;        chat.sendMessage = function (message) &#123; &#10;            //&#24403;server&#31471;&#35843;&#29992;sendMessage&#26102;&#65292;&#23558;server push&#30340;message&#25968;&#25454;&#65292;&#21576;&#29616;&#22312;wholeMessage&#20013; &#10;            $(&#39;#wholeMessages&#39;).append(&#39;&#60;li&#62;&#39; + message + &#39;&#60;/li&#62;&#39;); &#10;        &#125;;&#10;&#10;        $(&#34;#send&#34;).click(function () &#123; &#10;            //&#35843;&#29992;&#21483;server&#31471;&#30340;Hub&#23545;&#35937;&#65292;&#23558;#message&#25968;&#25454;&#20256;&#32473;server &#10;            chat.sendMessage($(&#39;#message&#39;).val()); &#10;            $(&#39;#message&#39;).val(&#34;&#34;); &#10;        &#125;);&#10;&#10;        //&#25226;connection&#25171;&#24320; &#10;        $.connection.hub.start();&#10;&#10;    &#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="使用SignalR进行点对点推送">使用SignalR进行点对点推送</h3><p>使用SignalR1.X能够进行聊天室类型的实时消息推送，但是不可能一个用户新建一个聊天室。所以需要使用SignalR2的新特性。</p>
+<h4 id="如何识别一个用户">如何识别一个用户</h4><p>SignalR对用户进行连接时候，一个连接对应一个ConnectionId。所以如果想对特定的用户推送消息，就需要把ConnectionId绑定到系统的userId上，这是通过继承自<code>IUserIdProvider</code>的接口的自定义类来实现的，这也是SignalR2的新特性，所以需要升级到SignalR2.</p>
+<h4 id="步骤">步骤</h4><ul>
+<li>在服务器中添加一个类文件，比如取名为：ChatHub.cs。该类一定要继承Hub类，这是实现SignalR最基本的方法。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class ChatHub: Hub&#10;&#123;&#10;     public void Send(string name, string message)&#10;     &#123;&#10;         Clients.All.addNewMessageToPage(name, message);&#10;      &#125;&#10;&#10;      public void NoticeSomeone(var userId,var note)()&#10;      &#123;&#10;          Clients.User(userId.ToString()).newLog(note);&#10;      &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>该类中定义的方法都是可以由客户端在浏览器中调用的服务器端函数。</strong></p>
+<ul>
+<li>自定义<code>CustomUserIdProvider</code>继承自<code>IUserIdProvider</code>，实现<code>GetUserId</code>函数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class CustomUserIdProvider: IUserIdProvider&#10;&#123;&#10;    public string GetUserId(IRequest request)&#10;    &#123;&#10;        // your logic to fetch a user identifier goes here.&#10;        var userId = WebSecurity.CurrentUserId;&#10;&#10;         return userId.ToString();&#10;      &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>为使用SignalR做一些配置。<br>指定IdProvider，注册路由信息等。需要在工程中新建类文件: Startup.cs</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.AspNet.SignalR;&#10;using Microsoft.Owin;&#10;using Owin;&#10;&#10;[assembly: OwinStartup(typeof(LearnSignalR.Startup))]&#10;namespace LearnSignalR&#10;&#123;&#10;    public class Startup&#10;    &#123;&#10;        public void Configuration(IAppBuilder app)&#10;        &#123;&#10;            var idProvider = new CustomUserIdProvider();&#10;            GlobalHost.DependencyResolver.Register(typeof(IUserIdProvider), () =&#62; idProvider);&#10;&#10;            // Any connection or hub wire up and configuration should go here&#10;            app.MapSignalR();&#10;        &#125;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>服务器端</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IHubContext _hubContext = GlobalHost.ConnectionManager.GetHubContext&#60;ChatHub&#62;();&#10;_hubContext.Clients.User(userId.ToString()).newLog();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>客户端</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var chat = $.connection.messageHub;&#10;&#10;chat.client.newLog = function () &#123;&#10;&#9;//&#19968;&#20123;&#36923;&#36753;&#10;&#125;;</span><br></pre></td></tr></table></figure>
+<p>这样就实现了<strong>服务器端向用户为userId的用户，调用js中newLog方法。</strong></p>
+<ul>
+<li>客户端</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;script src=&#34;~/Scripts/jquery.signalR-2.0.3.js&#34;&#62;&#60;/script&#62;&#10;&#60;script src=&#34;~/signalr/hubs&#34;&#62;&#60;/script&#62;&#10;&#60;script&#62;&#10;$(function () &#123;&#10;    var chat = $.connection.chatHub;&#10;    $.connection.hub.start().done(function () &#123;&#10;&#9;&#9;$(&#39;#sub-button&#39;).click(function () &#123;&#10;&#9;&#9;&#9;chat.server.NoticeSomeone(var userId,var note);&#10;&#9;&#9;&#125;);&#10;&#9;&#125;);&#10;&#125;);</span><br></pre></td></tr></table></figure>
+<p>这样就实现了客户端调用服务器端<code>NoticeDoctor</code>的函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public void NoticeDoctor(string patientId, string doctorId, string note)&#10;&#123;&#10;&#9;string id = Context.ConnectionId;&#10;&#9;Clients.User(doctorId).newLog(patientId, note);&#10;&#125;</span><br></pre></td></tr></table></figure>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-MVC/"> #ASP MVC </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/11/09/拖延心理学读书笔记/">
+                《拖延心理学》读书笔记
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-11-09
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/读书笔记/">读书笔记</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/11/09/拖延心理学读书笔记/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/09/拖延心理学读书笔记/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="什么是拖延症">什么是拖延症</h2><p>是不是想要学习一晚上，拿出手机却忘我地水了一个多小时的朋友圈贴吧…决定下学期要做好XXX，过去了才发现自己其实没有任何改观…是不是想要联系朋友来着，却迟迟没有拿起电话….是不是本来想去去实验室干活，却刀完一盘又想撸第二盘…是不是感觉自己玩起来没有节制</p>
+<p>有没有发现一天过去了，其实自己没干几件正事，本来计划的事情要么没有完成，要么效率低下拖了很久才搞定</p>
+<p>经常发现自己陷入了，信心满满要做一件事，该要做的时候拖拖拉拉，发现做不完了心情沮丧，收拾好心情信心满满地要做下一件事情的怪圈…最后发现越来越屌丝，什么事情都做不成…</p>
+<p>看到书上说，据估计75%的大学生都存在拖延的现象，推迟写论文，推迟复习，临时抱佛脚…50%的学生报告说拖延已经成为了他们的一种习惯，吓尿了有木有</p>
+<p>拖延有很多领域，家务，工作，学业，个人呵护（锻炼身体，个人卫生，减肥等等），社交，财务等等。</p>
+<p>书上说拖延和智商没有关系，长舒一口气，还以为自己越来越傻逼了</p>
+<h2 id="拖延者常有的心理状态">拖延者常有的心理状态</h2><h3 id="恐惧失败但又追求完美">恐惧失败但又追求完美</h3><p>总怕自己某件事情做不好，导致别人认为自己不行，但是又觉得做一件事就要把它做好。对失败的恐惧是低自信焦虑和完美主义的结合体。认为自我价值感=能力=表现，此时拖延给了自己一个理由，自己表现不好用拖延来掩盖，会时常这样想，不是自己能力不行，是自己有点拖延而已。</p>
+<h3 id="不能太优秀">不能太优秀</h3><p>成功是危险的，自己若是不拖延，成功了可能会对身边的人造成伤害。这也是好多人喜欢对身边的人掩盖自己取得的成绩的原因。</p>
+<h3 id="我自己说的算">我自己说的算</h3><p>想要获得对自己的控制权，不想让诸如学习，做实验等等官方的事情约束住自己，希望打破现有的规则，希望捍卫自己的自由，通过拖延获得这样一种心理预期。</p>
+<h3 id="对时间的估计错误">对时间的估计错误</h3><p>拖延者的主观时间往往和客观的时间不相符，本来想要水十分钟朋友圈然后学习两个小时，结果水了朋友圈之后，发现学习的时间只剩下一个小时了，学习了四十分钟感觉过去了好久，然后又拿出了手机…</p>
+<h3 id="难以长时间集中注意力">难以长时间集中注意力</h3><p>有的人患有注意力缺失紊乱症（ADD），这是一种疾病，导致他们无法集中注意力。通常的拖延者没有这么严重，但是也经常注意力分散，经常在工作学习中开始胡思乱想，或者一个电话一条短信，或者人人贴吧的一个回复打断了原来工作的状态。实际上，<strong>人的注意力分散只需要很短的时间，但是要重新开始进入工作状态却需要远远更多的时间</strong>。</p>
+<h3 id="焦虑">焦虑</h3><p>很多拖延者会有焦虑的现象，因为知道自己拖延却无法改变，常常自责，考试或者deadline临近却发现好多工作还没有做，开始怀疑自己，能不能完成任务，开始预想坏的结果对于自己的影响，他人的砍伐，更加不能好好投入精力学习工作。</p>
+<h3 id="对于改变的恐惧">对于改变的恐惧</h3><p>很多拖延者不习惯于改变，改变给人以不好的感觉，认为改变会带来更多的问题。</p>
+<h2 id="拖延和大脑的关系">拖延和大脑的关系</h2><p>人不是生来就有拖延的，人的大脑处于不断变化之中，习惯的形成是一个很缓慢的过程，反应在大脑当中就是各种神经通路的建立，若是你养成了一种习惯或者思维方式，就好像在普通的公路上搭起了一条高速公路，所以人在做事情的时候做的越多就越熟练，做的越好。同样要想拆掉一条高速公路也不是一件容易的事情，那些想要从明天开始就想立刻拜托拖延的孩子们还是洗洗睡吧，改掉拖延的坏习惯必定是一个持久战。</p>
+<h2 id="如何与拖延进行战斗">如何与拖延进行战斗</h2><h3 id="积极的心态">积极的心态</h3><p>万事无完美。<br>努力尝试是一件好事，不是愚蠢或者软弱的表现。<br>失败并不危险，失败是正常的，是生活的组成部分，真正的失败是不敢去经历。<br>每个人都有局限，包括我自己。<br>遵守别人的规矩或者想法去做事并不代表我一点权力都没有。<br>改变是一个过程，改变行为模式是一个渐进的过程，你不可能一下子改变自己，要有一个成长的心态，无论在这个过程中是进步还是退步都是一次学习的好机会。</p>
+<h3 id="明白自己拖延的原因">明白自己拖延的原因</h3><p>有可能是对成功所需的能力缺乏自信，由于拖延的坏毛病导致很多事情都做不好，或者与自己期望的差距比较大，导致自己越来越缺乏自信，很多本来有能力做的事情，都会不敢去做…</p>
+<p>有可能是对完成某个人物有反感心理，可能不喜欢这个老师，就拖延他留的作业，可能对自己合作的伙伴不满意，一起做事情就拖拖拉拉地</p>
+<p>有可能是感觉目标和回报太远了，感受不到意义所在，做事情的时候总是一个很大的目标摆在那里，对现在的自己来说很模糊，做了一些什么或者不做都没有什么区别。</p>
+<p>有可能是无法自我约束，容易冲动和分心，不能很好的管理自己和自己的时间</p>
+<h3 id="行动起来">行动起来</h3><p>下面会提到一些书上说的技巧，在使用这些技巧的过程中，可以一次使用一个技巧，不要贪多，慢慢的改变自己，观察自己内心的抵抗情绪，注意是观察就好，是烦躁？恐惧？观察的目的是了解自己，而不是被这些情绪困扰住，这样就能更清楚地认识自己拖延的原因，以及自己为自己找的借口。</p>
+<p><strong>技巧一：自由写作</strong><br>使用笔记或者日记的方式记录下自己在拖延时的情绪，花十分钟或者二十分钟的时间记录自己的心理状态，想到什么就写什么，不要停下来，即使想到的可能是乱七八糟的事情，持续地记录，一段时间以后通过这些记录就能更加客观真实地认识自己。</p>
+<p><strong>技巧二：合理规划目标，将目标具体化</strong><br>不要浮躁这种目标太过模糊，专注并明确每一个细小的步骤，保持事务短小，可以是二十分钟内想要完成的工作，或者是更短的时间。如，看书看完这个章节，写完这个模块的代码。一段时间只是专注于一个目标，不要想遥远的模糊的大目标。第一个目标要小，将完成的机会最大化，这样能使自己更快更容易进入状态。</p>
+<p><strong>技巧三：把首要的事情放在首要的位置做</strong><br>人们往往习惯于先做容易的事情，后做困难的事，可以反过来做，先做困难的后做容易的，也可以按照重要性排序，先做重要的，后做不用的。将麻烦事情放到以后做仍然会遭遇到很多麻烦事</p>
+<p><strong>技巧四：学会奖赏自己，要与自己的目标功劳匹配</strong><br>完成一个小任务就可以奖赏自己一下，休息一下或者做一些放松的事情，科学表明这样更容易在大脑中建立神经通路，更容易养成习惯。要有时间期限，并且通过时间期限树立自信。但是要注意自己给自己的奖赏要与功劳相匹配，比如学习了一个小时，休息十分钟，要是玩一个小时游戏的话就有点过分了。</p>
+<p><strong>技巧五：不必完美，做到就行，保持良好的心态</strong><br>相信自己可以战胜拖延，但是不要因为拖延而自责，也不要事事苛求完美，失败很正常，只要自己按自己计划一步一步地工作，相对完整地完成每一个小的目标，失败了也没关系，坦然接受就好。</p>
+<p><strong>技巧六：完成时间与预测时间对比</strong><br>时间是固定，可衡量，有限的！记录自己的工作，比较完成的时间和预测的时间，这样能够更好地了解自己的工作效率，为具体的目标的制定提供合理的依据。</p>
+<p><strong>技巧七：回顾，评估</strong><br>每隔一段时间，拿出自己的记录，整理，观察自己的状态和变化。</p>
+<p><strong>技巧八：利用零碎的时间</strong><br>这点不用多说了。</p>
+<p><strong>技巧九：学会接受和拒绝</strong><br>对没有意义的事情说不，强制自己在一段时间内不去碰人人贴吧，游戏等等，这就是考验意志力的时刻！不能怂！可以通过规划小目标，并完成小目标来减小抵抗情绪，吧水十分钟贴吧作为休息的奖赏等等，工作了一天回去撸两把也不是不可以哒~</p>
+<p><strong>技巧十：保持专注</strong><br>减少不必要的干扰，参照技巧九。保持事务短小，参照技巧二，越容易得到回报，越容易集中精力。时常奖赏自己，惩罚是没有用的。逐渐增加事务的长度，让自己逐渐适应。保持专注很困难，需要长时间的努力。有一个方法叫神圣停顿法，在自己思绪乱飞收不回来的时候，停下手头的事情，深呼吸，注意力放在呼吸上，一段时间后重新开始工作。</p>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/拖延症/"> #拖延症 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/10/15/找工作总结-操作系统基础/">
                 数据库基础
               </a>
@@ -1334,557 +1811,11 @@ where <span class="keyword">sc</span>.cid = '001'
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/10/12/找工作总结-面向对象和设计模式/">
-                面向对象和设计模式
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-10-12
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/找工作总结/">找工作总结</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/10/12/找工作总结-面向对象和设计模式/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/12/找工作总结-面向对象和设计模式/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="UML说明">UML说明</h2><p><img src="http://ww4.sinaimg.cn/mw690/4c2edcb7jw1ewxhltbbtdj20qy0d43zm.jpg" alt=""></p>
-<h2 id="创建型模式">创建型模式</h2><h3 id="工厂模式-简单工厂">工厂模式-简单工厂</h3><p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1ewxia9uhulj20gr0emq3e.jpg" alt=""></p>
-<h3 id="工厂模式-工厂方法模式">工厂模式-工厂方法模式</h3><p><img src="http://ww2.sinaimg.cn/large/4c2edcb7jw1ewxite169fj20uo0c5q3p.jpg" alt=""></p>
-<h3 id="工厂模式-抽象工厂">工厂模式-抽象工厂</h3><p><img src="http://ww2.sinaimg.cn/large/4c2edcb7jw1ewxj6nh6fwj20v30h7dh0.jpg" alt=""></p>
-<h3 id="Builder_模式，建造者模式">Builder 模式，建造者模式</h3><p><img src="http://ww3.sinaimg.cn/large/4c2edcb7jw1ewy3ppzlfjj20uj0gbwfr.jpg" alt=""></p>
-<h3 id="单例模式">单例模式</h3><p><img src="http://ww4.sinaimg.cn/mw690/4c2edcb7jw1ewy3ssxt7gj20bi04wglo.jpg" alt=""></p>
-<h2 id="结构型模式">结构型模式</h2><h3 id="适配器模式">适配器模式</h3><p><img src="http://ww4.sinaimg.cn/large/4c2edcb7jw1ewy441hmlhj20hq0f3aar.jpg" alt=""></p>
-<h3 id="桥接模式">桥接模式</h3><p><img src="http://ww1.sinaimg.cn/large/4c2edcb7jw1ewy4lptm1aj20s00dymy3.jpg" alt=""></p>
-<h3 id="外观模式">外观模式</h3><p><img src="http://ww4.sinaimg.cn/large/4c2edcb7jw1ewy53du88tj20ls0dq751.jpg" alt=""></p>
-<h3 id="装饰者模式">装饰者模式</h3><p><img src="http://ww3.sinaimg.cn/large/4c2edcb7jw1ewy96u7diej20tn0d30tq.jpg" alt=""></p>
-<h3 id="代理模式">代理模式</h3><p><img src="http://ww4.sinaimg.cn/large/4c2edcb7jw1ewy9f8gw9sj20nz0dhmy3.jpg" alt=""></p>
-<h3 id="享元模式">享元模式</h3><p><img src="http://ww1.sinaimg.cn/large/4c2edcb7jw1ewya256t6rj20mo0bxq42.jpg" alt=""></p>
-<h2 id="行为模式">行为模式</h2><h3 id="命令模式">命令模式</h3><p><img src="http://ww2.sinaimg.cn/large/4c2edcb7jw1ewyaqv6oo7j20nz0e8dgz.jpg" alt=""></p>
-<h3 id="中介者模式">中介者模式</h3><p><img src="http://ww4.sinaimg.cn/large/4c2edcb7jw1ewybdmdrynj20nw0czt9x.jpg" alt=""></p>
-<h3 id="观察者模式">观察者模式</h3><p><img src="http://ww4.sinaimg.cn/large/4c2edcb7jw1ewyc3lzfo9j20ur0at0tp.jpg" alt=""></p>
-<h3 id="策略模式">策略模式</h3><p><img src="http://ww1.sinaimg.cn/large/4c2edcb7jw1ewyc8eguuij20ni0awmxu.jpg" alt=""></p>
-<h3 id="状态模式">状态模式</h3><p><img src="http://ww4.sinaimg.cn/large/4c2edcb7jw1ewyjbaj60kj20my0b40th.jpg" alt=""></p>
-<h3 id="责任链模式">责任链模式</h3><p><img src="http://ww2.sinaimg.cn/large/4c2edcb7jw1ewyjd2f4lhj20o50c7758.jpg" alt=""></p>
-<h3 id="模板方法模式">模板方法模式</h3><p><img src="http://ww3.sinaimg.cn/large/4c2edcb7jw1ewyk470amyj20j80daab3.jpg" alt=""></p>
-<p><a href="http://design-patterns.readthedocs.org/zh_CN/latest/creational_patterns/creational.html" target="_blank" rel="external">跟多关于设计模式的参考</a></p>
-<h2 id="其他概念">其他概念</h2><h3 id="依赖注入-控制反转">依赖注入-控制反转</h3><p>依赖注入是实现控制反转最常用的一种方法。依赖注入可以看作是工厂模式的升华，生成的对象在配置文件（xml，json）中定义，使用反射生成相应的对象。</p>
-<h3 id="继承，封装，多态">继承，封装，多态</h3><p>继承，抽象公共的部分，对现实世界的表述更加容易理解<br>封装，封装使得程序容易改变。<br>多态，统一接口，不同方法。</p>
-<h3 id="重载和覆盖">重载和覆盖</h3><p>重载（overload）：对于类的方法（包括从父类中继承的方法），方法名相同，参数列表不同的方法之间就构成了重载关系。<br>覆盖 (override)：也叫重写，就是在当父类中的某些方法不能满足要求时，子类中改写父类的方法。当父类中的方法被覆盖了后，除非用super关键字，否则就无法再调用父类中的方法了。</p>
-<h3 id="里氏替换原则">里氏替换原则</h3><p>里氏替换原则规定，<strong>所有的子类都能作为父类的代理(proxy)工作</strong>。例如，如果一个方法需要父类对象作为输入，那么如果你提供一个子类对象，它也应该正常工作。任何不能替代父类的类都违反了里氏替换原则。</p>
-<h3 id="开闭(Open_closed)设计原则">开闭(Open closed)设计原则</h3><p>个系统对扩展是开放的，但对修改是封闭的。</p>
-<h3 id="多态">多态</h3><p>一个接口，多种方法。使用父类对象(或指针)调用子类函数。</p>
-<h2 id="小问题">小问题</h2><ul>
-<li><p>组合(composition)，聚合(aggregation)和关联(association)的区别是什么？<br><strong>关联</strong>的意思是两个对象是相互联系的。组合和聚合是关联的两种方式。在代码中表现为成员变量。<br><strong>组合</strong>是关联的一种形式，即一个对象由多个对象组成，但是它们必须共存（<strong>生命周期相同</strong>），例如人体由各种器官组合而成，独立的器官不能生存，它们必须在身体内发挥作用。代码中表现为List&lt;&gt;。<br><strong>聚合</strong>也是关联的一种形式，表示对象的集合，例如城市是居民的聚合（<strong>声明周期不相同</strong>）。在代码中表现为List&lt;&gt;。</p>
-</li>
-<li><p>接口和抽象类有什么区别？<br>接口是最纯粹的抽象形式，只有操作，没有实现<br>抽象类是一些抽象和具体事物的组合体。</p>
-</li>
-</ul>
-<h2 id="如何做设计">如何做设计</h2><h3 id="设计的共性">设计的共性</h3><p>拆，把复杂的问题变成简单的子问题，不断迭代<br>输入输出的把控<br>变化的预估</p>
-<h3 id="设计的模式">设计的模式</h3><p>系统级：分层，服务化（把公共的部分做成服务）<br>模块级：线程角色（主线程，工作线程），线程模型，流水线<br>设计模式：解决特定问题的特定方法</p>
-<h3 id="设计的过程">设计的过程</h3><p>定义问题，需求，系统边界<br>给出解决方案，尽可能多。在调研的阶段<strong>消灭变更</strong>。<br>选择解决方案</p>
-<h3 id="设计的原则">设计的原则</h3><p>simple is best，没有最好的设计，只有最合适的设计</p>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/设计模式/"> #设计模式 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/10/11/找工作总结-动态规划专题/">
-                动态规划
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-10-11
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/找工作总结/">找工作总结</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/10/11/找工作总结-动态规划专题/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/11/找工作总结-动态规划专题/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>动态规划的关键是写出状态转移方程</p>
-<h3 id="青蛙跳台阶_VS_斐波那契数列">青蛙跳台阶 VS 斐波那契数列</h3><h4 id="问题描述">问题描述</h4><p>一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法。</p>
-<h4 id="解法">解法</h4><p>状态转移方程：</p>
-<pre><code><span class="tag">a</span>[n] = <span class="tag">a</span>[n-<span class="number">1</span>] + <span class="tag">a</span>[n-<span class="number">2</span>]
-</code></pre><h4 id="代码">代码</h4><p>递归，使用vector存储每一步的结果，防止重复计算</p>
-<pre><code><span class="keyword">class</span> Solution {
-public:
-    int jumpFloor(int number) {
-        <span class="keyword">if</span>(number &lt;= 0) <span class="keyword">return</span> 0;
-        vector&lt;int&gt; <span class="literal">vec</span>(number + 1, 0);
-        <span class="keyword">count</span>(number, <span class="keyword">vec</span>);
-        <span class="keyword">return</span> <span class="keyword">vec</span>[number];
-    }
-    int <span class="keyword">count</span>(int <span class="keyword">n</span>, vector&lt;int&gt;&amp; <span class="keyword">vec</span>)
-    {
-        <span class="keyword">if</span>(<span class="keyword">n</span> == 0 || <span class="keyword">n</span> == 1 || <span class="keyword">n</span> == 2)
-            <span class="keyword">vec</span>[<span class="keyword">n</span>] = <span class="keyword">n</span>;
-        <span class="keyword">if</span>(<span class="keyword">vec</span>[<span class="keyword">n</span>] != 0)
-            <span class="keyword">return</span> <span class="keyword">vec</span>[<span class="keyword">n</span>];
-        <span class="keyword">else</span>
-        {
-            <span class="keyword">vec</span>[<span class="keyword">n</span>] = <span class="keyword">count</span>(<span class="keyword">n</span> - 1, <span class="keyword">vec</span>) + <span class="keyword">count</span>(<span class="keyword">n</span> - 2, <span class="keyword">vec</span>);
-            <span class="keyword">return</span> <span class="keyword">vec</span>[<span class="keyword">n</span>];
-        }
-    }
-};
-</code></pre><p>非递归：</p>
-<pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="built_in">int</span> jumpFloor(<span class="built_in">int</span> <span class="keyword">number</span>) {
-        <span class="keyword">if</span>(<span class="keyword">number</span> &lt;= <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
-        <span class="keyword">if</span>(<span class="keyword">number</span> == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;
-        <span class="keyword">if</span>(<span class="keyword">number</span> == <span class="number">2</span>) <span class="keyword">return</span> <span class="number">2</span>;
-        <span class="built_in">int</span> temp1 = <span class="number">1</span>, temp2 = <span class="number">2</span>, ans = <span class="number">0</span>;
-        for(<span class="built_in">int</span> i = <span class="number">3</span>; i &lt;= <span class="keyword">number</span>; i++)
-        {
-            ans = temp1 + temp2;
-            temp1 = temp2;
-            temp2 = ans;
-        }
-        <span class="keyword">return</span> ans;
-    }
-};
-</code></pre><h3 id="House_Robber">House Robber</h3><h4 id="问题描述-1">问题描述</h4><p>强盗偷东西，不能连续抢两家，求最多可以打劫到的金钱数。</p>
-<h4 id="解法-1">解法</h4><p>状态转移方程：</p>
-<pre><code>dp[i] = max<span class="comment">(dp[i-1], dp[i-2]+num[i])</span>
-</code></pre><p>表示当前位置最大的金钱数，等于i位置不打劫和i位置打劫的更大值。</p>
-<h4 id="代码-1">代码</h4><p>递归解法：</p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
-public:
-<span class="comment">//动态规划，状态转移方程：S(n)=max{S(n-1),S(n-2)+a[n]}</span>
-<span class="comment">//直接使用递归超时，需要额外存储换时间</span>
-    <span class="built_in">int</span> rob(vector&lt;<span class="built_in">int</span>&gt; &amp;<span class="built_in">num</span>) {
-        <span class="keyword">if</span>(<span class="built_in">num</span>.size() == <span class="number">0</span>)
-            <span class="keyword">return</span> <span class="number">0</span>;
-        vector&lt;<span class="built_in">int</span>&gt; res(<span class="built_in">num</span>.size(), -<span class="number">1</span>);
-        <span class="keyword">return</span> S(<span class="built_in">num</span>.size() - <span class="number">1</span>, <span class="built_in">num</span>, res) ;
-    }
-
-    <span class="built_in">int</span> S(<span class="built_in">int</span> i, vector&lt;<span class="built_in">int</span>&gt;&amp; <span class="built_in">num</span>, vector&lt;<span class="built_in">int</span>&gt;&amp; res)
-    {
-        <span class="keyword">if</span>(i == <span class="number">0</span>)
-            res[i] = <span class="built_in">num</span>[i];
-        <span class="keyword">else</span> <span class="keyword">if</span>(i == <span class="number">1</span>)
-            res[i] = max(<span class="built_in">num</span>[<span class="number">0</span>], <span class="built_in">num</span>[<span class="number">1</span>]);
-        <span class="keyword">else</span> <span class="keyword">if</span>(res[i] != -<span class="number">1</span>) 
-            <span class="keyword">return</span> res[i];
-        <span class="keyword">else</span>
-        {
-            <span class="built_in">int</span> S1=S(i-<span class="number">1</span>, <span class="built_in">num</span>, res);
-            <span class="built_in">int</span> S2=S(i-<span class="number">2</span>, <span class="built_in">num</span>, res) + <span class="built_in">num</span>[i];
-            res[i] = S1 &gt;= S2 ? S1 : S2;
-        }
-        <span class="keyword">return</span> res[i];
-    }
-};
-</code></pre><p>非递归解法：</p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
-public:
-    <span class="built_in">int</span> rob(vector&lt;<span class="built_in">int</span>&gt; &amp;<span class="built_in">num</span>) {
-        <span class="built_in">int</span> n = <span class="built_in">num</span>.size();
-        <span class="keyword">if</span>(n == <span class="number">0</span>)
-            <span class="keyword">return</span> <span class="number">0</span>;
-        <span class="keyword">else</span> <span class="keyword">if</span>(n == <span class="number">1</span>)
-            <span class="keyword">return</span> <span class="built_in">num</span>[<span class="number">0</span>];
-        <span class="keyword">else</span>
-        {
-            vector&lt;<span class="built_in">int</span>&gt; maxV(n, <span class="number">0</span>);
-            maxV[<span class="number">0</span>] = <span class="built_in">num</span>[<span class="number">0</span>];
-            maxV[<span class="number">1</span>] = max(<span class="built_in">num</span>[<span class="number">0</span>], <span class="built_in">num</span>[<span class="number">1</span>]);
-            <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">2</span>; i &lt; n; i ++)
-                maxV[i] = max(maxV[i - <span class="number">2</span>] + <span class="built_in">num</span>[i], maxV[i - <span class="number">1</span>]);
-            <span class="keyword">return</span> maxV[n - <span class="number">1</span>];
-        }
-    }
-};
-</code></pre><h3 id="House_Robber_II">House Robber II</h3><h4 id="题目描述">题目描述</h4><p>街道变成环，其他条件不变</p>
-<h4 id="解法-2">解法</h4><p>res = max（抢第一家到倒数第二家， 抢第二家到最后一家）</p>
-<h4 id="代码-2">代码</h4><pre><code>class Solution {
-public:
-    <span class="keyword">int</span> rob(<span class="keyword">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums) {
-        <span class="keyword">if</span>(nums.<span class="keyword">size</span>() == <span class="number">0</span>)
-            <span class="keyword">return</span> <span class="number">0</span>;
-        <span class="keyword">if</span>(nums.<span class="keyword">size</span>() == <span class="number">1</span>)
-            <span class="keyword">return</span> nums[<span class="number">0</span>];
-        <span class="keyword">return</span> <span class="keyword">max</span>(robber(nums, <span class="number">0</span>, nums.<span class="keyword">size</span>()-<span class="number">2</span>), robber(nums, <span class="number">1</span>, nums.<span class="keyword">size</span>()-<span class="number">1</span>));
-    }
-
-    <span class="keyword">int</span> robber(<span class="keyword">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums, <span class="keyword">int</span> left, <span class="keyword">int</span> right)
-    {
-        <span class="keyword">int</span> temp1 = <span class="number">0</span>, temp2 = <span class="number">0</span>,res = <span class="number">0</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=left;i&lt;=right;i++)
-        {
-            res = <span class="keyword">max</span>(temp1 + nums[i], temp2);
-            temp1 = temp2;
-            temp2 = res;
-        }
-        <span class="keyword">return</span> res;
-    }
-};
-</code></pre><h3 id="最大连续子序列">最大连续子序列</h3><h4 id="最大连续子序列和">最大连续子序列和</h4><p>遍历如果currentSum&lt;0 丢弃前面的数，否则currentSum+=num[i]。记录max</p>
-<pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="function"><span class="keyword">int</span> <span class="title">FindGreatestSumOfSubArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="built_in">array</span>)</span> </span>{
-        <span class="keyword">if</span>(<span class="built_in">array</span>.size() == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
-        <span class="keyword">int</span> greatest = <span class="built_in">array</span>[<span class="number">0</span>];
-        <span class="keyword">int</span> currentSum = <span class="number">0</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">array</span>.size(); i++)
-        {
-            <span class="keyword">if</span>(currentSum &lt;= <span class="number">0</span>)
-                currentSum = <span class="built_in">array</span>[i];
-            <span class="keyword">else</span>
-                currentSum += <span class="built_in">array</span>[i];
-
-            <span class="keyword">if</span>(currentSum &gt; greatest)
-                greatest = currentSum;
-        }
-        <span class="keyword">return</span> greatest;
-    }
-};
-</code></pre><h4 id="最大连续子序列乘积">最大连续子序列乘积</h4><pre><code><span class="keyword">class</span> Solution {
-//思路：动态规划，计算字数组和的时候sub[i+<span class="number">1</span>]=<span class="built_in">max</span>(sub[i]+A[i+<span class="number">1</span>],A[i+<span class="number">1</span>]),在计算子数组乘积的时候，
-/*
-<span class="built_in">max</span>[i]=<span class="built_in">max</span>(<span class="built_in">max</span>[i-<span class="number">1</span>]*nums[i], <span class="built_in">min</span>[i-<span class="number">1</span>]*nums[i],nums[i])
-<span class="built_in">min</span>[i]=<span class="built_in">min</span>(<span class="built_in">max</span>[i-<span class="number">1</span>]*nums[i], <span class="built_in">min</span>[i-<span class="number">1</span>]*nums[i],nums[i])
-*/
-<span class="keyword">public</span>:
-    <span class="built_in">int</span> maxProduct(vector&lt;<span class="built_in">int</span>&gt;&amp; nums) {
-        <span class="keyword">if</span>(nums.<span class="built_in">size</span>()==<span class="number">0</span>)
-            <span class="keyword">return</span> <span class="number">0</span>;
-        <span class="built_in">int</span> maxcur,mincur;
-        <span class="built_in">int</span> <span class="built_in">maxval</span> = nums[<span class="number">0</span>];
-        <span class="built_in">int</span> minpre = nums[<span class="number">0</span>];
-        <span class="built_in">int</span> maxpre = nums[<span class="number">0</span>];
-        for(<span class="built_in">int</span> i=<span class="number">1</span>;i&lt;nums.<span class="built_in">size</span>();i++)
-        {
-            maxcur = <span class="built_in">max</span>(<span class="built_in">max</span>(maxpre*nums[i],minpre*nums[i]),nums[i]);
-            mincur = <span class="built_in">min</span>(<span class="built_in">min</span>(maxpre*nums[i],minpre*nums[i]),nums[i]);
-            <span class="built_in">maxval</span> = <span class="built_in">max</span>(<span class="built_in">maxval</span>, maxcur);
-            minpre = mincur;
-            maxpre = maxcur;
-        }
-        <span class="keyword">return</span> <span class="built_in">maxval</span>;
-    }
-};
-</code></pre>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/递归/"> #递归 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/10/11/找工作总结-图遍历/">
-                图，回溯，遍历
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-10-11
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/找工作总结/">找工作总结</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/10/11/找工作总结-图遍历/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/11/找工作总结-图遍历/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>递归的本质是图的深度优先遍历</p>
-<h3 id="剑指offer_66_矩阵中的路径">剑指offer 66 矩阵中的路径</h3><h4 id="问题描述">问题描述</h4><p>请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。路径可以从矩阵中的任意一个格子开始，每一步可以在矩阵中向左，向右，向上，向下移动一个格子。如果一条路径经过了矩阵中的某一个格子，则该路径不能再进入该格子。 例如 a b c e s f c s a d e e 矩阵中包含一条字符串”bccced”的路径，但是矩阵中不包含”abcb”路径，因为字符串的第一个字符b占据了矩阵中的第一行第二个格子之后，路径不能再次进入该格子。</p>
-<h4 id="解法">解法</h4><p>使用<code>vector&lt;vector&lt;bool&gt;&gt; visited</code>记录位置是否被访问过。每个节点指向周围四个点，从而形成一个有向图。然后使用递归进行有向图的深度优先遍历。</p>
-<h4 id="代码">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="function"><span class="keyword">bool</span> <span class="title">hasPath</span><span class="params">(<span class="keyword">char</span>* matrix, <span class="keyword">int</span> rows, <span class="keyword">int</span> cols, <span class="keyword">char</span>* str)</span>
-    </span>{
-        <span class="keyword">if</span>(matrix == NULL || rows &lt; <span class="number">1</span> || cols &lt; <span class="number">1</span> || str == NULL)
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt;&gt; visited;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; rows; i++)
-        {
-            <span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt; vec(cols, <span class="keyword">false</span>);
-            visited.push_back(vec);
-        }
-        <span class="keyword">int</span> step = <span class="number">0</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; rows; i++)
-        {
-            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; cols; j++)
-            {
-                <span class="keyword">if</span>(hasPathCore(matrix, rows, cols, i, j, str, step, visited))
-                    <span class="keyword">return</span> <span class="keyword">true</span>;
-            }
-        }
-        <span class="keyword">return</span> <span class="keyword">false</span>;
-    }
-
-    <span class="function"><span class="keyword">bool</span> <span class="title">hasPathCore</span><span class="params">(<span class="keyword">char</span>* matrix, <span class="keyword">int</span> rows, <span class="keyword">int</span> cols, <span class="keyword">int</span> i, <span class="keyword">int</span> j,
-                     <span class="keyword">char</span>* str, <span class="keyword">int</span> &amp;step, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt; &gt; &amp;visited)</span>
-    </span>{
-        <span class="keyword">if</span>(str[step] == <span class="string">'\0'</span>)
-            <span class="keyword">return</span> <span class="keyword">true</span>;
-        <span class="keyword">bool</span> hasPath = <span class="keyword">false</span>;
-        <span class="keyword">if</span>(i &gt;=<span class="number">0</span> &amp;&amp; i&lt; rows &amp;&amp; j &gt;= <span class="number">0</span> &amp;&amp; j &lt; cols &amp;&amp;
-          matrix[i*cols + j] == str[step] &amp;&amp; !visited[i][j])
-        {
-            step++;
-            visited[i][j] = <span class="keyword">true</span>;
-            hasPath = hasPathCore(matrix, rows, cols, i-<span class="number">1</span>, j, str, step, visited) ||
-                hasPathCore(matrix, rows, cols, i+<span class="number">1</span>, j, str, step, visited) ||
-                hasPathCore(matrix, rows, cols, i, j-<span class="number">1</span>, str, step, visited) ||
-                hasPathCore(matrix, rows, cols, i, j+<span class="number">1</span>, str, step, visited);
-            <span class="keyword">if</span>(!hasPath)
-            {
-                step--;
-                visited[i][j] = <span class="keyword">false</span>;
-            }
-        }
-        <span class="keyword">return</span> hasPath;          
-    }
-};
-</code></pre><h3 id="剑指offer_67_机器人的运动范围">剑指offer 67 机器人的运动范围</h3><h4 id="问题描述-1">问题描述</h4><p>地上有一个m行和n列的方格。一个机器人从坐标0,0的格子开始移动，每一次只能向左，右，上，下四个方向移动一格，但是不能进入行坐标和列坐标的数位之和大于k的格子。 例如，当k为18时，机器人能够进入方格（35,37），因为3+5+3+7 = 18。但是，它不能进入方格（35,38），因为3+5+3+8 = 19。请问该机器人能够达到多少个格子？</p>
-<h4 id="解法-1">解法</h4><p>模拟，进行图的深度优先遍历，每走一步是否满足条件。</p>
-<h4 id="代码-1">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="function"><span class="keyword">int</span> <span class="title">movingCount</span><span class="params">(<span class="keyword">int</span> threshold, <span class="keyword">int</span> rows, <span class="keyword">int</span> cols)</span>
-    </span>{
-        <span class="keyword">bool</span> *visited = <span class="keyword">new</span> <span class="keyword">bool</span>[rows*cols];
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;rows*cols;i++)
-            visited[i] = <span class="keyword">false</span>;
-        <span class="keyword">int</span> count = movingCountCore(threshold, rows, cols, <span class="number">0</span>, <span class="number">0</span>, visited);
-        <span class="keyword">delete</span> [] visited;
-        <span class="keyword">return</span> count;
-    }
-
-    <span class="function"><span class="keyword">int</span> <span class="title">movingCountCore</span><span class="params">(<span class="keyword">int</span> threshold, <span class="keyword">int</span> rows, <span class="keyword">int</span> cols, <span class="keyword">int</span> i, <span class="keyword">int</span> j, <span class="keyword">bool</span>* visited)</span>
-    </span>{
-        <span class="keyword">int</span> count = <span class="number">0</span>;
-        <span class="keyword">if</span>(check(threshold, rows, cols, i, j, visited))
-        {
-            visited[i * cols + j] = <span class="keyword">true</span>;
-            count = <span class="number">1</span> + movingCountCore(threshold, rows, cols, i-<span class="number">1</span>, j, visited)
-                + movingCountCore(threshold, rows, cols, i+<span class="number">1</span>, j, visited)
-                + movingCountCore(threshold, rows, cols, i, j-<span class="number">1</span>, visited)
-                + movingCountCore(threshold, rows, cols, i, j+<span class="number">1</span>, visited);
-        }
-        <span class="keyword">return</span> count;
-    }
-
-    <span class="function"><span class="keyword">bool</span> <span class="title">check</span><span class="params">(<span class="keyword">int</span> threshold, <span class="keyword">int</span> rows, <span class="keyword">int</span> cols, <span class="keyword">int</span> i, <span class="keyword">int</span> j, <span class="keyword">bool</span>* visited)</span>
-    </span>{
-        <span class="keyword">if</span>(i &gt;= <span class="number">0</span> &amp;&amp; i &lt; rows &amp;&amp; j &gt;= <span class="number">0</span> &amp;&amp; j &lt; cols &amp;&amp; !visited[i*cols + j]
-          &amp;&amp; getDigitSum(i)+getDigitSum(j) &lt;= threshold
-          )  
-            <span class="keyword">return</span> <span class="keyword">true</span>;
-        <span class="keyword">return</span> <span class="keyword">false</span>;
-    }
-
-    <span class="function"><span class="keyword">int</span> <span class="title">getDigitSum</span><span class="params">(<span class="keyword">int</span> number)</span>
-    </span>{
-        <span class="keyword">int</span> sum = <span class="number">0</span>;
-        <span class="keyword">while</span>(number)
-        {
-            sum += number%<span class="number">10</span>;
-            number /= <span class="number">10</span>;
-        }
-        <span class="keyword">return</span> sum;
-    }    
-};
-</code></pre>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/图/"> #图 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
   <div class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">&raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">&raquo;</a>
   </div>
 
 
@@ -1918,21 +1849,21 @@ public:
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">50</span>
+              <span class="site-state-item-count">53</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-count">27</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

@@ -168,7 +168,7 @@
 <blockquote>
 <p>LESS 包含一套自定义的语法及一个解析器，用户根据这些语法定义自己的样式规则，这些规则最终会通过解析器，编译生成对应的 CSS 文件。</p>
 </blockquote>
-<p><a href="http://v3.bootcss.com/components/" target="_blank" rel="external">使用boostrap的组件</a><br><a href="https://bootswatch.com/" target="_blank" rel="external">寻找漂亮的的bootstrap主题</a><br>本文主要讨论bootstrap的布局</p>
+<p><a href="http://v3.bootcss.com/components/" target="_blank" rel="external">使用boostrap的组件</a><br><a href="https://bootswatch.com/" target="_blank" rel="external">寻找漂亮的的bootstrap主题</a><br>本文主要讨论bootstrap的布局,<a href="http://www.tuicool.com/articles/Afuu2q" target="_blank" rel="external">原文</a></p>
 <h2 id="栅格化布局">栅格化布局</h2><blockquote>
 <p>Bootstrap 提供了一套<strong>响应式</strong>、<strong>移动设备优先</strong>的流式栅格系统，随着屏幕或视口（viewport）尺寸的增加，系统会自动分为最多12列。</p>
 </blockquote>
@@ -194,6 +194,40 @@
 </ul>
 <h2 id="栅格系统之row">栅格系统之row</h2><p>row 为 col 提供了空间，理想上一行上分了 12 col<br>Rows  的两侧都拥有独特的负 15px margin 值<br><strong>永远不要在 container 外用 row, row 在 container 外面使用是无效的</strong><br><img src="http://ww4.sinaimg.cn/mw690/4c2edcb7jw1eqd4pm6ym6j20go08jmxm.jpg" alt="enter image description here"></p>
 <h2 id="栅格系统之column">栅格系统之column</h2><p>列(col)现在有15px的padding了，如下图中黄颜色部分。Container的正padding值造成了15px的留空，row用负margin值反的延伸回去，<br><strong>所以现在col的padding值与container的padding重叠了</strong><br><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eqd4pmjifqj20go08kjrz.jpg" alt="enter image description here"><br><strong>永远不要在row外使用col,在row外使用col是无效的</strong><br>然后col就是一个.container了，你可以在里面继续使用row了<br><strong>container/row/column整这么些事儿最终要达到的结果就体现在这里了，就是为了col的补白</strong></p>
+<h2 id="Nesting嵌套">Nesting嵌套</h2><p>当你设置了container,row,column后，你可以在column内再创建新的栅格系统。你在右侧的列(col)内添加新的行(row)时不需再嵌container了<br><img src="http://ww1.sinaimg.cn/large/4c2edcb7jw1exv186nlohj20go08kq4k.jpg" alt=""></p>
+<p><strong>为什么嵌套时不需要新的container了？</strong><br>这个技巧在于列(col)扮演了container一样的角色，列也有15px的padding值，它一样允许行(row)的负margin值,它内部的列、内容间的补白等都一样能很好的工作了</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1exv186vbqwj20go08ktat.jpg" alt=""></p>
+<h2 id="Offsets_偏移">Offsets 偏移</h2><p>偏移的实现相当简单，仅仅是在列(col)的左侧加上了margin值，</p>
+<p>唯一比较怪的地方可能是在最左侧的col是从-15px的row的margin值开始偏移的，中间的列的偏移则是直接从前一个列开始偏移，分割分离出补白。</p>
+<p>除此之外，偏移就表现的像列(col)一样</p>
+<p><img src="http://ww4.sinaimg.cn/large/4c2edcb7jw1exv1874y5nj20go08lq4d.jpg" alt=""></p>
+<h2 id="The_Reasoning_Behind_It_总结一下背后的原理">The Reasoning Behind It 总结一下背后的原理</h2><p><strong>Container:</strong></p>
+<p>正是由于 container 这样设计才让 content 的两侧拥有 15px 的 padding 值的补白，</p>
+<p>另外，整个 body 拥有 15px 的 padding 值，这使整体上不会紧贴浏览器的边缘，当然如果对于满屏设计并带有背景色的 div 就不好了 ..</p>
+<p><strong>Rows:</strong></p>
+<p>行(row)拥有负的margin值，并且值等于container的padding值，以至于边界与container得以重叠（相等）</p>
+<p>，负的margin值叠在了padding上，这让row看起来没被container的padding所影响.为啥？自行脑补..</p>
+<p><strong>Columns：</strong></p>
+<p>列(col)又拥有15px 的padding，所以能真正让content拥有15px的补白,而又让列之间拥有了15px+15px的中间补白，</p>
+<p>正是因为如此，这个栅格系统不需要像960排版（blueprint, 等）系统似的对第一列或最生一列进行特殊的处理。</p>
+<p>现在不管怎样在列之间都拥有15px的空白了。</p>
+<p><strong>Nested Rows：</strong></p>
+<p>嵌套行的原理就像上面一样，只是它的重叠住了列的padding ，其实就把外面的列当作 container 了，</p>
+<p>本质上列扮演了 container 的角色，所以嵌套行时你不再需要 container</p>
+<p><strong>Nested Columns: </strong> </p>
+<p>嵌套列没什么好讲的了，和上面一样</p>
+<p><strong>Offsets: </strong></p>
+<p>偏移的本质就是分割空白间隔，通过增加空白间隔达到你想要的距离，非常的简单</p>
+<h2 id="Common_Problems">Common Problems</h2><p>这里有些普遍会发生的 bug 值得注意，一些 bug 在 HTML 中很容易就能看出来 .</p>
+<p><strong>缺少 Container</strong> ： 第一个容易产生 bug 的地方是忘记添加 container 。没有 container 意味着没有 padding 与行 (row) 的负 margin 直相抵消，</p>
+<p>意味着行会超出父元素。当元素处于浏览器边缘时，这是最普遍的造成奇怪的横向滚动的原因</p>
+<p><img src="http://ww1.sinaimg.cn/large/4c2edcb7jw1exv187hh6wj20go08kdhl.jpg" alt=""></p>
+<p><strong>缺少 row:</strong></p>
+<p>第二个普遍问题是少了 row, 这与缺少 container 产生的问题相反， content 与浏览器 /viewport 的边缘拥有了 30px 的距离，</p>
+<p>比正常值多了一倍。而且你的列浮动也会产生问题。由于缺少了外面 row 的包裹，浮动没有得到正常的清除，所以浮动就可能产生问题。</p>
+<p>同样，当你试图嵌套栅格系统时，同样新嵌进去的 content 离左侧的边距达到了 45px</p>
+<p><img src="http://ww4.sinaimg.cn/mw690/4c2edcb7jw1exv18808tvj20go08kq4c.jpg" alt=""></p>
+<p><strong>Container 内的元素再嵌 container:</strong><br>在 container 内任意元素内再嵌 container 会导致很多问题，如双倍的 padding 值，空白间隔，怪异的横向滚动<br><img src="http://ww1.sinaimg.cn/large/4c2edcb7jw1exv188a41wj20go08k40c.jpg" alt=""></p>
 
       
     </div>
@@ -281,21 +315,21 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">50</span>
+              <span class="site-state-item-count">53</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-count">27</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -329,7 +363,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栅格化布局"><span class="nav-number">2.</span> <span class="nav-text">栅格化布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内边距，外边距"><span class="nav-number">3.</span> <span class="nav-text">内边距，外边距</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栅格系统之布局容器-container"><span class="nav-number">4.</span> <span class="nav-text">栅格系统之布局容器.container</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栅格系统之row"><span class="nav-number">5.</span> <span class="nav-text">栅格系统之row</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栅格系统之column"><span class="nav-number">6.</span> <span class="nav-text">栅格系统之column</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栅格化布局"><span class="nav-number">2.</span> <span class="nav-text">栅格化布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内边距，外边距"><span class="nav-number">3.</span> <span class="nav-text">内边距，外边距</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栅格系统之布局容器-container"><span class="nav-number">4.</span> <span class="nav-text">栅格系统之布局容器.container</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栅格系统之row"><span class="nav-number">5.</span> <span class="nav-text">栅格系统之row</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栅格系统之column"><span class="nav-number">6.</span> <span class="nav-text">栅格系统之column</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nesting嵌套"><span class="nav-number">7.</span> <span class="nav-text">Nesting嵌套</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Offsets_偏移"><span class="nav-number">8.</span> <span class="nav-text">Offsets 偏移</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The_Reasoning_Behind_It_总结一下背后的原理"><span class="nav-number">9.</span> <span class="nav-text">The Reasoning Behind It 总结一下背后的原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Common_Problems"><span class="nav-number">10.</span> <span class="nav-text">Common Problems</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

@@ -123,6 +123,404 @@
           
           
             
+              <a class="post-title-link" href="/2015/05/23/Hadoop基本原理/">
+                Hadoop基本原理
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-05-23
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Hadoop/">Hadoop</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/05/23/Hadoop基本原理/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/23/Hadoop基本原理/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="了解大数据">了解大数据</h3><p>首先，搞清楚hadoop在处理大数据的定位在哪里</p>
+<h4 id="什么是大数据？为什么要处理大数据？">什么是大数据？为什么要处理大数据？</h4><p>数据量大（Volume） 数据类别复杂（Variety） 数据处理速度快（Velocity） 数据真实性高（Veracity） 合起来被称为4V。</p>
+<p>处理大数据是为了挖掘数据中的隐含价值</p>
+<h4 id="如何处理大数据？">如何处理大数据？</h4><p>集中式计算VS分布式计算</p>
+<p>集中式计算：通过不断增加处理器的个数来增强耽搁计算机的计算能力，从而提高处理的速度。需要的内存很大，计算的速度很快。</p>
+<p>分布式计算：一组通过网络连接的计算机，形成一个分散的系统。将需要处理的大量数据分散成多个部分，交由系统中的耽搁计算机分别处理，最后将这些计算结果合并得到最终结果。（MapReduce的核心思想）</p>
+<h3 id="Hadoop是怎么产生的">Hadoop是怎么产生的</h3><h4 id="技术基础">技术基础</h4><p>google三驾马车：GFS、MapReduce和BigTable。Hadoop是在google三驾马车基础上的开源实现。</p>
+<ol>
+<li>GFS（Google File System）分布式文件系统，对应Hadoop当中的HDFS。</li>
+<li>MapReduce分布式计算框架，也是Hadoop处理大数据的核心思想。</li>
+<li>BigTable是基于GFS的数据存储系统，对应Hadoop的HBase。</li>
+</ol>
+<h4 id="三大分布式计算系统">三大分布式计算系统</h4><p>Hadoop，Spark，Storm是主流的三大分布式计算系统</p>
+<p>Spark VS Hadoop</p>
+<p>Hadoop使用硬盘来存储数据，而Spark是将数据存在内存中的，因此Spark何以提供超过Hadoop 100倍的计算速度。内存断电后会丢失，所以Spark不<br>适用于需要长期保存的数据。</p>
+<p>Storm VS Hadoop</p>
+<p>Storm在Hadoop基础上提供了实时运算的特性，可以实时处理大数据流。不同于Hadoop和Spark，Storm不尽兴数据的手机和存储工作，直接通过网络接受并实时处理数据，然后直接通过网络实时传回结果。</p>
+<p>所以三者适用于的应用场景分别为：</p>
+<ol>
+<li>Hadoop常用于离线的复杂的大数据处理</li>
+<li>Spark常用于离线的快速的大数据处理</li>
+<li>Storm常用于在线实时的大数据处理</li>
+</ol>
+<h3 id="Hadoop定义">Hadoop定义</h3><h4 id="Hadoop是什么">Hadoop是什么</h4><p>Hadoop是一个能够对大量数据进行分布式处理的软件框架</p>
+<h4 id="Hadoop特点">Hadoop特点</h4><ol>
+<li>可靠。Hadoop假设计算元素和存储会失败，所以会维护多个工作数据的副本，对失败的节点会重新处理</li>
+<li>高效。通过并行方式工作，加快处理速度。</li>
+<li>可伸缩。可以处理PB级的数据。</li>
+<li>高扩展。可以方便地扩展到数以千计的节点。</li>
+<li>低成本。Hadoop是开源的，Hadoop节点可以是很便宜的机器。</li>
+</ol>
+<h4 id="应用场景">应用场景</h4><p>Hadoop适用于：海量数据，离线数据，复杂数据</p>
+<p>场景1：数据分析，如海量日志分析，商品推荐，用户行为分析</p>
+<p>场景2：离线计算，（异构计算+分布式计算）天文计算</p>
+<p>场景3：海量数据存储，如Facebook的存储集群。</p>
+<p><a href="http://cloud.zol.com.cn/441/4415033_all.html" target="_blank" rel="external">更多应用场景</a></p>
+<h3 id="Hadoop原理">Hadoop原理</h3><h4 id="HDFS">HDFS</h4><p>HDFS（Hadoop File System），是Hadoop的分布式文件存储系统</p>
+<ol>
+<li>将大文件分解为多个Block，每个Block保存多个副本。提供容错机制，副本丢失或者宕机时自动恢复。</li>
+<li>默认每个Block保存3个副本，64M为1个Block。</li>
+<li>将Block按照key-value映射到内存当中。</li>
+</ol>
+<p>HDFS架构图如下：</p>
+<p><img src="http://i.imgur.com/ZliSEXb.png" alt=""></p>
+<h5 id="NameNode">NameNode</h5><p>HDFS使用主从结构，NameNode是Master节点，是领导。所有的客户端的读写请求，都需要首先请求NameNode。</p>
+<p>NameNode存储</p>
+<ol>
+<li>fsimage：元数据镜像文件（文件系统的目录树，文件的<strong>元数据</strong>信息）。元数据信息包括文件的信息，文件对应的block信息（版本信息，类型信息，和checksum），以及每一个block所在的DataNode的信息。</li>
+<li>edits：元数据的操作日志</li>
+</ol>
+<h5 id="DataNode">DataNode</h5><p>DataNode是Slave，负责真正存储所有的block内容，以及数据块的读写操作</p>
+<p>NameNode，DataNode，rack只是一些逻辑上的概念。NameNode和DataNode可能是一台机器也可能是，相邻的一台机器，很多DataNode可能处于同一台机器。rack是逻辑上比DataNode更大的概念，可能是一台机器，一台机柜，也可能是一个机房。通过使文件的备份更广泛地分布到不同的rack，DataNode上可以保证数据的可靠性。</p>
+<h5 id="HDFS写入数据">HDFS写入数据</h5><ol>
+<li>Client拆分文件为64M一块。</li>
+<li>Client向NameNode发送写数据请求。</li>
+<li>NameNode节点，记录block信息。并返回可用的DataNode。</li>
+<li>Client向DataNode发送block1,2,3….；发送过程是以流式写入。流式写入，数据流向为DataNode1-&gt;DataNode2-&gt;DataNode3(1,2,3为通过规则选出来的可用的DataNode)</li>
+<li>发送完毕后告知NameNode</li>
+<li>NameNode告知Client发送完成</li>
+</ol>
+<p>在写数据的时候：</p>
+<ul>
+<li>写1T文件，我们需要3T的存储，3T的网络流量贷款。</li>
+<li>在执行读或写的过程中，NameNode和DataNode通过HeartBeat进行保存通信，确定DataNode活着。如果发现DataNode死掉了，就将死掉的DataNode上的数据，放到其他节点去。读取时，要读其他节点去。</li>
+<li>挂掉一个节点，没关系，还有其他节点可以备份；甚至，挂掉某一个机架，也没关系；其他机架上，也有备份。</li>
+</ul>
+<h5 id="HDFS读取数据">HDFS读取数据</h5><ol>
+<li>Client向NameNode发送读请求</li>
+<li>NameNode查看MetaData信息，返回文件的block位置</li>
+<li>根据一定规则（优先选择附近的数据），按顺序读取block</li>
+</ol>
+<p><a href="http://www.weixuehao.com/archives/596" target="_blank" rel="external">更多内容</a></p>
+<h4 id="MapReduce">MapReduce</h4><p>Map是把一组数据一对一的<strong>映射</strong>为另外的一组数据，其映射的规则由一个<strong>map函数</strong>来指定。Reduce是对一组数据进行<strong>归约</strong>，这个归约的规则由一个<strong>reduce函数</strong>指定。</p>
+<p>整个的MapReduce执行过程可以表示为：</p>
+<p><code>(input)&lt;k1, v1&gt; =&gt; map =&gt; &lt;k2, v2&gt; =&gt; combine =&gt; &lt;k2, v2’&gt; =&gt; reduce =&gt; &lt;k3, v3&gt;(output)</code></p>
+<p>也可以表示为流程图：</p>
+<p><img src="http://i.imgur.com/yRsLgoK.png" alt=""></p>
+<ol>
+<li><strong>分割</strong>：把输入数据分割成不相关的若干键/值对（key1/value1）集合，作为input</li>
+<li><strong>映射</strong>：这些键/值对会由多个map任务来<strong>并行地处理</strong>。输出一些中间键/值对key2/value2集合</li>
+<li><strong>排序</strong>：MapReduce会对map的输出（key2/value2）按照key2进行排序（便于归并）</li>
+<li><strong>conbine</strong>：属于同一个key2的所有value2组合在一起作为reduce任务的输入（相当于提前reduce，减小key2的数量，减小reduce的负担）</li>
+<li><strong>Partition</strong>：将mapper的输出分配到reducer；（Map的中间结果通常用”hash(key) mod R”这个结果作为标准）</li>
+<li><strong>规约</strong>：由reduce任务计算出最终结果并输出key3/value3。</li>
+</ol>
+<h4 id="程序员需要做的">程序员需要做的</h4><ul>
+<li>单机程序需要处理数据读取和写入、数据处理</li>
+<li>Hadoop程序需要实现map和reduce函数</li>
+<li>map和reduce之间的数据传输、排序，容错处理等由Hadoop MapReduce和HDFS自动完成。</li>
+</ul>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Hadoop/"> #Hadoop </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/04/22/一步一步写一个PHP框架2/">
+                一步一步写一个PHP框架（二）
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-04-22
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/web开发/">web开发</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/04/22/一步一步写一个PHP框架2/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/22/一步一步写一个PHP框架2/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>在写第一个PHP框架的时候参考<a href="!http://www.yuansir-web.com/2012/01/10/%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%86%99php-mvc%E6%A1%86%E6%9E%B6%E4%B8%80/">这位大哥</a>,的内容和Codeigniter框架的源码。</p>
+<h2 id="程序框架的搭建">程序框架的搭建</h2><p>前提：已经搭建好了一个apache+PHP的开发环境，我使用的是Apache+mod_php5的方式。</p>
+<p>在根目录<code>simplemvc</code>下新建以下文件夹</p>
+<ul>
+<li><code>config</code> 用来存放配置文件</li>
+<li><code>controller</code>用来存放控制器</li>
+<li><code>lib</code>用来存放引入的库文件</li>
+<li><code>model</code>用来存放模型</li>
+<li><code>system</code>用来存放系统文件<ul>
+<li><code>core</code>核心文件，包括核心controller控制器等，所有的controller都要继承于他</li>
+<li><code>lib</code>存放核心的库文件，包括route等</li>
+<li><code>app.php</code>应用程序驱动类</li>
+</ul>
+</li>
+<li><code>view</code>用来存放视图</li>
+<li><code>index.php</code>项目的入口文件，程序是从这里开始执行的。</li>
+</ul>
+<h2 id="定义系统路径">定义系统路径</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//&#39044;&#23450;&#20041;&#10;define(&#39;SYSTEM_PATH&#39;, dirname(__FILE__).&#39;/system&#39;);&#10;define(&#39;ROOT_PATH&#39;,  substr(SYSTEM_PATH, 0,-7));&#10;define(&#39;SYS_LIB_PATH&#39;, SYSTEM_PATH.&#39;/lib&#39;);&#10;define(&#39;APP_LIB_PATH&#39;, ROOT_PATH.&#39;/lib&#39;);&#10;define(&#39;SYS_CORE_PATH&#39;, SYSTEM_PATH.&#39;/core&#39;);&#10;define(&#39;CONTROLLER_PATH&#39;, ROOT_PATH.&#39;/controller&#39;);&#10;define(&#39;MODEL_PATH&#39;, ROOT_PATH.&#39;/model&#39;);&#10;define(&#39;VIEW_PATH&#39;, ROOT_PATH.&#39;/view&#39;);</span><br></pre></td></tr></table></figure>
+<p>预定义一些常量，在之后的程序中我们会使用这些路径。</p>
+<h2 id="加载配置文件，和应用程序驱动类">加载配置文件，和应用程序驱动类</h2><h3 id="配置文件">配置文件</h3><p>在config文件夹下的<code>config.php</code><br>··<br>$CONFIG[‘system’][‘db’]</p>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PHP/"> #PHP </a>
+          
+            <a href="/tags/PHP框架/"> #PHP框架 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/04/20/一步一步写一个PHP框架1/">
+                一步一步写一个PHP框架（一）
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-04-20
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/web开发/">web开发</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/04/20/一步一步写一个PHP框架1/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/20/一步一步写一个PHP框架1/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="前言">前言</h2><p>完成了一个小项目，使用Apache+MySql+PHP。PHP中使用的框架是CodeIgniter，这是一个轻量易扩展的PHP MVC框架，适用于轻量级的网站搭建。CodeIgniter手册清晰丰富，覆盖了一般网站的所有需求。</p>
+<p>为了更好地理解PHP里面框架的设计，目标是自己写一个简单的PHP MVC框架，一方面可以更深入地学习PHP，一方面也能够更深入地理解框架设计里面的思想。</p>
+<h2 id="Apache的工作流程">Apache的工作流程</h2><p>Apache是一个Web服务器，也可以叫做http服务器，因为Apache只能处理http请求。常见的web服务器还有Nginx</p>
+<p>Apache的工作流程如下：</p>
+<ol>
+<li>浏览器向服务器发出HTTP请求(Request)。</li>
+<li>服务器收到浏览器的请求数据，经过分析处理，向浏览器输出响应数据（Response）。</li>
+<li>浏览器收到服务器的响应数据，经过分析处理，将最终结果显示在浏览器中。</li>
+</ol>
+<p>Apache和Nginx都属于Web服务器，两者都实现了HTTP 1.1协议。</p>
+<p>所以如果有人问FTP协议可以在Apache上工作吗？答案是用Apache FTP Server可以，Apache web服务器不可以。</p>
+<p>Apache是用C语言写的，服务器当然要追求高效率。</p>
+<h2 id="PHP原理">PHP原理</h2><p>PHP的核心解释器是用C语言写的，相当于我们写了PHP代码，会有一个C语言写好的解释工具一边解释，一边执行。实际上在写PHP的时候就是在使用一个C语言写好的工具，我们的PHP代码就是指挥这个工具的命令。</p>
+<p>PHP包括四层体系：</p>
+<ol>
+<li>Zend引擎：Zend整体用纯C实现，是PHP的内核部分。负责翻译PHP代码，是一切的核心。</li>
+<li>Extensions：围绕Zend引擎，通过组件方式提供基础服务。常见内置函数如array是由extension实现的。</li>
+<li>Sapi通过一系列的<strong>钩子函数</strong>，使得PHP可以和外围交互数据。如Apache</li>
+<li>上层应用：平时写的PHP程序</li>
+</ol>
+<blockquote>
+<p>如果PHP是一辆车，那么车的框架就是PHP本身，Zend是车的引擎（发动机），Ext下面的各种组件就是车的轮子，Sapi可以看做是公路， 车可以跑在不同类型的公路上，而一次PHP程序的执行就是汽车跑在公路上。因此，我们需要：性能优异的引擎+合适的车轮+正确的跑道。</p>
+</blockquote>
+<p>PHP的执行的核心是翻译出来的一条一条指令，也即opcode。</p>
+<p><strong>hashtable</strong>是PHP的核心数据结构，数组就是典型的应用。Zend hash table实现了典型的hash表散列结构，同时通过附加一个双向链表（解决冲突），提供了正向、反向遍历数组的功能。</p>
+<p>更详细的内容参考<a href="!http://www.cnblogs.com/zcy_soft/archive/2013/03/14/2959396.html">这里</a></p>
+<h2 id="PHP在Apache上运行">PHP在Apache上运行</h2><h3 id="以模块加载的方式运行">以模块加载的方式运行</h3><p>这种方式使用了Apache的Hook机制。所谓Hook机制，就是在自己的程序运行的时候允许别的模块插上一腿。当我们配置Apache服务器的<code>http.config</code>文件时，写入<code>mod_php5.so/php5apache2.dll</code>就是将自定义的函数注入到Apache的请求处理循环当中。在模块化的运行方式中，PHP与Web服务器一起启动并且运行，通过Apache自身的进程线程管理来处理并发的请求。</p>
+<h3 id="以CGI，FastCGI方式运行">以CGI，FastCGI方式运行</h3><p>CGI英文叫做公共网关接口，CGI是外部应用程序（CGI程序）与Web服务器之间的接口标准，是在CGI程序和Web服务器之间传递信息的规程。Apache在Http请求的时候会将请求提交给CGI应用程序（php-cgi.exe）解释，解释之后的结果返回给Apache，然后再返回给相应的请求用户。</p>
+<p>CGI VS FastCGI</p>
+<p>FastCGI是CGI的加强版本，CGI是单进程，多线程的运行方式，程序执行完成之后就会销毁。FastCGI是常驻(long-live)型的CGI.有自身的进程管理器，不必每一次都fork一个进程（CGI解释器）去执行。常见的PHP-FPM是一个PHP FastCGI管理器。</p>
+<p>关于更多的对比可以看<a href="http://fifiole.blog.163.com/blog/static/169459225201222962651804/" target="_blank" rel="external">这里</a>。</p>
+<blockquote>
+<p>目前在HTTPServer这块基本可以看到有三种stack比较流行：</p>
+<p>（1）Apache+mod_php5</p>
+<p>（2）lighttp+spawn-fcgi</p>
+<p>（3）nginx+PHP-FPM</p>
+<p>三者后两者性能可能稍优，但是Apache由于有丰富的模块和功能，目前来说仍旧是老大。有人测试nginx+PHP-FPM在高并发情况下可能会达到Apache+mod_php5的5~10倍，现在nginx+PHP-FPM使用的人越来越多。</p>
+</blockquote>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PHP/"> #PHP </a>
+          
+            <a href="/tags/PHP框架/"> #PHP框架 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/04/07/如何完成一个在线考试的功能/">
                 如何完成一个在线考试的功能
               </a>
@@ -532,7 +930,7 @@
 <blockquote>
 <p>LESS 包含一套自定义的语法及一个解析器，用户根据这些语法定义自己的样式规则，这些规则最终会通过解析器，编译生成对应的 CSS 文件。</p>
 </blockquote>
-<p><a href="http://v3.bootcss.com/components/" target="_blank" rel="external">使用boostrap的组件</a><br><a href="https://bootswatch.com/" target="_blank" rel="external">寻找漂亮的的bootstrap主题</a><br>本文主要讨论bootstrap的布局</p>
+<p><a href="http://v3.bootcss.com/components/" target="_blank" rel="external">使用boostrap的组件</a><br><a href="https://bootswatch.com/" target="_blank" rel="external">寻找漂亮的的bootstrap主题</a><br>本文主要讨论bootstrap的布局,<a href="http://www.tuicool.com/articles/Afuu2q" target="_blank" rel="external">原文</a></p>
 <h2 id="栅格化布局">栅格化布局</h2><blockquote>
 <p>Bootstrap 提供了一套<strong>响应式</strong>、<strong>移动设备优先</strong>的流式栅格系统，随着屏幕或视口（viewport）尺寸的增加，系统会自动分为最多12列。</p>
 </blockquote>
@@ -558,6 +956,40 @@
 </ul>
 <h2 id="栅格系统之row">栅格系统之row</h2><p>row 为 col 提供了空间，理想上一行上分了 12 col<br>Rows  的两侧都拥有独特的负 15px margin 值<br><strong>永远不要在 container 外用 row, row 在 container 外面使用是无效的</strong><br><img src="http://ww4.sinaimg.cn/mw690/4c2edcb7jw1eqd4pm6ym6j20go08jmxm.jpg" alt="enter image description here"></p>
 <h2 id="栅格系统之column">栅格系统之column</h2><p>列(col)现在有15px的padding了，如下图中黄颜色部分。Container的正padding值造成了15px的留空，row用负margin值反的延伸回去，<br><strong>所以现在col的padding值与container的padding重叠了</strong><br><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eqd4pmjifqj20go08kjrz.jpg" alt="enter image description here"><br><strong>永远不要在row外使用col,在row外使用col是无效的</strong><br>然后col就是一个.container了，你可以在里面继续使用row了<br><strong>container/row/column整这么些事儿最终要达到的结果就体现在这里了，就是为了col的补白</strong></p>
+<h2 id="Nesting嵌套">Nesting嵌套</h2><p>当你设置了container,row,column后，你可以在column内再创建新的栅格系统。你在右侧的列(col)内添加新的行(row)时不需再嵌container了<br><img src="http://ww1.sinaimg.cn/large/4c2edcb7jw1exv186nlohj20go08kq4k.jpg" alt=""></p>
+<p><strong>为什么嵌套时不需要新的container了？</strong><br>这个技巧在于列(col)扮演了container一样的角色，列也有15px的padding值，它一样允许行(row)的负margin值,它内部的列、内容间的补白等都一样能很好的工作了</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1exv186vbqwj20go08ktat.jpg" alt=""></p>
+<h2 id="Offsets_偏移">Offsets 偏移</h2><p>偏移的实现相当简单，仅仅是在列(col)的左侧加上了margin值，</p>
+<p>唯一比较怪的地方可能是在最左侧的col是从-15px的row的margin值开始偏移的，中间的列的偏移则是直接从前一个列开始偏移，分割分离出补白。</p>
+<p>除此之外，偏移就表现的像列(col)一样</p>
+<p><img src="http://ww4.sinaimg.cn/large/4c2edcb7jw1exv1874y5nj20go08lq4d.jpg" alt=""></p>
+<h2 id="The_Reasoning_Behind_It_总结一下背后的原理">The Reasoning Behind It 总结一下背后的原理</h2><p><strong>Container:</strong></p>
+<p>正是由于 container 这样设计才让 content 的两侧拥有 15px 的 padding 值的补白，</p>
+<p>另外，整个 body 拥有 15px 的 padding 值，这使整体上不会紧贴浏览器的边缘，当然如果对于满屏设计并带有背景色的 div 就不好了 ..</p>
+<p><strong>Rows:</strong></p>
+<p>行(row)拥有负的margin值，并且值等于container的padding值，以至于边界与container得以重叠（相等）</p>
+<p>，负的margin值叠在了padding上，这让row看起来没被container的padding所影响.为啥？自行脑补..</p>
+<p><strong>Columns：</strong></p>
+<p>列(col)又拥有15px 的padding，所以能真正让content拥有15px的补白,而又让列之间拥有了15px+15px的中间补白，</p>
+<p>正是因为如此，这个栅格系统不需要像960排版（blueprint, 等）系统似的对第一列或最生一列进行特殊的处理。</p>
+<p>现在不管怎样在列之间都拥有15px的空白了。</p>
+<p><strong>Nested Rows：</strong></p>
+<p>嵌套行的原理就像上面一样，只是它的重叠住了列的padding ，其实就把外面的列当作 container 了，</p>
+<p>本质上列扮演了 container 的角色，所以嵌套行时你不再需要 container</p>
+<p><strong>Nested Columns: </strong> </p>
+<p>嵌套列没什么好讲的了，和上面一样</p>
+<p><strong>Offsets: </strong></p>
+<p>偏移的本质就是分割空白间隔，通过增加空白间隔达到你想要的距离，非常的简单</p>
+<h2 id="Common_Problems">Common Problems</h2><p>这里有些普遍会发生的 bug 值得注意，一些 bug 在 HTML 中很容易就能看出来 .</p>
+<p><strong>缺少 Container</strong> ： 第一个容易产生 bug 的地方是忘记添加 container 。没有 container 意味着没有 padding 与行 (row) 的负 margin 直相抵消，</p>
+<p>意味着行会超出父元素。当元素处于浏览器边缘时，这是最普遍的造成奇怪的横向滚动的原因</p>
+<p><img src="http://ww1.sinaimg.cn/large/4c2edcb7jw1exv187hh6wj20go08kdhl.jpg" alt=""></p>
+<p><strong>缺少 row:</strong></p>
+<p>第二个普遍问题是少了 row, 这与缺少 container 产生的问题相反， content 与浏览器 /viewport 的边缘拥有了 30px 的距离，</p>
+<p>比正常值多了一倍。而且你的列浮动也会产生问题。由于缺少了外面 row 的包裹，浮动没有得到正常的清除，所以浮动就可能产生问题。</p>
+<p>同样，当你试图嵌套栅格系统时，同样新嵌进去的 content 离左侧的边距达到了 45px</p>
+<p><img src="http://ww4.sinaimg.cn/mw690/4c2edcb7jw1exv18808tvj20go08kq4c.jpg" alt=""></p>
+<p><strong>Container 内的元素再嵌 container:</strong><br>在 container 内任意元素内再嵌 container 会导致很多问题，如双倍的 padding 值，空白间隔，怪异的横向滚动<br><img src="http://ww1.sinaimg.cn/large/4c2edcb7jw1exv188a41wj20go08k40c.jpg" alt=""></p>
 
         
       
@@ -976,413 +1408,11 @@
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/03/17/电脑鼠的回忆/">
-                电脑鼠的回忆
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-03-17
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/杂七杂八/">杂七杂八</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/03/17/电脑鼠的回忆/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/17/电脑鼠的回忆/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="前言">前言</h2><p>电脑鼠项目是本科的时候参加的项目了，如今拿出来回一下，复习一下原来学习的C和相关的算法，看到当年青涩的我们，也是别有一番滋味。</p>
-<h2 id="IEEE电脑鼠介绍">IEEE电脑鼠介绍</h2><p>IEEE国际电脑鼠走迷宫邀请赛，比赛要求电脑鼠自动走索迷宫并完成冲刺。首先电脑鼠在16x16的未知迷宫中探索前进的路线，到达终点之后返回起点，这一过程称为 <strong>试跑</strong>。然后以最快速度最好路线冲刺到终点，这一过程称为 <strong>冲刺</strong> 。最终成绩=试跑时间*（1/30）+冲刺时间。当然过程中碰到迷宫墙壁是有罚时的。迷宫长的就是这个样子的，这是我们参加比赛的时候现场的赛道：</p>
-<p><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eq8zwm7fvsj20t20ky400.jpg" alt="enter image description here"></p>
-<p>具体关于电脑鼠的规则可以参考这里：<a href="http://www.csuchico.edu/ieee/micromouse.html" target="_blank" rel="external">IEEE电脑鼠介绍</a></p>
-<h2 id="设计">设计</h2><h3 id="硬件部分">硬件部分</h3><p>硬件我不是很精通，好在我们有硬件大牛，邈哥，纯geek，只要是带电的，没有不懂的，他在硬件上的知识储备真是让人咋舌，为每一个硬件，每一个指标都进行追求极限的设计。</p>
-<p>硬件指标：</p>
-<blockquote>
-<ul>
-<li>中心控制器使用32位处理器STM32F103；</li>
-<li>传感器共有六对红外发射管、接收管，用于探测墙壁距离并提供迷宫墙壁信息。</li>
-<li>陀螺仪采用量程±2000°/s的数字式陀螺仪L3G4200，用来校正电脑鼠转弯时的角度误差。</li>
-<li>电机驱动电路使用两组H型全桥电路配合PWM信号控制，可以使电机正转与反转。</li>
-<li>电机选用微型直流空心杯减速电机，并配合512线编码器可获得电机转速。</li>
-<li>预留无线串口可外接蓝牙模块与PC机实现数据传输，配合按键与可编程LED实现人机交互。</li>
-</ul>
-</blockquote>
-<p>硬件架构图：</p>
-<p><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1eq8zwmgi89j20h20czdgj.jpg" alt="Alt text"></p>
-<p>最后做成了这样一辆小跑车。</p>
-<p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eq8zwmt483j20wb0jigo5.jpg" alt="Alt text"></p>
-<h3 id="软件部分">软件部分</h3><p>这个时候就要靠我们学软件的人了，由于采用的是嵌入式设备，必须把写好的C程序烧到中心控制器。中心控制器相当于整个设备的大脑，所有行走的策略，控制硬件启动，接收硬件数据，发出指令都存储在STM32控制芯片当中。</p>
-<p>下面是整个软件部分的架构图：</p>
-<p><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1eq8zwn1gcsj20gy0l4jtj.jpg" alt="Alt text"></p>
-<p>想要达到一个良好的表现，硬件是至关重要的，就像是经济基础决定上层建筑。同时有了经济基础也需要更好的策略来指挥硬件行动。电脑鼠的策略分成两部分：</p>
-<blockquote>
-<ul>
-<li>探索时候的策略</li>
-<li>冲刺时候的策略</li>
-</ul>
-</blockquote>
-<h4 id="探索的策略">探索的策略</h4><p>由于迷宫是未知的，需要电脑鼠不断探索迷宫中的格子，每次碰到岔路的时候都要决定下一次要往哪里探索，所以这一部分是最tricky的，好的算法不一定有好的结果，但是不好的算法很可能有不好的结果。<br>常见的策略</p>
-<blockquote>
-<ul>
-<li>右手法则： 以右边为优先的前进方向，然后是直线方向、左边方向。 </li>
-<li>左手法则： 以左边为优先的前进方向，然后是直线方向、右边方向。 </li>
-<li>中左法则： 以直线为优先的前进方向，然后是左边方向、右边方向。 </li>
-<li>乱数法则： 取随机值作为前进方向。 </li>
-<li>向心法则： 由于终点设在迷宫的中心，遇有交叉时，以指向迷宫中心的方向为优先的前进方向。 </li>
-</ul>
-</blockquote>
-<p>还有一种相对这些算法更加优秀的算法，也是我们采用的算法，叫做<strong>洪水填充算法</strong>：</p>
-<blockquote>
-<p>洪水填充法，也称为贝尔曼的算法(Bellman’s algorithm)，与上述的种演算法相比是更适合的方法。该演算法使用距离和墙壁的知识去寻找到达迷宫中心的较短路径。在这个该演算法中，每一个格子存在一个代表距离的物理量，此物理量代表该格子与迷宫中心可能的最短的曼哈顿距离(为方便本文就直接称此物理量为距离)。</p>
-<p>洪水填充法被称为“广度优先”演算法，因为如果迷宫被表示成一个生成树，演算法会先搜查同一层的格子，接着才搜寻下一层的格子。洪水填充算法的主要优点是，它总能找到到达迷宫中心的最短路径。但值得注意的是，此方法实际走的路径被非最短路径。</p>
-</blockquote>
-<p>使用到的关键函数：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">initDistance</span><span class="params">()</span></span>;<span class="comment">//当朝向迷宫中心时，曼哈顿距离的初始化</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">initDistance2</span><span class="params">()</span></span>;<span class="comment">//当朝向起点时，曼哈顿距离的初始化</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">initTempMap</span><span class="params">()</span></span>;<span class="comment">//初始化临时地图</span></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="title">atGoal</span><span class="params">(<span class="keyword">struct</span> Point robot)</span></span>;<span class="comment">//返回是否到达中心</span></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="title">atStart</span><span class="params">(<span class="keyword">struct</span> Point p)</span></span>;<span class="comment">//返回是否到达终点</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">l_Maze_Set</span><span class="params">(<span class="keyword">const</span> <span class="keyword">struct</span> Maze * m)</span></span>;<span class="comment">//设置迷宫句柄</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">InitializeMaze</span><span class="params">()</span></span>;<span class="comment">//初始化迷宫数据</span></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="title">l_HandleRequest</span><span class="params">(<span class="keyword">const</span> <span class="keyword">struct</span> Robot robot, <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> NW,</span><br><span class="line">                            <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> EW, <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> SW, <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> WW)</span></span>;</span><br><span class="line"><span class="comment">// 根据当前的位置和墙壁信息，返回应该走的方向</span></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="title">canGetByDir</span><span class="params">(<span class="keyword">struct</span> Point p,<span class="keyword">char</span> dir)</span></span>;<span class="comment">//返回是否从某点走向某个方向</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">refreshDistance</span><span class="params">(<span class="keyword">struct</span> Point p)</span></span>;<span class="comment">//更新某点的曼哈顿距离</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">freshTempMap</span><span class="params">(<span class="keyword">struct</span> Robot robot)</span></span>;<span class="comment">//更新临时地图的信息</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getDisByDir</span><span class="params">(<span class="keyword">struct</span> Point p,<span class="keyword">int</span> dir)</span></span>;<span class="comment">//返回某点某个方向上的距离</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">roundMinDistance</span><span class="params">(<span class="keyword">struct</span> Point p)</span></span>;<span class="comment">//计算某点周围可以到达的点的最小距离</span></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="title">roundMinDir</span><span class="params">(<span class="keyword">struct</span> Robot r)</span></span>;<span class="comment">//返回周围最小距离点相对于当前点的方向</span></span><br></pre></td></tr></table></figure>
-<p>l_HandleRequest函数的内容：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="title">l_HandleRequest</span><span class="params">(<span class="keyword">const</span> <span class="keyword">struct</span> Robot robot, <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> NW,</span><br><span class="line">                            <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> EW, <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> SW, <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> WW)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="comment">//!根据传入的信息更新tempMap中的墙壁</span></span><br><span class="line">    maze-&gt;walkHistory[robot.position.y][robot.position.x]=<span class="number">1</span>;</span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=NW;</span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=EW;</span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=SW;</span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=WW;</span><br><span class="line">    </span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=NORTH_WALL_COVERED;</span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=EAST_WALL_COVERED;</span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=SOUTH_WALL_COVERED;</span><br><span class="line">    maze-&gt;tempMap[robot.position.y][robot.position.x]|=WEST_WALL_COVERED;</span><br><span class="line">    freshTempMap(robot);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//!更新距离信息</span></span><br><span class="line">    refreshDistance(robot.position);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//!返回应该走的方向</span></span><br><span class="line">    <span class="keyword">return</span> roundMinDir(robot);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="冲刺的策略">冲刺的策略</h4><p>冲刺的时候，中心控制器中已经存储了探索过程的数据。需要做的是根据车子的各方面的性能，如启动速度，减速的速度，转弯的速度，等所有的因素整合起来作为变量，再加上已知的迷宫数据，计算出最好的路径，然后出发就可以了。由于迷宫已知，所以算法也是确定的，关键在于考虑到足够多的因素，输入的变量越多，越真实，计算出的结果越可靠，同时计算量也就越大，在实际操作的时候要达到一个良好的平衡。</p>
-<p>我们使用图论的思想，在搜索最短路径的过程中加入直线和拐弯的权重，使用广度优先的搜索算法找出最短路径，从而接近真实的模拟老鼠的冲刺时间。使用堆进行优化，经测试，算法的复杂度为NlogN。</p>
-<p>冲刺用到的关键函数；</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Attack_Maze_Set</span><span class="params">(<span class="keyword">const</span> <span class="keyword">struct</span> Maze * m)</span></span>;<span class="comment">//设置迷宫句柄</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Attack_Main</span><span class="params">()</span></span>;<span class="comment">//冲刺主函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Attack_Initialize</span><span class="params">()</span></span>;<span class="comment">//初始化冲刺过程</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Attack_Attack_Map_Print</span><span class="params">()</span></span>;<span class="comment">//调试，输出冲刺地图</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Attack_Heap_Print</span><span class="params">()</span></span>;<span class="comment">//调试,输出堆的内容</span></span><br></pre></td></tr></table></figure>
-<p>冲刺算法的主函数：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Attack_Main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    Attack_Map[SIZE-<span class="number">1</span>][<span class="number">0</span>].pre=NULL;</span><br><span class="line">    Attack_Map[SIZE-<span class="number">1</span>][<span class="number">0</span>].cost=<span class="number">0</span>;</span><br><span class="line">    Attack_Map[SIZE-<span class="number">1</span>][<span class="number">0</span>].Have_In_Queue=TRUE;</span><br><span class="line">    InsertToHeap(&amp;Attack_Map[SIZE-<span class="number">1</span>][<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(heapSize&gt;<span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">struct</span> AttackNode *node;</span><br><span class="line">        node=heap[<span class="number">1</span>];</span><br><span class="line">        attackhistory[node-&gt;p.y][node-&gt;p.x]=<span class="number">1</span>;</span><br><span class="line">        DeleteMin();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(atGoal(node-&gt;p))</span><br><span class="line">        &#123;</span><br><span class="line">            getch();</span><br><span class="line">            <span class="comment">//!@note需要写的函数，向策略队列里填充结点</span></span><br><span class="line">            findAttackQueue(node);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,node-&gt;cost);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(canGetByDir(node-&gt;p,NORTH)&amp;&amp;(Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x].Have_In_Queue==FALSE)</span><br><span class="line">        &amp;&amp;(attack_maze-&gt;walkHistory[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x]==<span class="number">1</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//!如果北方节点是前驱结点，则什么都不做</span></span><br><span class="line">            <span class="keyword">if</span>((node-&gt;pre!=NULL)&amp;&amp;(node-&gt;pre-&gt;p.y==(node-&gt;p.y-<span class="number">1</span>))&amp;&amp;node-&gt;pre-&gt;p.x==node-&gt;p.x)&#123;&#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                </span><br><span class="line">                Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x].pre=node;</span><br><span class="line">                Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x].bend=getBend(&amp;Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x]);</span><br><span class="line">                Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x].cost=getCost(&amp;Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x]);</span><br><span class="line">                </span><br><span class="line">                Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x].Have_In_Queue=TRUE;</span><br><span class="line">                </span><br><span class="line">                InsertToHeap(&amp;Attack_Map[node-&gt;p.y-<span class="number">1</span>][node-&gt;p.x]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(canGetByDir(node-&gt;p,EAST)&amp;&amp;(Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>].Have_In_Queue==FALSE)</span><br><span class="line">        &amp;&amp;(attack_maze-&gt;walkHistory[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>]==<span class="number">1</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//!如果东方节点是前驱结点，则什么都不做</span></span><br><span class="line">            <span class="keyword">if</span>((node-&gt;pre!=NULL)&amp;&amp;(node-&gt;pre-&gt;p.y==node-&gt;p.y)&amp;&amp;node-&gt;pre-&gt;p.x==(node-&gt;p.x+<span class="number">1</span>))&#123;&#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>].pre=node;</span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>].bend=getBend(&amp;Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>]);</span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>].cost=getCost(&amp;Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>]);</span><br><span class="line">                </span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>].Have_In_Queue=TRUE;</span><br><span class="line">                InsertToHeap(&amp;Attack_Map[node-&gt;p.y][node-&gt;p.x+<span class="number">1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(canGetByDir(node-&gt;p,SOUTH)&amp;&amp;(Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x].Have_In_Queue==FALSE)</span><br><span class="line">        &amp;&amp;(attack_maze-&gt;walkHistory[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x]==<span class="number">1</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//!如果南方节点是前驱结点，则什么都不做</span></span><br><span class="line">            <span class="keyword">if</span>((node-&gt;pre!=NULL)&amp;&amp;(node-&gt;pre-&gt;p.y==(node-&gt;p.y+<span class="number">1</span>))&amp;&amp;node-&gt;pre-&gt;p.x==(node-&gt;p.x))&#123;&#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x].pre=node;</span><br><span class="line">                Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x].bend=getBend(&amp;Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x]);</span><br><span class="line">                Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x].cost=getCost(&amp;Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x]);</span><br><span class="line">                </span><br><span class="line">                Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x].Have_In_Queue=TRUE;</span><br><span class="line">                InsertToHeap(&amp;Attack_Map[node-&gt;p.y+<span class="number">1</span>][node-&gt;p.x]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(canGetByDir(node-&gt;p,WEST)&amp;&amp;(Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>].Have_In_Queue==FALSE)</span><br><span class="line">        &amp;&amp;(attack_maze-&gt;walkHistory[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>]==<span class="number">1</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//!如果西方节点是前驱结点，则什么都不做</span></span><br><span class="line">            <span class="keyword">if</span>((node-&gt;pre!=NULL)&amp;&amp;(node-&gt;pre-&gt;p.y==(node-&gt;p.y))&amp;&amp;node-&gt;pre-&gt;p.x==(node-&gt;p.x-<span class="number">1</span>))&#123;&#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>].pre=node;</span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>].bend=getBend(&amp;Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>]);</span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>].cost=getCost(&amp;Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>]);</span><br><span class="line">                </span><br><span class="line">                Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>].Have_In_Queue=TRUE;</span><br><span class="line">                InsertToHeap(&amp;Attack_Map[node-&gt;p.y][node-&gt;p.x-<span class="number">1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>测试迷宫的内容：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="built_in">map</span>[<span class="number">16</span>][<span class="number">16</span>] =&#123;</span><br><span class="line">                &#123;<span class="number">11</span>,<span class="number">11</span>,<span class="number">11</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>&#125;,</span><br><span class="line">                &#123;<span class="number">10</span>,<span class="number">10</span>, <span class="number">8</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">2</span>&#125;,</span><br><span class="line">                &#123;<span class="number">12</span>, <span class="number">0</span>, <span class="number">2</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">13</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123; <span class="number">9</span>, <span class="number">6</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">10</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">6</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">2</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123; <span class="number">8</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">10</span>,<span class="number">10</span>, <span class="number">8</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">3</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">10</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123; <span class="number">8</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">10</span>,<span class="number">10</span>, <span class="number">9</span>, <span class="number">4</span>, <span class="number">7</span>,<span class="number">14</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">10</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123;<span class="number">10</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">0</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">3</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">10</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123;<span class="number">10</span>, <span class="number">8</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">14</span>, <span class="number">9</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">14</span>,<span class="number">14</span>&#125;,</span><br><span class="line">                &#123;<span class="number">10</span>,<span class="number">10</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">11</span>,<span class="number">12</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">3</span>&#125;,</span><br><span class="line">                &#123;<span class="number">10</span>,<span class="number">12</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">10</span>, <span class="number">8</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">12</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">2</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123; <span class="number">8</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">2</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123; <span class="number">8</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">10</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">2</span>&#125;,</span><br><span class="line">                &#123;<span class="number">12</span>, <span class="number">3</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123; <span class="number">9</span>, <span class="number">0</span>, <span class="number">2</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>,<span class="number">14</span>&#125;,</span><br><span class="line">                &#123;<span class="number">10</span>,<span class="number">10</span>, <span class="number">8</span>, <span class="number">2</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>&#125;,</span><br><span class="line">                &#123;<span class="number">14</span>,<span class="number">14</span>,<span class="number">14</span>,<span class="number">12</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>&#125;</span><br><span class="line">                &#125;;</span><br></pre></td></tr></table></figure>
-<p>策略层主函数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int main()&#10;&#123;&#10;    unsigned char NW, EW, SW, WW;&#10;&#10;    //!&#20256;&#20837;&#36855;&#23467;&#21477;&#26564;&#65292;&#21021;&#22987;&#21270;&#22320;&#22270;&#21644;&#36317;&#31163;&#10;    l_Maze_Set(&#38;myMaze);&#10;    initTempMap();&#10;    initDistance();&#10;    &#10;    //!&#21021;&#22987;&#21270;&#30005;&#33041;&#40736;&#20301;&#32622;&#26041;&#21521;&#10;    robot.position.x=0;&#10;    robot.position.y=SIZE-1;&#10;    robot.direction=NORTH;&#10;&#10;    while(!atGoal(robot.position))&#123;&#10;        //!&#36825;&#37324;&#20026;&#35835;&#21462;&#22681;&#22721;&#20449;&#24687;&#30340;&#20195;&#30721;&#65292;&#29992;&#24050;&#30693;&#36855;&#23467;&#20195;&#26367;&#10;        NW = map[robot.position.y][robot.position.x] &#38; NORTH;&#10;        EW = map[robot.position.y][robot.position.x] &#38; EAST;&#10;        SW = map[robot.position.y][robot.position.x] &#38; SOUTH;&#10;        WW = map[robot.position.y][robot.position.x] &#38; WEST;&#10;&#10;        //!&#33719;&#21462;&#19979;&#19968;&#20010;&#26041;&#21521;&#10;        nextDirection = l_HandleRequest(robot, NW, EW, SW, WW);&#10;        walk();  &#10;    &#125;&#10;&#10;    toCenter=FALSE;&#10;    initDistance2();&#10;    while(!atStart(robot.position))&#123;&#10;        //!&#36825;&#37324;&#20026;&#35835;&#21462;&#22681;&#22721;&#20449;&#24687;&#30340;&#20195;&#30721;&#65292;&#29992;&#24050;&#30693;&#36855;&#23467;&#20195;&#26367;&#10;        NW = map[robot.position.y][robot.position.x] &#38; NORTH;&#10;        EW = map[robot.position.y][robot.position.x] &#38; EAST;&#10;        SW = map[robot.position.y][robot.position.x] &#38; SOUTH;&#10;        WW = map[robot.position.y][robot.position.x] &#38; WEST;&#10;        &#10;        nextDirection = l_HandleRequest(robot, NW, EW, SW, WW);&#10;        walk();&#10;    &#125;&#10;    &#10;    Attack_Maze_Set(&#38;myMaze);&#10;    Attack_Initialize();&#10;    Attack_Main();&#10;&#10;    return 0;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>以上完成了策略层的所有内容。</p>
-<h2 id="后记">后记</h2><p>调试时间短，太专注于原创，没有经验。种种原因导致最终没有取得理想的成绩。但是整个过程让我学到了很多东西。压力下的工作，找到在团队里的角色，还有那些调了好多遍的算法，思想很简单，真的写出来一遍也能学到很多东西。</p>
-<p>这是我们的一点视频记录，很幼稚，哈哈。</p>
-<iframe height="498" width="510" src="http://player.youku.com/embed/XOTEzNjg2NTE2" frameborder="0" allowfullscreen></iframe>
-
-
-<p>最后，当然还是一起工作过的这帮朋友，我们来自五湖四海，各个专业，各个年级，如今也各奔东西。只是在那时相遇过，一起努力过，也是一种缘分吧。</p>
-<p>我们的合影,拍摄于天津工业大学，2012.4.22<br><img src="http://ww3.sinaimg.cn/mw690/4c2edcb7jw1eq8zwnp9wij20x20m8ae9.jpg" alt="Alt text"></p>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/10/28/CodeIgniter笔记之数据库访问/">
-                CodeIgniter笔记之数据库访问
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-10-27
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/web开发/">web开发</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/10/28/CodeIgniter笔记之数据库访问/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/28/CodeIgniter笔记之数据库访问/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h4 id="修改配置文件">修改配置文件</h4><p><code>application/config/database.php</code></p>
-<h4 id="装载">装载</h4><p>将数据库访问对象，装载到超级对象属性中 $this-&gt;load-&gt;database();</p>
-<h4 id="查询">查询</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res-&#62;$this-&#62;db-&#62;query($sql) //&#36820;&#22238;&#26597;&#35810;&#32467;&#26524;&#23545;&#35937;&#23545;&#35937;&#10;$res-&#62;result() ;// &#36820;&#22238;&#25968;&#32452;&#65292;&#25968;&#32452;&#20013;&#26159;&#19968;&#20010;&#20010;&#23545;&#35937;&#10;$res-&#62;result_array(); // &#36820;&#22238;&#20108;&#32500;&#25968;&#32452;&#65292;&#37324;&#38754;&#26159;&#20851;&#32852;&#25968;&#32452;&#10;$res-&#62;row(); // &#36820;&#22238;&#31532;&#19968;&#26465;&#25968;&#25454;</span><br></pre></td></tr></table></figure>
-<h4 id="参数绑定">参数绑定</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&#34;select * from blog_user where name=?&#34;;&#10;$this-&#62;db-&#62;query($sql,$name); // &#22914;&#26524;&#26377;&#22810;&#20010;&#21442;&#25968;&#65288;&#38382;&#21495;&#65289;&#65292;&#38656;&#35201;&#20351;&#29992;&#32034;&#24341;&#25968;&#32452;</span><br></pre></td></tr></table></figure>
-<h4 id="db的自动加载">db的自动加载</h4><p>配置自动加载db <code>application/config/autoload.php</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$autoload[&#39;libaraied&#39;] = array(&#39;database&#39;); // &#23601;&#19981;&#38656;&#35201;$this-&#62;load-&#62;database();</span><br></pre></td></tr></table></figure></p>
-<h4 id="CI的AR模型_Active_Record">CI的AR模型 Active Record</h4><h5 id="配置">配置</h5><p><code>applicaion/config/database.php</code> 设置<code>$active_record = TRUE</code></p>
-<h5 id="操作">操作</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res=$this-&#62;db-&#62;get(&#39;&#34920;&#21517;&#39;); // &#36820;&#22238;&#32467;&#26524;&#23545;&#35937;&#10;$res-&#62;result();&#10;$bool = $this-&#62;db-&#62;insert(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;);&#10;$bool=$this-&#62;db-&#62;update(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;,&#26465;&#20214;);&#10;$bool=$this-&#62;db-&#62;delete(&#39;&#34920;&#21517;&#39;,&#26465;&#20214;)</span><br></pre></td></tr></table></figure>
-<h5 id="连贯操作">连贯操作</h5><p>模拟sql语句</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res=$this-&#62;db-&#62;select(&#39;id,name&#39;)-&#62;from(&#39;user&#39;)-&#62;where(&#39;id&#62;=3&#39;);</span><br></pre></td></tr></table></figure>
-<p>使用where</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$res=$this-&#62;db-&#62;where(&#39;name&#39;,&#39;mary&#39;)-&#62;get(&#39;user&#39;);</span><br></pre></td></tr></table></figure>
-<h5 id="复杂的查询使用参数绑定">复杂的查询使用参数绑定</h5><p><code>$this-&gt;db-&gt;query($sql,$data)</code></p>
-<h4 id="数据库查询结果">数据库查询结果</h4><h5 id="result()">result()</h5><p>方法执行成功返回一个对象数组，失败则返回一个空数组。<br>例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$query = $this-&#62;db-&#62;query(&#34;&#35201;&#25191;&#34892;&#30340; SQL&#34;);&#10;&#10;foreach ($query-&#62;result() as $row)&#10;&#123;&#10;   echo $row-&#62;title;&#10;   echo $row-&#62;name;&#10;   echo $row-&#62;body;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="判断结果集的条目数">判断结果集的条目数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if ($query-&#62;num_rows() &#62; 0)</span><br></pre></td></tr></table></figure>
-<h5 id="result_array()">result_array()</h5><p>该方法执行成功时将记录集作为关联数组返回。失败时返回空数组。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$query = $this-&#62;db-&#62;query(&#34;&#35201;&#25191;&#34892;&#30340; SQL&#34;);&#10;&#10;foreach ($query-&#62;result_array() as $row)&#10;&#123;&#10;   echo $row[&#39;title&#39;];&#10;   echo $row[&#39;name&#39;];&#10;   echo $row[&#39;body&#39;];&#10;&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="row()">row()</h5><p>该函数将当前请求的第一行数据作为 object 返回。</p>
-<h4 id="总结，CI中的增删改查">总结，CI中的增删改查</h4><h5 id="查">查</h5><ul>
-<li>得到一个表</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;get(&#39;&#34920;&#21517;&#39;)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>单个表条件查询</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;get_where(&#39;&#34920;&#21517;&#39;,&#39;&#20851;&#32852;&#25968;&#32452;&#26465;&#20214;&#39;)</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>单表查询多个限定条件，链式查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;select(&#39;title&#39;)-&#62;from(&#39;mytable&#39;)-&#62;where(&#39;id&#39;, $id)-&#62;limit(10, 20);&#10;$query  = $this-&#62;db-&#62;get();</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>多表查询</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this -&#62;db-&#62;query($sql,$data)&#10;$sql   = &#34;SELECT * FROM some_table WHERE id = ? AND status = ? AND author = ?&#34;;&#10;$query = $this-&#62;admin-&#62;query($sql, array($id, $status, $author));</span><br></pre></td></tr></table></figure>
-<h5 id="增">增</h5><p>可以向函数传递 数组 或一个 对象。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$bool = $this-&#62;db-&#62;insert(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;);&#10;$data = array(&#10;               &#39;title&#39; =&#62; &#39;My title&#39; ,&#10;               &#39;name&#39; =&#62; &#39;My Name&#39; ,&#10;               &#39;date&#39; =&#62; &#39;My date&#39;&#10;            );&#10;$this-&#62;db-&#62;insert(&#39;mytable&#39;, $data); &#10;// Produces: INSERT INTO mytable (title, name, date) VALUES (&#39;My title&#39;, &#39;My name&#39;, &#39;My date&#39;)</span><br></pre></td></tr></table></figure>
-<h5 id="改">改</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$bool=$this-&#62;db-&#62;update(&#39;&#34920;&#21517;&#39;,&#20851;&#32852;&#25968;&#32452;,&#26465;&#20214;);&#10;&#10;$data = array(&#10;               &#39;title&#39; =&#62; $title,&#10;               &#39;name&#39; =&#62; $name,&#10;               &#39;date&#39; =&#62; $date&#10;            );&#10;&#10;$this-&#62;db-&#62;where(&#39;id&#39;, $id);&#10;$this-&#62;db-&#62;update(&#39;mytable&#39;, $data);</span><br></pre></td></tr></table></figure>
-<p>或</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;db-&#62;update(&#39;mytable&#39;, $data, array(&#39;id&#39; =&#62; $id));</span><br></pre></td></tr></table></figure>
-<h5 id="删">删</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$bool =$this-&#62;db-&#62;delete(&#39;&#34920;&#21517;&#39;,&#26465;&#20214;)</span><br></pre></td></tr></table></figure>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/CodeIgniter/"> #CodeIgniter </a>
-          
-            <a href="/tags/PHP/"> #PHP </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/10/28/CodeIgniter笔记/">
-                CodeIgniter笔记
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-10-27
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/web开发/">web开发</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/10/28/CodeIgniter笔记/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/28/CodeIgniter笔记/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="CodeIgniter">CodeIgniter</h3><blockquote>
-<p>CodeIgniter 是一个简单快速的PHP MVC框架。<br>CodeIgniter 是一套给 PHP 网站开发者使用的应用程序开发框架和工具包。它提供一套丰富的标准库以及简单的接口和逻辑结构，其目的是使开发人员更快速地进行项目开发。使用 CodeIgniter可以减少代码的编写量，并将你的精力投入到项目的创造性开发上。</p>
-</blockquote>
-<p>简单快速，这也是选择CI的原因。</p>
-<p>以下内容细节可以从CI<a href="http://codeigniter.org.cn/user_guide/index.html" target="_blank" rel="external">官方文档</a>寻找</p>
-<h3 id="超级对象this">超级对象this</h3><p>当前的控制器对象，this，提供了很多属性<br>加载方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;load-&#62;</span><br></pre></td></tr></table></figure>
-<p>装载器类的实例system/core/Loader.php<br>提供的方法：</p>
-<ul>
-<li>view()     装载视图</li>
-<li>vars()     分配变量到视图 </li>
-<li>database() 装载数据库操作</li>
-<li>model()   装载模型对象</li>
-<li>helper() <h3 id="var_dump">var_dump</h3></li>
-</ul>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void var_dump ( mixed <span class="variable">$expression</span> [, mixed $... ] )</span><br></pre></td></tr></table></figure>
-<p>此函数显示关于一个或多个表达式的结构信息，包括表达式的类型与值。数组将递归展开值，通过缩进显示其结构。</p>
-<h3 id="$this-&gt;input_输入类">$this-&gt;input 输入类</h3><p>作用：默认帮助进行安全处理<br>CI_Input类 system/cor/Input.php<br><code>$this-&gt;input-&gt;server(&#39;DOCUMENT_ROOT&#39;)</code>相当于<code>$_POST[&#39;DOCUMENT_ROOT&#39;]</code><br><code>$this-&gt;input-&gt;post(&#39;表单提交的name&#39;)</code></p>
-<h3 id="URL相关函数">URL相关函数</h3><ul>
-<li>site_url<br>在form表单中提交action不能把路径写死,使用<code>site_url (controller/action)</code></li>
-<li>base_url 根目录<br>请求图片时，<code>&lt;img src=&quot;&lt;?php echo base_url()?&gt;uploads/jh.jpg&quot;&gt;</code></li>
-<li>自动加载URL函数，autoload.php<br>$autoload[‘helper’] = array(‘url’);</li>
-</ul>
-<h3 id="路由">路由</h3><p><code>config/routes.php</code><br>默认的控制器</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$route[&#39;default_controller&#39;]=</span><br></pre></td></tr></table></figure>
-<p>伪静态页面,不再显示<code>xxx.php</code>,在路由中写一个正则表达式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$route[&#39;show/([\d]+)\.html&#39;]=&#39;article/show/&#39;</span><br></pre></td></tr></table></figure>
-<h3 id="分页">分页</h3><p>使用分页类<code>pagination</code></p>
-<h4 id="加载类文件">加载类文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;load-&#62;library(&#39;pagnination&#39;);</span><br></pre></td></tr></table></figure>
-<h4 id="配置">配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$config[&#39;per_page&#39;]=10;//&#27599;&#39029;&#26174;&#31034;10&#26465;&#25968;&#25454;</span><br></pre></td></tr></table></figure>
-<p>其他配置见<a href="http://codeigniter.org.cn/user_guide/libraries/pagination.html" target="_blank" rel="external">文档</a></p>
-<h4 id="初始化">初始化</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;pagination-&#62;initialize($config)</span><br></pre></td></tr></table></figure>
-<h4 id="创建链接">创建链接</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;pagination-&#62;create_links($config)</span><br></pre></td></tr></table></figure>
-<h4 id="跳过多少条">跳过多少条</h4><p> sql语句 <code>select from limit+跳过的条数</code></p>
-<h4 id="定制分页器">定制分页器</h4><p>$config[‘first_link’]=”首页”<br> 其他配置见<a href="http://codeigniter.org.cn/user_guide/libraries/pagination.html" target="_blank" rel="external">文档</a></p>
-<h3 id="文件上传">文件上传</h3><p>表单<br><code>&lt;form enctype=&quot;multipart/form-data&quot;&gt;&lt;/form&gt;</code></p>
-<h4 id="使用文件上传类">使用文件上传类</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;load-&#62;library(&#39;&#39;)</span><br></pre></td></tr></table></figure>
-<h4 id="配置-1">配置</h4><p>见<a href="http://codeigniter.org.cn/user_guide/libraries/pagination.html" target="_blank" rel="external">文档</a></p>
-<h4 id="上传">上传</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;upload-&#62;do_upload(&#39;pic&#39;)</span><br></pre></td></tr></table></figure>
-<h4 id="返回信息">返回信息</h4><p>文件上传的一些数据</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$his-&#62;upload-&#62;data()</span><br></pre></td></tr></table></figure>
-<h3 id="session">session</h3><p>CI中的session 默认不使用php的原生session，<strong>放在cookie中</strong>（限制大小4k），不太好使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;session-&#62;set_userdata(&#39;user&#39;,$user) ; //&#20351;&#29992;&#38190;&#20540;&#23545;&#26469;&#23384;&#20648;&#25968;&#25454;</span><br></pre></td></tr></table></figure>
-<p><strong>因为是存储在cookie中的，所以不能在当前的函数中获取到session中的数据，需要跳转的别的页面后才可以获取的到</strong></p>
-<h4 id="加密">加密</h4><p>生成随机不重复的字符串作为加密用的key，保存到config.php</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$[&#39;encryption_key&#39;]=&#34;key&#30340;&#20540;&#34;</span><br></pre></td></tr></table></figure>
-<p>或者不使用CI的session，囧。。。</p>
-<h3 id="表单验证">表单验证</h3><h4 id="使用表单验证类">使用表单验证类</h4><p>$this-&gt;load-&gt;library(‘form_validation’);</p>
-<h4 id="验证">验证</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&#62;form_validation-&#62;set_rules(&#39;&#39;,&#39;&#39;,&#39;&#39;);&#10;$bool=$this-&#62;form_validation-&#62;run();</span><br></pre></td></tr></table></figure>
-<p>前台验证使用js，后台验证使用表单验证类</p>
-<h4 id="输出错误">输出错误</h4><p><code>form_error(&#39;name&#39;,&#39;&lt;span&gt;&#39;,&#39;&lt;/span&gt;&#39;)</code><br><code>echo validation_error()</code>直接输出所有结果（推荐使用）</p>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/CodeIgniter/"> #CodeIgniter </a>
-          
-            <a href="/tags/PHP/"> #PHP </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
   <div class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">&raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/">&raquo;</a>
   </div>
 
 
@@ -1416,21 +1446,21 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">50</span>
+              <span class="site-state-item-count">53</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-count">27</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

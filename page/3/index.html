@@ -123,6 +123,1114 @@
           
           
             
+              <a class="post-title-link" href="/2015/09/27/找工作总结-数组专题-一般题目/">
+                数组专题-一般题目
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-09-27
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/找工作总结/">找工作总结</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/09/27/找工作总结-数组专题-一般题目/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/27/找工作总结-数组专题-一般题目/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="剑指offer3_二维数组查找">剑指offer3 二维数组查找</h3><h4 id="问题描述">问题描述</h4><p>在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
+<h4 id="解法">解法</h4><p>从右上角（这样使得这一行剩余元素都比他小，这一列剩余元素都比他大）向左下角扫描</p>
+<h4 id="代码">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="function"><span class="keyword">bool</span> <span class="title">Find</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; <span class="built_in">array</span>,<span class="keyword">int</span> target)</span> </span>{
+        <span class="keyword">if</span>(<span class="built_in">array</span>.size() == <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">int</span> width = <span class="built_in">array</span>[<span class="number">0</span>].size();
+        <span class="keyword">int</span> height = <span class="built_in">array</span>.size();
+        <span class="keyword">int</span> i = <span class="number">0</span>, j = width - <span class="number">1</span>;
+        <span class="keyword">while</span>(i &lt; height &amp;&amp; j &gt;= <span class="number">0</span>)
+        {
+            <span class="keyword">if</span>(<span class="built_in">array</span>[i][j] == target)
+                <span class="keyword">return</span> <span class="keyword">true</span>;
+            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">array</span>[i][j] &lt; target)
+                i++;
+            <span class="keyword">else</span>
+                j--;
+        }
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+};
+</code></pre><h3 id="剑指offer32_整数中1出现的次数（从1到n整数中1出现的次数）">剑指offer32 整数中1出现的次数（从1到n整数中1出现的次数）</h3><h4 id="问题描述-1">问题描述</h4><p>求出1~13的整数中1出现的次数,并算出100~1300的整数中1出现的次数？为此他特别数了一下1~13中包含1的数字有1、10、11、12、13因此共出现6次,但是对于后面问题他就没辙了。ACMer希望你们帮帮他,并把问题更加普遍化,可以很快的求出任意非负整数区间中1出现的次数。</p>
+<h4 id="解法-1">解法</h4><p>这个解法对于1-9的原理是一样的。首先找到规律：<br>从 1 至 10，在它们的个位数中，任意的 X 都出现了 1 次。<br>从 1 至 100，在它们的十位数中，任意的 X 都出现了 10 次。<br>从 1 至 1000，在它们的百位数中，任意的 X 都出现了 100 次。<br>依此类推，从 1 至  10^i ，在它们右数第  i  位中，任意的 X 都出现了  10^(i−1)  次。这个可以用来计算高位的值。<br>计算方法：<br>当计算右数第  i  位包含的 X 的个数时：<br>取第  i  位左边（高位）的数字，乘以  10^(i−1) ，得到基础值  a 。<br>取第  i  位数字，计算修正值：<br>如果大于 X，则结果为  a+ 10^(i−1)。<br>如果小于 X，则结果为  a。<br>如果等 X，则取第  i  位右边（低位）数字，设为  b ，最后结果为  (a+b+1) 。<br>例如对于num=52134, i=3, a=52, b=34, i位数字k=1,k=x故 result=a+b+1<br>解释，a等于0~51，可推出高位的结果，a=52时，讨论低位的结果。</p>
+<h4 id="代码-1">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+    <span class="keyword">int</span> NumberOf1Between1AndN_Solution(<span class="keyword">int</span> n)
+    {
+        <span class="keyword">int</span> x = <span class="number">1</span>;
+        <span class="keyword">int</span> <span class="keyword">count</span> = <span class="number">0</span>, k;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; n / i &gt; <span class="number">0</span>; i *= <span class="number">10</span>)
+        {
+            k = n / i;
+            <span class="comment">//k/10为高位数字</span>
+            <span class="keyword">count</span> += (k / <span class="number">10</span>) * i;
+            <span class="keyword">int</span> cur = k % <span class="number">10</span>;
+            <span class="keyword">if</span>(cur &gt; x)
+                <span class="keyword">count</span>+=i;               
+            <span class="keyword">else</span> <span class="keyword">if</span>(cur == x)
+                <span class="comment">//n%i为低位数字</span>
+                <span class="keyword">count</span> += n % i + <span class="number">1</span>;
+            <span class="keyword">else</span>{}
+        }
+        <span class="keyword">return</span> <span class="keyword">count</span>;
+    }
+};
+</code></pre><h3 id="剑指offer44_扑克牌的顺子">剑指offer44 扑克牌的顺子</h3><h4 id="问题描述-2">问题描述</h4><p>抽出一序列牌，王代表任意数字是0，并且A看作1,J为11,Q为12,K为13。判断这个序列是否是顺子</p>
+<h4 id="解法-2">解法</h4><p>对序列进行排序，看0是否能将空缺数字填满。</p>
+<h4 id="注意点">注意点</h4><ul>
+<li>统计0的个数和gap的数量进行比较</li>
+</ul>
+<h4 id="代码-2">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    bool IsContinuous(vector&lt;<span class="keyword">int</span>&gt; numbers)
+    {
+        <span class="keyword">if</span>(numbers.<span class="keyword">size</span>() == <span class="number">0</span>)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">sort</span>(numbers.begin(), numbers.end());
+        <span class="keyword">int</span> numOfZero = <span class="number">0</span>, numOfGap = <span class="number">0</span>;
+        <span class="keyword">int</span> i = <span class="number">0</span>;
+        <span class="keyword">for</span>(;i &lt; numbers.<span class="keyword">size</span>() &amp;&amp; numbers[i] == <span class="number">0</span>; i++)
+            numOfZero++;
+        <span class="keyword">if</span>(i &lt; numbers.<span class="keyword">size</span>())
+            i++;
+        <span class="keyword">for</span>(;i &lt; numbers.<span class="keyword">size</span>(); i++)
+        {
+            <span class="keyword">if</span>(numbers[i] == numbers[i - <span class="number">1</span>])
+                <span class="keyword">return</span> <span class="keyword">false</span>; 
+            numOfGap += numbers[i] - numbers[i - <span class="number">1</span>] - <span class="number">1</span>;
+        }
+        <span class="keyword">return</span> numOfZero &gt;= numOfGap ? <span class="keyword">true</span> : <span class="keyword">false</span>;
+    }
+};
+</code></pre><h3 id="剑指offer52_构建乘积数组">剑指offer52 构建乘积数组</h3><h4 id="问题描述-3">问题描述</h4><p>给定一个数组<code>A[0,1,...,n-1]</code>,请构建一个数组<code>B[0,1,...,n-1]</code>,其中B中的元素<code>B[i]=A[0]*A[1]*...*A[i-1]*A[i+1]*...*A[n-1]</code>。不能使用除法。</p>
+<h4 id="解法-3">解法</h4><p>从上到下扫描，temp记录中间结果，避免重复的乘法。从上到下遍历一次，从下到上遍历一次。</p>
+<h4 id="代码-3">代码</h4><pre><code>class <span class="type">Solution</span> {
+public:
+    vector&lt;<span class="type">int</span>&gt; multiply(<span class="keyword">const</span> vector&lt;<span class="type">int</span>&gt;&amp; A) {
+        vector&lt;<span class="type">int</span>&gt; <span class="literal">result</span>(A.size(), <span class="number">1</span>);
+        <span class="keyword">if</span>(A.size() &lt;= <span class="number">1</span>)
+            <span class="keyword">return</span> <span class="literal">result</span>;
+        <span class="type">int</span> temp = <span class="number">1</span>;
+        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt; A.size(); i++)
+        {
+            temp *= A[i - <span class="number">1</span>];
+            <span class="literal">result</span>[i] = temp;
+        }
+        temp = <span class="number">1</span>;
+        <span class="keyword">for</span>(<span class="type">int</span> i = A.size() - <span class="number">2</span>; i &gt;= <span class="number">0</span>; i--)
+        {
+            temp *= A[i + <span class="number">1</span>];
+            <span class="literal">result</span>[i] *= temp;
+        }
+        <span class="keyword">return</span> <span class="literal">result</span>;
+    }
+};
+</code></pre><h3 id="剑指offer20_顺时针打印矩阵">剑指offer20 顺时针打印矩阵</h3><h4 id="问题描述-4">问题描述</h4><p>输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下矩阵： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.</p>
+<h4 id="解法-4">解法</h4><p>先写一个打印一圈的函数，再遍历所有的圈。</p>
+<h4 id="注意点-1">注意点</h4><ul>
+<li>判断遍历是否越界</li>
+<li>遍历的时候注意减回去(x—)</li>
+</ul>
+<h4 id="代码-4">代码</h4><pre><code>class Solution {
+public:
+    <span class="keyword">vector</span>&lt;<span class="keyword">int</span>&gt; printMatrix(<span class="keyword">vector</span>&lt;<span class="keyword">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; <span class="keyword">matrix</span>) {
+        <span class="keyword">vector</span>&lt;<span class="keyword">int</span>&gt; vec;
+        <span class="keyword">if</span>(<span class="keyword">matrix</span>.<span class="keyword">size</span>() == <span class="number">0</span>) <span class="keyword">return</span> vec;
+        <span class="keyword">if</span>(<span class="keyword">matrix</span>[<span class="number">0</span>].<span class="keyword">size</span>() == <span class="number">0</span>) <span class="keyword">return</span> vec;
+        <span class="keyword">int</span> start = <span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> start =  <span class="number">0</span>; start * <span class="number">2</span> &lt; <span class="keyword">matrix</span>.<span class="keyword">size</span>() &amp;&amp; start * <span class="number">2</span> &lt; <span class="keyword">matrix</span>[<span class="number">0</span>].<span class="keyword">size</span>(); start++)
+            printInCircle(<span class="keyword">matrix</span>, start, vec);
+        <span class="keyword">return</span> vec;
+    }
+
+    void printInCircle(<span class="keyword">vector</span>&lt;<span class="keyword">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; &amp;<span class="keyword">matrix</span>, <span class="keyword">int</span> start, <span class="keyword">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;vec)
+    {
+        <span class="keyword">int</span> x = start, y = start;
+        <span class="comment">//从左向右打印</span>
+        <span class="keyword">int</span> endx = <span class="keyword">matrix</span>[y].<span class="keyword">size</span>()- <span class="number">1</span> - start;
+        <span class="keyword">for</span>(; x &lt;= endx; x++)
+            vec.push_back(<span class="keyword">matrix</span>[y][x]);
+        --x;
+
+        <span class="comment">//从上向下打印</span>
+        <span class="keyword">int</span> endy = <span class="keyword">matrix</span>.<span class="keyword">size</span>() - <span class="number">1</span> - start;
+        <span class="keyword">if</span>(y + <span class="number">1</span> &gt; endy)
+            <span class="keyword">return</span>;
+        y++;
+        <span class="keyword">for</span>(; y &lt;= endy; y++)
+            vec.push_back(<span class="keyword">matrix</span>[y][x]);
+        y--;
+
+        <span class="comment">//从右向左打印</span>
+        <span class="keyword">if</span>(x - <span class="number">1</span> &lt; start)
+            <span class="keyword">return</span>;
+        x--;
+        <span class="keyword">for</span>(; x &gt;= start; x--)
+            vec.push_back(<span class="keyword">matrix</span>[y][x]);
+        x++;
+        <span class="comment">//从下向上打印</span>
+        <span class="keyword">if</span>(y - <span class="number">1</span> &lt; start) <span class="keyword">return</span>;
+        y--;
+        <span class="keyword">for</span>(; y &gt; start; y--)
+            vec.push_back(<span class="keyword">matrix</span>[y][x]);
+        y++;
+    }
+
+ };
+</code></pre><h3 id="剑指offer30_最小的k个数">剑指offer30 最小的k个数</h3><h4 id="问题描述-5">问题描述</h4><p>输入n个整数，找出其中最小的K个数。例如输入4,5,1,6,2,7,3,8这8个数字，则最小的4个数字是1,2,3,4,。</p>
+<h4 id="解法-5">解法</h4><p>使用大顶堆存储k个数，遍历原数据，每次淘汰最大的，最后堆中剩余的元素就是最小的k个数</p>
+<h4 id="注意点-2">注意点</h4><ul>
+<li>输入数据合法性，k的取值大于input.size()的情况</li>
+<li><p>stl中<algorithm>关于堆的操作，make_heap,push_heap,pop_heap,sort_heap.默认建立大顶堆，如果想使用小顶堆需要加入比较函数。</algorithm></p>
+<pre><code>make_heap(res.<span class="keyword">begin</span><span class="literal">()</span>, res.<span class="keyword">end</span><span class="literal">()</span>, greater&lt;<span class="built_in">int</span>&gt;<span class="literal">()</span>);
+push_heap(res.<span class="keyword">begin</span><span class="literal">()</span>, res.<span class="keyword">end</span><span class="literal">()</span>, greater&lt;<span class="built_in">int</span>&gt;<span class="literal">()</span>);
+pop_heap(res.<span class="keyword">begin</span><span class="literal">()</span>, res.<span class="keyword">end</span><span class="literal">()</span>, greater&lt;<span class="built_in">int</span>&gt;<span class="literal">()</span>);
+</code></pre></li>
+</ul>
+<h4 id="代码-5">代码</h4><pre><code><span class="keyword">class</span> <span class="type">Solution</span> {
+public:
+    vector&lt;<span class="built_in">int</span>&gt; <span class="type">GetLeastNumbers_Solution</span>(vector&lt;<span class="built_in">int</span>&gt; input, <span class="built_in">int</span> k) {
+        vector&lt;<span class="built_in">int</span>&gt; res;
+        <span class="keyword">if</span>(k&lt;= <span class="number">0</span> || k &gt; input.size<span class="literal">()</span>)
+            return res;
+        <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; k; i++)
+            res.push_back(input[i]);
+        make_heap(res.<span class="keyword">begin</span><span class="literal">()</span>, res.<span class="keyword">end</span><span class="literal">()</span>);
+        <span class="keyword">for</span>(<span class="built_in">int</span> i = k; i &lt; input.size<span class="literal">()</span>; i++)
+        {
+            <span class="keyword">if</span>(input[i] &gt;= res[<span class="number">0</span>])
+                continue;
+            res.push_back(input[i]);
+            push_heap(res.<span class="keyword">begin</span><span class="literal">()</span>, res.<span class="keyword">end</span><span class="literal">()</span>);
+            pop_heap(res.<span class="keyword">begin</span><span class="literal">()</span>, res.<span class="keyword">end</span><span class="literal">()</span>);
+            res.pop_back<span class="literal">()</span>;
+        }
+        sort_heap(res.<span class="keyword">begin</span><span class="literal">()</span>, res.<span class="keyword">end</span><span class="literal">()</span>);
+        return res;
+    }
+};
+</code></pre><h3 id="剑指offer33_把数组排成最小的数">剑指offer33 把数组排成最小的数</h3><h4 id="问题描述-6">问题描述</h4><p>输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。例如输入数组{3，32，321}，则打印出这三个数字能排成的最小数字为321323。</p>
+<h4 id="解法-6">解法</h4><p>首先要证明这样一个结论：</p>
+<blockquote>
+<p>若ca&lt;ac则在最后的字符串中，c应该在a的后面</p>
+</blockquote>
+<ul>
+<li>证明</li>
+</ul>
+<p>条件：ca&lt;ac，有另一个任意<strong>字符串</strong>b与a,c进行排列组合<br>讨论：</p>
+<pre><code>若b&lt;c&lt;<span class="tag">a</span> 可以得到bca是最小的
+若c&lt;b&lt;<span class="tag">a</span> 可以得到cba是最小的
+若c&lt;a&lt;<span class="tag">b</span> 可以得到cab是最小的
+</code></pre><p>结论：c应该在a的前面</p>
+<h4 id="注意点-3">注意点</h4><ul>
+<li><p>sort函数中比较函数应该如何写</p>
+<p>  <code>template &lt;class RandomAccessIterator, class Compare&gt;</code><br>  <code>void sort (RandomAccessIterator first, RandomAccessIterator last, Compare comp);</code></p>
+</li>
+</ul>
+<p>comp函数表示</p>
+<blockquote>
+<p>The value returned indicates whether the element passed as first argument is considered to go before the second in the specific strict weak ordering it defines.<br>比较函数传入两个参数，返回bool，返回值表示在最终的排序结果中，第一个参数是否应该出现在第二个参数的前面。</p>
+</blockquote>
+<h4 id="代码-6">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="function"><span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span> &amp;str1,<span class="keyword">const</span> <span class="built_in">string</span> &amp;str2)</span>
+    </span>{
+        <span class="built_in">string</span> temp1 = str1 + str2;
+        <span class="built_in">string</span> temp2 = str2 + str1;
+        <span class="keyword">if</span>(temp1.compare(temp2)&lt;=<span class="number">0</span>)
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+
+    }
+
+    <span class="function"><span class="built_in">string</span> <span class="title">PrintMinNumber</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; numbers)</span> </span>{
+        <span class="keyword">if</span>(numbers.size() == <span class="number">0</span>) <span class="keyword">return</span> <span class="string">""</span>;
+        <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; strs(numbers.size());
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numbers.size(); i++)
+        {
+            strs[i] = numToString(numbers[i]);
+        }
+        <span class="built_in">std</span>::sort(strs.begin(), strs.end(), cmp);
+        <span class="built_in">string</span> ans;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; strs.size(); i++)
+            ans += strs[i];
+        <span class="keyword">return</span> ans;
+    }  
+
+    <span class="function"><span class="built_in">string</span> <span class="title">numToString</span><span class="params">(<span class="keyword">int</span> num)</span>
+    </span>{
+        <span class="built_in">string</span> str;
+        <span class="keyword">while</span>(num)
+        {
+            str = (<span class="keyword">char</span>)(num % <span class="number">10</span> + <span class="string">'0'</span>) + str;
+            num = num / <span class="number">10</span>;
+        }
+        <span class="keyword">return</span> str;
+    } 
+};
+</code></pre><h3 id="剑指offer34_丑数">剑指offer34 丑数</h3><h4 id="问题描述-7">问题描述</h4><p>把只包含因子2、3和5的数称作丑数（Ugly Number）。例如6、8都是丑数，但14不是，因为它包含因子7。 习惯上我们把1当做是第一个丑数。求按从小到大的顺序的第N个丑数。</p>
+<h4 id="解法-7">解法</h4><p>使用递推法，<code>*numM2</code>,<code>*numM3</code>,<code>*numM5</code>表示，x2,x3,x5后产生的数</p>
+<h4 id="代码-7">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="built_in">int</span> GetUglyNumber_Solution(<span class="built_in">int</span> <span class="built_in">index</span>) {
+        <span class="keyword">if</span>(<span class="built_in">index</span> &lt;= <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
+        <span class="built_in">int</span> *a = new <span class="built_in">int</span>[<span class="built_in">index</span>];
+        a[<span class="number">0</span>] = <span class="number">1</span>;
+        <span class="built_in">int</span> *numM2 = a, *numM3 = a, *numM5 = a;
+        for(<span class="built_in">int</span> i = <span class="number">1</span>; i &lt; <span class="built_in">index</span>; i++)
+        {
+            <span class="built_in">int</span> <span class="built_in">min</span> = getMin((*numM2) * <span class="number">2</span>, (*numM3) * <span class="number">3</span>, (*numM5) * <span class="number">5</span>);
+            a[i] = <span class="built_in">min</span>;
+            <span class="keyword">while</span>((*numM2) * <span class="number">2</span> &lt;= <span class="built_in">min</span>)
+                numM2++;
+            <span class="keyword">while</span>((*numM3) * <span class="number">3</span> &lt;= <span class="built_in">min</span>)
+                numM3++;
+            <span class="keyword">while</span>((*numM5) * <span class="number">5</span> &lt;= <span class="built_in">min</span>)
+                numM5++;
+        }
+        <span class="keyword">return</span> a[<span class="built_in">index</span>-<span class="number">1</span>];
+    }
+
+    <span class="built_in">int</span> getMin(<span class="built_in">int</span> num1,<span class="built_in">int</span> num2,<span class="built_in">int</span> num3)
+    {
+        <span class="keyword">return</span> <span class="built_in">min</span>(num1, <span class="built_in">min</span>(num2, num3));
+    }
+};
+</code></pre><h3 id="剑指offer45_圆圈中最后剩下的数字（约瑟夫环问题）">剑指offer45 圆圈中最后剩下的数字（约瑟夫环问题）</h3><h4 id="问题描述-8">问题描述</h4><p>每年六一儿童节,NowCoder都会准备一些小礼物去看望孤儿院的小朋友,今年亦是如此。HF作为NowCoder的资深元老,自然也准备了一些小游戏。其中,有个游戏是这样的:首先,让小朋友们围成一个大圈。然后,他随机指定一个数m,让编号为0的小朋友开始报数。每次喊到m的那个小朋友要出列唱首歌,然后可以在礼品箱中任意的挑选礼物,并且不再回到圈中,从他的下一个小朋友开始,继续0…m-1报数….这样下去….直到剩下最后一个小朋友,可以不用表演,并且拿到NowCoder名贵的“名侦探柯南”典藏版(名额有限哦!!^_^)。请你试着想下,哪个小朋友会得到这份礼品呢？</p>
+<h4 id="解法-8">解法</h4><p>约瑟夫环递推公式：<br>f(n, m)表示n个人玩儿，报到m退出，最后剩下的人的编号。</p>
+<pre><code><span class="literal">f</span>(<span class="keyword">n</span>, <span class="keyword">m</span>) = 0, <span class="keyword">n</span>=1
+<span class="literal">f</span>(<span class="keyword">n</span>, <span class="keyword">m</span>) = (<span class="literal">f</span>(<span class="keyword">n</span> - 1) + <span class="keyword">m</span>) % <span class="keyword">n</span>, <span class="keyword">n</span> &gt; 1
+</code></pre><h4 id="代码-8">代码</h4><h5 id="递推解法">递推解法</h5><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="function"><span class="keyword">int</span> <span class="title">LastRemaining_Solution</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> n, <span class="keyword">unsigned</span> <span class="keyword">int</span> m)</span>
+    </span>{
+        <span class="keyword">if</span>(n &lt; <span class="number">1</span> || m &lt; <span class="number">1</span>) <span class="keyword">return</span> -<span class="number">1</span>;
+        <span class="keyword">int</span> last = <span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; i++)
+            last=(last + m) % i;
+        <span class="keyword">return</span> last;
+    }
+};
+</code></pre><h5 id="递归解法">递归解法</h5><pre><code>int lastRemain(int <span class="keyword">n</span>, int  <span class="keyword">m</span>)
+{
+    <span class="keyword">if</span>(<span class="keyword">n</span> == 1)
+        <span class="keyword">return</span> 0;
+    <span class="keyword">return</span> (lastRemain(<span class="keyword">n</span> - 1, <span class="keyword">m</span>) % <span class="keyword">n</span>);
+}
+</code></pre><h4 id="问题拓展:求第i次出环的人的编号">问题拓展:求第i次出环的人的编号</h4><pre><code>int getNumOfI(int <span class="keyword">n</span>, int <span class="keyword">m</span>, int i)
+{
+    <span class="keyword">if</span>(i == 1)
+        <span class="keyword">return</span> (<span class="keyword">n</span> + <span class="keyword">m</span> - 1) % <span class="keyword">n</span>; <span class="comment">//第一次出环 (n-1+m)%n</span>
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> getNumOfI(<span class="keyword">n</span> - 1, <span class="keyword">m</span>, i - 1) % <span class="keyword">n</span>;
+}
+</code></pre><p><a href="http://www.cnblogs.com/yangyh/archive/2011/10/30/2229517.html" target="_blank" rel="external">参考</a></p>
+<h3 id="剑指offer64_数据流中的中位数">剑指offer64 数据流中的中位数</h3><h4 id="问题描述-9">问题描述</h4><p>如何得到一个数据流中的中位数？如果从数据流中读出奇数个数值，那么中位数就是所有数值排序之后位于中间的数值。如果从数据流中读出偶数个数值，那么中位数就是所有数值排序之后中间两个数的平均值。<br>实现一种数据结构，要求插入删除O(logn),取中位数O(1)</p>
+<h4 id="解法-9">解法</h4><p>实现一个小顶堆和大顶堆，大数存在小顶堆，小数存在大顶堆，每次按大小压入元素，调整两个堆中的数量，使得<code>0&lt;=Num(大顶堆)-Num(小顶堆)&lt;=1</code>。</p>
+<h4 id="注意点-4">注意点</h4><ul>
+<li>使用priority_queue<br>初始化：<pre><code>priority_queue&lt;<span class="keyword">int</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;, less&lt;<span class="keyword">int</span>&gt;&gt; maxHeap;
+priority_queue&lt;<span class="keyword">int</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;, greater&lt;<span class="keyword">int</span>&gt;&gt; minHeap;
+</code></pre>压入，弹出：<pre><code><span class="tag">minHeap</span><span class="class">.push</span>(<span class="tag">maxHeap</span><span class="class">.top</span>());
+<span class="tag">maxHeap</span><span class="class">.pop</span>();
+</code></pre></li>
+</ul>
+<h4 id="代码-9">代码</h4><pre><code>class Solution {
+public:
+    void Insert<span class="params">(int num)</span>
+    {
+        <span class="keyword">if</span><span class="params">(maxHeap.empty<span class="params">()</span> || num &lt;= maxHeap.top<span class="params">()</span>)</span>
+            maxHeap.push<span class="params">(num)</span>;
+        <span class="keyword">else</span>
+            minHeap.push<span class="params">(num)</span>;
+        <span class="keyword">if</span><span class="params">(maxHeap.size<span class="params">()</span> == minHeap.size<span class="params">()</span>+<span class="number">2</span>)</span>
+        {
+            minHeap.push<span class="params">(maxHeap.top<span class="params">()</span>)</span>;
+            maxHeap.pop<span class="params">()</span>;
+        }
+        <span class="keyword">else</span> <span class="keyword">if</span><span class="params">(maxHeap.size<span class="params">()</span> == minHeap.size<span class="params">()</span>-<span class="number">1</span>)</span>
+        {
+            maxHeap.push<span class="params">(minHeap.top<span class="params">()</span>)</span>;
+            minHeap.pop<span class="params">()</span>;
+        }
+    }
+
+    double GetMedian<span class="params">()</span>
+    {
+        <span class="keyword">if</span><span class="params">(maxHeap.size<span class="params">()</span> == minHeap.size<span class="params">()</span>)</span>
+            return <span class="params">(maxHeap.top<span class="params">()</span> + minHeap.top<span class="params">()</span>)</span>/<span class="number">2.0</span>;
+        <span class="keyword">else</span>
+            return maxHeap.top<span class="params">()</span>;
+    }
+private:
+    priority_queue&lt;int, vector&lt;int&gt;, less&lt;int&gt;&gt; maxHeap;
+    priority_queue&lt;int, vector&lt;int&gt;, greater&lt;int&gt;&gt; minHeap;
+
+};
+</code></pre>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数组/"> #数组 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/09/27/找工作总结-数组专题-出现次数/">
+                数组专题-数组中出现的次数
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-09-27
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/找工作总结/">找工作总结</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/09/27/找工作总结-数组专题-出现次数/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/27/找工作总结-数组专题-出现次数/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="通用的几种解题思路">通用的几种解题思路</h2><ul>
+<li>使用map记录出现的次数，要求额外增加空间复杂度</li>
+<li>所有数字异或可以消灭掉数组中出现偶数次的数字</li>
+</ul>
+<h3 id="剑指offer51_数组中重复的数字">剑指offer51 数组中重复的数字</h3><h4 id="问题描述">问题描述</h4><p>在一个长度为n的数组里的所有数字都在0到n-1的范围内。 数组中某些数字是重复的，但不知道有几个数字是重复的。也不知道每个数字重复几次。请找出数组中任意一个重复的数字。 例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出是重复的数字2或者3。</p>
+<h4 id="解法">解法</h4><ul>
+<li>排序后扫描，时间复杂度nlogn，空间复杂度O(1)</li>
+<li>使用map记录，时间复杂度O(n)，空间复杂度O(n)</li>
+</ul>
+<h4 id="注意点">注意点</h4><ul>
+<li>map的遍历<br><code>map&lt;int, int&gt;::iterator iter;</code><br><code>iter-&gt;first</code> <code>iter-&gt;second</code></li>
+</ul>
+<h4 id="代码">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="function"><span class="keyword">bool</span> <span class="title">duplicate</span><span class="params">(<span class="keyword">int</span> numbers[], <span class="keyword">int</span> length, <span class="keyword">int</span>* duplication)</span> </span>{
+        <span class="keyword">if</span>(length &lt;= <span class="number">1</span>)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; dict;
+        <span class="keyword">bool</span> ans = <span class="keyword">false</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++)
+        {
+            <span class="keyword">if</span>(dict.count(numbers[i]) == <span class="number">0</span>)
+                dict[numbers[i]] = <span class="number">1</span>;
+            <span class="keyword">else</span>{
+                dict[numbers[i]] += <span class="number">1</span>;
+                ans = <span class="keyword">true</span>;
+            }
+        }
+        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;::iterator iter;
+        <span class="keyword">for</span>(iter = dict.begin();iter != dict.end();iter++)
+        {
+            <span class="keyword">if</span>(iter-&gt;second &gt; <span class="number">1</span>)
+            {
+                *duplication = iter-&gt;first;
+                duplication++;
+            }
+        }
+        <span class="keyword">return</span> ans;
+    }
+};
+</code></pre><h3 id="剑指offer29_数组中出现次数超过一半的数字">剑指offer29 数组中出现次数超过一半的数字</h3><h4 id="问题描述-1">问题描述</h4><p>数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。由于数字2在数组中出现了5次，超过数组长度的一半，因此输出2。</p>
+<h4 id="解法-1">解法</h4><ul>
+<li>使用快排partition函数，扫描一遍数组中间元素就是出现超过一半的数字</li>
+<li>使用time记录数字出现的次数，cur记录当前数字</li>
+</ul>
+<h4 id="注意点-1">注意点</h4><ul>
+<li>使用解法2需要判断最后的次数是否真的大于一半，如果不是，返回特定值</li>
+</ul>
+<h4 id="代码-1">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="keyword">int</span> MoreThanHalfNum_Solution(vector&lt;<span class="keyword">int</span>&gt; numbers) {
+        <span class="keyword">if</span>(numbers.<span class="keyword">size</span>() == <span class="number">0</span>) 
+            <span class="keyword">return</span> <span class="number">0</span>;
+        <span class="keyword">int</span> time = <span class="number">1</span>;
+        <span class="keyword">int</span> cur = numbers[<span class="number">0</span>];
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; numbers.<span class="keyword">size</span>(); i++)
+        {
+            <span class="keyword">if</span>(time == <span class="number">0</span>)
+            {
+                cur = numbers[i];
+                time = <span class="number">1</span>;
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(numbers[i] == cur)
+                time++;
+            <span class="keyword">else</span>
+                time--;
+        }
+        <span class="keyword">int</span> <span class="keyword">count</span> = <span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;numbers.<span class="keyword">size</span>(); i++)
+        {
+            <span class="keyword">if</span>(numbers[i] == cur)
+                <span class="keyword">count</span>++;
+        }
+        <span class="keyword">if</span>(<span class="keyword">count</span> * <span class="number">2</span> &gt; numbers.<span class="keyword">size</span>())
+            <span class="keyword">return</span> cur;
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> <span class="number">0</span>;
+    }
+};
+</code></pre><h3 id="剑指offer40_数组中只出现一次的数字">剑指offer40 数组中只出现一次的数字</h3><h4 id="问题描述-2">问题描述</h4><p>一个整型数组里除了两个数字之外，其他的数字都出现了两次。请写程序找出这两个只出现一次的数字。</p>
+<h4 id="解法-2">解法</h4><ul>
+<li>对于只有一个数字出现一次，对所有数字做异或操作</li>
+<li>有两个数字a,b出现了一次，其它出现偶数次。所有数字异或得temp = a^b，使用result做spliter，每一个数字和temp做与操作，把数组分成两组</li>
+</ul>
+<h4 id="注意点-2">注意点</h4><ul>
+<li>与或非的操作符优先级</li>
+</ul>
+<h4 id="代码-2">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    void FindNumsAppearOnce(vector&lt;<span class="built_in">int</span>&gt; <span class="type">data</span>,<span class="built_in">int</span>* num1,<span class="built_in">int</span> *num2) {
+        <span class="keyword">if</span>(<span class="type">data</span>.<span class="built_in">size</span>() &lt;= <span class="number">1</span>)
+        {
+            *num1 = <span class="number">0</span>;
+            *num2 = <span class="number">0</span>;
+            <span class="keyword">return</span> ;
+        }
+        <span class="built_in">int</span> temp = <span class="number">0</span>;
+        for(<span class="built_in">int</span> i = <span class="number">0</span>;i &lt;<span class="type">data</span>.<span class="built_in">size</span>(); i++)
+            temp ^= <span class="type">data</span>[i];
+
+        <span class="built_in">int</span> a = <span class="number">0</span>, b = <span class="number">0</span>;
+        for(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="type">data</span>.<span class="built_in">size</span>(); i++)
+        {
+            <span class="keyword">if</span>((<span class="type">data</span>[i] &amp; temp) == <span class="number">0</span>)
+                a ^= <span class="type">data</span>[i];
+            <span class="keyword">else</span>
+                b ^= <span class="type">data</span>[i];
+
+        }
+        *num1 = a;
+        *num2 = b;
+    }
+};
+</code></pre>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数组/"> #数组 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/09/27/找工作总结-数组专题-两个指针/">
+                数组专题-两个指针
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-09-27
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/找工作总结/">找工作总结</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/09/27/找工作总结-数组专题-两个指针/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/27/找工作总结-数组专题-两个指针/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h1 id="通用解题思路">通用解题思路</h1><ul>
+<li>使用快排中的partition函数</li>
+<li>贪心,left++,right-直到相遇</li>
+<li>二分查找，mid = (left + right) / 2</li>
+</ul>
+<h2 id="k-sum问题">k-sum问题</h2><p>k-sum问题解题思路:<br>先对数组进行排序(nlogn)。退化成2-sum问题，使用left,right指针向中间查找。最终把复杂度优化到O(n^(k-1))</p>
+<h3 id="剑指offer41_和为S的两个数字_VS_和为S的连续正数序列">剑指offer41 和为S的两个数字 VS 和为S的连续正数序列</h3><h4 id="问题描述">问题描述</h4><p>输入一个递增排序的数组和一个数字S，在数组中查找两个数，使得他们的和正好是S，如果有多对数字的和等于S，输出两个数的乘积最小的。 </p>
+<h4 id="解法">解法</h4><p>2-sum问题，乘积最小的两个数字就是left和right第一次满足条件的两个数字。</p>
+<h4 id="代码">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    vector&lt;<span class="built_in">int</span> &gt; FindNumbersWithSum(vector&lt;<span class="built_in">int</span>&gt; <span class="built_in">array</span>,<span class="built_in">int</span> sum) {
+        vector&lt;<span class="built_in">int</span>&gt; vec;
+        <span class="keyword">if</span>(<span class="built_in">array</span>.size() == <span class="number">0</span>) return vec;
+        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = <span class="built_in">array</span>.size() - <span class="number">1</span>;
+        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+        {
+            <span class="keyword">if</span>(<span class="built_in">array</span>[<span class="built_in">left</span>] + <span class="built_in">array</span>[<span class="built_in">right</span>] &lt; sum)
+                <span class="built_in">left</span>++;
+            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">array</span>[<span class="built_in">left</span>] + <span class="built_in">array</span>[<span class="built_in">right</span>] &gt; sum)
+                <span class="built_in">right</span>--;
+            <span class="keyword">else</span>
+            {
+                vec.push_back(<span class="built_in">array</span>[<span class="built_in">left</span>]);
+                vec.push_back(<span class="built_in">array</span>[<span class="built_in">right</span>]);
+                return vec;
+            }
+        }
+        return vec;
+    }
+};
+</code></pre><h4 id="问题描述-1">问题描述</h4><p>小明很喜欢数学,有一天他在做数学作业时,要求计算出9~16的和,他马上就写出了正确答案是100。但是他并不满足于此,他在想究竟有多少种连续的正数序列的和为100(至少包括两个数)。没多久,他就得到另一组连续正数和为100的序列:18,19,20,21,22。现在把问题交给你,你能不能也很快的找出所有和为S的连续正数序列? Good Luck! </p>
+<h4 id="解法-1">解法</h4><p>同上，不过比较条件变成。(left+right)(right-left+1)/2</p>
+<h4 id="代码-1">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; FindContinuousSequence(<span class="keyword">int</span> sum) {
+        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; <span class="built_in">list</span>;
+        <span class="keyword">if</span>(sum &lt;= <span class="number">2</span>) <span class="keyword">return</span> <span class="built_in">list</span>;
+        <span class="keyword">int</span> left = <span class="number">1</span>,right = <span class="number">2</span>;
+        <span class="keyword">while</span>(right &lt;= (sum + <span class="number">1</span>) / <span class="number">2</span>)
+        {
+            <span class="keyword">int</span> temp = (left + right) * (right - left + <span class="number">1</span>) / <span class="number">2</span>;
+            <span class="keyword">if</span>(temp &lt; sum)
+                right++;
+            <span class="keyword">else</span> <span class="keyword">if</span>(temp &gt; sum)
+                left++;
+            <span class="keyword">else</span>
+            {
+                <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vec;
+                <span class="keyword">for</span>(<span class="keyword">int</span> i = left; i &lt;= right; i++)
+                    vec.push_back(i);
+                <span class="built_in">list</span>.push_back(vec);
+                right++;
+            }
+        }
+        <span class="keyword">return</span> <span class="built_in">list</span>;
+    }
+};
+</code></pre><h3 id="leetcode18_4Sum">leetcode18 4Sum</h3><h4 id="问题描述-2">问题描述</h4><p>Given an array S of n integers, are there elements a, b, c, and d in S such that a + b + c + d = target? Find all unique quadruplets in the array which gives the sum of target.</p>
+<ul>
+<li>Elements in a quadruplet (a,b,c,d) must be in non-descending order. (ie, a ≤ b ≤ c ≤ d)</li>
+<li><p>The solution set must not contain duplicate quadruplets.</p>
+<pre><code>For example, given<span class="instruction"> array </span>S = {1 0 -1 0 -2 2},<span class="instruction"> and </span>target = 0.
+
+A solution set is:
+(-1,  0, 0, 1<span class="function">)</span>
+(-2, -1, 1, 2<span class="function">)</span>
+(-2,  0, 0, 2<span class="function">)</span>
+</code></pre></li>
+</ul>
+<h4 id="解法-2">解法</h4><p>先排序，退化到2-sum问题。</p>
+<h4 id="注意点">注意点</h4><p>题目要求找出所有满足条件的数组，需要避免重复。</p>
+<h4 id="代码-2">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+public:
+<span class="comment">//思路：K-Sum问题，复杂度降到O(n^(k-1))</span>
+<span class="comment">//注意，不能重复，num个数不够4</span>
+<span class="comment">//去重，left，right去重，i层循环去重，j层循环去重</span>
+    vector&lt;vector&lt;<span class="built_in">int</span>&gt; &gt; fourSum(vector&lt;<span class="built_in">int</span>&gt; &amp;<span class="built_in">num</span>, <span class="built_in">int</span> target) {
+        sort(<span class="built_in">num</span>.begin(), <span class="built_in">num</span>.end());
+        vector&lt;vector&lt;<span class="built_in">int</span>&gt;&gt; list;
+        <span class="keyword">if</span>(<span class="built_in">num</span>.size() &lt; <span class="number">4</span>) 
+            <span class="keyword">return</span> list;
+        <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">num</span>.size()-<span class="number">3</span>; i++)
+        {
+            <span class="keyword">for</span>(<span class="built_in">int</span> j = i + <span class="number">1</span>; j &lt; <span class="built_in">num</span>.size()- <span class="number">2</span>; j++)
+            {
+                <span class="built_in">int</span> left = j + <span class="number">1</span>, right = <span class="built_in">num</span>.size() - <span class="number">1</span>;
+                <span class="keyword">while</span>(left &lt; right)
+                {
+                    <span class="built_in">int</span> sum = <span class="built_in">num</span>[i]+<span class="built_in">num</span>[j]+<span class="built_in">num</span>[left]+<span class="built_in">num</span>[right];
+                    <span class="keyword">if</span>(sum &lt; target)
+                        left++;
+                    <span class="keyword">else</span> <span class="keyword">if</span>(sum &gt; target)
+                        right--;
+                    <span class="keyword">else</span>
+                    {
+                        vector&lt;<span class="built_in">int</span>&gt; vec;
+                        vec.push_back(<span class="built_in">num</span>[i]);
+                        vec.push_back(<span class="built_in">num</span>[j]);
+                        vec.push_back(<span class="built_in">num</span>[left]);
+                        vec.push_back(<span class="built_in">num</span>[right]);
+                        list.push_back(vec);
+                        left++;
+                        right--; 
+                        <span class="keyword">while</span>(left &lt; right &amp;&amp; <span class="built_in">num</span>[left] == <span class="built_in">num</span>[left - <span class="number">1</span>]) 
+                            left++;
+                        <span class="keyword">while</span>(left &lt; right &amp;&amp; <span class="built_in">num</span>[right] == <span class="built_in">num</span>[right + <span class="number">1</span>]) 
+                            right--;
+                    }
+                }
+                <span class="keyword">while</span>(j + <span class="number">1</span> &lt; <span class="built_in">num</span>.size() - <span class="number">2</span> &amp;&amp; <span class="built_in">num</span>[j] == <span class="built_in">num</span>[j + <span class="number">1</span>]) 
+                    j++;
+            }
+            <span class="keyword">while</span>(i + <span class="number">1</span> &lt; <span class="built_in">num</span>.size() - <span class="number">3</span> &amp;&amp; <span class="built_in">num</span>[i] == <span class="built_in">num</span>[i+<span class="number">1</span>]) 
+                i++;
+        }
+        <span class="keyword">return</span> list;
+    }
+};
+</code></pre><h2 id="二分查找问题">二分查找问题</h2><p>二分查找通用解题思路，left=头指针，right=尾指针，mid=(left+right)/2，通过条件判断，移动left和right最终使得left和right相遇得到最终结果。</p>
+<h3 id="普通二分查找">普通二分查找</h3><h4 id="问题描述-3">问题描述</h4><p>给定一个<strong>有序数组，可能含有重复元素</strong>。给定target，寻找target出现的下标，不存在返回-1.</p>
+<h4 id="代码-3">代码</h4><pre><code><span class="built_in">int</span> search(<span class="built_in">int</span> a[], <span class="built_in">int</span> N, <span class="built_in">int</span> target)
+{
+    <span class="keyword">if</span>(N &lt; <span class="number">1</span>)
+        return -<span class="number">1</span>;
+    <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = N - <span class="number">1</span>;
+    <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+    {
+        <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
+        <span class="keyword">if</span>(a[<span class="built_in">mid</span>] == target)
+            return <span class="built_in">mid</span>;
+        <span class="keyword">else</span> <span class="keyword">if</span>(a[<span class="built_in">mid</span>] &lt; target)
+            <span class="built_in">left</span> = <span class="built_in">mid</span> + <span class="number">1</span>;
+        <span class="keyword">else</span>
+            <span class="built_in">right</span> = <span class="built_in">mid</span> - <span class="number">1</span>;
+    }
+    return -<span class="number">1</span>;
+}
+</code></pre><h3 id="等于target的第一个元素">等于target的第一个元素</h3><h4 id="问题描述-4">问题描述</h4><p>给定有序数组a,含有重复元素，求最小(或者求最大)的使得a[i]等于target的下标。不存在返回-1.<br><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1ewnyv9bn30j20fg057q2z.jpg" alt=""></p>
+<h4 id="代码-4">代码</h4><pre><code><span class="built_in">int</span> search(<span class="built_in">int</span> a[], <span class="built_in">int</span> N, <span class="built_in">int</span> target)
+{
+    <span class="keyword">if</span>(N &lt; <span class="number">1</span>)
+        return -<span class="number">1</span>;
+    <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = N - <span class="number">1</span>;
+    <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+    {
+        <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
+        <span class="keyword">if</span>(a[<span class="built_in">mid</span>] &lt; target)
+            <span class="built_in">left</span> = <span class="built_in">mid</span> + <span class="number">1</span>;
+        <span class="keyword">else</span>
+            <span class="built_in">right</span> = <span class="built_in">mid</span>;
+    }
+    <span class="keyword">if</span>(a[<span class="built_in">left</span>] == target)
+        return <span class="built_in">left</span>
+    <span class="keyword">else</span>
+        return -<span class="number">1</span>;
+}
+</code></pre><h3 id="小于target的第一个元素">小于target的第一个元素</h3><h4 id="问题描述-5">问题描述</h4><p>给定有序数组a,含有重复元素，求最大的i使得a[i]小于target。不存在返回-1<br><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1ewnyykveyaj20bt04edfv.jpg" alt=""></p>
+<h4 id="代码-5">代码</h4><pre><code><span class="built_in">int</span> search(<span class="built_in">int</span> a[], <span class="built_in">int</span> N, <span class="built_in">int</span> target)
+{
+    <span class="keyword">if</span>(N &lt; <span class="number">1</span>)
+        return -<span class="number">1</span>;
+    <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = N - <span class="number">1</span>;
+    <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+    {
+        <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
+        <span class="keyword">if</span>(a[<span class="built_in">mid</span>] &gt;= target)
+            <span class="built_in">right</span> = <span class="built_in">mid</span> - <span class="number">1</span>;
+        <span class="keyword">else</span>
+            <span class="built_in">left</span> = <span class="built_in">mid</span>;
+    }
+    <span class="keyword">if</span>(a[<span class="built_in">left</span>] &lt; target)
+        return <span class="built_in">left</span>
+    <span class="keyword">else</span>
+        return -<span class="number">1</span>;
+}
+</code></pre><h3 id="求target在数组中的出现次数">求target在数组中的出现次数</h3><h4 id="解法-3">解法</h4><p>出现次数 = 最后一次出现位置 - 第一次出现位置 + 1<br><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1ewnz2xlz25j20ep05ewek.jpg" alt=""></p>
+<h4 id="代码-6">代码</h4><pre><code><span class="function"><span class="keyword">int</span> <span class="title">count</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> N, <span class="keyword">int</span> <span class="keyword">target</span>)</span>
+</span>{
+    <span class="keyword">int</span> first = searchFisrt(a, N, <span class="keyword">target</span>);
+    <span class="keyword">if</span>(first == -<span class="number">1</span>)
+        <span class="keyword">return</span> <span class="number">0</span>;
+    <span class="keyword">int</span> last = searchLast(a, N, <span class="keyword">target</span>);
+    <span class="keyword">return</span> (last - first + <span class="number">1</span>);
+}
+</code></pre><h3 id="插入的位置（小于等于target的第一个元素）">插入的位置（小于等于target的第一个元素）</h3><h4 id="问题描述-6">问题描述</h4><p>给定有序数组a,含有重复元素，若target在数组中出现，返回位置，如果不存在，返回应该插入的位置。</p>
+<h4 id="解法-4">解法</h4><p>&lt;=target是可能的位置<br><img src="http://ww3.sinaimg.cn/mw690/4c2edcb7jw1ewo0ah8apsj20cf03lgln.jpg" alt=""></p>
+<h4 id="代码-7">代码</h4><pre><code><span class="built_in">int</span> search(<span class="built_in">int</span> a[], <span class="built_in">int</span> N, <span class="built_in">int</span> target)
+{
+    <span class="keyword">if</span>(N &lt; <span class="number">1</span>)
+        return -<span class="number">1</span>;
+    <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = N - <span class="number">1</span>;
+    <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+    {
+        <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
+        <span class="keyword">if</span>(a[<span class="built_in">mid</span>] &lt;= target)
+            <span class="built_in">left</span> = <span class="built_in">mid</span>;
+        <span class="keyword">else</span>
+            <span class="built_in">right</span> = <span class="built_in">mid</span> - <span class="number">1</span>; 
+    }
+    return <span class="built_in">left</span>;
+}
+</code></pre><h2 id="旋转数组的二分查找">旋转数组的二分查找</h2><h3 id="leetcode_33_Search_in_Rotated_Sorted_Array">leetcode 33 Search in Rotated Sorted Array</h3><h4 id="问题描述-7">问题描述</h4><p>给定有序数组，在某一个位置发生旋转，求target在数组中出现的位置。<strong>无重复元素</strong>，找到返回下标，找不到返回-1.</p>
+<h4 id="解法-5">解法</h4><p>先判断mid落在了旋转数组的哪一部分，然后判断和target的关系<br><img src="http://ww2.sinaimg.cn/mw690/4c2edcb7jw1ewo177qwiyj20c507cq32.jpg" alt=""></p>
+<h4 id="代码-8">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+public:
+    int search(vector&lt;int&gt;&amp; nums, int target) {
+        int <span class="keyword">left</span> = <span class="number">0</span>,<span class="keyword">right</span> = nums.size()-<span class="number">1</span>;
+        <span class="keyword">while</span>(<span class="keyword">left</span> &lt; <span class="keyword">right</span>)
+        {
+            int mid = (<span class="keyword">left</span> + <span class="keyword">right</span>)/<span class="number">2</span>;
+            <span class="keyword">if</span>(nums[mid] == target)
+                <span class="keyword">return</span> mid;
+            <span class="keyword">if</span>(nums[mid] &gt;= nums[<span class="keyword">left</span>])<span class="comment">//left-mid升序</span>
+            {
+                <span class="keyword">if</span>(nums[<span class="keyword">left</span>] &lt;= target &amp;&amp; target &lt; nums[mid])
+                    <span class="keyword">right</span> = mid-<span class="number">1</span> ;
+                <span class="keyword">else</span>
+                    <span class="keyword">left</span> = mid+<span class="number">1</span>;
+            }
+            <span class="keyword">else</span><span class="comment">//mid-right升序</span>
+            {
+                <span class="keyword">if</span>(nums[mid] &lt; target &amp;&amp; target &lt;= nums[<span class="keyword">right</span>])
+                    <span class="keyword">left</span> = mid +<span class="number">1</span>;
+                <span class="keyword">else</span>
+                {
+                    <span class="keyword">right</span> = mid-<span class="number">1</span>;
+                }
+            }
+        }
+        <span class="keyword">if</span>(nums[<span class="keyword">left</span>] == target)
+            <span class="keyword">return</span> <span class="keyword">left</span>;
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> -<span class="number">1</span>;
+    }
+};
+</code></pre><h3 id="Search_in_Rotated_Sorted_Array_II">Search in Rotated Sorted Array II</h3><h4 id="问题描述-8">问题描述</h4><p>其他条件相同，但允许数组中存在重复元素。判断target是否出现在数组中。</p>
+<h4 id="解法-6">解法</h4><p>增加判断条件，当a[left] = a[mid] = a[right]，直接遍历去寻找，不能使用二分查找</p>
+<h4 id="代码-9">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    bool search(vector&lt;<span class="built_in">int</span>&gt;&amp; nums, <span class="built_in">int</span> target) {
+        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>,<span class="built_in">right</span> = nums.size() - <span class="number">1</span>;
+        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+        {
+            <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>) / <span class="number">2</span>;
+            <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] == target)
+                return <span class="literal">true</span>;
+            <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] == nums[<span class="built_in">left</span>] &amp;&amp; nums[<span class="built_in">mid</span>] == nums[<span class="built_in">right</span>])
+            {
+                <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="built_in">left</span>; i &lt;= <span class="built_in">right</span>; i++)
+                {
+                    <span class="keyword">if</span>(nums[i] == target)
+                        return <span class="literal">true</span>;
+                }
+                return <span class="literal">false</span>;
+            }
+            <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] &gt;= nums[<span class="built_in">left</span>])
+            {
+                <span class="keyword">if</span>(target &gt;= nums[<span class="built_in">left</span>] &amp;&amp; target &lt; nums[<span class="built_in">mid</span>])
+                    <span class="built_in">right</span> = <span class="built_in">mid</span> -<span class="number">1</span>;
+                <span class="keyword">else</span>
+                    <span class="built_in">left</span> = <span class="built_in">mid</span> +<span class="number">1</span>;
+            }
+            <span class="keyword">else</span>
+            {
+                <span class="keyword">if</span>(target &gt; nums[<span class="built_in">mid</span>] &amp;&amp; target &lt;= nums[<span class="built_in">right</span>])
+                    <span class="built_in">left</span> = <span class="built_in">mid</span> +<span class="number">1</span>;
+                <span class="keyword">else</span>
+                    <span class="built_in">right</span> = <span class="built_in">mid</span> -<span class="number">1</span>;
+            }
+        }
+        <span class="keyword">if</span>(nums[<span class="built_in">left</span>] == target)
+            return <span class="literal">true</span>;
+        <span class="keyword">else</span>
+            return <span class="literal">false</span>;
+    }
+};
+</code></pre><h3 id="leetcode_153_Find_Minimum_in_Rotated_Sorted_Array">leetcode 153    Find Minimum in Rotated Sorted Array</h3><h4 id="问题描述-9">问题描述</h4><p>给定有序数组，<strong>无重复元素</strong>，在某一位置发生旋转，求数组中的最小元素</p>
+<h4 id="解法-7">解法</h4><p>同上<br><img src="http://ww1.sinaimg.cn/mw690/4c2edcb7jw1ewo7wvjpz5j20as05ugln.jpg" alt=""></p>
+<h4 id="注意点-1">注意点</h4><ul>
+<li>对于数组旋转个数为0的考虑<br>如果使用a[mid] &gt;= a[left]判断，需要考虑数组是否并没有旋转(a[left] &lt; a[right])</li>
+<li>也可以使用这样的条件进行判断 a[mid] &gt; a[right]</li>
+</ul>
+<h4 id="代码-10">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="built_in">int</span> findMin(vector&lt;<span class="built_in">int</span>&gt;&amp; nums) {
+        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = nums.size()-<span class="number">1</span>;
+        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+        {
+            <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
+            <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] &gt; nums[<span class="built_in">right</span>])
+                <span class="built_in">left</span> = <span class="built_in">mid</span> + <span class="number">1</span>;
+            <span class="keyword">else</span>
+                <span class="built_in">right</span> = <span class="built_in">mid</span>;
+        }
+        return nums[<span class="built_in">left</span>];
+    }
+};
+</code></pre><h3 id="leetcode_Find_Minimum_in_Rotated_Sorted_Array_II">leetcode Find Minimum in Rotated Sorted Array II</h3><h4 id="问题描述-10">问题描述</h4><p>同上，不过允许数组中存在重复元素</p>
+<h4 id="解法-8">解法</h4><p>对a[mid] = a[right]时，right—。因为a[left] &lt;= a[right] == a[mid],为了使得a[mid]最小，需要对使得left和right逐渐接近，需要遍历才能找到，所以对right进行减一操作。</p>
+<h4 id="代码-11">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="built_in">int</span> findMin(vector&lt;<span class="built_in">int</span>&gt;&amp; nums) {
+        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = nums.size()-<span class="number">1</span>;
+        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+        {
+            <span class="built_in">int</span> <span class="built_in">mid</span> = (<span class="built_in">left</span> + <span class="built_in">right</span>)/<span class="number">2</span>;
+            <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] &gt; nums[<span class="built_in">right</span>])
+                <span class="built_in">left</span> = <span class="built_in">mid</span> + <span class="number">1</span>;
+            <span class="keyword">else</span> <span class="keyword">if</span>(nums[<span class="built_in">mid</span>] &lt; nums[<span class="built_in">right</span>])
+                <span class="built_in">right</span> = <span class="built_in">mid</span>;
+            <span class="keyword">else</span>
+                <span class="built_in">right</span>--;
+        }
+        return nums[<span class="built_in">left</span>];
+    }
+};
+</code></pre><h2 id="一般题目">一般题目</h2><h3 id="剑指offer14_调整数组顺序使奇数位于偶数之前">剑指offer14 调整数组顺序使奇数位于偶数之前</h3><h4 id="问题描述-11">问题描述</h4><p>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
+<h4 id="解法-9">解法</h4><ul>
+<li>使用插入排序的思想，复杂度O(n^2)</li>
+<li>使用额外的O(n)存储，遍历原数组，计数从前往后放，偶数从后往前放。时间复杂度O(n)</li>
+<li>补充，如果不需要保证相对位置，可以使用快排的partition函数做一次扫描。</li>
+</ul>
+<h4 id="方法2的代码">方法2的代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    void reOrderArray(vector&lt;<span class="built_in">int</span>&gt;&amp; <span class="built_in">array</span>) {
+        vector&lt;<span class="built_in">int</span>&gt; vec(<span class="built_in">array</span>.size());
+        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = <span class="built_in">array</span>.size() - <span class="number">1</span>;
+        <span class="built_in">int</span> leftIndex = <span class="number">0</span>, rightIndex = <span class="built_in">array</span>.size() - <span class="number">1</span>;
+        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">array</span>.size())
+        {
+            <span class="keyword">while</span>((<span class="built_in">array</span>[<span class="built_in">left</span>]&amp;<span class="number">0x01</span>) == <span class="number">0</span>)
+                <span class="built_in">left</span>++;
+            <span class="keyword">if</span>(<span class="built_in">left</span> &lt; <span class="built_in">array</span>.size())
+                vec[leftIndex++] = <span class="built_in">array</span>[<span class="built_in">left</span>++];
+        }
+        <span class="keyword">while</span>(<span class="built_in">right</span> &gt;= <span class="number">0</span>)
+        {
+            <span class="keyword">while</span>((<span class="built_in">array</span>[<span class="built_in">right</span>]&amp;<span class="number">0x01</span>) == <span class="number">1</span>)
+                <span class="built_in">right</span>--;
+            <span class="keyword">if</span>(<span class="built_in">right</span> &gt;= <span class="number">0</span>)
+                vec[rightIndex--] = <span class="built_in">array</span>[<span class="built_in">right</span>--];
+        }
+        <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">array</span>.size(); i++)
+            <span class="built_in">array</span>[i] = vec[i];
+    }  
+};
+</code></pre><h4 id="方法3的代码">方法3的代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    void reOrderArray(vector&lt;<span class="built_in">int</span>&gt; &amp;<span class="built_in">array</span>) {
+        <span class="built_in">int</span> <span class="built_in">left</span> = <span class="number">0</span>, <span class="built_in">right</span> = <span class="built_in">array</span>.size() - <span class="number">1</span>;
+        <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+        {
+            <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span> &amp;&amp; (<span class="built_in">array</span>[<span class="built_in">right</span>]&amp;<span class="number">0x01</span>) == <span class="number">0</span>)
+                <span class="built_in">right</span>--;
+            <span class="keyword">while</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span> &amp;&amp; (<span class="built_in">array</span>[<span class="built_in">left</span>]&amp;<span class="number">0x01</span>) == <span class="number">1</span>)
+                <span class="built_in">left</span>++;
+            <span class="keyword">if</span>(<span class="built_in">left</span> &lt; <span class="built_in">right</span>)
+            {
+                <span class="built_in">int</span> temp = <span class="built_in">array</span>[<span class="built_in">left</span>];
+                <span class="built_in">array</span>[<span class="built_in">left</span>] = <span class="built_in">array</span>[<span class="built_in">right</span>];
+                <span class="built_in">array</span>[<span class="built_in">right</span>] = temp;
+            }
+        }
+    }
+};
+</code></pre><h3 id="剑指offer36_数组中的逆序对">剑指offer36 数组中的逆序对</h3><h4 id="问题描述-12">问题描述</h4><p>在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组，求出这个数组中的逆序对的总数。</p>
+<h4 id="解法-10">解法</h4><p>使用归并排序的merge过程，统计逆序对的个数。merge过程需要merge,left~mid和mid~right。假如vec[lpos] &gt; vec[rpos],逆序对的个数需要增加<strong>mid-lpos+1</strong>个，因为vec中所有lpos之后的元素和rpos对应的元素都形成了逆序对。</p>
+<h4 id="代码-12">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="built_in">int</span> InversePairs(vector&lt;<span class="built_in">int</span>&gt; <span class="type">data</span>) {
+        <span class="keyword">if</span>(<span class="type">data</span>.<span class="built_in">size</span>() == <span class="number">0</span> || <span class="type">data</span>.<span class="built_in">size</span>() == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;
+        vector&lt;<span class="built_in">int</span>&gt; temp(<span class="type">data</span>.<span class="built_in">size</span>());
+        <span class="built_in">int</span> <span class="built_in">count</span> = <span class="number">0</span>;
+        mergeSort(<span class="type">data</span>, temp, <span class="number">0</span>, <span class="type">data</span>.<span class="built_in">size</span>()-<span class="number">1</span>, <span class="built_in">count</span>);
+        <span class="keyword">return</span> <span class="built_in">count</span>;
+    }
+
+    void mergeSort(vector&lt;<span class="built_in">int</span>&gt;&amp; <span class="type">data</span>, vector&lt;<span class="built_in">int</span>&gt;&amp; temp, <span class="built_in">int</span> left, <span class="built_in">int</span> right, <span class="built_in">int</span>&amp; <span class="built_in">count</span>)
+    {
+        <span class="keyword">if</span>(left &lt; right)
+        {
+            <span class="built_in">int</span> mid = (left + right) / <span class="number">2</span>;
+            mergeSort(<span class="type">data</span>, temp, left, mid, <span class="built_in">count</span>);
+            mergeSort(<span class="type">data</span>, temp, mid + <span class="number">1</span>, right, <span class="built_in">count</span>);
+            <span class="built_in">merge</span>(<span class="type">data</span>, temp, left, mid, right, <span class="built_in">count</span>);
+        }
+    }
+
+    void <span class="built_in">merge</span>(vector&lt;<span class="built_in">int</span>&gt;&amp; <span class="type">data</span>, vector&lt;<span class="built_in">int</span>&gt;&amp; temp, <span class="built_in">int</span> left, <span class="built_in">int</span> mid, <span class="built_in">int</span> right, <span class="built_in">int</span>&amp; <span class="built_in">count</span>)
+    {
+        <span class="built_in">int</span> lend = mid, rend = right;
+        <span class="built_in">int</span> lpos = left, rpos = mid + <span class="number">1</span>, tpos = left;
+        <span class="keyword">while</span>(lpos &lt;= lend &amp;&amp; rpos &lt;= rend)
+        {
+            <span class="keyword">if</span>(<span class="type">data</span>[lpos] &lt;= <span class="type">data</span>[rpos])
+                temp[tpos++] = <span class="type">data</span>[lpos++];
+            <span class="keyword">else</span>
+            {
+                <span class="built_in">count</span> += mid-lpos+<span class="number">1</span>;
+                temp[tpos++] = <span class="type">data</span>[rpos++];
+            }
+        }
+        <span class="keyword">while</span>(lpos &lt;= lend)
+            temp[tpos++]=<span class="type">data</span>[lpos++];
+        <span class="keyword">while</span>(rpos &lt;= rend)
+            temp[tpos++] = <span class="type">data</span>[rpos++];
+        for(<span class="built_in">int</span> i = left; i &lt;= right; i++)
+            <span class="type">data</span>[i] = temp[i];
+    }
+};
+</code></pre>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/两个指针/"> #两个指针 </a>
+          
+            <a href="/tags/数组/"> #数组 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/09/25/找工作总结-字符串专题-一般题目/">
                 字符串专题
               </a>
@@ -1841,409 +2949,11 @@ END{
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/05/23/Hadoop基本原理/">
-                Hadoop基本原理
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-05-23
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Hadoop/">Hadoop</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/05/23/Hadoop基本原理/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/23/Hadoop基本原理/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="了解大数据">了解大数据</h3><p>首先，搞清楚hadoop在处理大数据的定位在哪里</p>
-<h4 id="什么是大数据？为什么要处理大数据？">什么是大数据？为什么要处理大数据？</h4><p>数据量大（Volume） 数据类别复杂（Variety） 数据处理速度快（Velocity） 数据真实性高（Veracity） 合起来被称为4V。</p>
-<p>处理大数据是为了挖掘数据中的隐含价值</p>
-<h4 id="如何处理大数据？">如何处理大数据？</h4><p>集中式计算VS分布式计算</p>
-<p>集中式计算：通过不断增加处理器的个数来增强耽搁计算机的计算能力，从而提高处理的速度。需要的内存很大，计算的速度很快。</p>
-<p>分布式计算：一组通过网络连接的计算机，形成一个分散的系统。将需要处理的大量数据分散成多个部分，交由系统中的耽搁计算机分别处理，最后将这些计算结果合并得到最终结果。（MapReduce的核心思想）</p>
-<h3 id="Hadoop是怎么产生的">Hadoop是怎么产生的</h3><h4 id="技术基础">技术基础</h4><p>google三驾马车：GFS、MapReduce和BigTable。Hadoop是在google三驾马车基础上的开源实现。</p>
-<ol>
-<li>GFS（Google File System）分布式文件系统，对应Hadoop当中的HDFS。</li>
-<li>MapReduce分布式计算框架，也是Hadoop处理大数据的核心思想。</li>
-<li>BigTable是基于GFS的数据存储系统，对应Hadoop的HBase。</li>
-</ol>
-<h4 id="三大分布式计算系统">三大分布式计算系统</h4><p>Hadoop，Spark，Storm是主流的三大分布式计算系统</p>
-<p>Spark VS Hadoop</p>
-<p>Hadoop使用硬盘来存储数据，而Spark是将数据存在内存中的，因此Spark何以提供超过Hadoop 100倍的计算速度。内存断电后会丢失，所以Spark不<br>适用于需要长期保存的数据。</p>
-<p>Storm VS Hadoop</p>
-<p>Storm在Hadoop基础上提供了实时运算的特性，可以实时处理大数据流。不同于Hadoop和Spark，Storm不尽兴数据的手机和存储工作，直接通过网络接受并实时处理数据，然后直接通过网络实时传回结果。</p>
-<p>所以三者适用于的应用场景分别为：</p>
-<ol>
-<li>Hadoop常用于离线的复杂的大数据处理</li>
-<li>Spark常用于离线的快速的大数据处理</li>
-<li>Storm常用于在线实时的大数据处理</li>
-</ol>
-<h3 id="Hadoop定义">Hadoop定义</h3><h4 id="Hadoop是什么">Hadoop是什么</h4><p>Hadoop是一个能够对大量数据进行分布式处理的软件框架</p>
-<h4 id="Hadoop特点">Hadoop特点</h4><ol>
-<li>可靠。Hadoop假设计算元素和存储会失败，所以会维护多个工作数据的副本，对失败的节点会重新处理</li>
-<li>高效。通过并行方式工作，加快处理速度。</li>
-<li>可伸缩。可以处理PB级的数据。</li>
-<li>高扩展。可以方便地扩展到数以千计的节点。</li>
-<li>低成本。Hadoop是开源的，Hadoop节点可以是很便宜的机器。</li>
-</ol>
-<h4 id="应用场景">应用场景</h4><p>Hadoop适用于：海量数据，离线数据，复杂数据</p>
-<p>场景1：数据分析，如海量日志分析，商品推荐，用户行为分析</p>
-<p>场景2：离线计算，（异构计算+分布式计算）天文计算</p>
-<p>场景3：海量数据存储，如Facebook的存储集群。</p>
-<p><a href="http://cloud.zol.com.cn/441/4415033_all.html" target="_blank" rel="external">更多应用场景</a></p>
-<h3 id="Hadoop原理">Hadoop原理</h3><h4 id="HDFS">HDFS</h4><p>HDFS（Hadoop File System），是Hadoop的分布式文件存储系统</p>
-<ol>
-<li>将大文件分解为多个Block，每个Block保存多个副本。提供容错机制，副本丢失或者宕机时自动恢复。</li>
-<li>默认每个Block保存3个副本，64M为1个Block。</li>
-<li>将Block按照key-value映射到内存当中。</li>
-</ol>
-<p>HDFS架构图如下：</p>
-<p><img src="http://i.imgur.com/ZliSEXb.png" alt=""></p>
-<h5 id="NameNode">NameNode</h5><p>HDFS使用主从结构，NameNode是Master节点，是领导。所有的客户端的读写请求，都需要首先请求NameNode。</p>
-<p>NameNode存储</p>
-<ol>
-<li>fsimage：元数据镜像文件（文件系统的目录树，文件的<strong>元数据</strong>信息）。元数据信息包括文件的信息，文件对应的block信息（版本信息，类型信息，和checksum），以及每一个block所在的DataNode的信息。</li>
-<li>edits：元数据的操作日志</li>
-</ol>
-<h5 id="DataNode">DataNode</h5><p>DataNode是Slave，负责真正存储所有的block内容，以及数据块的读写操作</p>
-<p>NameNode，DataNode，rack只是一些逻辑上的概念。NameNode和DataNode可能是一台机器也可能是，相邻的一台机器，很多DataNode可能处于同一台机器。rack是逻辑上比DataNode更大的概念，可能是一台机器，一台机柜，也可能是一个机房。通过使文件的备份更广泛地分布到不同的rack，DataNode上可以保证数据的可靠性。</p>
-<h5 id="HDFS写入数据">HDFS写入数据</h5><ol>
-<li>Client拆分文件为64M一块。</li>
-<li>Client向NameNode发送写数据请求。</li>
-<li>NameNode节点，记录block信息。并返回可用的DataNode。</li>
-<li>Client向DataNode发送block1,2,3….；发送过程是以流式写入。流式写入，数据流向为DataNode1-&gt;DataNode2-&gt;DataNode3(1,2,3为通过规则选出来的可用的DataNode)</li>
-<li>发送完毕后告知NameNode</li>
-<li>NameNode告知Client发送完成</li>
-</ol>
-<p>在写数据的时候：</p>
-<ul>
-<li>写1T文件，我们需要3T的存储，3T的网络流量贷款。</li>
-<li>在执行读或写的过程中，NameNode和DataNode通过HeartBeat进行保存通信，确定DataNode活着。如果发现DataNode死掉了，就将死掉的DataNode上的数据，放到其他节点去。读取时，要读其他节点去。</li>
-<li>挂掉一个节点，没关系，还有其他节点可以备份；甚至，挂掉某一个机架，也没关系；其他机架上，也有备份。</li>
-</ul>
-<h5 id="HDFS读取数据">HDFS读取数据</h5><ol>
-<li>Client向NameNode发送读请求</li>
-<li>NameNode查看MetaData信息，返回文件的block位置</li>
-<li>根据一定规则（优先选择附近的数据），按顺序读取block</li>
-</ol>
-<p><a href="http://www.weixuehao.com/archives/596" target="_blank" rel="external">更多内容</a></p>
-<h4 id="MapReduce">MapReduce</h4><p>Map是把一组数据一对一的<strong>映射</strong>为另外的一组数据，其映射的规则由一个<strong>map函数</strong>来指定。Reduce是对一组数据进行<strong>归约</strong>，这个归约的规则由一个<strong>reduce函数</strong>指定。</p>
-<p>整个的MapReduce执行过程可以表示为：</p>
-<p><code>(input)&lt;k1, v1&gt; =&gt; map =&gt; &lt;k2, v2&gt; =&gt; combine =&gt; &lt;k2, v2’&gt; =&gt; reduce =&gt; &lt;k3, v3&gt;(output)</code></p>
-<p>也可以表示为流程图：</p>
-<p><img src="http://i.imgur.com/yRsLgoK.png" alt=""></p>
-<ol>
-<li><strong>分割</strong>：把输入数据分割成不相关的若干键/值对（key1/value1）集合，作为input</li>
-<li><strong>映射</strong>：这些键/值对会由多个map任务来<strong>并行地处理</strong>。输出一些中间键/值对key2/value2集合</li>
-<li><strong>排序</strong>：MapReduce会对map的输出（key2/value2）按照key2进行排序（便于归并）</li>
-<li><strong>conbine</strong>：属于同一个key2的所有value2组合在一起作为reduce任务的输入（相当于提前reduce，减小key2的数量，减小reduce的负担）</li>
-<li><strong>Partition</strong>：将mapper的输出分配到reducer；（Map的中间结果通常用”hash(key) mod R”这个结果作为标准）</li>
-<li><strong>规约</strong>：由reduce任务计算出最终结果并输出key3/value3。</li>
-</ol>
-<h4 id="程序员需要做的">程序员需要做的</h4><ul>
-<li>单机程序需要处理数据读取和写入、数据处理</li>
-<li>Hadoop程序需要实现map和reduce函数</li>
-<li>map和reduce之间的数据传输、排序，容错处理等由Hadoop MapReduce和HDFS自动完成。</li>
-</ul>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Hadoop/"> #Hadoop </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/04/22/一步一步写一个PHP框架2/">
-                一步一步写一个PHP框架（二）
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-04-22
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/web开发/">web开发</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/04/22/一步一步写一个PHP框架2/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/22/一步一步写一个PHP框架2/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>在写第一个PHP框架的时候参考<a href="!http://www.yuansir-web.com/2012/01/10/%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%86%99php-mvc%E6%A1%86%E6%9E%B6%E4%B8%80/">这位大哥</a>,的内容和Codeigniter框架的源码。</p>
-<h2 id="程序框架的搭建">程序框架的搭建</h2><p>前提：已经搭建好了一个apache+PHP的开发环境，我使用的是Apache+mod_php5的方式。</p>
-<p>在根目录<code>simplemvc</code>下新建以下文件夹</p>
-<ul>
-<li><code>config</code> 用来存放配置文件</li>
-<li><code>controller</code>用来存放控制器</li>
-<li><code>lib</code>用来存放引入的库文件</li>
-<li><code>model</code>用来存放模型</li>
-<li><code>system</code>用来存放系统文件<ul>
-<li><code>core</code>核心文件，包括核心controller控制器等，所有的controller都要继承于他</li>
-<li><code>lib</code>存放核心的库文件，包括route等</li>
-<li><code>app.php</code>应用程序驱动类</li>
-</ul>
-</li>
-<li><code>view</code>用来存放视图</li>
-<li><code>index.php</code>项目的入口文件，程序是从这里开始执行的。</li>
-</ul>
-<h2 id="定义系统路径">定义系统路径</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//&#39044;&#23450;&#20041;&#10;define(&#39;SYSTEM_PATH&#39;, dirname(__FILE__).&#39;/system&#39;);&#10;define(&#39;ROOT_PATH&#39;,  substr(SYSTEM_PATH, 0,-7));&#10;define(&#39;SYS_LIB_PATH&#39;, SYSTEM_PATH.&#39;/lib&#39;);&#10;define(&#39;APP_LIB_PATH&#39;, ROOT_PATH.&#39;/lib&#39;);&#10;define(&#39;SYS_CORE_PATH&#39;, SYSTEM_PATH.&#39;/core&#39;);&#10;define(&#39;CONTROLLER_PATH&#39;, ROOT_PATH.&#39;/controller&#39;);&#10;define(&#39;MODEL_PATH&#39;, ROOT_PATH.&#39;/model&#39;);&#10;define(&#39;VIEW_PATH&#39;, ROOT_PATH.&#39;/view&#39;);</span><br></pre></td></tr></table></figure>
-<p>预定义一些常量，在之后的程序中我们会使用这些路径。</p>
-<h2 id="加载配置文件，和应用程序驱动类">加载配置文件，和应用程序驱动类</h2><h3 id="配置文件">配置文件</h3><p>在config文件夹下的<code>config.php</code><br>··<br>$CONFIG[‘system’][‘db’]</p>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/PHP/"> #PHP </a>
-          
-            <a href="/tags/PHP框架/"> #PHP框架 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/04/20/一步一步写一个PHP框架1/">
-                一步一步写一个PHP框架（一）
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-04-20
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/web开发/">web开发</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/04/20/一步一步写一个PHP框架1/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/20/一步一步写一个PHP框架1/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="前言">前言</h2><p>完成了一个小项目，使用Apache+MySql+PHP。PHP中使用的框架是CodeIgniter，这是一个轻量易扩展的PHP MVC框架，适用于轻量级的网站搭建。CodeIgniter手册清晰丰富，覆盖了一般网站的所有需求。</p>
-<p>为了更好地理解PHP里面框架的设计，目标是自己写一个简单的PHP MVC框架，一方面可以更深入地学习PHP，一方面也能够更深入地理解框架设计里面的思想。</p>
-<h2 id="Apache的工作流程">Apache的工作流程</h2><p>Apache是一个Web服务器，也可以叫做http服务器，因为Apache只能处理http请求。常见的web服务器还有Nginx</p>
-<p>Apache的工作流程如下：</p>
-<ol>
-<li>浏览器向服务器发出HTTP请求(Request)。</li>
-<li>服务器收到浏览器的请求数据，经过分析处理，向浏览器输出响应数据（Response）。</li>
-<li>浏览器收到服务器的响应数据，经过分析处理，将最终结果显示在浏览器中。</li>
-</ol>
-<p>Apache和Nginx都属于Web服务器，两者都实现了HTTP 1.1协议。</p>
-<p>所以如果有人问FTP协议可以在Apache上工作吗？答案是用Apache FTP Server可以，Apache web服务器不可以。</p>
-<p>Apache是用C语言写的，服务器当然要追求高效率。</p>
-<h2 id="PHP原理">PHP原理</h2><p>PHP的核心解释器是用C语言写的，相当于我们写了PHP代码，会有一个C语言写好的解释工具一边解释，一边执行。实际上在写PHP的时候就是在使用一个C语言写好的工具，我们的PHP代码就是指挥这个工具的命令。</p>
-<p>PHP包括四层体系：</p>
-<ol>
-<li>Zend引擎：Zend整体用纯C实现，是PHP的内核部分。负责翻译PHP代码，是一切的核心。</li>
-<li>Extensions：围绕Zend引擎，通过组件方式提供基础服务。常见内置函数如array是由extension实现的。</li>
-<li>Sapi通过一系列的<strong>钩子函数</strong>，使得PHP可以和外围交互数据。如Apache</li>
-<li>上层应用：平时写的PHP程序</li>
-</ol>
-<blockquote>
-<p>如果PHP是一辆车，那么车的框架就是PHP本身，Zend是车的引擎（发动机），Ext下面的各种组件就是车的轮子，Sapi可以看做是公路， 车可以跑在不同类型的公路上，而一次PHP程序的执行就是汽车跑在公路上。因此，我们需要：性能优异的引擎+合适的车轮+正确的跑道。</p>
-</blockquote>
-<p>PHP的执行的核心是翻译出来的一条一条指令，也即opcode。</p>
-<p><strong>hashtable</strong>是PHP的核心数据结构，数组就是典型的应用。Zend hash table实现了典型的hash表散列结构，同时通过附加一个双向链表（解决冲突），提供了正向、反向遍历数组的功能。</p>
-<p>更详细的内容参考<a href="!http://www.cnblogs.com/zcy_soft/archive/2013/03/14/2959396.html">这里</a></p>
-<h2 id="PHP在Apache上运行">PHP在Apache上运行</h2><h3 id="以模块加载的方式运行">以模块加载的方式运行</h3><p>这种方式使用了Apache的Hook机制。所谓Hook机制，就是在自己的程序运行的时候允许别的模块插上一腿。当我们配置Apache服务器的<code>http.config</code>文件时，写入<code>mod_php5.so/php5apache2.dll</code>就是将自定义的函数注入到Apache的请求处理循环当中。在模块化的运行方式中，PHP与Web服务器一起启动并且运行，通过Apache自身的进程线程管理来处理并发的请求。</p>
-<h3 id="以CGI，FastCGI方式运行">以CGI，FastCGI方式运行</h3><p>CGI英文叫做公共网关接口，CGI是外部应用程序（CGI程序）与Web服务器之间的接口标准，是在CGI程序和Web服务器之间传递信息的规程。Apache在Http请求的时候会将请求提交给CGI应用程序（php-cgi.exe）解释，解释之后的结果返回给Apache，然后再返回给相应的请求用户。</p>
-<p>CGI VS FastCGI</p>
-<p>FastCGI是CGI的加强版本，CGI是单进程，多线程的运行方式，程序执行完成之后就会销毁。FastCGI是常驻(long-live)型的CGI.有自身的进程管理器，不必每一次都fork一个进程（CGI解释器）去执行。常见的PHP-FPM是一个PHP FastCGI管理器。</p>
-<p>关于更多的对比可以看<a href="http://fifiole.blog.163.com/blog/static/169459225201222962651804/" target="_blank" rel="external">这里</a>。</p>
-<blockquote>
-<p>目前在HTTPServer这块基本可以看到有三种stack比较流行：</p>
-<p>（1）Apache+mod_php5</p>
-<p>（2）lighttp+spawn-fcgi</p>
-<p>（3）nginx+PHP-FPM</p>
-<p>三者后两者性能可能稍优，但是Apache由于有丰富的模块和功能，目前来说仍旧是老大。有人测试nginx+PHP-FPM在高并发情况下可能会达到Apache+mod_php5的5~10倍，现在nginx+PHP-FPM使用的人越来越多。</p>
-</blockquote>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/PHP/"> #PHP </a>
-          
-            <a href="/tags/PHP框架/"> #PHP框架 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
   <div class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/">&laquo;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">&raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/">&raquo;</a>
   </div>
 
 
@@ -2277,21 +2987,21 @@ END{
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">50</span>
+              <span class="site-state-item-count">53</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-count">27</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
