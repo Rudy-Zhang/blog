@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://rudy-zhang.me/2016/01/24/%E5%A4%96%E8%AF%AD%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E7%9C%9F%E5%AE%9E%E6%96%B9%E6%B3%95%E5%92%8C%E8%AF%AF%E5%8C%BA/</loc>
+    <lastmod>2016-01-24T01:18:41.311Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://rudy-zhang.me/2015/12/06/%E9%9B%86%E4%BD%93%E6%99%BA%E6%85%A7%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2015-12-13T02:40:18.866Z</lastmod>
   </url>
@@ -252,6 +257,16 @@
   </url>
   
   <url>
+    <loc>http://rudy-zhang.me/2015/04/07/%E5%A6%82%E4%BD%95%E5%AE%8C%E6%88%90%E4%B8%80%E4%B8%AA%E5%9C%A8%E7%BA%BF%E8%80%83%E8%AF%95%E7%9A%84%E5%8A%9F%E8%83%BD/</loc>
+    <lastmod>2015-05-24T02:27:14.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://rudy-zhang.me/2014/10/10/ASP.NET%20MVC%E4%B9%8BViewBag/</loc>
+    <lastmod>2015-05-24T02:27:14.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://rudy-zhang.me/2014/10/10/ASP.NET%20MVC%E4%B9%8BURL%E6%98%A0%E5%B0%84/</loc>
     <lastmod>2015-05-24T02:27:14.000Z</lastmod>
   </url>
@@ -263,16 +278,6 @@
   
   <url>
     <loc>http://rudy-zhang.me/2014/10/10/ASP.NET%20MVC%20%E4%B9%8BRazor/</loc>
-    <lastmod>2015-05-24T02:27:14.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://rudy-zhang.me/2014/10/10/ASP.NET%20MVC%E4%B9%8BViewBag/</loc>
-    <lastmod>2015-05-24T02:27:14.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://rudy-zhang.me/2015/04/07/%E5%A6%82%E4%BD%95%E5%AE%8C%E6%88%90%E4%B8%80%E4%B8%AA%E5%9C%A8%E7%BA%BF%E8%80%83%E8%AF%95%E7%9A%84%E5%8A%9F%E8%83%BD/</loc>
     <lastmod>2015-05-24T02:27:14.000Z</lastmod>
   </url>
   

@@ -123,6 +123,168 @@
           
           
             
+              <a class="post-title-link" href="/2015/05/24/HadoopStreaming/">
+                Hadoop Streaming学习文档
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-05-24
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Hadoop/">Hadoop</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/05/24/HadoopStreaming/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/24/HadoopStreaming/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="Hadoop_Streaming是什么">Hadoop Streaming是什么</h2><p>Hadoop MapReduce和HDFS使用Java实现，默认是Java接口，另外提供了C++编程接口和Streaming框架。</p>
+<p>Streaming框架允许任何程序语言实现的程序（只要该程序支持标准输入输出即可），在Hadoop MapReduce中使用，方便已有程序向Hadoop平台移植。</p>
+<h2 id="Streaming原理">Streaming原理</h2><p>使用Java实现了一个包装<strong>用户程序</strong>（mapper，reducer方法）的MapReduce程序，该程序调用MapReduce的Java接口，创建一个<strong>新的进程</strong>包装用户程序，将数据通过<strong>管道</strong>传递给包装的用户程序。</p>
+<p><img src="http://i.imgur.com/dlebclb.jpg" alt=""></p>
+<h2 id="考虑的问题">考虑的问题</h2><p>在实际的开发过程中，开发人员需要考虑下面几个方面的问题，其中1,2是必须实现的：</p>
+<ol>
+<li>Mapper程序：对输入key/value数据进行处理；</li>
+<li>Reducer程序：对mapper的输出进行归并处理；</li>
+<li>Combiner：在本地对一个计算节点上的mapper输出进行归并；</li>
+<li>Partitioner：将mapper的输出分配到reducer；（Map的中间结果通常用”hash(key) mod R”这个结果作为标准）</li>
+<li>InputFormat/OutputFormat：对输入数据进行切分，保存输出数据。</li>
+</ol>
+<h2 id="执行">执行</h2><pre><code><span class="variable">$HADOOP_HOME</span>/bin/hadoop streaming \
+    -<span class="tag">input</span> /user/test/<span class="tag">input</span> -output /user/test/output \
+    -mapper “cat” \
+    -reducer “cat” \
+    -jobconf mapred<span class="class">.reduce</span><span class="class">.tasks</span>=<span class="number">1</span>\
+    -jobconf mapred<span class="class">.job</span><span class="class">.name</span>=”dist-sort”
+</code></pre><p>这是一个实现了分布式排序的程序。可以通过shell脚本，shell命令，或者其它语言的<strong>可执行程序</strong>来进行mapper和reducer程序的运行</p>
+<h2 id="常用参数的使用">常用参数的使用</h2><p>例1：</p>
+<pre><code><span class="variable">$hadoop</span> streaming \
+    -D stream<span class="class">.num</span><span class="class">.map</span><span class="class">.output</span><span class="class">.key</span><span class="class">.fields</span>=<span class="number">2</span> \
+    -D mapred<span class="class">.job</span><span class="class">.name</span>=<span class="string">"jobname"</span> \
+    -D mapred<span class="class">.job</span><span class="class">.priority</span>=VERY_HIGH \
+    -D mapred<span class="class">.job</span><span class="class">.map</span><span class="class">.capacity</span>=<span class="number">500</span> \
+    -D mapred<span class="class">.job</span><span class="class">.reduce</span><span class="class">.capacity</span>=<span class="number">300</span> \
+    -D mapred<span class="class">.map</span><span class="class">.tasks</span>=<span class="number">500</span> \
+    -D mapred<span class="class">.reduce</span><span class="class">.tasks</span>=<span class="number">300</span> \
+    -mapper <span class="string">"Python/bin/python $app/mapper.py"</span> \
+    -reducer <span class="string">"Python/bin/python $app/reducer.py"</span> \
+    -<span class="tag">input</span> <span class="variable">$input</span> \
+    -output <span class="variable">$output</span> \
+    -cacheArchive <span class="variable">$archive</span>
+</code></pre><p>-D表示配置参数，剩余项是和输入输出相关的文件和可执行程序</p>
+<p><code>-D mapred.job.name=&quot;jobname&quot; \</code>,作业名</p>
+<p><code>-D mapred.job.priority=VERY_HIGH \</code> 作业优先级</p>
+<p><code>-D mapred.job.map.capacity=500 \</code>,最多同时运行map任务数</p>
+<p><code>-D mapred.job.reduce.capacity=300 \</code>最多同时运行reduce任务数</p>
+<p><code>-D mapred.map.tasks=500 \</code>,map任务个数</p>
+<p><code>-D mapred.reduce.tasks=300 \</code>,reduce任务个数</p>
+<p>capacity是同时运行任务的个数，tasks是运行任务的总的个数，一般task更大，capacity是同时运行任务的上限</p>
+<p><code>-D stream.num.map.output.key.fields=2 \</code>,表示在第2个分隔符（默认为\t）之前作为key，之后作为value，也可以使用参数<code>-D stream.map.output.field.separator=. \</code>指定分隔符为’.’或者其它字符。</p>
+<p><code>-mapper &quot;Python/bin/python $app/mapper.py&quot; \</code>指定map任务，需要可执行，读入标准输入流，输出标准输出流</p>
+<p><code>-reducer &quot;Python/bin/python $app/reducer.py&quot; \</code>指定reducer任务</p>
+<p><code>-input $input \</code>指定输入文件</p>
+<p><code>-output $output \</code>指定输出文件</p>
+<p><code>-cacheArchive $archive</code>分发压缩包。<code>$archive</code>格式为<code>hdfs://host:port/path/to/archivefile#linkname</code>，表示hdfs上这个压缩包的路径为<code>hdfs://host:port/path/to/archivefile</code>,可以使用<code>linkname/children/path</code>访问这个压缩包的内容</p>
+<p>例2：</p>
+<pre><code><span class="variable">$hadoop</span> streaming \
+    -D stream<span class="class">.num</span><span class="class">.map</span><span class="class">.output</span><span class="class">.key</span><span class="class">.fields</span>=<span class="number">3</span> \
+    -D mapred<span class="class">.text</span><span class="class">.key</span><span class="class">.partitioner</span><span class="class">.options</span>=<span class="string">"-k1,1"</span> \
+    -D mapred<span class="class">.text</span><span class="class">.key</span><span class="class">.comparator</span><span class="class">.options</span>=<span class="string">"-k1,1 -k3,3nr"</span> \
+    -D mapred<span class="class">.job</span><span class="class">.name</span>=<span class="string">"jobname"</span> \
+    -D mapred<span class="class">.job</span><span class="class">.priority</span>=VERY_HIGH \
+    -D mapred<span class="class">.job</span><span class="class">.map</span><span class="class">.capacity</span>=<span class="number">500</span> \
+    -D mapred<span class="class">.job</span><span class="class">.reduce</span><span class="class">.capacity</span>=<span class="number">300</span> \
+    -D mapred<span class="class">.map</span><span class="class">.tasks</span>=<span class="number">500</span> \
+    -D mapred<span class="class">.reduce</span><span class="class">.tasks</span>=<span class="number">300</span> \
+    -mapper <span class="string">"cat"</span> \
+    -reducer <span class="string">"cat"</span> \
+    -<span class="tag">input</span> <span class="variable">$input</span> \
+    -output <span class="variable">$output</span> \
+    -cacheArchive <span class="variable">$archives</span>
+</code></pre><p><code>-D mapred.text.key.partitioner.options=&quot;-k1,1&quot; \</code>表示对key进行分割，分割符默认为\t，取分割后的1,1部分作为主key，剩下的作为辅key</p>
+<p><code>-D mapred.text.key.comparator.options=&quot;-k1,1 -k3,3nr&quot; \</code>指定排序依据，主key按第一部分排字母序，辅key按第三部分数字序倒序排</p>
+<p>例3：</p>
+<pre><code><span class="variable">$HADOOP_HOME</span>/bin/hadoop streaming \
+    -D stream<span class="class">.map</span><span class="class">.output</span><span class="class">.field</span><span class="class">.separator</span>=. \
+    -D stream<span class="class">.num</span><span class="class">.map</span><span class="class">.output</span><span class="class">.key</span><span class="class">.fields</span>=<span class="number">4</span> \
+    -D map<span class="class">.output</span><span class="class">.key</span><span class="class">.field</span><span class="class">.separator</span>=. \
+    -D num<span class="class">.key</span><span class="class">.fields</span><span class="class">.for</span><span class="class">.partition</span>=<span class="number">2</span> \ 
+    -<span class="tag">input</span> /user/test/<span class="tag">input</span> -output /user/test/output \
+    -mapper “mymapper.sh” -reducer “ myreducer.sh” \
+    -partitioner org<span class="class">.apache</span><span class="class">.hadoop</span><span class="class">.mapred</span><span class="class">.lib</span><span class="class">.KeyFieldBasedPartitioner</span> \
+    -file /home/work/mymapper<span class="class">.sh</span> \
+    -file /home/work/myreducer<span class="class">.sh</span> \
+    -jobconf mapred<span class="class">.job</span><span class="class">.name</span>=”jobname”
+</code></pre><p><code>-D stream.map.output.field.separator=. \</code><br><code>-D stream.num.map.output.key.fields=4 \</code><br>表示输出分隔符为’.’，并且第4个.之后为value，之前为key</p>
+<p><code>-D map.output.key.field.separator=. \</code><br><code>-D num.key.fields.for.partition=2 \</code><br>表示key内的分隔符为’.’，第2个’.’之前作为主key，之后作为辅key</p>
+<p><code>-partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner \</code>指定要使用KeyFieldBasedPartitioner，也就是key域内的partioner。这样的话会把主key的内容作为partition的依据，相同的主key分配到同一个reducer中。</p>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Hadoop/"> #Hadoop </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/05/23/Hadoop基本原理/">
                 Hadoop基本原理
               </a>
@@ -1283,131 +1445,6 @@
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/03/20/ASP.NET MVC之Entity Framewrok/">
-                ASP.NET MVC之Entity Framewrok
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-03-20
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/NET/">.NET</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/03/20/ASP.NET MVC之Entity Framewrok/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/20/ASP.NET MVC之Entity Framewrok/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="解释">解释</h2><p>Entity Framework 是微软以 ADO.NET 为基础所发展出来的对象关系对应 (O/R Mapping) 解决方案。</p>
-<blockquote>
-<p>对象关系映射（Object Relational Mapping，简称ORM）是一种为了解决面向对象与关系数据库存在的互不匹配的现象的技术。</p>
-</blockquote>
-<h2 id="三种方式">三种方式</h2><ul>
-<li>Database-first（数据库先行）：从一个数据库开始，然后实体框架生成相应代码。</li>
-<li>Model-first（模型先行）：先从一个可视化模型开始，然后实体框架生成数据库和代码。</li>
-<li>Code-first（代码先行）：先从代码开始，然后实体框架生成数据库</li>
-</ul>
-<p>CodeFirst 用中文说是代码优先，此技术可以让我们先写代码，然后由Entity Framework根据我们的代码建立数据库。</p>
-<p>CodeFirst和ModelFirst的数据库连接方式不一样，但都可以现在VS中测试连接</p>
-<h2 id="why_codefirst？">why codefirst？</h2><p>代码优先的开发支持更加优美的开发流程，它允许你：</p>
-<blockquote>
-<ul>
-<li>在不使用设计器或者定义一个 XML 映射文件的情况下进行开发。</li>
-<li>允许编写简单的模型对象POCO (plain old classes)，而不需要基类。</li>
-<li>通过”约定优于配置”，使得数据库持久层不需要任何的配置</li>
-<li>也可以覆盖”约定优于配置”，通过流畅的 API 来完全定制持层的映射。</li>
-</ul>
-</blockquote>
-<p>Code First是基于Entity Framework的新的开发模式，原先只有Database First和Model First两种。Code First顾名思义，就是先用C#/VB.NET的类定义好你的领域模型，然后用这些类映射到现有的数据库或者产生新的数据库结构。<strong>写好代码就行，数据库几乎不需要操作</strong>。</p>
-<h2 id="使用codefirst建立数据库">使用codefirst建立数据库</h2><h3 id="建立实体类">建立实体类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class Student&#10;&#123;&#10;    public int StudentID &#123; get; set; &#125;&#10;    public string LastName &#123; get; set; &#125;&#10;    public string FirstNidName &#123; get; set; &#125;&#10;    public DateTime EnrollmentDate &#123; get; set; &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="DAL数据库连接层，创建实体集">DAL数据库连接层，创建实体集</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class SchoolContext : DbContext&#10;&#123;&#10;    public DbSet &#60;Student&#62; Students &#123; get; set ; &#125;&#10;    public DbSet &#60;Enrollment&#62; Enrollments &#123; get; set ; &#125;&#10;    public DbSet &#60;Course&#62; Courses &#123; get; set ; &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>继承自System.Data.Entity下的DbContext，它将我们的数据模型映射到数据库中，将代码中的数据持久化。<br><strong>这里相当于做了代码和数据库的表映射。</strong></p>
-<h3 id="向web-config中添加数据库连接">向web.config中添加数据库连接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;add name=&#34; SchoolContext&#34; connectionString=&#34; Data Source=(LocalDb)\v11.0;Initial Catalog=ContosoUniversity;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|\ContosoUniversity.mdf&#34; providerName=&#34; System.Data.SqlClient&#34; /&#62;</span><br></pre></td></tr></table></figure>
-<h3 id="总结">总结</h3><p>当系统开始运行，会自动检查SchoolContext 对应的数据库是否建立，如果没有建立就通过已经做好的实体类和表映射关系在数据库中映射出需要的数据库表。</p>
-<h2 id="基于标注的前后端验证">基于标注的前后端验证</h2><p>在建立网站的时候，都需要进行数据验证。前后端都要验证，前端js，后台使用后台的代码。实际的项目中一般前后端程序员约定好，然后分别写代码进行验证，很麻烦。ASP MVC为我们建立了一套非常简单的方法，只需要为属性添加标注，即可在前后端使用同一套验证逻辑。</p>
-<h3 id="添加标注">添加标注</h3><p>在已经建好的实体类中，可以为属性添加Data Annotations（标注）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class Movie &#123;&#10;    public int ID &#123; get; set; &#125;&#10;&#10;    [Required]&#10;    public string Title &#123; get; set; &#125;&#10;&#10;    [DataType(DataType.Date)]&#10;    public DateTime ReleaseDate &#123; get; set; &#125;&#10;&#10;    [Required]&#10;    public string Genre &#123; get; set; &#125;&#10;&#10;    [Range(1, 100)]&#10;    [DataType(DataType.Currency)]&#10;    public decimal Price &#123; get; set; &#125;&#10;&#10;    [StringLength(5)]&#10;    public string Rating &#123; get; set; &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="后端验证">后端验证</h3><p>使用<code>ModelState.IsValid</code> 即可实现</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[HttpPost]&#10;public ActionResult Index(Party party)&#10;&#123;&#10;    if(ModelState.IsValid)&#10;    &#123;&#10;        // TO DO: save the party to database&#10;        return View(&#34;Thanks&#34;);&#10;    &#125;&#10;    return View();&#10;&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="前端验证">前端验证</h3><p>打开配置文件<code>web.config</code>，配置前端验证开启</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;appSettings&#62;&#10;    &#60;add key=&#34;ClientValidationEnabled&#34; value=&#34;true&#34; /&#62;&#10;    &#60;add key=&#34;UnobtrusiveJavaScriptEnabled&#34; value=&#34;true&#34;/&#62;&#10;&#60;/appSettings&#62;</span><br></pre></td></tr></table></figure>
-<p>包含JQuery验证库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;script src=&#34;@Url.Content(&#34;~/Scripts/jquery-1.5.1.min.js&#34;)&#34; type=&#34;text/javascript&#34;&#62;&#60;/script&#62;&#10;&#60;script src=&#34;@Url.Content(&#34;~/Scripts/jquery.validate.min.js&#34;)&#34; type=&#34;text/javascript&#34;&#62;&#60;/script&#62;&#10;&#60;script src=&#34;@Url.Content(&#34;~/Scripts/jquery.validate.unobtrusive.min.js&#34;)&#34; type=&#34;text/javascript&#34;&#62;&#60;/script&#62;</span><br></pre></td></tr></table></figure>
-<p>在前端输出验证信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Html.ValidationMessageFor()</span><br></pre></td></tr></table></figure>
-<p>ASP MVC为我们提供了可以满足大部分需求的验证逻辑。但是如果想定制验证逻辑，也是可以的。参考<a href="http://prideparrot.com/blog/archive/2012/4/model_validation_in_asp_net_mvc" target="_blank" rel="external">自定义验证</a></p>
-<h2 id="codefirst更新数据库">codefirst更新数据库</h2><h3 id="启用迁移">启用迁移</h3><p>打开VS，工具&gt;库程序包管理器&gt;程序包管理器控制台。使用命令<br><code>Enable-Migrations</code></p>
-<h3 id="生成和运行迁移">生成和运行迁移</h3><ul>
-<li><code>Add-Migration</code>      对比当前数据库和模型的差异，生成相应的代码，使数据库和模型匹配的。</li>
-<li><code>Update-Database</code>  将任何挂起的迁移到数据库。</li>
-</ul>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/ASP-MVC/"> #ASP MVC </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
@@ -1446,7 +1483,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">53</span>
+              <span class="site-state-item-count">54</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1460,7 +1497,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">27</span>
+              <span class="site-state-item-count">28</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -1501,7 +1538,7 @@
         <div class="copyright">
   
   &copy; &nbsp; 
-  2015
+  2016
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>

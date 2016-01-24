@@ -123,6 +123,131 @@
           
           
             
+              <a class="post-title-link" href="/2015/03/20/ASP.NET MVC之Entity Framewrok/">
+                ASP.NET MVC之Entity Framewrok
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-03-20
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/NET/">.NET</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/03/20/ASP.NET MVC之Entity Framewrok/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/20/ASP.NET MVC之Entity Framewrok/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="解释">解释</h2><p>Entity Framework 是微软以 ADO.NET 为基础所发展出来的对象关系对应 (O/R Mapping) 解决方案。</p>
+<blockquote>
+<p>对象关系映射（Object Relational Mapping，简称ORM）是一种为了解决面向对象与关系数据库存在的互不匹配的现象的技术。</p>
+</blockquote>
+<h2 id="三种方式">三种方式</h2><ul>
+<li>Database-first（数据库先行）：从一个数据库开始，然后实体框架生成相应代码。</li>
+<li>Model-first（模型先行）：先从一个可视化模型开始，然后实体框架生成数据库和代码。</li>
+<li>Code-first（代码先行）：先从代码开始，然后实体框架生成数据库</li>
+</ul>
+<p>CodeFirst 用中文说是代码优先，此技术可以让我们先写代码，然后由Entity Framework根据我们的代码建立数据库。</p>
+<p>CodeFirst和ModelFirst的数据库连接方式不一样，但都可以现在VS中测试连接</p>
+<h2 id="why_codefirst？">why codefirst？</h2><p>代码优先的开发支持更加优美的开发流程，它允许你：</p>
+<blockquote>
+<ul>
+<li>在不使用设计器或者定义一个 XML 映射文件的情况下进行开发。</li>
+<li>允许编写简单的模型对象POCO (plain old classes)，而不需要基类。</li>
+<li>通过”约定优于配置”，使得数据库持久层不需要任何的配置</li>
+<li>也可以覆盖”约定优于配置”，通过流畅的 API 来完全定制持层的映射。</li>
+</ul>
+</blockquote>
+<p>Code First是基于Entity Framework的新的开发模式，原先只有Database First和Model First两种。Code First顾名思义，就是先用C#/VB.NET的类定义好你的领域模型，然后用这些类映射到现有的数据库或者产生新的数据库结构。<strong>写好代码就行，数据库几乎不需要操作</strong>。</p>
+<h2 id="使用codefirst建立数据库">使用codefirst建立数据库</h2><h3 id="建立实体类">建立实体类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class Student&#10;&#123;&#10;    public int StudentID &#123; get; set; &#125;&#10;    public string LastName &#123; get; set; &#125;&#10;    public string FirstNidName &#123; get; set; &#125;&#10;    public DateTime EnrollmentDate &#123; get; set; &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="DAL数据库连接层，创建实体集">DAL数据库连接层，创建实体集</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class SchoolContext : DbContext&#10;&#123;&#10;    public DbSet &#60;Student&#62; Students &#123; get; set ; &#125;&#10;    public DbSet &#60;Enrollment&#62; Enrollments &#123; get; set ; &#125;&#10;    public DbSet &#60;Course&#62; Courses &#123; get; set ; &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>继承自System.Data.Entity下的DbContext，它将我们的数据模型映射到数据库中，将代码中的数据持久化。<br><strong>这里相当于做了代码和数据库的表映射。</strong></p>
+<h3 id="向web-config中添加数据库连接">向web.config中添加数据库连接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;add name=&#34; SchoolContext&#34; connectionString=&#34; Data Source=(LocalDb)\v11.0;Initial Catalog=ContosoUniversity;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|\ContosoUniversity.mdf&#34; providerName=&#34; System.Data.SqlClient&#34; /&#62;</span><br></pre></td></tr></table></figure>
+<h3 id="总结">总结</h3><p>当系统开始运行，会自动检查SchoolContext 对应的数据库是否建立，如果没有建立就通过已经做好的实体类和表映射关系在数据库中映射出需要的数据库表。</p>
+<h2 id="基于标注的前后端验证">基于标注的前后端验证</h2><p>在建立网站的时候，都需要进行数据验证。前后端都要验证，前端js，后台使用后台的代码。实际的项目中一般前后端程序员约定好，然后分别写代码进行验证，很麻烦。ASP MVC为我们建立了一套非常简单的方法，只需要为属性添加标注，即可在前后端使用同一套验证逻辑。</p>
+<h3 id="添加标注">添加标注</h3><p>在已经建好的实体类中，可以为属性添加Data Annotations（标注）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class Movie &#123;&#10;    public int ID &#123; get; set; &#125;&#10;&#10;    [Required]&#10;    public string Title &#123; get; set; &#125;&#10;&#10;    [DataType(DataType.Date)]&#10;    public DateTime ReleaseDate &#123; get; set; &#125;&#10;&#10;    [Required]&#10;    public string Genre &#123; get; set; &#125;&#10;&#10;    [Range(1, 100)]&#10;    [DataType(DataType.Currency)]&#10;    public decimal Price &#123; get; set; &#125;&#10;&#10;    [StringLength(5)]&#10;    public string Rating &#123; get; set; &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="后端验证">后端验证</h3><p>使用<code>ModelState.IsValid</code> 即可实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[HttpPost]&#10;public ActionResult Index(Party party)&#10;&#123;&#10;    if(ModelState.IsValid)&#10;    &#123;&#10;        // TO DO: save the party to database&#10;        return View(&#34;Thanks&#34;);&#10;    &#125;&#10;    return View();&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="前端验证">前端验证</h3><p>打开配置文件<code>web.config</code>，配置前端验证开启</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;appSettings&#62;&#10;    &#60;add key=&#34;ClientValidationEnabled&#34; value=&#34;true&#34; /&#62;&#10;    &#60;add key=&#34;UnobtrusiveJavaScriptEnabled&#34; value=&#34;true&#34;/&#62;&#10;&#60;/appSettings&#62;</span><br></pre></td></tr></table></figure>
+<p>包含JQuery验证库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;script src=&#34;@Url.Content(&#34;~/Scripts/jquery-1.5.1.min.js&#34;)&#34; type=&#34;text/javascript&#34;&#62;&#60;/script&#62;&#10;&#60;script src=&#34;@Url.Content(&#34;~/Scripts/jquery.validate.min.js&#34;)&#34; type=&#34;text/javascript&#34;&#62;&#60;/script&#62;&#10;&#60;script src=&#34;@Url.Content(&#34;~/Scripts/jquery.validate.unobtrusive.min.js&#34;)&#34; type=&#34;text/javascript&#34;&#62;&#60;/script&#62;</span><br></pre></td></tr></table></figure>
+<p>在前端输出验证信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Html.ValidationMessageFor()</span><br></pre></td></tr></table></figure>
+<p>ASP MVC为我们提供了可以满足大部分需求的验证逻辑。但是如果想定制验证逻辑，也是可以的。参考<a href="http://prideparrot.com/blog/archive/2012/4/model_validation_in_asp_net_mvc" target="_blank" rel="external">自定义验证</a></p>
+<h2 id="codefirst更新数据库">codefirst更新数据库</h2><h3 id="启用迁移">启用迁移</h3><p>打开VS，工具&gt;库程序包管理器&gt;程序包管理器控制台。使用命令<br><code>Enable-Migrations</code></p>
+<h3 id="生成和运行迁移">生成和运行迁移</h3><ul>
+<li><code>Add-Migration</code>      对比当前数据库和模型的差异，生成相应的代码，使数据库和模型匹配的。</li>
+<li><code>Update-Database</code>  将任何挂起的迁移到数据库。</li>
+</ul>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-MVC/"> #ASP MVC </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/03/17/电脑鼠的回忆/">
                 电脑鼠的回忆
               </a>
@@ -1150,156 +1275,6 @@
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/11/CSharp由委托到Observer设计模式，再到事件机制/">
-                C#由委托到Observer设计模式，再到事件机制
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-03-11
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/NET/">.NET</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/11/CSharp由委托到Observer设计模式，再到事件机制/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/11/CSharp由委托到Observer设计模式，再到事件机制/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="什么是委托">什么是委托</h2><p>处理诸如int，bool等基本数据类型，它们是数据的类型。<strong>委托，是方法的类型</strong>。如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int a; //a&#21487;&#20197;&#26159;1,2,3,4,5.........</span><br></pre></td></tr></table></figure></p>
-<p>那么<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delegate D;//D&#30456;&#24403;&#20110;int,&#26159;&#19968;&#31181;&#31867;&#22411;&#10;D d; //&#22768;&#26126;&#20102;&#21464;&#37327;&#65292;d&#21487;&#20197;&#26159;fun1,fun2,fun3........&#36825;&#37324;funX&#26159;&#20989;&#25968;&#30340;&#21517;&#23383;&#12290;</span><br></pre></td></tr></table></figure></p>
-<h2 id="如何使用委托">如何使用委托</h2><p>函数并不像数那么简单直接赋值就可以了，函数有返回值，或者无返回值，还有参数列表。</p>
-<p>如果说<strong>定义了一个委托，那么这个委托就对应了一种函数(返回值+参数列表)，像具有了int和double一样的类型。</strong></p>
-<p>为了使得声明委托能够和一种函数对应，我们使用这样的方法声明委托:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public delegate void MyDelegate(int a);//&#22996;&#25176;&#30340;&#22768;&#26126;&#65292;public&#35268;&#23450;&#20102;delegate&#30340;&#21487;&#35265;&#24615;&#10;public static void myFunction(int a) //&#26222;&#36890;&#26041;&#27861;&#30340;&#22768;&#26126;&#10;&#123;&#10;    Console.WriteLine(&#34;a=&#34; + a);&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>这样，MyDelegate就对应了一种函数，相当一种函数的类型(对应于数据类型的int，double)。那么使用这个类型就可以声明变量了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static void Main(string[] args)&#10;&#123;&#10;    MyDelegate d;&#10;    d = myFunction;//&#23558;myFunction&#32465;&#23450;&#21040;d&#65292;&#22240;&#20026;&#20855;&#26377;&#30456;&#21516;&#30340;&#36820;&#22238;&#20540;&#21644;&#21442;&#25968;&#21015;&#34920;&#65292;&#25152;&#20197;&#21487;&#20197;&#32465;&#23450;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="委托的绑定">委托的绑定</h3><p>委托不同于普通数据类型(如int)的一个特性是：可以将多个方法赋给同一个委托，或者叫<strong>将多个方法绑定到同一个委托，当调用这个委托的时候，将依次调用其所绑定的方法。</strong></p>
-<p>看下面的例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Program&#10;&#123;&#10;    public delegate void MyDelegate(int a);//&#22996;&#25176;&#30340;&#22768;&#26126;&#65292;public&#35268;&#23450;&#20102;delegate&#30340;&#21487;&#35265;&#24615;&#10;    public static void myFunction1(int a) //&#26222;&#36890;&#26041;&#27861;1&#30340;&#22768;&#26126;&#10;    &#123;&#10;        Console.WriteLine(&#34;a=&#34; + a);&#10;    &#125;&#10;    public static void myFunction2(int a) //&#26222;&#36890;&#26041;&#27861;2&#30340;&#22768;&#26126;&#10;    &#123;&#10;        Console.WriteLine(&#34;a&#31561;&#20110;&#65306;&#34; + a);&#10;    &#125;&#10;    static void Main(string[] args)&#10;    &#123;&#10;        MyDelegate d;&#10;        d = myFunction1;&#10;        d += myFunction2;&#10;        d(3);//&#35843;&#29992;&#36825;&#20010;&#22996;&#25176;&#10;        Console.ReadLine();&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="总结">总结</h3><p>委托是一个类，它定义了<strong>方法的类型</strong>，使得可以将方法<strong>当作另一个方法的参数来进行传递</strong>，这种将方法动态地赋给参数的做法，可以避免在程序中大量使用If-Else(Switch)语句，同时使得程序具有更好的可扩展性。</p>
-<h2 id="观察者模式（Observber）">观察者模式（Observber）</h2><p>事件处理机制的基础是一种叫观察者模式的设计模式。Observer设计模式是为了定义对象间的一种<strong>一对多</strong>的依赖关系，以便于当一个对象的状态改变时，其他依赖于它的对象会被<strong>自动告知并更新</strong>。Observer模式是一种松耦合的设计模式。</p>
-<p>举个简单的例子：</p>
-<blockquote>
-<p>假设我们有个高档的热水器，我们给它通上电，当水温超过95度的时候：1、扬声器会开始发出语音，告诉你水的温度；2、液晶屏也会改变水温的显示，来提示水已经快烧开了。</p>
-</blockquote>
-<p>现在我们需要写个程序来模拟这个烧水的过程，我们将定义一个类来代表热水器，我们管它叫：<strong>Heater</strong>，它有代表水温的字段，叫做<strong>temperature</strong>；当然，还有必不可少的给水加热方法<strong>BoilWater()</strong>，一个发出语音警报的方法<strong>MakeAlert()</strong>，一个显示水温的方法，<strong>ShowMsg()</strong>。</p>
-<p>在本例中，事情发生的顺序应该是这样的：</p>
-<ol>
-<li>警报器和显示器告诉热水器，它对它的温度比较感兴趣(注册)。</li>
-<li>热水器知道后保留对警报器和显示器的引用。</li>
-<li>热水器进行烧水这一动作，当水温超过95度时，通过对警报器和显示器的引用，自动调用警报器的MakeAlert()方法、显示器的ShowMsg()方法。</li>
-</ol>
-<p>在这个设计模式中有两种角色：</p>
-<ol>
-<li>Subject：监视对象，它往往包含着其他对象所感兴趣的内容。在本范例中，热水器就是一个监视对象，它包含的其他对象所感兴趣的内容，就是temprature字段，当这个字段的值快到100时，会不断把数据发给监视它的对象。</li>
-<li>Observer：监视者，它监视Subject，当Subject中的某件事发生的时候，会告知Observer，而Observer则会采取相应的行动。在本范例中，Observer有警报器和显示器，它们采取的行动分别是发出警报和显示水温。</li>
-</ol>
-<p>代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">namespace Observer&#10;&#123;&#10;    public interface Iobservable //subject&#23545;&#35937;&#20855;&#26377;&#30340;&#25509;&#21475;&#65292;&#25152;&#26377;subject&#37117;&#35201;&#32487;&#25215;&#20110;&#36825;&#20010;&#25509;&#21475;&#10;    &#123;&#10;        void add(Iobserver o);&#10;        void notify();&#10;&#10;    &#125;&#10;    &#10;    public interface Iobserver //observer&#23545;&#35937;&#20855;&#26377;&#30340;&#25509;&#21475;&#65292;&#25152;&#26377;observer&#37117;&#35201;&#32487;&#25215;&#20110;&#36825;&#20010;&#25509;&#21475;&#10;    &#123;&#10;        void update(int temperature);&#10;    &#125;&#10;&#10;    public class Heater : Iobservable&#10;    &#123;&#10;        private int temperature;&#10;        List&#60;Iobserver&#62; list = new List&#60;Iobserver&#62;();&#10;        // &#28903;&#27700;&#10;        public void BoilWater()&#10;        &#123;&#10;            for (int i = 0; i &#60;= 100; i++)&#10;            &#123;&#10;                temperature = i;&#10;&#10;                if (temperature &#62; 95)&#10;                &#123;&#10;                    notify();&#10;                &#125;&#10;            &#125;&#10;        &#125;&#10;        public void add(Iobserver o)&#10;        &#123;&#10;            list.Add(o);&#10;        &#125;&#10;&#10;        public void notify()&#10;        &#123;&#10;            foreach (var o in list)&#10;            &#123;&#10;                o.update(temperature);&#10;            &#125;&#10;        &#125;&#10;    &#125;&#10;&#10;    // &#35686;&#25253;&#22120;&#10;    public class Alarm : Iobserver&#10;    &#123;&#10;        public void MakeAlert(int param)&#10;        &#123;&#10;            Console.WriteLine(&#34;Alarm&#65306;&#22016;&#22016;&#22016;&#65292;&#27700;&#24050;&#32463; &#123;0&#125; &#24230;&#20102;&#65306;&#34;, param);&#10;        &#125;&#10;&#10;        public void update(int temperature)&#10;        &#123;&#10;            MakeAlert(temperature);&#10;        &#125;&#10;    &#125;&#10;&#10;    // &#26174;&#31034;&#22120;&#10;    public class Display : Iobserver&#10;    &#123;&#10;        public static void ShowMsg(int param)&#10;        &#123; //&#38745;&#24577;&#26041;&#27861;&#10;            Console.WriteLine(&#34;Display&#65306;&#27700;&#24555;&#28903;&#24320;&#20102;&#65292;&#24403;&#21069;&#28201;&#24230;&#65306;&#123;0&#125;&#24230;&#12290;&#34;, param);&#10;        &#125;&#10;&#10;        public void update(int temperature)&#10;        &#123;&#10;            ShowMsg(temperature);&#10;        &#125;&#10;    &#125;&#10;    class Program&#10;    &#123;&#10;        static void Main(string[] args)&#10;        &#123;&#10;            Heater h = new Heater();&#10;            Alarm a = new Alarm();&#10;            Display d = new Display();&#10;            h.add(a);//&#27880;&#20876;&#10;            h.add(d);//&#27880;&#20876;&#10;            h.BoilWater();&#10;            Console.ReadLine();&#10;        &#125;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>输出：</p>
-<blockquote>
-<p>Alarm：嘀嘀嘀，水已经 96 度了：<br>Display：水快烧开了，当前温度：96度。<br>Alarm：嘀嘀嘀，水已经 97 度了：<br>Display：水快烧开了，当前温度：97度。<br>Alarm：嘀嘀嘀，水已经 98 度了：<br>Display：水快烧开了，当前温度：98度。<br>Alarm：嘀嘀嘀，水已经 99 度了：<br>Display：水快烧开了，当前温度：99度。<br>Alarm：嘀嘀嘀，水已经 100 度了：<br>Display：水快烧开了，当前温度：100度。</p>
-</blockquote>
-<p>例子中的observable就是subject，Heater继承这个接口。Alarm和Display是观察者，继承observer接口。Iobserverable可以添加观察者(注册)，可以通知观察者。Iobserver可以更新自己的信息。这样就完成了观察者的注册观察，以及通知的过程。</p>
-<p>通过以上过程可以发现，<strong>注册这个行为不就是委托当中的注册吗？通知这个行为不就是委托的调用吗？水烧开这不就是一个事件的发生吗？</strong></p>
-<h2 id="C#中的事件处理机制">C#中的事件处理机制</h2><h3 id="委托声明成private还是public？">委托声明成private还是public？</h3><p>因为声明委托的目的就是为了把它暴露在类的客户端进行方法的注册，你把它声明为private了，客户端对它<strong>根本就不可见</strong>，那它还有什么用？但是如果声明为public在客户端可以对它进行随意的赋值等操作，<strong>严重破坏对象的封装性</strong>。这时候就轮到<strong>event关键字</strong>出场了</p>
-<h3 id="event关键字有什么作用？">event关键字有什么作用？</h3><p>前面提到委托在程序运行事会变成一个类，如果使用了event关键字，又会生成一个类，将前面的类<strong>封装起来</strong>，这样做的作用是：</p>
-<p><strong>在类的内部的delegate，不管你声明它是public还是protected，它总是private的。在类的外部，注册“+=”和注销“-=”的访问限定符与你在声明事件时使用的访问符相同。</strong></p>
-<p>猜测实现方法类似于：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class event&#123;&#10;     private Delegate delegate;&#10;     &#37325;&#36733;+=&#65288;&#65289;&#10;     &#123;&#10;          delegate...&#10;     &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>如果使用事件处理的方法实现observer的例子，代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">using System;&#10;using System.Collections.Generic;&#10;using System.Text;&#10;&#10;namespace Delegate &#123;&#10;    // &#28909;&#27700;&#22120;&#10;    public class Heater &#123;&#10;       private int temperature;&#10;       public delegate void BoilHandler(int param);   //&#22768;&#26126;&#22996;&#25176;&#10;       public event BoilHandler BoilEvent;        //&#60;strong&#62;&#22768;&#26126;&#20107;&#20214;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#65281;&#60;/strong&#62;&#10;&#10;       // &#28903;&#27700;&#10;       public void BoilWater() &#123;&#10;           for (int i = 0; i &#60;= 100; i++) &#123;&#10;              temperature = i;&#10;&#10;              if (temperature &#62; 95) &#123;&#10;                  if (BoilEvent != null) &#123; //&#22914;&#26524;&#26377;&#23545;&#35937;&#27880;&#20876;&#10;                      BoilEvent(temperature);  //&#35843;&#29992;&#25152;&#26377;&#27880;&#20876;&#23545;&#35937;&#30340;&#26041;&#27861;&#10;                  &#125;&#10;              &#125;&#10;           &#125;&#10;       &#125;&#10;    &#125;&#10;&#10;    // &#35686;&#25253;&#22120;&#10;    public class Alarm &#123;&#10;       public void MakeAlert(int param) &#123;&#10;           Console.WriteLine(&#34;Alarm&#65306;&#22016;&#22016;&#22016;&#65292;&#27700;&#24050;&#32463; &#123;0&#125; &#24230;&#20102;&#65306;&#34;, param);&#10;       &#125;&#10;    &#125;&#10;&#10;    // &#26174;&#31034;&#22120;&#10;    public class Display &#123;&#10;       public static void ShowMsg(int param) &#123; //&#38745;&#24577;&#26041;&#27861;&#10;           Console.WriteLine(&#34;Display&#65306;&#27700;&#24555;&#28903;&#24320;&#20102;&#65292;&#24403;&#21069;&#28201;&#24230;&#65306;&#123;0&#125;&#24230;&#12290;&#34;, param);&#10;       &#125;&#10;    &#125;&#10;   &#10;    class Program &#123;&#10;       static void Main() &#123;&#10;           Heater heater = new Heater();&#10;           Alarm alarm = new Alarm();&#10;&#10;           heater.BoilEvent += alarm.MakeAlert;    //&#27880;&#20876;&#26041;&#27861;&#10;           heater.BoilEvent += (new Alarm()).MakeAlert;   //&#32473;&#21311;&#21517;&#23545;&#35937;&#27880;&#20876;&#26041;&#27861;&#10;           heater.BoilEvent += Display.ShowMsg;       //&#27880;&#20876;&#38745;&#24577;&#26041;&#27861;&#10;&#10;           heater.BoilWater();   //&#28903;&#27700;&#65292;&#20250;&#33258;&#21160;&#35843;&#29992;&#27880;&#20876;&#36807;&#23545;&#35937;&#30340;&#26041;&#27861;&#10;       &#125;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>输出为：</p>
-<blockquote>
-<p>Alarm：嘀嘀嘀，水已经 96 度了：<br>Alarm：嘀嘀嘀，水已经 96 度了：<br>Display：水快烧开了，当前温度：96度。<br>// 省略…</p>
-</blockquote>
-<h3 id="平时处理事件会有Object_o,…_eventargs？">平时处理事件会有Object o,… eventargs？</h3><p>其实这是 <strong>.Net Framework的编码规范</strong>：</p>
-<blockquote>
-<ul>
-<li>委托类型的名称都应该以EventHandler结束。那么就应该这样声明</li>
-<li>委托的原型定义：有一个void返回值，并接受两个输入参数：一个Object 类型，一个 EventArgs类型(或继承自EventArgs)。</li>
-<li>事件的命名为 委托去掉 EventHandler之后剩余的部分。</li>
-<li>继承自EventArgs的类型应该以EventArgs结尾。</li>
-</ul>
-</blockquote>
-<p>所以声明应该变成这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public delegate void BoiledEventHandler(Object sender, BoiledEventArgs e); //&#22768;&#26126;&#22996;&#25176;&#10;public event BoiledEventHandler Boiled; //&#22768;&#26126;&#20107;&#20214;</span><br></pre></td></tr></table></figure>
-<p>烧水的函数就变成这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// &#28903;&#27700;&#12290;&#10;public void BoilWater() &#123;&#10;   for (int i = 0; i &#60;= 100; i++) &#123;&#10;      temperature = i;&#10;      if (temperature &#62; 95) &#123;&#10;          //&#24314;&#31435;BoiledEventArgs &#23545;&#35937;&#12290;&#10;          BoiledEventArgs e = new BoiledEventArgs(temperature);&#10;          OnBoiled(e);  // &#35843;&#29992; OnBolied&#26041;&#27861;&#10;      &#125;&#10;   &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>委托声明原型中的<strong>Object类型的参数代表了Subject，也就是监视对象</strong>，在本例中是 Heater(热水器)。回调函数(比如Alarm的MakeAlert)可以通过它访问触发事件的对象(Heater)。<strong>EventArgs 对象包含了Observer所感兴趣的数据，在本例中是temperature。</strong></p>
-<p>完整实例如下，供参考：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">using System;&#10;using System.Collections.Generic;&#10;using System.Text;&#10;&#10;namespace Delegate &#123;&#10;    // &#28909;&#27700;&#22120;&#10;    public class Heater &#123;&#10;       private int temperature;&#10;       public string type = &#34;RealFire 001&#34;;       // &#28155;&#21152;&#22411;&#21495;&#20316;&#20026;&#28436;&#31034;&#10;       public string area = &#34;China Xian&#34;;         // &#28155;&#21152;&#20135;&#22320;&#20316;&#20026;&#28436;&#31034;&#10;       //&#22768;&#26126;&#22996;&#25176;&#10;       public delegate void BoiledEventHandler(Object sender, BoiledEventArgs e);&#10;       public event BoiledEventHandler Boiled; //&#22768;&#26126;&#20107;&#20214;&#10;&#10;       // &#23450;&#20041;BoiledEventArgs&#31867;&#65292;&#20256;&#36882;&#32473;Observer&#25152;&#24863;&#20852;&#36259;&#30340;&#20449;&#24687;&#10;       public class BoiledEventArgs : EventArgs &#123;&#10;           public readonly int temperature;&#10;           public BoiledEventArgs(int temperature) &#123;&#10;              this.temperature = temperature;&#10;           &#125;&#10;       &#125;&#10;&#10;       // &#21487;&#20197;&#20379;&#32487;&#25215;&#33258; Heater &#30340;&#31867;&#37325;&#20889;&#65292;&#20197;&#20415;&#32487;&#25215;&#31867;&#25298;&#32477;&#20854;&#20182;&#23545;&#35937;&#23545;&#23427;&#30340;&#30417;&#35270;&#10;       protected virtual void OnBoiled(BoiledEventArgs e) &#123;&#10;           if (Boiled != null) &#123; // &#22914;&#26524;&#26377;&#23545;&#35937;&#27880;&#20876;&#10;              Boiled(this, e);  // &#35843;&#29992;&#25152;&#26377;&#27880;&#20876;&#23545;&#35937;&#30340;&#26041;&#27861;&#65292;&#20107;&#20214;&#21457;&#29983;&#10;           &#125;&#10;       &#125;&#10;      &#10;       // &#28903;&#27700;&#12290;&#10;       public void BoilWater() &#123;&#10;           for (int i = 0; i &#60;= 100; i++) &#123;&#10;              temperature = i;&#10;              if (temperature &#62; 95) &#123;&#10;                  //&#24314;&#31435;BoiledEventArgs &#23545;&#35937;&#12290;&#10;                  BoiledEventArgs e = new BoiledEventArgs(temperature);&#10;                  OnBoiled(e);  // &#35843;&#29992; OnBolied&#26041;&#27861;&#10;              &#125;&#10;           &#125;&#10;       &#125;&#10;    &#125;&#10;&#10;    // &#35686;&#25253;&#22120;&#10;    public class Alarm &#123;&#10;       public void MakeAlert(Object sender, Heater.BoiledEventArgs e) &#123;//&#20351;&#24471;&#31867;&#22411;&#31526;&#21512;.net&#20107;&#20214;&#35268;&#33539;&#65292;&#28385;&#36275;&#22996;&#25176;&#31867;&#22411;&#65292;&#21487;&#20197;&#27880;&#20876;&#10;           Heater heater = (Heater)sender;     //&#36825;&#37324;&#26159;&#19981;&#26159;&#24456;&#29087;&#24713;&#21602;&#65311;&#10;           //&#35775;&#38382; sender &#20013;&#30340;&#20844;&#20849;&#23383;&#27573;&#10;           Console.WriteLine(&#34;Alarm&#65306;&#123;0&#125; - &#123;1&#125;: &#34;, heater.area, heater.type);&#10;           Console.WriteLine(&#34;Alarm: &#22016;&#22016;&#22016;&#65292;&#27700;&#24050;&#32463; &#123;0&#125; &#24230;&#20102;&#65306;&#34;, e.temperature);&#10;           Console.WriteLine();&#10;       &#125;&#10;    &#125;&#10;&#10;    // &#26174;&#31034;&#22120;&#10;    public class Display &#123;&#10;       public static void ShowMsg(Object sender, Heater.BoiledEventArgs e) &#123;   //&#38745;&#24577;&#26041;&#27861;&#10;           Heater heater = (Heater)sender;&#10;           Console.WriteLine(&#34;Display&#65306;&#123;0&#125; - &#123;1&#125;: &#34;, heater.area, heater.type);&#10;           Console.WriteLine(&#34;Display&#65306;&#27700;&#24555;&#28903;&#24320;&#20102;&#65292;&#24403;&#21069;&#28201;&#24230;&#65306;&#123;0&#125;&#24230;&#12290;&#34;, e.temperature);&#10;           Console.WriteLine();&#10;       &#125;&#10;    &#125;&#10;&#10;    class Program &#123;&#10;       static void Main() &#123;&#10;           Heater heater = new Heater();&#10;           Alarm alarm = new Alarm();&#10;&#10;           heater.Boiled += alarm.MakeAlert;   //&#27880;&#20876;&#26041;&#27861;&#10;           heater.Boiled += (new Alarm()).MakeAlert;      //&#32473;&#21311;&#21517;&#23545;&#35937;&#27880;&#20876;&#26041;&#27861;&#10;           heater.Boiled += new Heater.BoiledEventHandler(alarm.MakeAlert);    //&#20063;&#21487;&#20197;&#36825;&#20040;&#27880;&#20876;&#10;           heater.Boiled += Display.ShowMsg;       //&#27880;&#20876;&#38745;&#24577;&#26041;&#27861;&#10;&#10;           heater.BoilWater();   //&#28903;&#27700;&#65292;&#20250;&#33258;&#21160;&#35843;&#29992;&#27880;&#20876;&#36807;&#23545;&#35937;&#30340;&#26041;&#27861;&#10;       &#125;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>输出为：</p>
-<blockquote>
-<p>Alarm：China Xian - RealFire 001:<br>Alarm: 嘀嘀嘀，水已经 96 度了：<br>Alarm：China Xian - RealFire 001:<br>Alarm: 嘀嘀嘀，水已经 96 度了：<br>Alarm：China Xian - RealFire 001:<br>Alarm: 嘀嘀嘀，水已经 96 度了：<br>Display：China Xian - RealFire 001:<br>Display：水快烧开了，当前温度：96度。<br>// 省略 …</p>
-</blockquote>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/C/"> #C# </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
@@ -1338,7 +1313,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">53</span>
+              <span class="site-state-item-count">54</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1352,7 +1327,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">27</span>
+              <span class="site-state-item-count">28</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -1393,7 +1368,7 @@
         <div class="copyright">
   
   &copy; &nbsp; 
-  2015
+  2016
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>

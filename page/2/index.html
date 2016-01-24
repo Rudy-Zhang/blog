@@ -123,6 +123,200 @@
           
           
             
+              <a class="post-title-link" href="/2015/10/12/找工作总结-SQL语句/">
+                SQL语句
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-10-12
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/找工作总结/">找工作总结</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/10/12/找工作总结-SQL语句/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/12/找工作总结-SQL语句/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="表结构">表结构</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">student</th>
+<th style="text-align:left">sc</th>
+<th style="text-align:left">course</th>
+<th style="text-align:left">tesacher</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">sid</td>
+<td style="text-align:left">sid</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">tname</td>
+</tr>
+<tr>
+<td style="text-align:left">sname</td>
+<td style="text-align:left">cid</td>
+<td style="text-align:left">cid</td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left">sage</td>
+<td style="text-align:left">score</td>
+<td style="text-align:left">cname</td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left">ssex</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">tid</td>
+<td style="text-align:left">tid</td>
+</tr>
+</tbody>
+</table>
+<h2 id="增删改操作">增删改操作</h2><h3 id="建表">建表</h3><pre><code>create <span class="tag">table</span> student(
+    sid <span class="function"><span class="title">varchar</span><span class="params">(<span class="number">20</span>)</span></span>,
+    sname <span class="function"><span class="title">varchar</span><span class="params">(<span class="number">20</span>)</span></span>,
+    sage number,
+    ssex <span class="function"><span class="title">varchar</span><span class="params">(<span class="number">20</span>)</span></span>
+)
+</code></pre><h3 id="插入">插入</h3><pre><code>insert into <span class="function"><span class="title">student</span><span class="params">(sid, sname, sage, ssex)</span></span>
+    <span class="function"><span class="title">values</span><span class="params">(<span class="string">'001'</span>, <span class="string">'kangyue'</span>, <span class="number">29</span>, <span class="string">'male'</span>)</span></span>
+</code></pre><h3 id="修改">修改</h3><pre><code><span class="keyword">update</span> <span class="keyword">sc</span>
+<span class="keyword">set</span> <span class="keyword">sc</span>.<span class="keyword">score</span> = '60'
+where <span class="keyword">sc</span>.sid = '001'
+</code></pre><h3 id="删除">删除</h3><p>删除叶平老师的sc记录</p>
+<pre><code>delete sc
+from sc, teacher as t, course as c
+where sc<span class="class">.cid</span> = c<span class="class">.cid</span> and t<span class="class">.tid</span> = c<span class="class">.tid</span> and t<span class="class">.tname</span> = <span class="string">'叶平'</span>
+</code></pre><h2 id="查询">查询</h2><h3 id="查询”001”课程比”002”课程成绩高的所有学生的学号">查询”001”课程比”002”课程成绩高的所有学生的学号</h3><pre><code>select s<span class="class">.sid</span>
+from 
+(select sid,score from sc where sc<span class="class">.cid</span> = <span class="string">'001'</span>) as <span class="tag">a</span>,
+(select sid,score from sc where sc<span class="class">.cid</span> = <span class="string">'002'</span>) as <span class="tag">b</span>
+where <span class="tag">a</span><span class="class">.sid</span> = <span class="tag">b</span><span class="class">.sid</span>  and <span class="tag">a</span><span class="class">.score</span> &gt; <span class="tag">b</span>.score
+</code></pre><h3 id="查询平均成绩大于60分的同学的学号和平均成绩">查询平均成绩大于60分的同学的学号和平均成绩</h3><pre><code>select sc<span class="class">.sid</span>, <span class="function"><span class="title">avg</span><span class="params">(sc.age)</span></span>
+from sc
+group by sc<span class="class">.sid</span> 
+having <span class="function"><span class="title">avg</span><span class="params">(sc.score)</span></span> &gt; <span class="number">60</span>
+</code></pre><h4 id="sql中的分组">sql中的分组</h4><ul>
+<li>where 对分组前的属性进行筛选</li>
+<li>having<br>对分组后的属性进行筛选<br>使用聚合函数判断<br>不是用group by默认整个表为一组</li>
+</ul>
+<h3 id="查询姓李的老师的个数">查询姓李的老师的个数</h3><pre><code><span class="operator"><span class="keyword">select</span> <span class="keyword">count</span>(t.tid)
+<span class="keyword">from</span> teacher <span class="keyword">as</span> t
+<span class="keyword">where</span> t.tname <span class="keyword">like</span> <span class="string">"李%"</span></span>
+</code></pre><h4 id="sql中的通配符">sql中的通配符</h4><p>_    匹配单字符-&gt; ‘_im’ 匹配 Tim Jim<br>%    匹配一个或多个字符 -&gt; ‘李%’<br>[]    匹配单字符 -&gt; ‘[JT]im’<br>[^]    反向匹配 -&gt; ‘m[^c]%’<br>也可以使用REGEX()函数匹配正则</p>
+<h3 id="查询所有同学的学号，姓名，选课书，总成绩">查询所有同学的学号，姓名，选课书，总成绩</h3><pre><code>select s<span class="class">.sid</span>, s<span class="class">.sname</span>, <span class="function"><span class="title">count</span><span class="params">(sc.id)</span></span>, <span class="function"><span class="title">sum</span><span class="params">(sc.score)</span></span>
+from student as s, sc
+where s<span class="class">.sid</span> = sc<span class="class">.sid</span>
+group by sc.sid
+</code></pre><p>使用左连接：<br>    select s.sid, s.sname, count(sc.id), sum(sc.score)<br>    from student as s left join sc on s.sid = sc.sid<br>    group by s.sid</p>
+<h4 id="内连接，外连接，左连接，右连接">内连接，外连接，左连接，右连接</h4><ul>
+<li>内连接 inner join = join 两边有匹配才选择</li>
+<li>外连接<ul>
+<li>左连接 left join 左边都选择</li>
+<li>右连接 right join 右边都选择</li>
+</ul>
+</li>
+</ul>
+<h3 id="查询没学过叶平老师课的学生的学生，姓名">查询没学过叶平老师课的学生的学生，姓名</h3><pre><code>select st<span class="class">.sid</span>, st<span class="class">.sname</span>
+from student as st
+where st<span class="class">.sid</span> not <span class="keyword">in</span>
+(select s<span class="class">.sid</span>
+from sc, course as c, teacher as t
+where sc<span class="class">.cid</span> = c<span class="class">.cid</span> and c<span class="class">.tid</span> = t<span class="class">.tid</span> and t<span class="class">.tname</span> = <span class="string">'叶平'</span>)
+</code></pre><p><strong>子查询，not in取反</strong></p>
+<h3 id="查询所有课程成绩小于60分的同学的学号姓名">查询所有课程成绩小于60分的同学的学号姓名</h3><pre><code>select s<span class="class">.sid</span>,s<span class="class">.sname</span>
+from student as s
+where s<span class="class">.sid</span> not <span class="keyword">in</span>
+(select sc<span class="class">.sid</span>
+from sc
+where sc<span class="class">.score</span> &gt;= <span class="number">60</span>)
+</code></pre><h3 id="查询每门课程平均成绩，结果按平均成绩升序，平均成绩相同按课程号降序">查询每门课程平均成绩，结果按平均成绩升序，平均成绩相同按课程号降序</h3><pre><code>select avg(<span class="keyword">sc</span>.sccore)
+from <span class="keyword">sc</span>
+group <span class="keyword">by</span> <span class="keyword">sc</span>.cid
+<span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">sc</span>. avg(<span class="keyword">sc</span>.<span class="keyword">score</span>) asc, <span class="keyword">sc</span>.cid <span class="keyword">desc</span>
+</code></pre><p><strong>排序，升序，降序</strong></p>
+<h3 id="查询任何一门课程成绩在70分以上的姓名，课程名，分数">查询任何一门课程成绩在70分以上的姓名，课程名，分数</h3><pre><code><span class="type">SELECT</span> <span class="keyword">distinct</span> s.sid,s.sname
+<span class="type">FROM</span> student <span class="keyword">as</span> s,sc
+where s.sid = sc.sid <span class="keyword">and</span> sc.score &gt; <span class="number">70</span>
+</code></pre><p><strong>distinct去重</strong></p>
+<h3 id="查找001课程第三高的学生学号">查找001课程第三高的学生学号</h3><pre><code>select top 1 sid
+from
+(select top 3 <span class="keyword">sc</span>.sid, <span class="keyword">sc</span>.<span class="keyword">score</span>
+from <span class="keyword">sc</span>
+where <span class="keyword">sc</span>.cid = '001'
+<span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">sc</span>.<span class="keyword">score</span> <span class="keyword">desc</span>
+)
+<span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">score</span> asc
+</code></pre><h4 id="查询第n高">查询第n高</h4><p>先降序排取前n个，后升序排取第一个。</p>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据库/"> #数据库 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/10/12/找工作总结-面向对象和设计模式/">
                 面向对象和设计模式
               </a>
@@ -2648,239 +2842,6 @@ public:
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/10/03/找工作总结-栈和队列专题/">
-                栈和队列专题
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-10-03
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/找工作总结/">找工作总结</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/10/03/找工作总结-栈和队列专题/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/03/找工作总结-栈和队列专题/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="剑指offer_7_两个栈实现队列_VS_两个队列实现栈">剑指offer 7 两个栈实现队列 VS 两个队列实现栈</h3><h4 id="问题描述">问题描述</h4><p>用两个栈来实现一个队列，完成队列的Push和Pop操作。 队列中的元素为int类型。</p>
-<h4 id="解法">解法</h4><p>两个栈stack1,stack2。完成push和pop函数即可。</p>
-<ul>
-<li>push的时候向stack1压栈。</li>
-<li>pop的时候<br>(1)stack2不为空，弹出stack2.top<br>(2)stack1不为空，把stack1中的元素全部弹出到stack2，然后弹出stack2.top<br>(3)如果stack1和stack2都是空，那么抛出异常<h4 id="注意点">注意点</h4></li>
-<li>模板的写法</li>
-</ul>
-<h4 id="代码">代码</h4><pre><code><span class="keyword">template</span>&lt;typename T&gt;
-class <span class="type">MyQueue</span>
-{
-public:
-    <span class="type">void</span> push(<span class="keyword">const</span> T&amp; item);
-    T pop();
-private:
-    stack&lt;T&gt; stack1;
-    stack&lt;T&gt; stack2;
-};
-
-<span class="keyword">template</span>&lt;typename T&gt;
-<span class="type">void</span> <span class="type">MyQueue</span>::push(<span class="keyword">const</span> T&amp; item)
-{
-    stack1.push(item);
-}
-
-<span class="keyword">template</span>&lt;typename T&gt;
-T <span class="type">MyQueue</span>::pop()
-{
-    <span class="keyword">if</span>(!stack2.empty())
-    {
-        T temp = stack2.top();//?是否需要引用
-        stack2.pop();
-        <span class="keyword">return</span> temp;
-    }
-    <span class="keyword">else</span> <span class="keyword">if</span>(!stack1.empty())
-    {
-        <span class="keyword">while</span>(!stack1.empty())
-        {
-            stack2.push(stack1.top());
-            stack1.pop();
-        }
-        stack2.pop();
-    }
-    <span class="keyword">else</span>
-        throw exception(<span class="string">"MyQueue is empty!"</span>);
-}
-</code></pre><h4 id="扩展问题，使用两个队列实现栈">扩展问题，使用两个队列实现栈</h4><p>有queue1，queue2两个队列，完成push,pop。</p>
-<ul>
-<li>push<br>如果queue1.empty &amp;&amp; queue.empty 向queue1中push<br>如果有一个不为空，向不为空的队列里push</li>
-<li>pop<br>如果queue1.empty &amp;&amp; queue.empty 抛出异常<br>把不为空的队列出队到空队列，直到剩下一个元素，弹出这个元素</li>
-</ul>
-<h3 id="剑指offer21_包含min函数的栈">剑指offer21 包含min函数的栈</h3><h4 id="问题描述-1">问题描述</h4><p>定义栈的数据结构，请在该类型中实现一个能够得到栈最小元素的min函数。</p>
-<h4 id="解法-1">解法</h4><p>使用stack1,stack2两个栈，stack1压入原本的元素，stack2只压最小元素</p>
-<h4 id="代码-1">代码</h4><pre><code><span class="keyword">class</span> <span class="title">Solution</span> {
-<span class="keyword">public</span>:
-    <span class="function"><span class="keyword">void</span> <span class="title">push</span>(<span class="params"><span class="keyword">int</span> <span class="keyword">value</span></span>) </span>{
-        <span class="keyword">int</span> tempMin;
-        <span class="keyword">if</span>(s1.size() == <span class="number">0</span>)
-            tempMin = <span class="keyword">value</span>;
-        <span class="keyword">else</span>
-        {
-            tempMin = s2.top();
-            <span class="keyword">if</span>(<span class="keyword">value</span> &lt; tempMin)
-                tempMin = <span class="keyword">value</span>;
-        }
-        s1.push(<span class="keyword">value</span>);
-        s2.push(tempMin);
-    }
-
-    <span class="function"><span class="keyword">void</span> <span class="title">pop</span>(<span class="params"></span>) </span>{
-        <span class="keyword">if</span>(s1.size() == <span class="number">0</span>)
-            <span class="keyword">return</span>;
-        s1.pop();
-        s2.pop();
-    }
-    <span class="function"><span class="keyword">int</span> <span class="title">top</span>(<span class="params"></span>) </span>{
-        <span class="keyword">if</span>(s1.size() == <span class="number">0</span>)
-            <span class="keyword">return</span> INT_MIN;
-        <span class="keyword">return</span> s1.top();
-    }
-    <span class="function"><span class="keyword">int</span> <span class="title">min</span>(<span class="params"></span>) </span>{
-        <span class="keyword">if</span>(s1.size() == <span class="number">0</span>)
-            <span class="keyword">return</span> INT_MIN;
-        <span class="keyword">return</span> s2.top();
-    }
-<span class="keyword">private</span>:
-    stack&lt;<span class="keyword">int</span>&gt; s1;
-    stack&lt;<span class="keyword">int</span>&gt; s2;
-};
-</code></pre><h3 id="剑指offer22_栈的压入弹出序列">剑指offer22 栈的压入弹出序列</h3><h4 id="问题描述-2">问题描述</h4><p>输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4，5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。</p>
-<h4 id="解法-2">解法</h4><p>使用一个栈stack进行模拟，遍历数组元素：</p>
-<ul>
-<li>如果<code>vec[i] != stack.top</code>，压入</li>
-<li>如果<code>vec[i] == stack.top</code>，弹出</li>
-<li><code>i == vec.size</code>时，判断栈是否为空</li>
-</ul>
-<h4 id="代码-2">代码</h4><pre><code>class Solution {
-public:
-    bool IsPopOrder<span class="params">(vector&lt;int&gt; pushV, vector&lt;int&gt; popV)</span> {
-        <span class="keyword">if</span><span class="params">(pushV.size<span class="params">()</span> != popV.size<span class="params">()</span>)</span>
-            return <span class="literal">false</span>;
-        stack&lt;int&gt; s;
-        int i=<span class="number">0</span>,j=<span class="number">0</span>;
-        <span class="keyword">for</span><span class="params">(;j &lt; popV.size<span class="params">()</span>; j++)</span>
-        {
-            while<span class="params">(s.empty<span class="params">()</span> || <span class="params">(i &lt; pushV.size<span class="params">()</span> &amp;&amp; s.top<span class="params">()</span> != popV[j])</span>)</span>
-                s.push<span class="params">(pushV[i++])</span>;
-            <span class="keyword">if</span><span class="params">(s.top<span class="params">()</span> == popV[j])</span>
-                s.pop<span class="params">()</span>;
-            <span class="keyword">else</span> <span class="keyword">if</span><span class="params">(i == pushV.size<span class="params">()</span>)</span>
-                break;
-        }
-        <span class="keyword">if</span><span class="params">(i == pushV.size<span class="params">()</span> &amp;&amp; j == popV.size<span class="params">()</span> &amp;&amp; s.empty<span class="params">()</span>)</span>
-            return <span class="literal">true</span>;
-        <span class="keyword">else</span>
-            return <span class="literal">false</span>;
-    }
-};
-</code></pre><h3 id="剑指offer65_滑动窗口最大值">剑指offer65 滑动窗口最大值</h3><h4 id="问题描述-3">问题描述</h4><p>给定一个数组和滑动窗口的大小，找出所有滑动窗口里数值的最大值。例如，如果输入数组{2,3,4,2,6,2,5,1}及滑动窗口的大小3，那么一共存在6个滑动窗口，他们的最大值分别为{4,4,6,6,6,5}； 针对数组{2,3,4,2,6,2,5,1}的滑动窗口有以下6个： {[2,3,4],2,6,2,5,1}， {2,[3,4,2],6,2,5,1}， {2,3,[4,2,6],2,5,1}， {2,3,4,[2,6,2],5,1}， {2,3,4,2,[6,2,5],1}， {2,3,4,2,6,[2,5,1]}。</p>
-<h4 id="解法-3">解法</h4><p>使用双端队列(dequeue)记录当前窗口最大值<strong>下标</strong>序列，每插入一个元素就向前删除。通过比较dequeue的第一个元素是当前窗口的最大元素<strong>下标</strong>，比较首元素下标和i-size判断删除队列头部元素。</p>
-<h4 id="注意点-1">注意点</h4><ul>
-<li>从后向前删除</li>
-<li>最后一个窗口</li>
-</ul>
-<h4 id="代码-3">代码</h4><pre><code>class <span class="type">Solution</span> {
-public:
-    vector&lt;<span class="type">int</span>&gt; maxInWindows(<span class="keyword">const</span> vector&lt;<span class="type">int</span>&gt;&amp; num, unsigned <span class="type">int</span> size)
-    {
-        vector&lt;<span class="type">int</span>&gt; <span class="literal">result</span>;
-        <span class="keyword">if</span>(num.size() &lt; size || size &lt; <span class="number">1</span>)
-            <span class="keyword">return</span> <span class="literal">result</span>;
-        deque&lt;<span class="type">int</span>&gt; indexes;
-        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; size; i++)
-        {
-            <span class="keyword">while</span>(!indexes.empty() &amp;&amp; num[i] &gt;= num[indexes.back()])
-                indexes.pop_back();
-            indexes.push_back(i);
-        }
-
-        <span class="keyword">for</span>(<span class="type">int</span> i = size;i &lt; num.size(); i++)
-        {
-            <span class="literal">result</span>.push_back(num[indexes.front()]);
-            <span class="keyword">while</span>(!indexes.empty() &amp;&amp; num[i] &gt;= num[indexes.back()])
-                indexes.pop_back();
-            <span class="keyword">while</span>(!indexes.empty() &amp;&amp; indexes.front() &lt;= (i-size))
-                indexes.pop_front();
-            indexes.push_back(i);
-        }
-        <span class="literal">result</span>.push_back(num[indexes.front()]);
-        <span class="keyword">return</span> <span class="literal">result</span>;
-    }
-};
-</code></pre>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/栈和队列/"> #栈和队列 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
@@ -2919,7 +2880,7 @@ public:
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">53</span>
+              <span class="site-state-item-count">54</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -2933,7 +2894,7 @@ public:
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">27</span>
+              <span class="site-state-item-count">28</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -2974,7 +2935,7 @@ public:
         <div class="copyright">
   
   &copy; &nbsp; 
-  2015
+  2016
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>

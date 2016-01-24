@@ -123,8 +123,8 @@
           
           
             
-              <a class="post-title-link" href="/2015/09/27/找工作总结-数组专题-一般题目/">
-                数组专题-一般题目
+              <a class="post-title-link" href="/2015/10/03/找工作总结-栈和队列专题/">
+                栈和队列专题
               </a>
             
           
@@ -133,7 +133,7 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-09-27
+          发表于 2015-10-03
         </span>
 
         
@@ -153,8 +153,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/09/27/找工作总结-数组专题-一般题目/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/27/找工作总结-数组专题-一般题目/"></span>
+            <a href="/2015/10/03/找工作总结-栈和队列专题/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/03/找工作总结-栈和队列专题/"></span>
             </a>
           </span>
           
@@ -169,342 +169,156 @@
 
       
         
-          <h3 id="剑指offer3_二维数组查找">剑指offer3 二维数组查找</h3><h4 id="问题描述">问题描述</h4><p>在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
-<h4 id="解法">解法</h4><p>从右上角（这样使得这一行剩余元素都比他小，这一列剩余元素都比他大）向左下角扫描</p>
-<h4 id="代码">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="function"><span class="keyword">bool</span> <span class="title">Find</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; <span class="built_in">array</span>,<span class="keyword">int</span> target)</span> </span>{
-        <span class="keyword">if</span>(<span class="built_in">array</span>.size() == <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">false</span>;
-        <span class="keyword">int</span> width = <span class="built_in">array</span>[<span class="number">0</span>].size();
-        <span class="keyword">int</span> height = <span class="built_in">array</span>.size();
-        <span class="keyword">int</span> i = <span class="number">0</span>, j = width - <span class="number">1</span>;
-        <span class="keyword">while</span>(i &lt; height &amp;&amp; j &gt;= <span class="number">0</span>)
-        {
-            <span class="keyword">if</span>(<span class="built_in">array</span>[i][j] == target)
-                <span class="keyword">return</span> <span class="keyword">true</span>;
-            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">array</span>[i][j] &lt; target)
-                i++;
-            <span class="keyword">else</span>
-                j--;
-        }
-        <span class="keyword">return</span> <span class="keyword">false</span>;
-    }
-};
-</code></pre><h3 id="剑指offer32_整数中1出现的次数（从1到n整数中1出现的次数）">剑指offer32 整数中1出现的次数（从1到n整数中1出现的次数）</h3><h4 id="问题描述-1">问题描述</h4><p>求出1~13的整数中1出现的次数,并算出100~1300的整数中1出现的次数？为此他特别数了一下1~13中包含1的数字有1、10、11、12、13因此共出现6次,但是对于后面问题他就没辙了。ACMer希望你们帮帮他,并把问题更加普遍化,可以很快的求出任意非负整数区间中1出现的次数。</p>
-<h4 id="解法-1">解法</h4><p>这个解法对于1-9的原理是一样的。首先找到规律：<br>从 1 至 10，在它们的个位数中，任意的 X 都出现了 1 次。<br>从 1 至 100，在它们的十位数中，任意的 X 都出现了 10 次。<br>从 1 至 1000，在它们的百位数中，任意的 X 都出现了 100 次。<br>依此类推，从 1 至  10^i ，在它们右数第  i  位中，任意的 X 都出现了  10^(i−1)  次。这个可以用来计算高位的值。<br>计算方法：<br>当计算右数第  i  位包含的 X 的个数时：<br>取第  i  位左边（高位）的数字，乘以  10^(i−1) ，得到基础值  a 。<br>取第  i  位数字，计算修正值：<br>如果大于 X，则结果为  a+ 10^(i−1)。<br>如果小于 X，则结果为  a。<br>如果等 X，则取第  i  位右边（低位）数字，设为  b ，最后结果为  (a+b+1) 。<br>例如对于num=52134, i=3, a=52, b=34, i位数字k=1,k=x故 result=a+b+1<br>解释，a等于0~51，可推出高位的结果，a=52时，讨论低位的结果。</p>
-<h4 id="代码-1">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
-<span class="keyword">public</span>:
-    <span class="keyword">int</span> NumberOf1Between1AndN_Solution(<span class="keyword">int</span> n)
-    {
-        <span class="keyword">int</span> x = <span class="number">1</span>;
-        <span class="keyword">int</span> <span class="keyword">count</span> = <span class="number">0</span>, k;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; n / i &gt; <span class="number">0</span>; i *= <span class="number">10</span>)
-        {
-            k = n / i;
-            <span class="comment">//k/10为高位数字</span>
-            <span class="keyword">count</span> += (k / <span class="number">10</span>) * i;
-            <span class="keyword">int</span> cur = k % <span class="number">10</span>;
-            <span class="keyword">if</span>(cur &gt; x)
-                <span class="keyword">count</span>+=i;               
-            <span class="keyword">else</span> <span class="keyword">if</span>(cur == x)
-                <span class="comment">//n%i为低位数字</span>
-                <span class="keyword">count</span> += n % i + <span class="number">1</span>;
-            <span class="keyword">else</span>{}
-        }
-        <span class="keyword">return</span> <span class="keyword">count</span>;
-    }
-};
-</code></pre><h3 id="剑指offer44_扑克牌的顺子">剑指offer44 扑克牌的顺子</h3><h4 id="问题描述-2">问题描述</h4><p>抽出一序列牌，王代表任意数字是0，并且A看作1,J为11,Q为12,K为13。判断这个序列是否是顺子</p>
-<h4 id="解法-2">解法</h4><p>对序列进行排序，看0是否能将空缺数字填满。</p>
-<h4 id="注意点">注意点</h4><ul>
-<li>统计0的个数和gap的数量进行比较</li>
+          <h3 id="剑指offer_7_两个栈实现队列_VS_两个队列实现栈">剑指offer 7 两个栈实现队列 VS 两个队列实现栈</h3><h4 id="问题描述">问题描述</h4><p>用两个栈来实现一个队列，完成队列的Push和Pop操作。 队列中的元素为int类型。</p>
+<h4 id="解法">解法</h4><p>两个栈stack1,stack2。完成push和pop函数即可。</p>
+<ul>
+<li>push的时候向stack1压栈。</li>
+<li>pop的时候<br>(1)stack2不为空，弹出stack2.top<br>(2)stack1不为空，把stack1中的元素全部弹出到stack2，然后弹出stack2.top<br>(3)如果stack1和stack2都是空，那么抛出异常<h4 id="注意点">注意点</h4></li>
+<li>模板的写法</li>
 </ul>
-<h4 id="代码-2">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    bool IsContinuous(vector&lt;<span class="keyword">int</span>&gt; numbers)
+<h4 id="代码">代码</h4><pre><code><span class="keyword">template</span>&lt;typename T&gt;
+class <span class="type">MyQueue</span>
+{
+public:
+    <span class="type">void</span> push(<span class="keyword">const</span> T&amp; item);
+    T pop();
+private:
+    stack&lt;T&gt; stack1;
+    stack&lt;T&gt; stack2;
+};
+
+<span class="keyword">template</span>&lt;typename T&gt;
+<span class="type">void</span> <span class="type">MyQueue</span>::push(<span class="keyword">const</span> T&amp; item)
+{
+    stack1.push(item);
+}
+
+<span class="keyword">template</span>&lt;typename T&gt;
+T <span class="type">MyQueue</span>::pop()
+{
+    <span class="keyword">if</span>(!stack2.empty())
     {
-        <span class="keyword">if</span>(numbers.<span class="keyword">size</span>() == <span class="number">0</span>)
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-        <span class="keyword">sort</span>(numbers.begin(), numbers.end());
-        <span class="keyword">int</span> numOfZero = <span class="number">0</span>, numOfGap = <span class="number">0</span>;
-        <span class="keyword">int</span> i = <span class="number">0</span>;
-        <span class="keyword">for</span>(;i &lt; numbers.<span class="keyword">size</span>() &amp;&amp; numbers[i] == <span class="number">0</span>; i++)
-            numOfZero++;
-        <span class="keyword">if</span>(i &lt; numbers.<span class="keyword">size</span>())
-            i++;
-        <span class="keyword">for</span>(;i &lt; numbers.<span class="keyword">size</span>(); i++)
+        T temp = stack2.top();//?是否需要引用
+        stack2.pop();
+        <span class="keyword">return</span> temp;
+    }
+    <span class="keyword">else</span> <span class="keyword">if</span>(!stack1.empty())
+    {
+        <span class="keyword">while</span>(!stack1.empty())
         {
-            <span class="keyword">if</span>(numbers[i] == numbers[i - <span class="number">1</span>])
-                <span class="keyword">return</span> <span class="keyword">false</span>; 
-            numOfGap += numbers[i] - numbers[i - <span class="number">1</span>] - <span class="number">1</span>;
+            stack2.push(stack1.top());
+            stack1.pop();
         }
-        <span class="keyword">return</span> numOfZero &gt;= numOfGap ? <span class="keyword">true</span> : <span class="keyword">false</span>;
+        stack2.pop();
+    }
+    <span class="keyword">else</span>
+        throw exception(<span class="string">"MyQueue is empty!"</span>);
+}
+</code></pre><h4 id="扩展问题，使用两个队列实现栈">扩展问题，使用两个队列实现栈</h4><p>有queue1，queue2两个队列，完成push,pop。</p>
+<ul>
+<li>push<br>如果queue1.empty &amp;&amp; queue.empty 向queue1中push<br>如果有一个不为空，向不为空的队列里push</li>
+<li>pop<br>如果queue1.empty &amp;&amp; queue.empty 抛出异常<br>把不为空的队列出队到空队列，直到剩下一个元素，弹出这个元素</li>
+</ul>
+<h3 id="剑指offer21_包含min函数的栈">剑指offer21 包含min函数的栈</h3><h4 id="问题描述-1">问题描述</h4><p>定义栈的数据结构，请在该类型中实现一个能够得到栈最小元素的min函数。</p>
+<h4 id="解法-1">解法</h4><p>使用stack1,stack2两个栈，stack1压入原本的元素，stack2只压最小元素</p>
+<h4 id="代码-1">代码</h4><pre><code><span class="keyword">class</span> <span class="title">Solution</span> {
+<span class="keyword">public</span>:
+    <span class="function"><span class="keyword">void</span> <span class="title">push</span>(<span class="params"><span class="keyword">int</span> <span class="keyword">value</span></span>) </span>{
+        <span class="keyword">int</span> tempMin;
+        <span class="keyword">if</span>(s1.size() == <span class="number">0</span>)
+            tempMin = <span class="keyword">value</span>;
+        <span class="keyword">else</span>
+        {
+            tempMin = s2.top();
+            <span class="keyword">if</span>(<span class="keyword">value</span> &lt; tempMin)
+                tempMin = <span class="keyword">value</span>;
+        }
+        s1.push(<span class="keyword">value</span>);
+        s2.push(tempMin);
+    }
+
+    <span class="function"><span class="keyword">void</span> <span class="title">pop</span>(<span class="params"></span>) </span>{
+        <span class="keyword">if</span>(s1.size() == <span class="number">0</span>)
+            <span class="keyword">return</span>;
+        s1.pop();
+        s2.pop();
+    }
+    <span class="function"><span class="keyword">int</span> <span class="title">top</span>(<span class="params"></span>) </span>{
+        <span class="keyword">if</span>(s1.size() == <span class="number">0</span>)
+            <span class="keyword">return</span> INT_MIN;
+        <span class="keyword">return</span> s1.top();
+    }
+    <span class="function"><span class="keyword">int</span> <span class="title">min</span>(<span class="params"></span>) </span>{
+        <span class="keyword">if</span>(s1.size() == <span class="number">0</span>)
+            <span class="keyword">return</span> INT_MIN;
+        <span class="keyword">return</span> s2.top();
+    }
+<span class="keyword">private</span>:
+    stack&lt;<span class="keyword">int</span>&gt; s1;
+    stack&lt;<span class="keyword">int</span>&gt; s2;
+};
+</code></pre><h3 id="剑指offer22_栈的压入弹出序列">剑指offer22 栈的压入弹出序列</h3><h4 id="问题描述-2">问题描述</h4><p>输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4，5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。</p>
+<h4 id="解法-2">解法</h4><p>使用一个栈stack进行模拟，遍历数组元素：</p>
+<ul>
+<li>如果<code>vec[i] != stack.top</code>，压入</li>
+<li>如果<code>vec[i] == stack.top</code>，弹出</li>
+<li><code>i == vec.size</code>时，判断栈是否为空</li>
+</ul>
+<h4 id="代码-2">代码</h4><pre><code>class Solution {
+public:
+    bool IsPopOrder<span class="params">(vector&lt;int&gt; pushV, vector&lt;int&gt; popV)</span> {
+        <span class="keyword">if</span><span class="params">(pushV.size<span class="params">()</span> != popV.size<span class="params">()</span>)</span>
+            return <span class="literal">false</span>;
+        stack&lt;int&gt; s;
+        int i=<span class="number">0</span>,j=<span class="number">0</span>;
+        <span class="keyword">for</span><span class="params">(;j &lt; popV.size<span class="params">()</span>; j++)</span>
+        {
+            while<span class="params">(s.empty<span class="params">()</span> || <span class="params">(i &lt; pushV.size<span class="params">()</span> &amp;&amp; s.top<span class="params">()</span> != popV[j])</span>)</span>
+                s.push<span class="params">(pushV[i++])</span>;
+            <span class="keyword">if</span><span class="params">(s.top<span class="params">()</span> == popV[j])</span>
+                s.pop<span class="params">()</span>;
+            <span class="keyword">else</span> <span class="keyword">if</span><span class="params">(i == pushV.size<span class="params">()</span>)</span>
+                break;
+        }
+        <span class="keyword">if</span><span class="params">(i == pushV.size<span class="params">()</span> &amp;&amp; j == popV.size<span class="params">()</span> &amp;&amp; s.empty<span class="params">()</span>)</span>
+            return <span class="literal">true</span>;
+        <span class="keyword">else</span>
+            return <span class="literal">false</span>;
     }
 };
-</code></pre><h3 id="剑指offer52_构建乘积数组">剑指offer52 构建乘积数组</h3><h4 id="问题描述-3">问题描述</h4><p>给定一个数组<code>A[0,1,...,n-1]</code>,请构建一个数组<code>B[0,1,...,n-1]</code>,其中B中的元素<code>B[i]=A[0]*A[1]*...*A[i-1]*A[i+1]*...*A[n-1]</code>。不能使用除法。</p>
-<h4 id="解法-3">解法</h4><p>从上到下扫描，temp记录中间结果，避免重复的乘法。从上到下遍历一次，从下到上遍历一次。</p>
+</code></pre><h3 id="剑指offer65_滑动窗口最大值">剑指offer65 滑动窗口最大值</h3><h4 id="问题描述-3">问题描述</h4><p>给定一个数组和滑动窗口的大小，找出所有滑动窗口里数值的最大值。例如，如果输入数组{2,3,4,2,6,2,5,1}及滑动窗口的大小3，那么一共存在6个滑动窗口，他们的最大值分别为{4,4,6,6,6,5}； 针对数组{2,3,4,2,6,2,5,1}的滑动窗口有以下6个： {[2,3,4],2,6,2,5,1}， {2,[3,4,2],6,2,5,1}， {2,3,[4,2,6],2,5,1}， {2,3,4,[2,6,2],5,1}， {2,3,4,2,[6,2,5],1}， {2,3,4,2,6,[2,5,1]}。</p>
+<h4 id="解法-3">解法</h4><p>使用双端队列(dequeue)记录当前窗口最大值<strong>下标</strong>序列，每插入一个元素就向前删除。通过比较dequeue的第一个元素是当前窗口的最大元素<strong>下标</strong>，比较首元素下标和i-size判断删除队列头部元素。</p>
+<h4 id="注意点-1">注意点</h4><ul>
+<li>从后向前删除</li>
+<li>最后一个窗口</li>
+</ul>
 <h4 id="代码-3">代码</h4><pre><code>class <span class="type">Solution</span> {
 public:
-    vector&lt;<span class="type">int</span>&gt; multiply(<span class="keyword">const</span> vector&lt;<span class="type">int</span>&gt;&amp; A) {
-        vector&lt;<span class="type">int</span>&gt; <span class="literal">result</span>(A.size(), <span class="number">1</span>);
-        <span class="keyword">if</span>(A.size() &lt;= <span class="number">1</span>)
+    vector&lt;<span class="type">int</span>&gt; maxInWindows(<span class="keyword">const</span> vector&lt;<span class="type">int</span>&gt;&amp; num, unsigned <span class="type">int</span> size)
+    {
+        vector&lt;<span class="type">int</span>&gt; <span class="literal">result</span>;
+        <span class="keyword">if</span>(num.size() &lt; size || size &lt; <span class="number">1</span>)
             <span class="keyword">return</span> <span class="literal">result</span>;
-        <span class="type">int</span> temp = <span class="number">1</span>;
-        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt; A.size(); i++)
+        deque&lt;<span class="type">int</span>&gt; indexes;
+        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; size; i++)
         {
-            temp *= A[i - <span class="number">1</span>];
-            <span class="literal">result</span>[i] = temp;
+            <span class="keyword">while</span>(!indexes.empty() &amp;&amp; num[i] &gt;= num[indexes.back()])
+                indexes.pop_back();
+            indexes.push_back(i);
         }
-        temp = <span class="number">1</span>;
-        <span class="keyword">for</span>(<span class="type">int</span> i = A.size() - <span class="number">2</span>; i &gt;= <span class="number">0</span>; i--)
+
+        <span class="keyword">for</span>(<span class="type">int</span> i = size;i &lt; num.size(); i++)
         {
-            temp *= A[i + <span class="number">1</span>];
-            <span class="literal">result</span>[i] *= temp;
+            <span class="literal">result</span>.push_back(num[indexes.front()]);
+            <span class="keyword">while</span>(!indexes.empty() &amp;&amp; num[i] &gt;= num[indexes.back()])
+                indexes.pop_back();
+            <span class="keyword">while</span>(!indexes.empty() &amp;&amp; indexes.front() &lt;= (i-size))
+                indexes.pop_front();
+            indexes.push_back(i);
         }
+        <span class="literal">result</span>.push_back(num[indexes.front()]);
         <span class="keyword">return</span> <span class="literal">result</span>;
     }
-};
-</code></pre><h3 id="剑指offer20_顺时针打印矩阵">剑指offer20 顺时针打印矩阵</h3><h4 id="问题描述-4">问题描述</h4><p>输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下矩阵： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.</p>
-<h4 id="解法-4">解法</h4><p>先写一个打印一圈的函数，再遍历所有的圈。</p>
-<h4 id="注意点-1">注意点</h4><ul>
-<li>判断遍历是否越界</li>
-<li>遍历的时候注意减回去(x—)</li>
-</ul>
-<h4 id="代码-4">代码</h4><pre><code>class Solution {
-public:
-    <span class="keyword">vector</span>&lt;<span class="keyword">int</span>&gt; printMatrix(<span class="keyword">vector</span>&lt;<span class="keyword">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; <span class="keyword">matrix</span>) {
-        <span class="keyword">vector</span>&lt;<span class="keyword">int</span>&gt; vec;
-        <span class="keyword">if</span>(<span class="keyword">matrix</span>.<span class="keyword">size</span>() == <span class="number">0</span>) <span class="keyword">return</span> vec;
-        <span class="keyword">if</span>(<span class="keyword">matrix</span>[<span class="number">0</span>].<span class="keyword">size</span>() == <span class="number">0</span>) <span class="keyword">return</span> vec;
-        <span class="keyword">int</span> start = <span class="number">0</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> start =  <span class="number">0</span>; start * <span class="number">2</span> &lt; <span class="keyword">matrix</span>.<span class="keyword">size</span>() &amp;&amp; start * <span class="number">2</span> &lt; <span class="keyword">matrix</span>[<span class="number">0</span>].<span class="keyword">size</span>(); start++)
-            printInCircle(<span class="keyword">matrix</span>, start, vec);
-        <span class="keyword">return</span> vec;
-    }
-
-    void printInCircle(<span class="keyword">vector</span>&lt;<span class="keyword">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; &amp;<span class="keyword">matrix</span>, <span class="keyword">int</span> start, <span class="keyword">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;vec)
-    {
-        <span class="keyword">int</span> x = start, y = start;
-        <span class="comment">//从左向右打印</span>
-        <span class="keyword">int</span> endx = <span class="keyword">matrix</span>[y].<span class="keyword">size</span>()- <span class="number">1</span> - start;
-        <span class="keyword">for</span>(; x &lt;= endx; x++)
-            vec.push_back(<span class="keyword">matrix</span>[y][x]);
-        --x;
-
-        <span class="comment">//从上向下打印</span>
-        <span class="keyword">int</span> endy = <span class="keyword">matrix</span>.<span class="keyword">size</span>() - <span class="number">1</span> - start;
-        <span class="keyword">if</span>(y + <span class="number">1</span> &gt; endy)
-            <span class="keyword">return</span>;
-        y++;
-        <span class="keyword">for</span>(; y &lt;= endy; y++)
-            vec.push_back(<span class="keyword">matrix</span>[y][x]);
-        y--;
-
-        <span class="comment">//从右向左打印</span>
-        <span class="keyword">if</span>(x - <span class="number">1</span> &lt; start)
-            <span class="keyword">return</span>;
-        x--;
-        <span class="keyword">for</span>(; x &gt;= start; x--)
-            vec.push_back(<span class="keyword">matrix</span>[y][x]);
-        x++;
-        <span class="comment">//从下向上打印</span>
-        <span class="keyword">if</span>(y - <span class="number">1</span> &lt; start) <span class="keyword">return</span>;
-        y--;
-        <span class="keyword">for</span>(; y &gt; start; y--)
-            vec.push_back(<span class="keyword">matrix</span>[y][x]);
-        y++;
-    }
-
- };
-</code></pre><h3 id="剑指offer30_最小的k个数">剑指offer30 最小的k个数</h3><h4 id="问题描述-5">问题描述</h4><p>输入n个整数，找出其中最小的K个数。例如输入4,5,1,6,2,7,3,8这8个数字，则最小的4个数字是1,2,3,4,。</p>
-<h4 id="解法-5">解法</h4><p>使用大顶堆存储k个数，遍历原数据，每次淘汰最大的，最后堆中剩余的元素就是最小的k个数</p>
-<h4 id="注意点-2">注意点</h4><ul>
-<li>输入数据合法性，k的取值大于input.size()的情况</li>
-<li><p>stl中<algorithm>关于堆的操作，make_heap,push_heap,pop_heap,sort_heap.默认建立大顶堆，如果想使用小顶堆需要加入比较函数。</algorithm></p>
-<pre><code>make_heap(res.<span class="keyword">begin</span><span class="literal">()</span>, res.<span class="keyword">end</span><span class="literal">()</span>, greater&lt;<span class="built_in">int</span>&gt;<span class="literal">()</span>);
-push_heap(res.<span class="keyword">begin</span><span class="literal">()</span>, res.<span class="keyword">end</span><span class="literal">()</span>, greater&lt;<span class="built_in">int</span>&gt;<span class="literal">()</span>);
-pop_heap(res.<span class="keyword">begin</span><span class="literal">()</span>, res.<span class="keyword">end</span><span class="literal">()</span>, greater&lt;<span class="built_in">int</span>&gt;<span class="literal">()</span>);
-</code></pre></li>
-</ul>
-<h4 id="代码-5">代码</h4><pre><code><span class="keyword">class</span> <span class="type">Solution</span> {
-public:
-    vector&lt;<span class="built_in">int</span>&gt; <span class="type">GetLeastNumbers_Solution</span>(vector&lt;<span class="built_in">int</span>&gt; input, <span class="built_in">int</span> k) {
-        vector&lt;<span class="built_in">int</span>&gt; res;
-        <span class="keyword">if</span>(k&lt;= <span class="number">0</span> || k &gt; input.size<span class="literal">()</span>)
-            return res;
-        <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; k; i++)
-            res.push_back(input[i]);
-        make_heap(res.<span class="keyword">begin</span><span class="literal">()</span>, res.<span class="keyword">end</span><span class="literal">()</span>);
-        <span class="keyword">for</span>(<span class="built_in">int</span> i = k; i &lt; input.size<span class="literal">()</span>; i++)
-        {
-            <span class="keyword">if</span>(input[i] &gt;= res[<span class="number">0</span>])
-                continue;
-            res.push_back(input[i]);
-            push_heap(res.<span class="keyword">begin</span><span class="literal">()</span>, res.<span class="keyword">end</span><span class="literal">()</span>);
-            pop_heap(res.<span class="keyword">begin</span><span class="literal">()</span>, res.<span class="keyword">end</span><span class="literal">()</span>);
-            res.pop_back<span class="literal">()</span>;
-        }
-        sort_heap(res.<span class="keyword">begin</span><span class="literal">()</span>, res.<span class="keyword">end</span><span class="literal">()</span>);
-        return res;
-    }
-};
-</code></pre><h3 id="剑指offer33_把数组排成最小的数">剑指offer33 把数组排成最小的数</h3><h4 id="问题描述-6">问题描述</h4><p>输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。例如输入数组{3，32，321}，则打印出这三个数字能排成的最小数字为321323。</p>
-<h4 id="解法-6">解法</h4><p>首先要证明这样一个结论：</p>
-<blockquote>
-<p>若ca&lt;ac则在最后的字符串中，c应该在a的后面</p>
-</blockquote>
-<ul>
-<li>证明</li>
-</ul>
-<p>条件：ca&lt;ac，有另一个任意<strong>字符串</strong>b与a,c进行排列组合<br>讨论：</p>
-<pre><code>若b&lt;c&lt;<span class="tag">a</span> 可以得到bca是最小的
-若c&lt;b&lt;<span class="tag">a</span> 可以得到cba是最小的
-若c&lt;a&lt;<span class="tag">b</span> 可以得到cab是最小的
-</code></pre><p>结论：c应该在a的前面</p>
-<h4 id="注意点-3">注意点</h4><ul>
-<li><p>sort函数中比较函数应该如何写</p>
-<p>  <code>template &lt;class RandomAccessIterator, class Compare&gt;</code><br>  <code>void sort (RandomAccessIterator first, RandomAccessIterator last, Compare comp);</code></p>
-</li>
-</ul>
-<p>comp函数表示</p>
-<blockquote>
-<p>The value returned indicates whether the element passed as first argument is considered to go before the second in the specific strict weak ordering it defines.<br>比较函数传入两个参数，返回bool，返回值表示在最终的排序结果中，第一个参数是否应该出现在第二个参数的前面。</p>
-</blockquote>
-<h4 id="代码-6">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="function"><span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span> &amp;str1,<span class="keyword">const</span> <span class="built_in">string</span> &amp;str2)</span>
-    </span>{
-        <span class="built_in">string</span> temp1 = str1 + str2;
-        <span class="built_in">string</span> temp2 = str2 + str1;
-        <span class="keyword">if</span>(temp1.compare(temp2)&lt;=<span class="number">0</span>)
-            <span class="keyword">return</span> <span class="keyword">true</span>;
-        <span class="keyword">else</span>
-            <span class="keyword">return</span> <span class="keyword">false</span>;
-
-    }
-
-    <span class="function"><span class="built_in">string</span> <span class="title">PrintMinNumber</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; numbers)</span> </span>{
-        <span class="keyword">if</span>(numbers.size() == <span class="number">0</span>) <span class="keyword">return</span> <span class="string">""</span>;
-        <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; strs(numbers.size());
-        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numbers.size(); i++)
-        {
-            strs[i] = numToString(numbers[i]);
-        }
-        <span class="built_in">std</span>::sort(strs.begin(), strs.end(), cmp);
-        <span class="built_in">string</span> ans;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; strs.size(); i++)
-            ans += strs[i];
-        <span class="keyword">return</span> ans;
-    }  
-
-    <span class="function"><span class="built_in">string</span> <span class="title">numToString</span><span class="params">(<span class="keyword">int</span> num)</span>
-    </span>{
-        <span class="built_in">string</span> str;
-        <span class="keyword">while</span>(num)
-        {
-            str = (<span class="keyword">char</span>)(num % <span class="number">10</span> + <span class="string">'0'</span>) + str;
-            num = num / <span class="number">10</span>;
-        }
-        <span class="keyword">return</span> str;
-    } 
-};
-</code></pre><h3 id="剑指offer34_丑数">剑指offer34 丑数</h3><h4 id="问题描述-7">问题描述</h4><p>把只包含因子2、3和5的数称作丑数（Ugly Number）。例如6、8都是丑数，但14不是，因为它包含因子7。 习惯上我们把1当做是第一个丑数。求按从小到大的顺序的第N个丑数。</p>
-<h4 id="解法-7">解法</h4><p>使用递推法，<code>*numM2</code>,<code>*numM3</code>,<code>*numM5</code>表示，x2,x3,x5后产生的数</p>
-<h4 id="代码-7">代码</h4><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="built_in">int</span> GetUglyNumber_Solution(<span class="built_in">int</span> <span class="built_in">index</span>) {
-        <span class="keyword">if</span>(<span class="built_in">index</span> &lt;= <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
-        <span class="built_in">int</span> *a = new <span class="built_in">int</span>[<span class="built_in">index</span>];
-        a[<span class="number">0</span>] = <span class="number">1</span>;
-        <span class="built_in">int</span> *numM2 = a, *numM3 = a, *numM5 = a;
-        for(<span class="built_in">int</span> i = <span class="number">1</span>; i &lt; <span class="built_in">index</span>; i++)
-        {
-            <span class="built_in">int</span> <span class="built_in">min</span> = getMin((*numM2) * <span class="number">2</span>, (*numM3) * <span class="number">3</span>, (*numM5) * <span class="number">5</span>);
-            a[i] = <span class="built_in">min</span>;
-            <span class="keyword">while</span>((*numM2) * <span class="number">2</span> &lt;= <span class="built_in">min</span>)
-                numM2++;
-            <span class="keyword">while</span>((*numM3) * <span class="number">3</span> &lt;= <span class="built_in">min</span>)
-                numM3++;
-            <span class="keyword">while</span>((*numM5) * <span class="number">5</span> &lt;= <span class="built_in">min</span>)
-                numM5++;
-        }
-        <span class="keyword">return</span> a[<span class="built_in">index</span>-<span class="number">1</span>];
-    }
-
-    <span class="built_in">int</span> getMin(<span class="built_in">int</span> num1,<span class="built_in">int</span> num2,<span class="built_in">int</span> num3)
-    {
-        <span class="keyword">return</span> <span class="built_in">min</span>(num1, <span class="built_in">min</span>(num2, num3));
-    }
-};
-</code></pre><h3 id="剑指offer45_圆圈中最后剩下的数字（约瑟夫环问题）">剑指offer45 圆圈中最后剩下的数字（约瑟夫环问题）</h3><h4 id="问题描述-8">问题描述</h4><p>每年六一儿童节,NowCoder都会准备一些小礼物去看望孤儿院的小朋友,今年亦是如此。HF作为NowCoder的资深元老,自然也准备了一些小游戏。其中,有个游戏是这样的:首先,让小朋友们围成一个大圈。然后,他随机指定一个数m,让编号为0的小朋友开始报数。每次喊到m的那个小朋友要出列唱首歌,然后可以在礼品箱中任意的挑选礼物,并且不再回到圈中,从他的下一个小朋友开始,继续0…m-1报数….这样下去….直到剩下最后一个小朋友,可以不用表演,并且拿到NowCoder名贵的“名侦探柯南”典藏版(名额有限哦!!^_^)。请你试着想下,哪个小朋友会得到这份礼品呢？</p>
-<h4 id="解法-8">解法</h4><p>约瑟夫环递推公式：<br>f(n, m)表示n个人玩儿，报到m退出，最后剩下的人的编号。</p>
-<pre><code><span class="literal">f</span>(<span class="keyword">n</span>, <span class="keyword">m</span>) = 0, <span class="keyword">n</span>=1
-<span class="literal">f</span>(<span class="keyword">n</span>, <span class="keyword">m</span>) = (<span class="literal">f</span>(<span class="keyword">n</span> - 1) + <span class="keyword">m</span>) % <span class="keyword">n</span>, <span class="keyword">n</span> &gt; 1
-</code></pre><h4 id="代码-8">代码</h4><h5 id="递推解法">递推解法</h5><pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="function"><span class="keyword">int</span> <span class="title">LastRemaining_Solution</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> n, <span class="keyword">unsigned</span> <span class="keyword">int</span> m)</span>
-    </span>{
-        <span class="keyword">if</span>(n &lt; <span class="number">1</span> || m &lt; <span class="number">1</span>) <span class="keyword">return</span> -<span class="number">1</span>;
-        <span class="keyword">int</span> last = <span class="number">0</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; i++)
-            last=(last + m) % i;
-        <span class="keyword">return</span> last;
-    }
-};
-</code></pre><h5 id="递归解法">递归解法</h5><pre><code>int lastRemain(int <span class="keyword">n</span>, int  <span class="keyword">m</span>)
-{
-    <span class="keyword">if</span>(<span class="keyword">n</span> == 1)
-        <span class="keyword">return</span> 0;
-    <span class="keyword">return</span> (lastRemain(<span class="keyword">n</span> - 1, <span class="keyword">m</span>) % <span class="keyword">n</span>);
-}
-</code></pre><h4 id="问题拓展:求第i次出环的人的编号">问题拓展:求第i次出环的人的编号</h4><pre><code>int getNumOfI(int <span class="keyword">n</span>, int <span class="keyword">m</span>, int i)
-{
-    <span class="keyword">if</span>(i == 1)
-        <span class="keyword">return</span> (<span class="keyword">n</span> + <span class="keyword">m</span> - 1) % <span class="keyword">n</span>; <span class="comment">//第一次出环 (n-1+m)%n</span>
-    <span class="keyword">else</span>
-        <span class="keyword">return</span> getNumOfI(<span class="keyword">n</span> - 1, <span class="keyword">m</span>, i - 1) % <span class="keyword">n</span>;
-}
-</code></pre><p><a href="http://www.cnblogs.com/yangyh/archive/2011/10/30/2229517.html" target="_blank" rel="external">参考</a></p>
-<h3 id="剑指offer64_数据流中的中位数">剑指offer64 数据流中的中位数</h3><h4 id="问题描述-9">问题描述</h4><p>如何得到一个数据流中的中位数？如果从数据流中读出奇数个数值，那么中位数就是所有数值排序之后位于中间的数值。如果从数据流中读出偶数个数值，那么中位数就是所有数值排序之后中间两个数的平均值。<br>实现一种数据结构，要求插入删除O(logn),取中位数O(1)</p>
-<h4 id="解法-9">解法</h4><p>实现一个小顶堆和大顶堆，大数存在小顶堆，小数存在大顶堆，每次按大小压入元素，调整两个堆中的数量，使得<code>0&lt;=Num(大顶堆)-Num(小顶堆)&lt;=1</code>。</p>
-<h4 id="注意点-4">注意点</h4><ul>
-<li>使用priority_queue<br>初始化：<pre><code>priority_queue&lt;<span class="keyword">int</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;, less&lt;<span class="keyword">int</span>&gt;&gt; maxHeap;
-priority_queue&lt;<span class="keyword">int</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;, greater&lt;<span class="keyword">int</span>&gt;&gt; minHeap;
-</code></pre>压入，弹出：<pre><code><span class="tag">minHeap</span><span class="class">.push</span>(<span class="tag">maxHeap</span><span class="class">.top</span>());
-<span class="tag">maxHeap</span><span class="class">.pop</span>();
-</code></pre></li>
-</ul>
-<h4 id="代码-9">代码</h4><pre><code>class Solution {
-public:
-    void Insert<span class="params">(int num)</span>
-    {
-        <span class="keyword">if</span><span class="params">(maxHeap.empty<span class="params">()</span> || num &lt;= maxHeap.top<span class="params">()</span>)</span>
-            maxHeap.push<span class="params">(num)</span>;
-        <span class="keyword">else</span>
-            minHeap.push<span class="params">(num)</span>;
-        <span class="keyword">if</span><span class="params">(maxHeap.size<span class="params">()</span> == minHeap.size<span class="params">()</span>+<span class="number">2</span>)</span>
-        {
-            minHeap.push<span class="params">(maxHeap.top<span class="params">()</span>)</span>;
-            maxHeap.pop<span class="params">()</span>;
-        }
-        <span class="keyword">else</span> <span class="keyword">if</span><span class="params">(maxHeap.size<span class="params">()</span> == minHeap.size<span class="params">()</span>-<span class="number">1</span>)</span>
-        {
-            maxHeap.push<span class="params">(minHeap.top<span class="params">()</span>)</span>;
-            minHeap.pop<span class="params">()</span>;
-        }
-    }
-
-    double GetMedian<span class="params">()</span>
-    {
-        <span class="keyword">if</span><span class="params">(maxHeap.size<span class="params">()</span> == minHeap.size<span class="params">()</span>)</span>
-            return <span class="params">(maxHeap.top<span class="params">()</span> + minHeap.top<span class="params">()</span>)</span>/<span class="number">2.0</span>;
-        <span class="keyword">else</span>
-            return maxHeap.top<span class="params">()</span>;
-    }
-private:
-    priority_queue&lt;int, vector&lt;int&gt;, less&lt;int&gt;&gt; maxHeap;
-    priority_queue&lt;int, vector&lt;int&gt;, greater&lt;int&gt;&gt; minHeap;
-
 };
 </code></pre>
         
@@ -515,7 +329,7 @@ private:
       
         <div class="post-tags">
           
-            <a href="/tags/数组/"> #数组 </a>
+            <a href="/tags/栈和队列/"> #栈和队列 </a>
           
         </div>
       
@@ -1203,6 +1017,425 @@ public:
         <div class="post-tags">
           
             <a href="/tags/两个指针/"> #两个指针 </a>
+          
+            <a href="/tags/数组/"> #数组 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/09/27/找工作总结-数组专题-一般题目/">
+                数组专题-一般题目
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-09-27
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/找工作总结/">找工作总结</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/09/27/找工作总结-数组专题-一般题目/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/27/找工作总结-数组专题-一般题目/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="剑指offer3_二维数组查找">剑指offer3 二维数组查找</h3><h4 id="问题描述">问题描述</h4><p>在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
+<h4 id="解法">解法</h4><p>从右上角（这样使得这一行剩余元素都比他小，这一列剩余元素都比他大）向左下角扫描</p>
+<h4 id="代码">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="function"><span class="keyword">bool</span> <span class="title">Find</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; <span class="built_in">array</span>,<span class="keyword">int</span> target)</span> </span>{
+        <span class="keyword">if</span>(<span class="built_in">array</span>.size() == <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">int</span> width = <span class="built_in">array</span>[<span class="number">0</span>].size();
+        <span class="keyword">int</span> height = <span class="built_in">array</span>.size();
+        <span class="keyword">int</span> i = <span class="number">0</span>, j = width - <span class="number">1</span>;
+        <span class="keyword">while</span>(i &lt; height &amp;&amp; j &gt;= <span class="number">0</span>)
+        {
+            <span class="keyword">if</span>(<span class="built_in">array</span>[i][j] == target)
+                <span class="keyword">return</span> <span class="keyword">true</span>;
+            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">array</span>[i][j] &lt; target)
+                i++;
+            <span class="keyword">else</span>
+                j--;
+        }
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+};
+</code></pre><h3 id="剑指offer32_整数中1出现的次数（从1到n整数中1出现的次数）">剑指offer32 整数中1出现的次数（从1到n整数中1出现的次数）</h3><h4 id="问题描述-1">问题描述</h4><p>求出1~13的整数中1出现的次数,并算出100~1300的整数中1出现的次数？为此他特别数了一下1~13中包含1的数字有1、10、11、12、13因此共出现6次,但是对于后面问题他就没辙了。ACMer希望你们帮帮他,并把问题更加普遍化,可以很快的求出任意非负整数区间中1出现的次数。</p>
+<h4 id="解法-1">解法</h4><p>这个解法对于1-9的原理是一样的。首先找到规律：<br>从 1 至 10，在它们的个位数中，任意的 X 都出现了 1 次。<br>从 1 至 100，在它们的十位数中，任意的 X 都出现了 10 次。<br>从 1 至 1000，在它们的百位数中，任意的 X 都出现了 100 次。<br>依此类推，从 1 至  10^i ，在它们右数第  i  位中，任意的 X 都出现了  10^(i−1)  次。这个可以用来计算高位的值。<br>计算方法：<br>当计算右数第  i  位包含的 X 的个数时：<br>取第  i  位左边（高位）的数字，乘以  10^(i−1) ，得到基础值  a 。<br>取第  i  位数字，计算修正值：<br>如果大于 X，则结果为  a+ 10^(i−1)。<br>如果小于 X，则结果为  a。<br>如果等 X，则取第  i  位右边（低位）数字，设为  b ，最后结果为  (a+b+1) 。<br>例如对于num=52134, i=3, a=52, b=34, i位数字k=1,k=x故 result=a+b+1<br>解释，a等于0~51，可推出高位的结果，a=52时，讨论低位的结果。</p>
+<h4 id="代码-1">代码</h4><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+    <span class="keyword">int</span> NumberOf1Between1AndN_Solution(<span class="keyword">int</span> n)
+    {
+        <span class="keyword">int</span> x = <span class="number">1</span>;
+        <span class="keyword">int</span> <span class="keyword">count</span> = <span class="number">0</span>, k;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; n / i &gt; <span class="number">0</span>; i *= <span class="number">10</span>)
+        {
+            k = n / i;
+            <span class="comment">//k/10为高位数字</span>
+            <span class="keyword">count</span> += (k / <span class="number">10</span>) * i;
+            <span class="keyword">int</span> cur = k % <span class="number">10</span>;
+            <span class="keyword">if</span>(cur &gt; x)
+                <span class="keyword">count</span>+=i;               
+            <span class="keyword">else</span> <span class="keyword">if</span>(cur == x)
+                <span class="comment">//n%i为低位数字</span>
+                <span class="keyword">count</span> += n % i + <span class="number">1</span>;
+            <span class="keyword">else</span>{}
+        }
+        <span class="keyword">return</span> <span class="keyword">count</span>;
+    }
+};
+</code></pre><h3 id="剑指offer44_扑克牌的顺子">剑指offer44 扑克牌的顺子</h3><h4 id="问题描述-2">问题描述</h4><p>抽出一序列牌，王代表任意数字是0，并且A看作1,J为11,Q为12,K为13。判断这个序列是否是顺子</p>
+<h4 id="解法-2">解法</h4><p>对序列进行排序，看0是否能将空缺数字填满。</p>
+<h4 id="注意点">注意点</h4><ul>
+<li>统计0的个数和gap的数量进行比较</li>
+</ul>
+<h4 id="代码-2">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    bool IsContinuous(vector&lt;<span class="keyword">int</span>&gt; numbers)
+    {
+        <span class="keyword">if</span>(numbers.<span class="keyword">size</span>() == <span class="number">0</span>)
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">sort</span>(numbers.begin(), numbers.end());
+        <span class="keyword">int</span> numOfZero = <span class="number">0</span>, numOfGap = <span class="number">0</span>;
+        <span class="keyword">int</span> i = <span class="number">0</span>;
+        <span class="keyword">for</span>(;i &lt; numbers.<span class="keyword">size</span>() &amp;&amp; numbers[i] == <span class="number">0</span>; i++)
+            numOfZero++;
+        <span class="keyword">if</span>(i &lt; numbers.<span class="keyword">size</span>())
+            i++;
+        <span class="keyword">for</span>(;i &lt; numbers.<span class="keyword">size</span>(); i++)
+        {
+            <span class="keyword">if</span>(numbers[i] == numbers[i - <span class="number">1</span>])
+                <span class="keyword">return</span> <span class="keyword">false</span>; 
+            numOfGap += numbers[i] - numbers[i - <span class="number">1</span>] - <span class="number">1</span>;
+        }
+        <span class="keyword">return</span> numOfZero &gt;= numOfGap ? <span class="keyword">true</span> : <span class="keyword">false</span>;
+    }
+};
+</code></pre><h3 id="剑指offer52_构建乘积数组">剑指offer52 构建乘积数组</h3><h4 id="问题描述-3">问题描述</h4><p>给定一个数组<code>A[0,1,...,n-1]</code>,请构建一个数组<code>B[0,1,...,n-1]</code>,其中B中的元素<code>B[i]=A[0]*A[1]*...*A[i-1]*A[i+1]*...*A[n-1]</code>。不能使用除法。</p>
+<h4 id="解法-3">解法</h4><p>从上到下扫描，temp记录中间结果，避免重复的乘法。从上到下遍历一次，从下到上遍历一次。</p>
+<h4 id="代码-3">代码</h4><pre><code>class <span class="type">Solution</span> {
+public:
+    vector&lt;<span class="type">int</span>&gt; multiply(<span class="keyword">const</span> vector&lt;<span class="type">int</span>&gt;&amp; A) {
+        vector&lt;<span class="type">int</span>&gt; <span class="literal">result</span>(A.size(), <span class="number">1</span>);
+        <span class="keyword">if</span>(A.size() &lt;= <span class="number">1</span>)
+            <span class="keyword">return</span> <span class="literal">result</span>;
+        <span class="type">int</span> temp = <span class="number">1</span>;
+        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt; A.size(); i++)
+        {
+            temp *= A[i - <span class="number">1</span>];
+            <span class="literal">result</span>[i] = temp;
+        }
+        temp = <span class="number">1</span>;
+        <span class="keyword">for</span>(<span class="type">int</span> i = A.size() - <span class="number">2</span>; i &gt;= <span class="number">0</span>; i--)
+        {
+            temp *= A[i + <span class="number">1</span>];
+            <span class="literal">result</span>[i] *= temp;
+        }
+        <span class="keyword">return</span> <span class="literal">result</span>;
+    }
+};
+</code></pre><h3 id="剑指offer20_顺时针打印矩阵">剑指offer20 顺时针打印矩阵</h3><h4 id="问题描述-4">问题描述</h4><p>输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下矩阵： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.</p>
+<h4 id="解法-4">解法</h4><p>先写一个打印一圈的函数，再遍历所有的圈。</p>
+<h4 id="注意点-1">注意点</h4><ul>
+<li>判断遍历是否越界</li>
+<li>遍历的时候注意减回去(x—)</li>
+</ul>
+<h4 id="代码-4">代码</h4><pre><code>class Solution {
+public:
+    <span class="keyword">vector</span>&lt;<span class="keyword">int</span>&gt; printMatrix(<span class="keyword">vector</span>&lt;<span class="keyword">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; <span class="keyword">matrix</span>) {
+        <span class="keyword">vector</span>&lt;<span class="keyword">int</span>&gt; vec;
+        <span class="keyword">if</span>(<span class="keyword">matrix</span>.<span class="keyword">size</span>() == <span class="number">0</span>) <span class="keyword">return</span> vec;
+        <span class="keyword">if</span>(<span class="keyword">matrix</span>[<span class="number">0</span>].<span class="keyword">size</span>() == <span class="number">0</span>) <span class="keyword">return</span> vec;
+        <span class="keyword">int</span> start = <span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> start =  <span class="number">0</span>; start * <span class="number">2</span> &lt; <span class="keyword">matrix</span>.<span class="keyword">size</span>() &amp;&amp; start * <span class="number">2</span> &lt; <span class="keyword">matrix</span>[<span class="number">0</span>].<span class="keyword">size</span>(); start++)
+            printInCircle(<span class="keyword">matrix</span>, start, vec);
+        <span class="keyword">return</span> vec;
+    }
+
+    void printInCircle(<span class="keyword">vector</span>&lt;<span class="keyword">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; &amp;<span class="keyword">matrix</span>, <span class="keyword">int</span> start, <span class="keyword">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;vec)
+    {
+        <span class="keyword">int</span> x = start, y = start;
+        <span class="comment">//从左向右打印</span>
+        <span class="keyword">int</span> endx = <span class="keyword">matrix</span>[y].<span class="keyword">size</span>()- <span class="number">1</span> - start;
+        <span class="keyword">for</span>(; x &lt;= endx; x++)
+            vec.push_back(<span class="keyword">matrix</span>[y][x]);
+        --x;
+
+        <span class="comment">//从上向下打印</span>
+        <span class="keyword">int</span> endy = <span class="keyword">matrix</span>.<span class="keyword">size</span>() - <span class="number">1</span> - start;
+        <span class="keyword">if</span>(y + <span class="number">1</span> &gt; endy)
+            <span class="keyword">return</span>;
+        y++;
+        <span class="keyword">for</span>(; y &lt;= endy; y++)
+            vec.push_back(<span class="keyword">matrix</span>[y][x]);
+        y--;
+
+        <span class="comment">//从右向左打印</span>
+        <span class="keyword">if</span>(x - <span class="number">1</span> &lt; start)
+            <span class="keyword">return</span>;
+        x--;
+        <span class="keyword">for</span>(; x &gt;= start; x--)
+            vec.push_back(<span class="keyword">matrix</span>[y][x]);
+        x++;
+        <span class="comment">//从下向上打印</span>
+        <span class="keyword">if</span>(y - <span class="number">1</span> &lt; start) <span class="keyword">return</span>;
+        y--;
+        <span class="keyword">for</span>(; y &gt; start; y--)
+            vec.push_back(<span class="keyword">matrix</span>[y][x]);
+        y++;
+    }
+
+ };
+</code></pre><h3 id="剑指offer30_最小的k个数">剑指offer30 最小的k个数</h3><h4 id="问题描述-5">问题描述</h4><p>输入n个整数，找出其中最小的K个数。例如输入4,5,1,6,2,7,3,8这8个数字，则最小的4个数字是1,2,3,4,。</p>
+<h4 id="解法-5">解法</h4><p>使用大顶堆存储k个数，遍历原数据，每次淘汰最大的，最后堆中剩余的元素就是最小的k个数</p>
+<h4 id="注意点-2">注意点</h4><ul>
+<li>输入数据合法性，k的取值大于input.size()的情况</li>
+<li><p>stl中<algorithm>关于堆的操作，make_heap,push_heap,pop_heap,sort_heap.默认建立大顶堆，如果想使用小顶堆需要加入比较函数。</algorithm></p>
+<pre><code>make_heap(res.<span class="keyword">begin</span><span class="literal">()</span>, res.<span class="keyword">end</span><span class="literal">()</span>, greater&lt;<span class="built_in">int</span>&gt;<span class="literal">()</span>);
+push_heap(res.<span class="keyword">begin</span><span class="literal">()</span>, res.<span class="keyword">end</span><span class="literal">()</span>, greater&lt;<span class="built_in">int</span>&gt;<span class="literal">()</span>);
+pop_heap(res.<span class="keyword">begin</span><span class="literal">()</span>, res.<span class="keyword">end</span><span class="literal">()</span>, greater&lt;<span class="built_in">int</span>&gt;<span class="literal">()</span>);
+</code></pre></li>
+</ul>
+<h4 id="代码-5">代码</h4><pre><code><span class="keyword">class</span> <span class="type">Solution</span> {
+public:
+    vector&lt;<span class="built_in">int</span>&gt; <span class="type">GetLeastNumbers_Solution</span>(vector&lt;<span class="built_in">int</span>&gt; input, <span class="built_in">int</span> k) {
+        vector&lt;<span class="built_in">int</span>&gt; res;
+        <span class="keyword">if</span>(k&lt;= <span class="number">0</span> || k &gt; input.size<span class="literal">()</span>)
+            return res;
+        <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; k; i++)
+            res.push_back(input[i]);
+        make_heap(res.<span class="keyword">begin</span><span class="literal">()</span>, res.<span class="keyword">end</span><span class="literal">()</span>);
+        <span class="keyword">for</span>(<span class="built_in">int</span> i = k; i &lt; input.size<span class="literal">()</span>; i++)
+        {
+            <span class="keyword">if</span>(input[i] &gt;= res[<span class="number">0</span>])
+                continue;
+            res.push_back(input[i]);
+            push_heap(res.<span class="keyword">begin</span><span class="literal">()</span>, res.<span class="keyword">end</span><span class="literal">()</span>);
+            pop_heap(res.<span class="keyword">begin</span><span class="literal">()</span>, res.<span class="keyword">end</span><span class="literal">()</span>);
+            res.pop_back<span class="literal">()</span>;
+        }
+        sort_heap(res.<span class="keyword">begin</span><span class="literal">()</span>, res.<span class="keyword">end</span><span class="literal">()</span>);
+        return res;
+    }
+};
+</code></pre><h3 id="剑指offer33_把数组排成最小的数">剑指offer33 把数组排成最小的数</h3><h4 id="问题描述-6">问题描述</h4><p>输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。例如输入数组{3，32，321}，则打印出这三个数字能排成的最小数字为321323。</p>
+<h4 id="解法-6">解法</h4><p>首先要证明这样一个结论：</p>
+<blockquote>
+<p>若ca&lt;ac则在最后的字符串中，c应该在a的后面</p>
+</blockquote>
+<ul>
+<li>证明</li>
+</ul>
+<p>条件：ca&lt;ac，有另一个任意<strong>字符串</strong>b与a,c进行排列组合<br>讨论：</p>
+<pre><code>若b&lt;c&lt;<span class="tag">a</span> 可以得到bca是最小的
+若c&lt;b&lt;<span class="tag">a</span> 可以得到cba是最小的
+若c&lt;a&lt;<span class="tag">b</span> 可以得到cab是最小的
+</code></pre><p>结论：c应该在a的前面</p>
+<h4 id="注意点-3">注意点</h4><ul>
+<li><p>sort函数中比较函数应该如何写</p>
+<p>  <code>template &lt;class RandomAccessIterator, class Compare&gt;</code><br>  <code>void sort (RandomAccessIterator first, RandomAccessIterator last, Compare comp);</code></p>
+</li>
+</ul>
+<p>comp函数表示</p>
+<blockquote>
+<p>The value returned indicates whether the element passed as first argument is considered to go before the second in the specific strict weak ordering it defines.<br>比较函数传入两个参数，返回bool，返回值表示在最终的排序结果中，第一个参数是否应该出现在第二个参数的前面。</p>
+</blockquote>
+<h4 id="代码-6">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="function"><span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span> &amp;str1,<span class="keyword">const</span> <span class="built_in">string</span> &amp;str2)</span>
+    </span>{
+        <span class="built_in">string</span> temp1 = str1 + str2;
+        <span class="built_in">string</span> temp2 = str2 + str1;
+        <span class="keyword">if</span>(temp1.compare(temp2)&lt;=<span class="number">0</span>)
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+
+    }
+
+    <span class="function"><span class="built_in">string</span> <span class="title">PrintMinNumber</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; numbers)</span> </span>{
+        <span class="keyword">if</span>(numbers.size() == <span class="number">0</span>) <span class="keyword">return</span> <span class="string">""</span>;
+        <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; strs(numbers.size());
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numbers.size(); i++)
+        {
+            strs[i] = numToString(numbers[i]);
+        }
+        <span class="built_in">std</span>::sort(strs.begin(), strs.end(), cmp);
+        <span class="built_in">string</span> ans;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; strs.size(); i++)
+            ans += strs[i];
+        <span class="keyword">return</span> ans;
+    }  
+
+    <span class="function"><span class="built_in">string</span> <span class="title">numToString</span><span class="params">(<span class="keyword">int</span> num)</span>
+    </span>{
+        <span class="built_in">string</span> str;
+        <span class="keyword">while</span>(num)
+        {
+            str = (<span class="keyword">char</span>)(num % <span class="number">10</span> + <span class="string">'0'</span>) + str;
+            num = num / <span class="number">10</span>;
+        }
+        <span class="keyword">return</span> str;
+    } 
+};
+</code></pre><h3 id="剑指offer34_丑数">剑指offer34 丑数</h3><h4 id="问题描述-7">问题描述</h4><p>把只包含因子2、3和5的数称作丑数（Ugly Number）。例如6、8都是丑数，但14不是，因为它包含因子7。 习惯上我们把1当做是第一个丑数。求按从小到大的顺序的第N个丑数。</p>
+<h4 id="解法-7">解法</h4><p>使用递推法，<code>*numM2</code>,<code>*numM3</code>,<code>*numM5</code>表示，x2,x3,x5后产生的数</p>
+<h4 id="代码-7">代码</h4><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="built_in">int</span> GetUglyNumber_Solution(<span class="built_in">int</span> <span class="built_in">index</span>) {
+        <span class="keyword">if</span>(<span class="built_in">index</span> &lt;= <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
+        <span class="built_in">int</span> *a = new <span class="built_in">int</span>[<span class="built_in">index</span>];
+        a[<span class="number">0</span>] = <span class="number">1</span>;
+        <span class="built_in">int</span> *numM2 = a, *numM3 = a, *numM5 = a;
+        for(<span class="built_in">int</span> i = <span class="number">1</span>; i &lt; <span class="built_in">index</span>; i++)
+        {
+            <span class="built_in">int</span> <span class="built_in">min</span> = getMin((*numM2) * <span class="number">2</span>, (*numM3) * <span class="number">3</span>, (*numM5) * <span class="number">5</span>);
+            a[i] = <span class="built_in">min</span>;
+            <span class="keyword">while</span>((*numM2) * <span class="number">2</span> &lt;= <span class="built_in">min</span>)
+                numM2++;
+            <span class="keyword">while</span>((*numM3) * <span class="number">3</span> &lt;= <span class="built_in">min</span>)
+                numM3++;
+            <span class="keyword">while</span>((*numM5) * <span class="number">5</span> &lt;= <span class="built_in">min</span>)
+                numM5++;
+        }
+        <span class="keyword">return</span> a[<span class="built_in">index</span>-<span class="number">1</span>];
+    }
+
+    <span class="built_in">int</span> getMin(<span class="built_in">int</span> num1,<span class="built_in">int</span> num2,<span class="built_in">int</span> num3)
+    {
+        <span class="keyword">return</span> <span class="built_in">min</span>(num1, <span class="built_in">min</span>(num2, num3));
+    }
+};
+</code></pre><h3 id="剑指offer45_圆圈中最后剩下的数字（约瑟夫环问题）">剑指offer45 圆圈中最后剩下的数字（约瑟夫环问题）</h3><h4 id="问题描述-8">问题描述</h4><p>每年六一儿童节,NowCoder都会准备一些小礼物去看望孤儿院的小朋友,今年亦是如此。HF作为NowCoder的资深元老,自然也准备了一些小游戏。其中,有个游戏是这样的:首先,让小朋友们围成一个大圈。然后,他随机指定一个数m,让编号为0的小朋友开始报数。每次喊到m的那个小朋友要出列唱首歌,然后可以在礼品箱中任意的挑选礼物,并且不再回到圈中,从他的下一个小朋友开始,继续0…m-1报数….这样下去….直到剩下最后一个小朋友,可以不用表演,并且拿到NowCoder名贵的“名侦探柯南”典藏版(名额有限哦!!^_^)。请你试着想下,哪个小朋友会得到这份礼品呢？</p>
+<h4 id="解法-8">解法</h4><p>约瑟夫环递推公式：<br>f(n, m)表示n个人玩儿，报到m退出，最后剩下的人的编号。</p>
+<pre><code><span class="literal">f</span>(<span class="keyword">n</span>, <span class="keyword">m</span>) = 0, <span class="keyword">n</span>=1
+<span class="literal">f</span>(<span class="keyword">n</span>, <span class="keyword">m</span>) = (<span class="literal">f</span>(<span class="keyword">n</span> - 1) + <span class="keyword">m</span>) % <span class="keyword">n</span>, <span class="keyword">n</span> &gt; 1
+</code></pre><h4 id="代码-8">代码</h4><h5 id="递推解法">递推解法</h5><pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="function"><span class="keyword">int</span> <span class="title">LastRemaining_Solution</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> n, <span class="keyword">unsigned</span> <span class="keyword">int</span> m)</span>
+    </span>{
+        <span class="keyword">if</span>(n &lt; <span class="number">1</span> || m &lt; <span class="number">1</span>) <span class="keyword">return</span> -<span class="number">1</span>;
+        <span class="keyword">int</span> last = <span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; i++)
+            last=(last + m) % i;
+        <span class="keyword">return</span> last;
+    }
+};
+</code></pre><h5 id="递归解法">递归解法</h5><pre><code>int lastRemain(int <span class="keyword">n</span>, int  <span class="keyword">m</span>)
+{
+    <span class="keyword">if</span>(<span class="keyword">n</span> == 1)
+        <span class="keyword">return</span> 0;
+    <span class="keyword">return</span> (lastRemain(<span class="keyword">n</span> - 1, <span class="keyword">m</span>) % <span class="keyword">n</span>);
+}
+</code></pre><h4 id="问题拓展:求第i次出环的人的编号">问题拓展:求第i次出环的人的编号</h4><pre><code>int getNumOfI(int <span class="keyword">n</span>, int <span class="keyword">m</span>, int i)
+{
+    <span class="keyword">if</span>(i == 1)
+        <span class="keyword">return</span> (<span class="keyword">n</span> + <span class="keyword">m</span> - 1) % <span class="keyword">n</span>; <span class="comment">//第一次出环 (n-1+m)%n</span>
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> getNumOfI(<span class="keyword">n</span> - 1, <span class="keyword">m</span>, i - 1) % <span class="keyword">n</span>;
+}
+</code></pre><p><a href="http://www.cnblogs.com/yangyh/archive/2011/10/30/2229517.html" target="_blank" rel="external">参考</a></p>
+<h3 id="剑指offer64_数据流中的中位数">剑指offer64 数据流中的中位数</h3><h4 id="问题描述-9">问题描述</h4><p>如何得到一个数据流中的中位数？如果从数据流中读出奇数个数值，那么中位数就是所有数值排序之后位于中间的数值。如果从数据流中读出偶数个数值，那么中位数就是所有数值排序之后中间两个数的平均值。<br>实现一种数据结构，要求插入删除O(logn),取中位数O(1)</p>
+<h4 id="解法-9">解法</h4><p>实现一个小顶堆和大顶堆，大数存在小顶堆，小数存在大顶堆，每次按大小压入元素，调整两个堆中的数量，使得<code>0&lt;=Num(大顶堆)-Num(小顶堆)&lt;=1</code>。</p>
+<h4 id="注意点-4">注意点</h4><ul>
+<li>使用priority_queue<br>初始化：<pre><code>priority_queue&lt;<span class="keyword">int</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;, less&lt;<span class="keyword">int</span>&gt;&gt; maxHeap;
+priority_queue&lt;<span class="keyword">int</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;, greater&lt;<span class="keyword">int</span>&gt;&gt; minHeap;
+</code></pre>压入，弹出：<pre><code><span class="tag">minHeap</span><span class="class">.push</span>(<span class="tag">maxHeap</span><span class="class">.top</span>());
+<span class="tag">maxHeap</span><span class="class">.pop</span>();
+</code></pre></li>
+</ul>
+<h4 id="代码-9">代码</h4><pre><code>class Solution {
+public:
+    void Insert<span class="params">(int num)</span>
+    {
+        <span class="keyword">if</span><span class="params">(maxHeap.empty<span class="params">()</span> || num &lt;= maxHeap.top<span class="params">()</span>)</span>
+            maxHeap.push<span class="params">(num)</span>;
+        <span class="keyword">else</span>
+            minHeap.push<span class="params">(num)</span>;
+        <span class="keyword">if</span><span class="params">(maxHeap.size<span class="params">()</span> == minHeap.size<span class="params">()</span>+<span class="number">2</span>)</span>
+        {
+            minHeap.push<span class="params">(maxHeap.top<span class="params">()</span>)</span>;
+            maxHeap.pop<span class="params">()</span>;
+        }
+        <span class="keyword">else</span> <span class="keyword">if</span><span class="params">(maxHeap.size<span class="params">()</span> == minHeap.size<span class="params">()</span>-<span class="number">1</span>)</span>
+        {
+            maxHeap.push<span class="params">(minHeap.top<span class="params">()</span>)</span>;
+            minHeap.pop<span class="params">()</span>;
+        }
+    }
+
+    double GetMedian<span class="params">()</span>
+    {
+        <span class="keyword">if</span><span class="params">(maxHeap.size<span class="params">()</span> == minHeap.size<span class="params">()</span>)</span>
+            return <span class="params">(maxHeap.top<span class="params">()</span> + minHeap.top<span class="params">()</span>)</span>/<span class="number">2.0</span>;
+        <span class="keyword">else</span>
+            return maxHeap.top<span class="params">()</span>;
+    }
+private:
+    priority_queue&lt;int, vector&lt;int&gt;, less&lt;int&gt;&gt; maxHeap;
+    priority_queue&lt;int, vector&lt;int&gt;, greater&lt;int&gt;&gt; minHeap;
+
+};
+</code></pre>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
           
             <a href="/tags/数组/"> #数组 </a>
           
@@ -2787,168 +3020,6 @@ END{
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/05/24/HadoopStreaming/">
-                Hadoop Streaming学习文档
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-05-24
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Hadoop/">Hadoop</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/05/24/HadoopStreaming/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/24/HadoopStreaming/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="Hadoop_Streaming是什么">Hadoop Streaming是什么</h2><p>Hadoop MapReduce和HDFS使用Java实现，默认是Java接口，另外提供了C++编程接口和Streaming框架。</p>
-<p>Streaming框架允许任何程序语言实现的程序（只要该程序支持标准输入输出即可），在Hadoop MapReduce中使用，方便已有程序向Hadoop平台移植。</p>
-<h2 id="Streaming原理">Streaming原理</h2><p>使用Java实现了一个包装<strong>用户程序</strong>（mapper，reducer方法）的MapReduce程序，该程序调用MapReduce的Java接口，创建一个<strong>新的进程</strong>包装用户程序，将数据通过<strong>管道</strong>传递给包装的用户程序。</p>
-<p><img src="http://i.imgur.com/dlebclb.jpg" alt=""></p>
-<h2 id="考虑的问题">考虑的问题</h2><p>在实际的开发过程中，开发人员需要考虑下面几个方面的问题，其中1,2是必须实现的：</p>
-<ol>
-<li>Mapper程序：对输入key/value数据进行处理；</li>
-<li>Reducer程序：对mapper的输出进行归并处理；</li>
-<li>Combiner：在本地对一个计算节点上的mapper输出进行归并；</li>
-<li>Partitioner：将mapper的输出分配到reducer；（Map的中间结果通常用”hash(key) mod R”这个结果作为标准）</li>
-<li>InputFormat/OutputFormat：对输入数据进行切分，保存输出数据。</li>
-</ol>
-<h2 id="执行">执行</h2><pre><code><span class="variable">$HADOOP_HOME</span>/bin/hadoop streaming \
-    -<span class="tag">input</span> /user/test/<span class="tag">input</span> -output /user/test/output \
-    -mapper “cat” \
-    -reducer “cat” \
-    -jobconf mapred<span class="class">.reduce</span><span class="class">.tasks</span>=<span class="number">1</span>\
-    -jobconf mapred<span class="class">.job</span><span class="class">.name</span>=”dist-sort”
-</code></pre><p>这是一个实现了分布式排序的程序。可以通过shell脚本，shell命令，或者其它语言的<strong>可执行程序</strong>来进行mapper和reducer程序的运行</p>
-<h2 id="常用参数的使用">常用参数的使用</h2><p>例1：</p>
-<pre><code><span class="variable">$hadoop</span> streaming \
-    -D stream<span class="class">.num</span><span class="class">.map</span><span class="class">.output</span><span class="class">.key</span><span class="class">.fields</span>=<span class="number">2</span> \
-    -D mapred<span class="class">.job</span><span class="class">.name</span>=<span class="string">"jobname"</span> \
-    -D mapred<span class="class">.job</span><span class="class">.priority</span>=VERY_HIGH \
-    -D mapred<span class="class">.job</span><span class="class">.map</span><span class="class">.capacity</span>=<span class="number">500</span> \
-    -D mapred<span class="class">.job</span><span class="class">.reduce</span><span class="class">.capacity</span>=<span class="number">300</span> \
-    -D mapred<span class="class">.map</span><span class="class">.tasks</span>=<span class="number">500</span> \
-    -D mapred<span class="class">.reduce</span><span class="class">.tasks</span>=<span class="number">300</span> \
-    -mapper <span class="string">"Python/bin/python $app/mapper.py"</span> \
-    -reducer <span class="string">"Python/bin/python $app/reducer.py"</span> \
-    -<span class="tag">input</span> <span class="variable">$input</span> \
-    -output <span class="variable">$output</span> \
-    -cacheArchive <span class="variable">$archive</span>
-</code></pre><p>-D表示配置参数，剩余项是和输入输出相关的文件和可执行程序</p>
-<p><code>-D mapred.job.name=&quot;jobname&quot; \</code>,作业名</p>
-<p><code>-D mapred.job.priority=VERY_HIGH \</code> 作业优先级</p>
-<p><code>-D mapred.job.map.capacity=500 \</code>,最多同时运行map任务数</p>
-<p><code>-D mapred.job.reduce.capacity=300 \</code>最多同时运行reduce任务数</p>
-<p><code>-D mapred.map.tasks=500 \</code>,map任务个数</p>
-<p><code>-D mapred.reduce.tasks=300 \</code>,reduce任务个数</p>
-<p>capacity是同时运行任务的个数，tasks是运行任务的总的个数，一般task更大，capacity是同时运行任务的上限</p>
-<p><code>-D stream.num.map.output.key.fields=2 \</code>,表示在第2个分隔符（默认为\t）之前作为key，之后作为value，也可以使用参数<code>-D stream.map.output.field.separator=. \</code>指定分隔符为’.’或者其它字符。</p>
-<p><code>-mapper &quot;Python/bin/python $app/mapper.py&quot; \</code>指定map任务，需要可执行，读入标准输入流，输出标准输出流</p>
-<p><code>-reducer &quot;Python/bin/python $app/reducer.py&quot; \</code>指定reducer任务</p>
-<p><code>-input $input \</code>指定输入文件</p>
-<p><code>-output $output \</code>指定输出文件</p>
-<p><code>-cacheArchive $archive</code>分发压缩包。<code>$archive</code>格式为<code>hdfs://host:port/path/to/archivefile#linkname</code>，表示hdfs上这个压缩包的路径为<code>hdfs://host:port/path/to/archivefile</code>,可以使用<code>linkname/children/path</code>访问这个压缩包的内容</p>
-<p>例2：</p>
-<pre><code><span class="variable">$hadoop</span> streaming \
-    -D stream<span class="class">.num</span><span class="class">.map</span><span class="class">.output</span><span class="class">.key</span><span class="class">.fields</span>=<span class="number">3</span> \
-    -D mapred<span class="class">.text</span><span class="class">.key</span><span class="class">.partitioner</span><span class="class">.options</span>=<span class="string">"-k1,1"</span> \
-    -D mapred<span class="class">.text</span><span class="class">.key</span><span class="class">.comparator</span><span class="class">.options</span>=<span class="string">"-k1,1 -k3,3nr"</span> \
-    -D mapred<span class="class">.job</span><span class="class">.name</span>=<span class="string">"jobname"</span> \
-    -D mapred<span class="class">.job</span><span class="class">.priority</span>=VERY_HIGH \
-    -D mapred<span class="class">.job</span><span class="class">.map</span><span class="class">.capacity</span>=<span class="number">500</span> \
-    -D mapred<span class="class">.job</span><span class="class">.reduce</span><span class="class">.capacity</span>=<span class="number">300</span> \
-    -D mapred<span class="class">.map</span><span class="class">.tasks</span>=<span class="number">500</span> \
-    -D mapred<span class="class">.reduce</span><span class="class">.tasks</span>=<span class="number">300</span> \
-    -mapper <span class="string">"cat"</span> \
-    -reducer <span class="string">"cat"</span> \
-    -<span class="tag">input</span> <span class="variable">$input</span> \
-    -output <span class="variable">$output</span> \
-    -cacheArchive <span class="variable">$archives</span>
-</code></pre><p><code>-D mapred.text.key.partitioner.options=&quot;-k1,1&quot; \</code>表示对key进行分割，分割符默认为\t，取分割后的1,1部分作为主key，剩下的作为辅key</p>
-<p><code>-D mapred.text.key.comparator.options=&quot;-k1,1 -k3,3nr&quot; \</code>指定排序依据，主key按第一部分排字母序，辅key按第三部分数字序倒序排</p>
-<p>例3：</p>
-<pre><code><span class="variable">$HADOOP_HOME</span>/bin/hadoop streaming \
-    -D stream<span class="class">.map</span><span class="class">.output</span><span class="class">.field</span><span class="class">.separator</span>=. \
-    -D stream<span class="class">.num</span><span class="class">.map</span><span class="class">.output</span><span class="class">.key</span><span class="class">.fields</span>=<span class="number">4</span> \
-    -D map<span class="class">.output</span><span class="class">.key</span><span class="class">.field</span><span class="class">.separator</span>=. \
-    -D num<span class="class">.key</span><span class="class">.fields</span><span class="class">.for</span><span class="class">.partition</span>=<span class="number">2</span> \ 
-    -<span class="tag">input</span> /user/test/<span class="tag">input</span> -output /user/test/output \
-    -mapper “mymapper.sh” -reducer “ myreducer.sh” \
-    -partitioner org<span class="class">.apache</span><span class="class">.hadoop</span><span class="class">.mapred</span><span class="class">.lib</span><span class="class">.KeyFieldBasedPartitioner</span> \
-    -file /home/work/mymapper<span class="class">.sh</span> \
-    -file /home/work/myreducer<span class="class">.sh</span> \
-    -jobconf mapred<span class="class">.job</span><span class="class">.name</span>=”jobname”
-</code></pre><p><code>-D stream.map.output.field.separator=. \</code><br><code>-D stream.num.map.output.key.fields=4 \</code><br>表示输出分隔符为’.’，并且第4个.之后为value，之前为key</p>
-<p><code>-D map.output.key.field.separator=. \</code><br><code>-D num.key.fields.for.partition=2 \</code><br>表示key内的分隔符为’.’，第2个’.’之前作为主key，之后作为辅key</p>
-<p><code>-partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner \</code>指定要使用KeyFieldBasedPartitioner，也就是key域内的partioner。这样的话会把主key的内容作为partition的依据，相同的主key分配到同一个reducer中。</p>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Hadoop/"> #Hadoop </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
@@ -2987,7 +3058,7 @@ END{
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">53</span>
+              <span class="site-state-item-count">54</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -3001,7 +3072,7 @@ END{
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">27</span>
+              <span class="site-state-item-count">28</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -3042,7 +3113,7 @@ END{
         <div class="copyright">
   
   &copy; &nbsp; 
-  2015
+  2016
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>
